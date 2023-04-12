@@ -1,7 +1,13 @@
 import React from "react";
+import UserNavbar from "../components/UserNavbar/UserNavbar";
 
 function Home() {
-  return <div>Home</div>;
+  return (
+    <>
+      <UserNavbar />
+      <div>Home</div>
+    </>
+  );
 }
 
 export default Home;
