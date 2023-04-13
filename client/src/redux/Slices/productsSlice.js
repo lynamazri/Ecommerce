@@ -26,6 +26,7 @@ const productsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
+    //decrepated, use builder callback later
     [productsFetch.pending]: (state, action) => {
       state.status = "loading";
     },

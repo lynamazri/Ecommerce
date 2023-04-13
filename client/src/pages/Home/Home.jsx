@@ -1,10 +1,18 @@
 import React from "react";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import RingLoader from "react-spinners/RingLoader";
 import "./Home.css";
+import { add } from "../../redux/Slices/CartSlice";
 
 function Home() {
+  const dispatch = useDispatch();
+
   const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  const handleAdd = (product) => {
+    dispatch(add(product));
+  };
+
   return (
     <div className="container">
       {status === "success" ? (
@@ -23,13 +31,17 @@ function Home() {
                     <span>{product.desc}</span>
                     <span className="price">DZD{product.price}</span>
                   </div>
-                  <button>Add To Cart</button>
+                  <button onClick={() => handleAdd(product)}>
+                    Add To Cart
+                  </button>
                 </div>
               ))}
           </div>
         </>
-      ) : status === "pending" ? (
-        <p>Loading...</p>
+      ) : status === "loading" ? (
+        <div className="loader-container">
+          <RingLoader color="#1f2c4c" />
+        </div>
       ) : (
         <p>Error</p>
       )}
