@@ -21,7 +21,7 @@ function Home() {
                   <img src={product.image} alt={product.name} />
                   <div className="details">
                     <span>{product.desc}</span>
-                    <span className="price">${product.price}</span>
+                    <span className="price">DZD{product.price}</span>
                   </div>
                   <button>Add To Cart</button>
                 </div>
