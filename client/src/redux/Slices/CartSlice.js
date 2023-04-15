@@ -45,9 +45,21 @@ const cartSlice = createSlice({
     },
     increase(state, action) {}, //to increase quantity,
 
-    decrease(state, action) {}, //to decrease quantity
+    decrease(state, action) {
+      const curItem = state.cartItems.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (state.cartItems[curItem].quantity > 1) {
+        state.cartItems[curItem].quantity -= 1;
+      } else if (state.cartItems[curItem].quantity === 1) {
+        cartSlice.caseReducers.remove(state, action);
+      }
+    }, //to decrease quantity
 
-    clear(state, action) {}, //to remove everything from cart
+    clear(state, action) {
+      state.cartItems = [];
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    }, //to remove everything from cart
   },
 });
 

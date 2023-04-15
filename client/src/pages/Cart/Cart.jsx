@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Cart.css";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import { Link } from "react-router-dom";
-import { remove } from "../../redux/Slices/CartSlice";
+import { clear, decrease, remove } from "../../redux/Slices/CartSlice";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
@@ -11,6 +11,12 @@ function Cart() {
 
   const handleRemove = (item) => {
     dispatch(remove(item));
+  };
+  const handleDecrease = (item) => {
+    dispatch(decrease(item));
+  };
+  const handleClear = (cart) => {
+    dispatch(clear(cart));
   };
   return (
     <>
@@ -48,7 +54,7 @@ function Cart() {
                     <span>DZD{item.price}</span>
                   </div>
                   <div className="item-quantity">
-                    <button>-</button>
+                    <button onClick={() => handleDecrease(item)}>-</button>
                     <div>{item.quantity}</div>
                     <button>+</button>
                   </div>
@@ -67,7 +73,7 @@ function Cart() {
               </div>
               <div className="clear-cart">
                 <span>Start Over?</span>
-                <button>Clear Cart</button>
+                <button onClick={() => handleClear(cart)}>Clear Cart</button>
               </div>
             </div>
           </div>
