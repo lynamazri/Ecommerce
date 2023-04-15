@@ -4,7 +4,7 @@ import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Home from "./pages/Home/Home";
-import Cart from "./pages/Cart";
+import Cart from "./pages/Cart/Cart";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer";
 import EditProfile from "./pages/EditProfile";
@@ -60,7 +60,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cart/:id" element={<Cart />} />
+        <Route path="/cart" element={<Cart />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

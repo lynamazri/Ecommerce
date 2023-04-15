@@ -1,0 +1,20 @@
+.container {
+  padding: 4rem;
+}
+
+.container h2 {
+  font-weight: 600;
+  font-size: 35px;
+  text-align: center;
+}
+.cart-container .info {
+  margin: 1rem 0;
+  font-size: 15px;
+}
+
+.cart-container {
+  display: grid;
+  align-items: center;
+}
+
+/*khatini l grid dabro raskoum x) */

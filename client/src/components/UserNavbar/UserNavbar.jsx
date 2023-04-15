@@ -23,7 +23,7 @@ function UserNavbar() {
         </div>
         <div className="slidder">
           <FontAwesomeIcon className="bellIcon" icon={faBell} />
-          <Link to="/cart/:id">
+          <Link to="/cart">
             <FontAwesomeIcon
               className="cartIcon"
               icon={faCartShopping}
