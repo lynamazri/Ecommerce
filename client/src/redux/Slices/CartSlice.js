@@ -5,6 +5,7 @@ const initialState = {
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
   quantity: 0,
+  //addedQuantity: 1,
   amount: 0,
 };
 
@@ -21,7 +22,7 @@ const cartSlice = createSlice({
       );
       if (curItem >= 0) {
         //to find if the index exists
-        state.cartItems[curItem].quantity += 1;
+        state.cartItems[curItem].quantity += 1; //state.cartItems[curItem].addedQuantity;
       } else {
         const product = { ...action.payload, quantity: 1 };
         state.cartItems.push(product);
@@ -43,7 +44,15 @@ const cartSlice = createSlice({
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
-    increase(state, action) {}, //to increase quantity,
+    increase(state, action) {
+      const curItem = state.cartItems.findIndex(
+        //curItems is an index not an object
+        (item) => item.id === action.payload.id
+      );
+
+      state.cartItems[curItem].quantity += 1;
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    }, //to increase quantity,
 
     decrease(state, action) {
       const curItem = state.cartItems.findIndex(
@@ -51,6 +60,7 @@ const cartSlice = createSlice({
       );
       if (state.cartItems[curItem].quantity > 1) {
         state.cartItems[curItem].quantity -= 1;
+        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       } else if (state.cartItems[curItem].quantity === 1) {
         cartSlice.caseReducers.remove(state, action);
       }
