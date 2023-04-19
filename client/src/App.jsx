@@ -45,7 +45,7 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/profile/edit",
+    path : "/profile/edit",
     element: <EditProfile />,
   },
   {
