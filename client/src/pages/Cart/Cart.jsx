@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Cart.css";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
@@ -8,11 +8,15 @@ import {
   decrease,
   increase,
   remove,
+  subTotal,
 } from "../../redux/Slices/CartSlice";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  /*   useEffect(() => {
+    dispatch(subTotal);
+  }, [cart, dispatch]); */
 
   const handleRemove = (item) => {
     dispatch(remove(item));

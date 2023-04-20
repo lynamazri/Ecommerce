@@ -35,16 +35,18 @@ function Login() {
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
-  );
+    );
 
-      const [passInputType, setPassInputType] = React.useState("password")
-      const [showPass, setShowPass] = React.useState("show")
+  const [passInputType, setPassInputType] = React.useState("password");
+  const [showPass, setShowPass] = React.useState("show");
 
-      function togglePasswordInputType(e){
-        e.preventDefault()
-        setPassInputType(prevPassInputType => prevPassInputType === "password" ? "text" : "password")
-        setShowPass(prevShowPass => prevShowPass === "show" ? "hide" : "show")
-      }
+  function togglePasswordInputType(e) {
+    e.preventDefault();
+    setPassInputType((prevPassInputType) =>
+      prevPassInputType === "password" ? "text" : "password"
+    );
+    setShowPass((prevShowPass) => (prevShowPass === "show" ? "hide" : "show"));
+  }
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -73,16 +75,19 @@ function Login() {
               onChange={handleChange}
               value={formData.pass}
             />
-            {formData.pass ? <button 
-            className="passwordInputType"
-            onClick={togglePasswordInputType}
-            >
-              {showPass}
-            </button> : null}
+            {formData.pass ? (
+              <button
+                className="passwordInputType"
+                onClick={togglePasswordInputType}
+              >
+                {showPass}
+              </button>
+            ) : null}
             {renderErrorMessage("pass")}
           </div>
         </div>
-        <label htmlFor="rememberMe" className="checkContainer">Remember Me?
+        <label htmlFor="rememberMe" className="checkContainer">
+          Remember Me?
           <input
             type="checkbox"
             id="rememberMe"
@@ -92,8 +97,11 @@ function Login() {
             value={formData.rememberMe}
           />
           <span className="checkmark"></span>
-        </label> <br />
-        <span className="forgetPass"><a href="">Forgot Password</a></span>
+        </label>{" "}
+        <br />
+        <span className="forgetPass">
+          <a href="">Forgot Password</a>
+        </span>
         <div className="input-container">
           <button className="login-button" type="submit" value="Submit">
             Login
@@ -108,7 +116,9 @@ function Login() {
           <div className="sign-up-option"></div>
           <div className="sign-up-option"></div>
         </div>
-        <p>Don't have an account? <a href="">Sign Up</a></p>
+        <p>
+          Don't have an account? <a href="">Sign Up</a>
+        </p>
       </div>
     </div>
   );
@@ -116,20 +126,20 @@ function Login() {
   return (
     <div className="bzbz">
       <div className="app">
-      {/* <div className="bg--image">
+        {/* <div className="bg--image">
         <img src="/" alt="Login Image." />
       </div> */}
 
-      <div className="login-card">
-        <div className="login-form">
-          <div className="login--title">
-            <h2>Agent Login</h2>
-            <p>Hey, enter your details to sign into your account</p>
+        <div className="login-card">
+          <div className="login-form">
+            <div className="login--title">
+              <h2>Agent Login</h2>
+              <p>Hey, enter your details to sign into your account</p>
             </div>
-          {renderForm}
+            {renderForm}
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

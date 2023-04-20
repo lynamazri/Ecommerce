@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 function UserNavbar() {
+  // const { quantity } = useSelector((state) => state.cart);
   return (
     <header>
       <div className="upperBar">
