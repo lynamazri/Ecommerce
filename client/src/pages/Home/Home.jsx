@@ -3,6 +3,7 @@ import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import "./Home.css";
+
 import { add } from "../../redux/Slices/CartSlice";
 
 function Home() {

@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer";
+import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
 
@@ -14,6 +15,7 @@ const Layout = () => {
   return (
     <>
       <UserNavbar />
+      <Menu />
       <Outlet />
       <Footer />
     </>
