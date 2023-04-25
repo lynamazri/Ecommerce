@@ -115,7 +115,7 @@ function Login() {
 
   return (
     <>
-      <h1 className="logo" >MAGAZA</h1>
+      <h1 className="logo" >magaza</h1>
       <div className="app">
         <div className="heroSection">
           <>

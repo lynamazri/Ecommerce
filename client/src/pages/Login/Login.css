@@ -16,7 +16,7 @@
 }
 
 .logo {
-  margin: 1.5em 0 0 2.5em;
+  margin: 1.2em 0 0 2.5em;
   font-family: NordiquePro-Bold;
   font-size: 24px;
   line-height: 28px;
@@ -88,14 +88,6 @@
   position: relative;
 }
 
-.input-password button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 30px;
-  width: fit-content;
-}
-
 .inputs {
   display: flex;
   flex-direction: column;
@@ -104,16 +96,15 @@
 
 .passwordInputType {
   background-color: #ebf1f6;
+  position: absolute;
+  top: 50%;
+  right: 7%;
+  transform: translateY(-40%);
+  width: fit-content;
   color: #212121;
   border: none;
-  position: absolute;
-  right: 200px;
-  top: 400px;
-  font-family: "poppins";
-  font-style: normal;
-  font-weight: 500;
   font-size: 16px;
-  line-height: 27px;
+  cursor: pointer;
 }
 
 #uemail,
@@ -140,11 +131,13 @@
 #rememberMe {
   margin: 2em 0 2em 0;
 }
-
-.forgetPass a {
-  color: #b5b5b5;
+.forgetPass {
+  width: 100%;
   display: flex;
   justify-content: flex-end;
+}
+.forgetPass a {
+  color: #b5b5b5;
   margin: 0 0.5em 2em 0;
   font-family: Poppins;
   font-size: 13px;
@@ -152,9 +145,11 @@
   line-height: 20px;
   letter-spacing: 0em;
   text-align: right;
+  width: max-content;
 }
 
 .login-button {
+  cursor: pointer;
   background-color: #1f2c4c;
   color: #fff;
   border-radius: 10px;
