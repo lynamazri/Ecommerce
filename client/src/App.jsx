@@ -2,7 +2,7 @@ import { useState } from "react";
 //import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
@@ -37,7 +37,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
   {
     path: "/login",
     element: <Login />,
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/profile/edit",
+    path : "/profile/edit",
     element: <EditProfile />,
   },
   {

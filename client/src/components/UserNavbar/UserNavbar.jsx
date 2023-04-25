@@ -1,47 +1,61 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMagnifyingGlass,
-  faCartShopping,
-} from "@fortawesome/free-solid-svg-icons";
-import { faBell } from "@fortawesome/free-regular-svg-icons";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { RiSearchLine, RiShoppingCart2Line, RiUserLine } from "react-icons/ri";
 import "./Navbar.css";
 import Menu from "./Menu";
+import CartIcon from "./CartIcon";
 
-export default function UserNavbar() {
+function UserNavbar() {
+  // const { quantity } = useSelector((state) => state.cart);
+  const [cartCount, setCartCount] = useState(1);
+
   return (
     <header>
-      <div className="navBar">
-        <div className="upperBar">
-          <Link to="/" className="logo">
-            <h1>MAGAZA</h1>
-          </Link>
-          <div className="searchBar">
-            <div className="categoriesBtn">ALL</div>
-            <input id="searchBar" placeholder="Search" />
-            <FontAwesomeIcon
-              icon={faMagnifyingGlass}
-              style={{ color: "#8b8b8b" }}
-            />
-          </div>
-          <div>
-            <div className="Cart">
-              <Link to="/cart">
-                <FontAwesomeIcon
-                  className="cartIcon"
-                  icon={faCartShopping}
-                  style={{ color: "#1F2C4C" }}
-                />
-                <span className="bag-quantity">3</span>
+      <div className="upperBar">
+        <div className="siteInfo">
+          <p>+213-555-065-685</p>
+          <p>info@magaza.com</p>
+        </div>
+        <nav className="links">
+          <ul>
+            <li>
+              <Link to="FAQ" className="link">
+                FAQ
               </Link>
-            </div>
-            <div className="profilPicture"></div>
+            </li>
+            <li>
+              <Link to="About Us" className="link">
+                About Us
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div className="lowerBar">
+        <Link to="/" className="logo">
+          <img src="" />
+          <h1>MAGAZA</h1>
+        </Link>
+        <div className="searchBar">
+          <span className="categories">All Categories</span>
+          <div className="searchInput">
+            <input type="text" placeholder="Search products, categories ..." />
+          </div>
+          <div className="searchIcon">
+            <RiSearchLine size={18} />
           </div>
         </div>
-
-        <Menu />
+        <div className="profil--cart">
+          <Link to="/profil" className="profil">
+            <RiUserLine size={26} color="#ffffff" />
+          </Link>
+          <CartIcon count={cartCount} />
+        </div>
       </div>
+      <Menu />
     </header>
   );
 }
+
+export default UserNavbar;

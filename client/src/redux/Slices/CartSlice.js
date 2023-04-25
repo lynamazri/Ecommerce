@@ -44,6 +44,25 @@ const cartSlice = createSlice({
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
+    /* subTotal(state, action) {
+      let { total, quantity } = state.cartItems.reduce(
+        (cartTotal, cartItem) => {
+          const { price, quantity } = cartItem;
+          const itemTotal = price * quantity;
+
+          cartTotal.total += itemTotal;
+          cartTotal.quantity += quantity;
+
+          return cartTotal;
+        },
+        {
+          total: 0,
+          quantity: 0,
+        }
+      );
+      state.quantity = quantity;
+      state.amount = total;
+    }, */
     increase(state, action) {
       const curItem = state.cartItems.findIndex(
         //curItems is an index not an object
@@ -73,5 +92,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { add, remove, increase, decrease, clear } = cartSlice.actions;
+export const { add, remove, increase, decrease, clear, subTotal } =
+  cartSlice.actions;
 export default cartSlice.reducer;
