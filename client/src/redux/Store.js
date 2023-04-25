@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productsReducer, { productsFetch } from "./Slices/productsSlice";
-import cartReducer, { subTotal } from "./Slices/CartSlice";
+import cartReducer, { subTotal } from "./Slices/cartSlice";
 
 export const store = configureStore({
   reducer: {

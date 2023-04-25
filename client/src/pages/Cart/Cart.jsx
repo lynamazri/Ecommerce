@@ -9,7 +9,7 @@ import {
   increase,
   remove,
   subTotal,
-} from "../../redux/Slices/CartSlice";
+} from "../../redux/Slices/cartSlice";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
@@ -82,6 +82,7 @@ function Cart() {
                 <span>DZD{cart.amount}</span>
                 <span>Taxes and shipping calculated at checkout</span>
                 <button>Checkout</button>
+                {/* <div>Quantity: {cart.totQuantity}</div> */}
               </div>
               <div className="clear-cart">
                 <span>Start Over?</span>

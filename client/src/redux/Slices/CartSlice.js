@@ -4,9 +4,9 @@ const initialState = {
   cartItems: localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [],
-  quantity: 0,
+  totQuantity: 0,
   //addedQuantity: 1,
-  amount: 0,
+  totAmount: 0,
 };
 
 //add toastify pop ups or maybe snackbar idk yet
@@ -16,19 +16,19 @@ const cartSlice = createSlice({
   reducers: {
     add(state, action) {
       //find a way to make it so add to cart works with quantity too as in add a quantity to cart, u can add something to the state for example
-      const curItem = state.cartItems.findIndex(
+      const curItem = state.cartItems.find(
         //curItems is an index not an object
         (item) => item.id === action.payload.id
       );
-      if (curItem >= 0) {
+      if (curItem) {
         //to find if the index exists
-        state.cartItems[curItem].quantity += 1; //state.cartItems[curItem].addedQuantity;
+        curItem.quantity += 1; //state.cartItems[curItem].addedQuantity;
       } else {
-        const product = { ...action.payload, quantity: 1 };
-        state.cartItems.push(product);
+        state.cartItems.push({ ...action.payload, quantity: 1 });
       }
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      //state.totQuantity++;
     },
     remove(state, action) {
       state.cartItems.map((item) => {
