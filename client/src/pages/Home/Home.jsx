@@ -1,8 +1,8 @@
 import React from "react";
 import Product from "../../components/Product";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Footer from "../../components/Footer"
-import "./Home.css";
+import Footer from "../../components/Footer";
+//import "./Home.css";
 
 function Home() {
   return (
@@ -10,7 +10,7 @@ function Home() {
       <UserNavbar />
       <main>
         <div className="container">
-          <section className="sectionFlex">
+          {/*           <section className="sectionFlex">
             <div className="sectionLeft">
               <h3>categoryTitle</h3>
               <ul className="sectionLeftItems">
@@ -76,10 +76,10 @@ function Home() {
               <Product />
               <Product />
             </div>
-          </section>
+          </section> */}
+          <Product />
         </div>
         <Footer />
-
       </main>
     </div>
   );

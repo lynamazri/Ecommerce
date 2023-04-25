@@ -4,6 +4,7 @@ import { RiSearchLine, RiShoppingCart2Line, RiUserLine } from "react-icons/ri";
 import "./Navbar.css";
 import Menu from "./Menu";
 import CartIcon from "./CartIcon";
+import Search from "./Search";
 
 function UserNavbar() {
   // const { quantity } = useSelector((state) => state.cart);
@@ -37,15 +38,7 @@ function UserNavbar() {
           <img src="" />
           <h1>magaza</h1>
         </Link>
-        <div className="searchBar">
-          <span className="categories">All Categories</span>
-          <div className="searchInput">
-            <input type="text" placeholder="Search products, categories ..." />
-          </div>
-          <div className="searchIcon">
-            <RiSearchLine size={18} />
-          </div>
-        </div>
+        <Search />
         <div className="profil--cart">
           <Link to="/profil" className="profil">
             <RiUserLine size={26} color="#ffffff" />
