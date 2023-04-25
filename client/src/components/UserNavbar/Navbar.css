@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&display=swap");
 
 @font-face {
-  font-family: "NordiquePro-Bold";
+  font-family: "MavenPro-Bold";
   src: url("../../fonts/NordiquePro-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: bold;
@@ -77,6 +77,7 @@ header {
 .logo {
   display: flex;
   align-items: center;
+  height: 2.5em;
 }
 
 .logo > img {
@@ -84,10 +85,13 @@ header {
 }
 
 .logo > h1 {
-  /* font-family: "NordiquePro-Bold"; */
+  padding: auto;
+  font-family: "MavenPro-Bold";
   font-weight: 700;
   font-size: 2em;
   color: #ffff;
+  height: 40px;
+  width: auto;
 }
 
 .searchBar {

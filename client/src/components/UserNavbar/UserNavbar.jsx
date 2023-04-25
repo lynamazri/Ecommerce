@@ -35,7 +35,7 @@ function UserNavbar() {
       <div className="lowerBar">
         <Link to="/" className="logo">
           <img src="" />
-          <h1>MAGAZA</h1>
+          <h1>magaza</h1>
         </Link>
         <div className="searchBar">
           <span className="categories">All Categories</span>
