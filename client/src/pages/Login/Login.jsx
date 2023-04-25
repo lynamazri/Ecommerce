@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import "./Login.css";
 
 function Login() {
@@ -35,18 +36,16 @@ function Login() {
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
-    );
+  );
 
-  const [passInputType, setPassInputType] = React.useState("password");
-  const [showPass, setShowPass] = React.useState("show");
+      const [passInputType, setPassInputType] = React.useState("password")
+      const [showPass, setShowPass] = React.useState(false)
 
-  function togglePasswordInputType(e) {
-    e.preventDefault();
-    setPassInputType((prevPassInputType) =>
-      prevPassInputType === "password" ? "text" : "password"
-    );
-    setShowPass((prevShowPass) => (prevShowPass === "show" ? "hide" : "show"));
-  }
+      function togglePasswordInputType(e){
+        e.preventDefault()
+        setPassInputType(prevPassInputType => prevPassInputType === "password" ? "text" : "password")
+        setShowPass(prevShowPass => !prevShowPass)
+      }
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -75,19 +74,16 @@ function Login() {
               onChange={handleChange}
               value={formData.pass}
             />
-            {formData.pass ? (
-              <button
-                className="passwordInputType"
-                onClick={togglePasswordInputType}
-              >
-                {showPass}
-              </button>
-            ) : null}
+            {formData.pass ? <button 
+            className="passwordInputType"
+            onClick={togglePasswordInputType}
+            >
+              {showPass ? <AiFillEye /> :<AiFillEyeInvisible />}
+            </button> : null}
             {renderErrorMessage("pass")}
           </div>
         </div>
-        <label htmlFor="rememberMe" className="checkContainer">
-          Remember Me?
+        <label htmlFor="rememberMe" className="checkContainer">Remember Me?
           <input
             type="checkbox"
             id="rememberMe"
@@ -97,11 +93,8 @@ function Login() {
             value={formData.rememberMe}
           />
           <span className="checkmark"></span>
-        </label>{" "}
-        <br />
-        <span className="forgetPass">
-          <a href="">Forgot Password</a>
-        </span>
+        </label> <br />
+        <span className="forgetPass"><a href="">Forgot Password ?</a></span>
         <div className="input-container">
           <button className="login-button" type="submit" value="Submit">
             Login
@@ -110,37 +103,37 @@ function Login() {
       </form>
 
       <div className="sign-up">
-        <p>- Or login in with -</p>
+        <p>Or login in with</p>
         <div className="sign-up-options">
           <div className="sign-up-option"></div>
           <div className="sign-up-option"></div>
           <div className="sign-up-option"></div>
         </div>
-        <p>
-          Don't have an account? <a href="">Sign Up</a>
-        </p>
       </div>
     </div>
   );
 
   return (
-    <div className="bzbz">
+    <>
+      <h1 className="logo" >MAGAZA</h1>
       <div className="app">
-        {/* <div className="bg--image">
-        <img src="/" alt="Login Image." />
-      </div> */}
-
-        <div className="login-card">
-          <div className="login-form">
-            <div className="login--title">
-              <h2>Agent Login</h2>
-              <p>Hey, enter your details to sign into your account</p>
-            </div>
-            {renderForm}
+        <div className="heroSection">
+          <>
+            <h3>Sign in to</h3>
+            <p>magaza</p>
+          </>
+          <span>If you don’t have an account register <br />
+          You can <a href="/register">Register here !</a></span>
+          <img id="saly" src="./public/images/Saly.svg" />
+        </div>
+        <div className="login-form">
+          <div className="login--title">
+            <p>Sign In</p>
           </div>
+          {renderForm}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
