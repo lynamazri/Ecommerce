@@ -1,8 +1,11 @@
 import React from "react";
-import Product from "../../components/Product";
+import { Link } from "react-router-dom";
+
+import Product from "../../components/Product/Product";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Footer from "../../components/Footer";
-//import "./Home.css";
+import { categories } from "../../components/UserNavbar/Menu/categories";
+import Footer from "../../components/Footer/Footer";
+import "./Home.css";
 
 function Home() {
   return (
@@ -10,34 +13,52 @@ function Home() {
       <UserNavbar />
       <main>
         <div className="container">
-          {/*           <section className="sectionFlex">
+          <section className="sectionFlex">
             <div className="sectionLeft">
-              <h3>categoryTitle</h3>
+              <h3>Category menu</h3>
               <ul className="sectionLeftItems">
-                <li>Stores</li>
-                <li>Electronics</li>
-                <li>Cothing and Fashion</li>
-                <li>Health and Beauty</li>
-                <li>Home</li>
+                {categories.map((category, index) => (
+                  <li key={index}>
+                    <Link to={category.link}>{category.name}</Link>
+                  </li>
+                ))}
               </ul>
-              <a className="sectionLeftButton">
-                more categories 
-              </a>
+              <a className="sectionLeftButton">more categories</a>
             </div>
             <div className="adsWrapper">
               <div className="ads">
-                <small>Banner sub focus</small>
-                <h3>Space for heading</h3>
-                <a className="adsButton">Read recepies</a>
+                <div>
+                  <small>Banner sub focus</small>
+                  <h3>Space for heading</h3>
+                </div>
+                <a className="adsButton">More info</a>
               </div>
               <div className="ads">
-                <small>Banner sub focus</small>
-                <h3>Space for heading</h3>
-                <a className="adsButton">Read recepies</a>
-              </div> 
+                <div>
+                  <small>Banner sub focus</small>
+                  <h3>Space for heading</h3>
+                </div>
+                <a className="adsButton">More info</a>
+              </div>
             </div>
           </section>
           <section className="sectionFlex">
+            <div className="sectionLeft">
+              <h3>Best selling products</h3>
+              <ul className="sectionLeftItems">
+                <li>Stores</li>
+                <li>Electronics</li>
+                <li>Cothing and Fashion</li>
+                <li>Health and Beauty</li>
+                <li>Home</li>
+              </ul>
+              <a className="sectionLeftButton">more Products</a>
+            </div>
+            <div className="productWrapper">
+              <Product />
+            </div>
+          </section>
+          {/* <section className="sectionFlex">
             <div className="sectionLeft">
               <h3>categoryTitle</h3>
               <ul className="sectionLeftItems">
@@ -47,9 +68,7 @@ function Home() {
                 <li>Health and Beauty</li>
                 <li>Home</li>
               </ul>
-              <a className="sectionLeftButton">
-                more Products 
-              </a>
+              <a className="sectionLeftButton">more Products</a>
             </div>
             <div className="productWrapper">
               <Product />
@@ -57,30 +76,10 @@ function Home() {
               <Product />
             </div>
           </section>
-          <section className="sectionFlex">
-            <div className="sectionLeft">
-              <h3>categoryTitle</h3>
-              <ul className="sectionLeftItems">
-                <li>Stores</li>
-                <li>Electronics</li>
-                <li>Cothing and Fashion</li>
-                <li>Health and Beauty</li>
-                <li>Home</li>
-              </ul>
-              <a className="sectionLeftButton">
-                more Products 
-              </a>
-            </div>
-            <div className="productWrapper">
-              <Product />
-              <Product />
-              <Product />
-            </div>
-          </section> */}
-          <Product />
+          <Product /> */}
         </div>
-        <Footer />
       </main>
+      <Footer />
     </div>
   );
 }

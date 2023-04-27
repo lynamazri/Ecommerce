@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import "./Login.css";
 
 function Login() {
@@ -36,16 +36,18 @@ function Login() {
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
-  );
+    );
 
-      const [passInputType, setPassInputType] = React.useState("password")
-      const [showPass, setShowPass] = React.useState(false)
+  const [passInputType, setPassInputType] = React.useState("password");
+  const [showPass, setShowPass] = React.useState(false);
 
-      function togglePasswordInputType(e){
-        e.preventDefault()
-        setPassInputType(prevPassInputType => prevPassInputType === "password" ? "text" : "password")
-        setShowPass(prevShowPass => !prevShowPass)
-      }
+  function togglePasswordInputType(e) {
+    e.preventDefault();
+    setPassInputType((prevPassInputType) =>
+      prevPassInputType === "password" ? "text" : "password"
+    );
+    setShowPass((prevShowPass) => !prevShowPass);
+  }
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -74,16 +76,19 @@ function Login() {
               onChange={handleChange}
               value={formData.pass}
             />
-            {formData.pass ? <button 
-            className="passwordInputType"
-            onClick={togglePasswordInputType}
-            >
-              {showPass ? <AiFillEye /> :<AiFillEyeInvisible />}
-            </button> : null}
+            {formData.pass ? (
+              <button
+                className="passwordInputType"
+                onClick={togglePasswordInputType}
+              >
+                {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
+              </button>
+            ) : null}
             {renderErrorMessage("pass")}
           </div>
         </div>
-        <label htmlFor="rememberMe" className="checkContainer">Remember Me?
+        <label htmlFor="rememberMe" className="checkContainer">
+          Remember Me?
           <input
             type="checkbox"
             id="rememberMe"
@@ -93,8 +98,11 @@ function Login() {
             value={formData.rememberMe}
           />
           <span className="checkmark"></span>
-        </label> <br />
-        <span className="forgetPass"><a href="">Forgot Password ?</a></span>
+        </label>{" "}
+        <br />
+        <span className="forgetPass">
+          <a href="">Forgot Password ?</a>
+        </span>
         <div className="input-container">
           <button className="login-button" type="submit" value="Submit">
             Login
@@ -115,15 +123,17 @@ function Login() {
 
   return (
     <>
-      <h1 className="logo" >magaza</h1>
+      <h1 className="login-logo">magaza</h1>
       <div className="app">
         <div className="heroSection">
           <>
             <h3>Sign in to</h3>
             <p>magaza</p>
           </>
-          <span>If you don’t have an account register <br />
-          You can <a href="/register">Register here !</a></span>
+          <span>
+            If you don’t have an account register <br />
+            You can <a href="/register">Register here !</a>
+          </span>
           <img id="saly" src="./public/images/Saly.svg" />
         </div>
         <div className="login-form">

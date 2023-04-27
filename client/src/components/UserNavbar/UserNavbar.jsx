@@ -41,7 +41,7 @@ function UserNavbar() {
         <Search />
         <div className="profil--cart">
           <Link to="/profil" className="profil">
-            <RiUserLine size={26} color="#ffffff" />
+            <RiUserLine size={21} color="#ffffff" />
           </Link>
           <CartIcon count={cartCount} />
         </div>

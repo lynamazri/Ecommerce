@@ -6,7 +6,7 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Cart from "./pages/Cart/Cart";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
-import Footer from "./components/Footer";
+import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";

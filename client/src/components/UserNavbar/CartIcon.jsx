@@ -5,7 +5,7 @@ function CartIcon({ count }) {
   return (
     <div>
       <Link to="/cart" className="cart">
-        <RiShoppingCart2Line size={26} color="#ffffff" />
+        <RiShoppingCart2Line size={21} color="#ffffff" />
         {count > 0 && <span className="cart-badge">{count}</span>}
       </Link>
     </div>

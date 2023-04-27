@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Crete+Round:ital@0;1&display=swap");
 
 @font-face {
-  font-family: "MavenPro-Bold";
+  font-family: "NordiquePro-Bold";
   src: url("../../fonts/NordiquePro-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: bold;
@@ -30,10 +30,11 @@ header {
 }
 
 .upperBar {
+  padding: 0.5em 3em 0em 3em;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0em 3em;
 
   background-color: var(--primaryColor);
   color: white;
@@ -46,9 +47,8 @@ header {
 }
 
 .siteInfo p {
-  font-weight: thin;
-  font-size: small;
-  padding: 1em 1em 0em 0em;
+  font-size: 10px;
+  padding: 0em 1em 0em 0em;
 }
 
 .links > ul {
@@ -59,25 +59,24 @@ header {
 
 .link {
   color: #ffff;
-  font-weight: thin;
-  font-size: small;
-  padding: 1em 0em 0em 1em;
+  font-size: 14px;
+  padding: 0em 0em 0em 1em;
 }
 
 .lowerBar {
+  height: 5em;
+  padding: 1em 3em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1em 3em;
-
   background-color: var(--primaryColor);
   color: white;
 }
 
 .logo {
+  height: 100%;
   display: flex;
-  align-items: center;
-  height: 2.5em;
+  /* align-items: center; */
 }
 
 .logo > img {
@@ -85,18 +84,19 @@ header {
 }
 
 .logo > h1 {
-  padding: auto;
-  font-family: "MavenPro-Bold";
+  font-family: "NordiquePro-Bold";
   font-weight: 700;
-  font-size: 2em;
   color: #ffff;
-  height: 40px;
-  width: auto;
+
+  font-size: 2em;
+
+  text-align: center;
+  line-height: 0.55;
 }
 
 .searchBar {
-  height: 2.5em;
-  width: 500px;
+  height: 2.1em;
+  width: 400px;
   display: flex;
   align-items: center;
   border: 1px solid #ccc;
@@ -107,14 +107,14 @@ header {
 
 .categories {
   height: 100%;
-  width: 7.5em;
-  font-size: 1.1em;
+  width: 9em;
+  font-size: 0.8em;
   font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #f2f2f2;
-  padding: 10px;
+  padding: 8px 0px 8px 8px;
   border-radius: 12px 0 0 12px;
   cursor: pointer;
   color: #151515;
@@ -125,7 +125,7 @@ header {
   flex-grow: 1;
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 8px;
 }
 
 .searchInput input {
@@ -133,21 +133,21 @@ header {
   height: 100%;
   border: none;
   outline: none;
-  font-size: 1em;
+  font-size: 0.8em;
   background-color: #f2f2f2;
-  padding-left: 10px;
+  padding-left: 8px;
   border-left: 1px solid #ccc;
 }
 
 .searchIcon {
-  width: 50px;
+  width: 40px;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0 12px 12px 0;
   color: #151515;
-  font-size: 1em;
+  font-size: 0.8em;
   cursor: pointer;
 }
 
@@ -177,11 +177,11 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 15px;
-  height: 15px;
+  width: 13px;
+  height: 13px;
   background-color: #ff7f50;
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   border-radius: 50%;
 }
