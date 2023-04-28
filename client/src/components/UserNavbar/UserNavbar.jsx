@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { RiSearchLine, RiShoppingCart2Line, RiUserLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { RiUserLine } from "react-icons/ri";
 import "./Navbar.css";
 import Menu from "./Menu";
 import CartIcon from "./CartIcon";
 import Search from "./Search";
 
 function UserNavbar() {
-  // const { quantity } = useSelector((state) => state.cart);
-  const [cartCount, setCartCount] = useState(1);
+  const { cartItems } = useSelector((state) => state.cart);
+  // const [cartCount, setCartCount] = useState(1);
 
   return (
     <header>
@@ -43,7 +44,7 @@ function UserNavbar() {
           <Link to="/profil" className="profil">
             <RiUserLine size={21} color="#ffffff" />
           </Link>
-          <CartIcon count={cartCount} />
+          <CartIcon count={cartItems.length} />
         </div>
       </div>
       <Menu />

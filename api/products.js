@@ -8,6 +8,7 @@ const products = [
     category: "men's clothing",
     image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
     rating: { rate: 3.9, count: 120 },
+    //tags: ["laptop bag", "backpack"],
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const products = [
     image:
       "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
     rating: { rate: 4.1, count: 259 },
+    //tags: ["long sleeve", "men's shirt", "slim fit"],
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ const products = [
     category: "men's clothing",
     image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
     rating: { rate: 4.7, count: 500 },
+    //tags: ["cotton shirt", "jacket", "men's jacket"],
   },
   {
     id: 4,

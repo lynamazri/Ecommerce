@@ -9,14 +9,15 @@ import {
   increase,
   remove,
   subTotal,
-} from "../../redux/Slices/cartSlice";
+} from "../../redux/Slices/CartSlice";
 
 function Cart() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  /*   useEffect(() => {
-    dispatch(subTotal);
-  }, [cart, dispatch]); */
+
+  useEffect(() => {
+    dispatch(subTotal());
+  }, [cart, dispatch]);
 
   const handleRemove = (item) => {
     dispatch(remove(item));
@@ -79,7 +80,7 @@ function Cart() {
             <div className="operations">
               <div className="proceed-checkout">
                 <h4>Subtotal</h4>
-                <span>DZD{cart.amount}</span>
+                <span>DZD{cart.totAmount}</span>
                 <span>Taxes and shipping calculated at checkout</span>
                 <button>Checkout</button>
                 {/* <div>Quantity: {cart.totQuantity}</div> */}
