@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { RiSearchLine, RiShoppingCart2Line, RiUserLine } from "react-icons/ri";
+import { RiSearchLine, RiDeleteBack2Line } from "react-icons/ri";
 import "./Navbar.css";
 import axios from "axios";
-import SearchRes from "./SearchRes";
 
 function Search() {
   const [query, setQuery] = useState("");
@@ -13,8 +12,22 @@ function Search() {
       const res = await axios.get(`http://localhost:3001?q=${query}`);
       setData(res.data);
     };
-    if (query.length === 0 || query.length > 2) fetchData();
+    if (query.length > 2) fetchData();
   }, [query]);
+
+  const clearInput = () => {
+    setData([]);
+    setQuery("");
+  };
+
+  const handleFilter = (event) => {
+    const searchWord = event.target.value.toLowerCase();
+    setQuery(searchWord);
+    if (searchWord === "") {
+      setData([]);
+    }
+  };
+
   return (
     <>
       <div className="searchBar">
@@ -22,15 +35,29 @@ function Search() {
         <div className="searchInput">
           <input
             type="text"
-            placeholder="Search products, categories ..."
-            onChange={(e) => setQuery(e.target.value.toLowerCase())}
+            placeholder="Search products, categories..."
+            value={query}
+            onChange={(e) => handleFilter(e)}
           />
         </div>
         <div className="searchIcon">
-          <RiSearchLine size={18} />
+          {query.length === 0 ? (
+            <RiSearchLine size={18} />
+          ) : (
+            <RiDeleteBack2Line size={18} onClick={clearInput} />
+          )}
         </div>
       </div>
-      {/* <SearchRes data={data} /> */}
+      <div className="dataRes">
+        {data.slice(0, 7).map((value, key) => {
+          return (
+            <div>
+              <h3>{value.title}</h3>
+              <span>{value.price}</span>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 }
