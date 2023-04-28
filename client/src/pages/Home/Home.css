@@ -15,7 +15,6 @@
 
 .sectionFlex {
   padding: 3.5em 0em 0em 0em;
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;

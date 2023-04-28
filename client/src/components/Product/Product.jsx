@@ -1,4 +1,8 @@
 import React from "react";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from "swiper";
+import 'swiper/css';
+import "swiper/css/pagination";
 import "./Product.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -16,10 +20,19 @@ function Product() {
     <div>
       {status === "success" ? (
         <>
-          <div className="productSlider">
+          <Swiper 
+          slidesPerView={3}
+          spaceBetween={30}
+          pagination={{
+            clickable: true,
+          }}
+          modules={[Pagination]}
+          className="productSlider"
+          >
             {items &&
               items?.map((product) => (
-                <div key={product.id} className="productCard">
+                <>
+                <SwiperSlide key={product.id} className="productCard">
                   <img src={product.image} alt={product.title} />
                   <div className="productDescription">
                     <h3 className="productTitle">{product.title}</h3>
@@ -32,9 +45,10 @@ function Product() {
                       Add To Cart
                     </button>
                   </div>
-                </div>
+                </SwiperSlide>
+                </>
               ))}
-          </div>
+          </Swiper>
         </>
       ) : status === "loading" ? (
         <div className="loader-container">

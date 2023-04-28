@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import Product from "../../components/Product/Product";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import { categories } from "../../components/UserNavbar/Menu/categories";
+import { categories } from "../../components/UserNavbar/Menu";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
 
