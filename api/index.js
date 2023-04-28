@@ -10,7 +10,16 @@ app.use(express.urlencoded());
 app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("Welcome our to online shop API...");
+  const { q } = req.query;
+
+  const keys = ["title", "description"];
+
+  const search = (data) => {
+    return data.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(q))
+    );
+  };
+  q ? res.json(search(products).slice(0, 10)) : res.json(products.slice(0, 10));
 });
 
 app.get("/products", (req, res) => {
