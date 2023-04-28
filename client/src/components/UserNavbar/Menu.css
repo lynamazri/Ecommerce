@@ -5,7 +5,7 @@
 
 .menu-list {
   background-color: #d7e2ee;
-  padding: 0.5em 3em;
+  padding: 0.3em 3em;
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -15,5 +15,9 @@
 }
 
 .menu-list li a {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 22px;
+
   color: #151515;
 }

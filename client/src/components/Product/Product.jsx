@@ -1,8 +1,9 @@
 import React from "react";
+import "./Product.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
-import { add } from "../redux/Slices/CartSlice";
+import { add } from "../../redux/Slices/CartSlice";
 
 function Product() {
   const dispatch = useDispatch();
@@ -12,23 +13,25 @@ function Product() {
     dispatch(add(product));
   };
   return (
-    <div className="container">
+    <div>
       {status === "success" ? (
         <>
-          <div className="products">
+          <div className="productSlider">
             {items &&
               items?.map((product) => (
-                <div key={product.id} className="product">
-                  <h3>{product.title}</h3>
+                <div key={product.id} className="productCard">
                   <img src={product.image} alt={product.title} />
-                  <div className="details">
+                  <div className="productDescription">
+                    <h3 className="productTitle">{product.title}</h3>
                     <span>{product.category}</span>
-                    <span>{product.description}</span>
-                    <span className="price">DZD{product.price}</span>
+                    {/* <span>{product.description}</span> */}
                   </div>
-                  <button onClick={() => handleAdd(product)}>
-                    Add To Cart
-                  </button>
+                  <div className="priceCart">
+                    <span className="productPrice">DZD{product.price}</span>
+                    <button onClick={() => handleAdd(product)}>
+                      Add To Cart
+                    </button>
+                  </div>
                 </div>
               ))}
           </div>

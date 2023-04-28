@@ -1,0 +1,35 @@
+footer {
+  padding: 3em;
+}
+.lists {
+  display: flex;
+  justify-content: space-between;
+  margin: 2em 0em;
+}
+
+.footerList > h3 {
+  padding: 1em 0em;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 27px;
+}
+.footerListItems li {
+  padding: 0em 1em 1em 0em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+  color: var(--primaryColor);
+}
+
+.copyright {
+  padding: 1em 0em 3em 0em;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 19px;
+}
