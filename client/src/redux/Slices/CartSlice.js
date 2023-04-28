@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const initialState = {
   cartItems: localStorage.getItem("cartItems")
@@ -26,7 +27,16 @@ const cartSlice = createSlice({
       } else {
         state.cartItems.push({ ...action.payload, quantity: 1 });
       }
-
+      toast.success("Item added to cart!", {
+        position: "bottom-left",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       //state.totQuantity++;
     },
@@ -41,7 +51,16 @@ const cartSlice = createSlice({
           state.cartItems = newItems;
         }
       });
-
+      toast.error("Item removed from cart!", {
+        position: "bottom-left",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
     /* subTotal(state, action) {
@@ -87,6 +106,17 @@ const cartSlice = createSlice({
 
     clear(state, action) {
       state.cartItems = [];
+
+      toast.info("Cart cleared!", {
+        position: "bottom-left",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     }, //to remove everything from cart
   },
