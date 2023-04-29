@@ -15,9 +15,9 @@ function Cart() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  /*   useEffect(() => {
     dispatch(subTotal());
-  }, [cart, dispatch]);
+  }, [cart, dispatch]); */
 
   const handleRemove = (item) => {
     dispatch(remove(item));

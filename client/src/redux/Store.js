@@ -10,4 +10,4 @@ export const store = configureStore({
 });
 
 store.dispatch(productsFetch());
-store.dispatch(subTotal());
+//store.dispatch(subTotal());
