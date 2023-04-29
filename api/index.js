@@ -4,6 +4,7 @@ const cors = require("cors");
 const products = require("./products");
 
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded());
