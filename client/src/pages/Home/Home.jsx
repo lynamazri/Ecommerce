@@ -74,8 +74,6 @@ function Home() {
           </section>
         </div>
       </main>
-      <Product />
-
       <Footer />
     </div>
   );
