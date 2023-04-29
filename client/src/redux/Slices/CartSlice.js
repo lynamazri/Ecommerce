@@ -15,18 +15,17 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    add(state, action) {
+    add(state = initialState, action) {
       //find a way to make it so add to cart works with quantity too as in add a quantity to cart, u can add something to the state for example
       const curItem = state.cartItems.find(
-        //curItems is an index not an object
         (item) => item.id === action.payload.id
       );
       if (curItem) {
-        //to find if the index exists
-        curItem.quantity += 1; //state.cartItems[curItem].addedQuantity;
+        curItem.quantity += 1;
       } else {
         state.cartItems.push({ ...action.payload, quantity: 1 });
       }
+
       toast.success("Item added to cart!", {
         position: "bottom-left",
         autoClose: 1500,
@@ -37,10 +36,12 @@ const cartSlice = createSlice({
         progress: undefined,
         theme: "light",
       });
+
+      state.totAmount += action.payload.price;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       //state.totQuantity++;
     },
-    remove(state, action) {
+    remove(state = initialState, action) {
       state.cartItems.map((item) => {
         if (item.id === action.payload.id) {
           //keeping only the items we didn't remove and mapping them into a new array
@@ -48,6 +49,7 @@ const cartSlice = createSlice({
             //to filter the items that dont have the id that we clicked on
             (item) => item.id !== action.payload.id
           );
+          state.totAmount -= action.payload.price * action.payload.quantity;
           state.cartItems = newItems;
         }
       });
@@ -61,16 +63,17 @@ const cartSlice = createSlice({
         progress: undefined,
         theme: "light",
       });
+
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
-    /* subTotal(state, action) {
+    subTotal(state = initialState, action) {
       let { total, quantity } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
-          const { price, quantity } = cartItem;
-          const itemTotal = price * quantity;
+          const { price, cartQuantity } = cartItem;
+          const itemTotal = price * cartQuantity;
 
           cartTotal.total += itemTotal;
-          cartTotal.quantity += quantity;
+          cartTotal.quantity += cartQuantity;
 
           return cartTotal;
         },
@@ -79,32 +82,35 @@ const cartSlice = createSlice({
           quantity: 0,
         }
       );
-      state.quantity = quantity;
-      state.amount = total;
-    }, */
-    increase(state, action) {
+
+      state.totQuantity = quantity;
+      state.totAmount = total;
+    },
+    increase(state = initialState, action) {
       const curItem = state.cartItems.findIndex(
         //curItems is an index not an object
         (item) => item.id === action.payload.id
       );
 
       state.cartItems[curItem].quantity += 1;
+      state.totAmount += action.payload.price;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     }, //to increase quantity,
 
-    decrease(state, action) {
+    decrease(state = initialState, action) {
       const curItem = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
       if (state.cartItems[curItem].quantity > 1) {
         state.cartItems[curItem].quantity -= 1;
+        state.totAmount -= action.payload.price;
         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       } else if (state.cartItems[curItem].quantity === 1) {
         cartSlice.caseReducers.remove(state, action);
       }
     }, //to decrease quantity
 
-    clear(state, action) {
+    clear(state = initialState, action) {
       state.cartItems = [];
 
       toast.info("Cart cleared!", {
@@ -117,6 +123,7 @@ const cartSlice = createSlice({
         progress: undefined,
         theme: "light",
       });
+      state.totAmount = 0;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     }, //to remove everything from cart
   },
