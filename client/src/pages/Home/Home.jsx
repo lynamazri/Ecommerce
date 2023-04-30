@@ -17,7 +17,7 @@ function Home() {
             <div className="sectionLeft">
               <h3>Category menu</h3>
               <ul className="sectionLeftItems">
-                {categories.map((category, index) => (
+                {categories.slice(0, 4).map((category, index) => (
                   <li key={index}>
                     <Link to={category.link}>{category.name}</Link>
                   </li>
@@ -46,11 +46,11 @@ function Home() {
             <div className="sectionLeft">
               <h3>Best selling products</h3>
               <ul className="sectionLeftItems">
-                <li>Stores</li>
-                <li>Electronics</li>
-                <li>Cothing and Fashion</li>
-                <li>Health and Beauty</li>
-                <li>Home</li>
+                {categories.slice(0, 4).map((category, index) => (
+                  <li key={index}>
+                    <Link to={category.link}>{category.name}</Link>
+                  </li>
+                ))}
               </ul>
               <a className="sectionLeftButton">more Products</a>
             </div>
@@ -58,25 +58,20 @@ function Home() {
               <Product />
             </div>
           </section>
-          {/* <section className="sectionFlex">
+          <section className="sectionFlex">
             <div className="sectionLeft">
               <h3>categoryTitle</h3>
               <ul className="sectionLeftItems">
-                <li>Stores</li>
-                <li>Electronics</li>
-                <li>Cothing and Fashion</li>
-                <li>Health and Beauty</li>
-                <li>Home</li>
+                {categories.slice(0, 4).map((category, index) => (
+                  <li key={index}>
+                    <Link to={category.link}>{category.name}</Link>
+                  </li>
+                ))}
               </ul>
               <a className="sectionLeftButton">more Products</a>
             </div>
-            <div className="productWrapper">
-              <Product />
-              <Product />
-              <Product />
-            </div>
+            <div className="productWrapper">{/* <Product /> */}</div>
           </section>
-          <Product /> */}
         </div>
       </main>
       <Footer />
