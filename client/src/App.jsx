@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
+import ProductDetails from "./pages/ProductDetails/ProductDetails"
 
 const Layout = () => {
   return (
@@ -68,6 +69,8 @@ function App() {
 
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+
+        <Route path="/product" element={<ProductDetails />} />
       </Routes>
     </div>
   );
