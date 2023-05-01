@@ -10,6 +10,7 @@ import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
+import Help from "./pages/Help/Help";
 
 const Layout = () => {
   return (
@@ -62,6 +63,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/help" element={<Help />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

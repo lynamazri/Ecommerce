@@ -38,6 +38,7 @@ const cartSlice = createSlice({
       });
 
       state.totAmount += action.payload.price;
+
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
       //state.totQuantity++;
     },
@@ -66,7 +67,7 @@ const cartSlice = createSlice({
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
-    subTotal(state = initialState, action) {
+    /*     subTotal(state = initialState, action) {
       let { total, quantity } = state.cartItems.reduce(
         (cartTotal, cartItem) => {
           const { price, cartQuantity } = cartItem;
@@ -84,8 +85,8 @@ const cartSlice = createSlice({
       );
 
       state.totQuantity = quantity;
-      state.totAmount = total;
-    },
+      state.totAmount = total.toFixed(2);
+    }, */
     increase(state = initialState, action) {
       const curItem = state.cartItems.findIndex(
         //curItems is an index not an object
