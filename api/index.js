@@ -32,7 +32,7 @@ app.get("/help", (req, res) => {
   //const { q } = req.query
 
   let buying = help.filter((article) => {
-    return article.category == "buying";
+    return article.category == "Buying";
   });
 
   console.log(buying);
