@@ -1,8 +1,8 @@
 import React from "react";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from "swiper";
-import 'swiper/css';
-import "swiper/css/pagination";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
+
 import "./Product.css";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -11,27 +11,48 @@ import { add } from "../../redux/Slices/CartSlice";
 
 function Product() {
   const dispatch = useDispatch();
-
   const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
   const handleAdd = (product) => {
     dispatch(add(product));
   };
+
   return (
-    <div>
+    <>
       {status === "success" ? (
-        <>
-          <Swiper 
-          slidesPerView={3}
-          spaceBetween={30}
-          pagination={{
-            clickable: true,
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          spaceBetween={20}
+          slidesPerView={4}
+          //           breakpoints: {
+          //   '@0.75': {
+          //     slidesPerView: 2,
+          //     spaceBetween: 20,
+          //   },
+          //   '@1.00': {
+          //     slidesPerView: 3,
+          //     spaceBetween: 40,
+          //   },
+          //   '@1.50': {
+          //     slidesPerView: 4,
+          //     spaceBetween: 50,
+          //   },
+          // }
+          init="false"
+          navigation
+          scrollbar={{ draggable: true }}
+          onSlideChange={() => console.log("slide change")}
+          onSwiper={(swiper) => console.log(swiper)}
+          effect={"cube"}
+          cubeEffect={{
+            shadow: true,
+            slideShadows: true,
+            shadowOffset: 20,
+            shadowScale: 0.94,
           }}
-          modules={[Pagination]}
-          className="productSlider"
-          >
-            {items &&
-              items?.map((product) => (
-                <>
+        >
+          {items &&
+            items?.map((product) => (
+              <div class="swiper-wrapper">
                 <SwiperSlide key={product.id} className="productCard">
                   <img src={product.image} alt={product.title} />
                   <div className="productDescription">
@@ -46,10 +67,14 @@ function Product() {
                     </button>
                   </div>
                 </SwiperSlide>
-                </>
-              ))}
-          </Swiper>
-        </>
+              </div>
+            ))}
+          {/* <div class="swiper-pagination"></div>
+          <div class="swiper-scrollbar"></div>
+
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div> */}
+        </Swiper>
       ) : status === "loading" ? (
         <div className="loader-container">
           <RingLoader color="#1f2c4c" />
@@ -57,7 +82,7 @@ function Product() {
       ) : (
         <p>Error</p>
       )}
-    </div>
+    </>
   );
 }
 

@@ -4,12 +4,14 @@ import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
+import Checkout from "./pages/Checkout/Checkout";
 import Cart from "./pages/Cart/Cart";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Help from "./pages/Help/Help";
 
 const Layout = () => {
@@ -64,12 +66,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+
+        <Route path="/product" element={<ProductDetails />} />
       </Routes>
     </div>
   );

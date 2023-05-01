@@ -21,7 +21,7 @@ function UserNavbar() {
         <nav className="links">
           <ul>
             <li>
-              <Link to="FAQ" className="link">
+              <Link to="help" className="link">
                 FAQ
               </Link>
             </li>

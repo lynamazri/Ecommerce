@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import { AiOutlineShoppingCart, AiOutlineQuestionCircle } from "react-icons/ai";
 import { BiPurchaseTag } from "react-icons/bi";
@@ -9,17 +9,20 @@ import "./Help.css";
 import HelpArticle from "./HelpArticle";
 
 function Help() {
-  /* const [query, setQuery] = useState("");
-const [data, setData] = useState([]);
+  /* const fetchData = () => {
+   fetch("http://localhost:3001/help")
+     .then((response) => {
+       return response.json();
+     })
+     .then((data) => {
+       setUsers(data);
+     });
+ };
 
-useEffect(() => {
-  const fetchData = async () => {
-    const res = await axios.get(`http://localhost:3001/help?q=${query}`);
-    setData(res.data);
-  };
-  fetchData();
-}, [query]); */
-
+ useEffect(() => {
+   fetchData();
+ }, []);
+ */
   return (
     <>
       <UserNavbar />
@@ -80,7 +83,7 @@ useEffect(() => {
           </Link>
         </div>
       </main>
-      <HelpArticle />
+      <HelpArticle category="selling" />
     </>
   );
 }
