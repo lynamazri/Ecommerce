@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import { AiOutlineShoppingCart, AiOutlineQuestionCircle } from "react-icons/ai";
 import { BiPurchaseTag } from "react-icons/bi";
@@ -6,8 +6,20 @@ import { BsPerson, BsTruck } from "react-icons/bs";
 import { TbPackageImport } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import "./Help.css";
+import HelpArticle from "./HelpArticle";
 
 function Help() {
+  /* const [query, setQuery] = useState("");
+const [data, setData] = useState([]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    const res = await axios.get(`http://localhost:3001/help?q=${query}`);
+    setData(res.data);
+  };
+  fetchData();
+}, [query]); */
+
   return (
     <>
       <UserNavbar />
@@ -68,6 +80,7 @@ function Help() {
           </Link>
         </div>
       </main>
+      <HelpArticle />
     </>
   );
 }
