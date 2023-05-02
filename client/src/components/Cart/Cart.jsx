@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Cart.css";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import UserNavbar from "../UserNavbar/UserNavbar";
 import { Link } from "react-router-dom";
 import {
   clear,
@@ -33,7 +33,6 @@ function Cart() {
   };
   return (
     <>
-      <UserNavbar />
       <div className="container">
         <h2>Shopping Cart</h2>
         {cart.cartItems.length === 0 ? (

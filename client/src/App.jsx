@@ -5,13 +5,14 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
-import Cart from "./pages/Cart/Cart";
+
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
-import ProductDetails from "./pages/ProductDetails/ProductDetails"
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Help from "./pages/Help/Help";
 
 const Layout = () => {
   return (
@@ -63,7 +64,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Cart />} />
+
+        <Route path="/help" element={<Help />} />
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/login" element={<Login />} />
