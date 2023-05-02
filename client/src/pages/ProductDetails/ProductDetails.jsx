@@ -1,4 +1,5 @@
 import React from "react"
+import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Footer from "../../components/Footer/Footer";
 import Product from "../../components/Product/Product";
@@ -48,6 +49,8 @@ export default function ProductDetails() {
                                     full love to his Bio products. Tomisso’s carrots
                                     are growing on the fields naturally.
                                 </p>
+                            </div>
+                            <div className="informationContainer">
                                 <div className="information">
                                     <div className="detailsTitle">
                                         <ul className="detailTitleList">
@@ -55,8 +58,6 @@ export default function ProductDetails() {
                                             <li>Category:</li>
                                             <li>Stock:</li>
                                             <li>Store:</li>
-                                            <li>Freshness:</li>
-                                            <li>Delivery:</li>
                                         </ul>
                                     </div>
                                     <div className="detailsValue">
@@ -65,41 +66,64 @@ export default function ProductDetails() {
                                             <li>Electronics</li>
                                             <li>Stock</li>
                                             <li>Apple dz</li>
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                                <div className="information">
+                                    <div className="detailsTitle">
+                                        <ul className="detailTitleList">
+                                            <li>Freshness:</li>
+                                            <li>Delivery:</li>
+                                        </ul>
+                                    </div>
+                                    <div className="detailsValue">
+                                        <ul className="detailValueList">
                                             <li>1 day old</li>
                                             <li>in 2 days</li>
                                         </ul>
                                     </div>
                                     
                                 </div>
-                                <div className="addToCart">
+                            </div>
+                            <div className="addToCart">
+                                <div className="price">
                                     <p>1,329 USD</p>
                                     <small>1500 USD</small>
                                 </div>
+
                                 <div className="buttons">
                                     <div className="qte">
-                                        <button>1 | Pcs</button>
+                                        <div>
+                                            
+                                            <p>1 | pcs <span><MdKeyboardArrowDown /></span></p>
+                                        </div>
                                         
                                     </div>
                                     <div className="addToCartButton">
                                         <button onClick={() => handleAdd()}>
-                                            Add To Cart
+                                            + Add To Cart
                                         </button>
                                     </div>
                                 </div>
-                                <div>
-                                    <span>Add to my wish list</span>
-                                    <span>Compare</span>
-                                </div>
-                                <div>
-                                    <button>Description</button>
-                                    <button>Reviews</button>
-                                    <button>Questions</button>
-                                </div>
+                            </div>
+                            <div>
+                                <span>Add to my wish list</span>
+                                <span>Compare</span>
+                            </div>
+                            <div>
+                                <button>Description</button>
+                                <button>Reviews</button>
+                                <button>Questions</button>
                             </div>
                         </section>
                     </div>
                     <div className="relatedProducts">
-                        <h3>Related products</h3>
+                        <div className="h3Container">
+                            <h3>Related products</h3>
+                            <h3>More products <span><MdKeyboardArrowRight /></span></h3>
+                        </div>
+                        <div className="productWrapper"></div>
                         <Product />
                     </div>
                 </div>

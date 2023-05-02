@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
+import { FaFacebook } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import "./Login.css";
 
 function Login() {
@@ -98,7 +100,7 @@ function Login() {
             value={formData.rememberMe}
           />
           <span className="checkmark"></span>
-        </label>{" "}
+        </label>
         <br />
         <span className="forgetPass">
           <a href="">Forgot Password ?</a>
@@ -113,9 +115,9 @@ function Login() {
       <div className="sign-up">
         <p>Or login in with</p>
         <div className="sign-up-options">
-          <div className="sign-up-option"></div>
-          <div className="sign-up-option"></div>
-          <div className="sign-up-option"></div>
+          <div className="sign-up-option facebook" ><FaFacebook /></div>
+          <div className="sign-up-option apple"><AiFillApple /></div>
+          <div className="sign-up-option google"><FcGoogle /></div>
         </div>
       </div>
     </div>

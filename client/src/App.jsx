@@ -1,7 +1,7 @@
 import { useState } from "react";
 //import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Route, Router, Routes } from "react-router-dom";
-import Register from "./pages/Register";
+import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";

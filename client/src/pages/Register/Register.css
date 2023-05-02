@@ -8,14 +8,14 @@
   box-sizing: border-box;
 }
 
-.app {
-  margin-top: 3.5em;
+.registerApp {
+  margin-top: 1.8em;
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.login-logo {
+.register-logo {
   margin: 0.2em 0 0 2.5em;
   font-family: NordiquePro-Bold;
   font-size: 24px;
@@ -24,15 +24,15 @@
   text-align: left;
 }
 
-.login-form {
+.register-form {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 20px;
   text-align: center;
   width: 25%;
 }
 
-.login--title {
+.register--title {
   font-family: "Poppins";
   font-size: 1.5em;
   font-weight: 500;
@@ -89,10 +89,11 @@
   position: relative;
 }
 
-.inputs {
+.registerInputs {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+  margin-bottom: 2em;
 }
 
 .passwordInputType {
@@ -107,7 +108,16 @@
   cursor: pointer;
 }
 
-#uemail,
+#firstName,
+#lastName,
+#username,
+#email,
+#password,
+#address,
+#city,
+#state,
+#zip,
+#email,
 #pass {
   border-radius: 0.5em;
   height: 3em;
@@ -123,31 +133,34 @@
   background-color: #ebf1f6;
 }
 
-#uemail:focus,
+#firstName:focus,
+#lastName:focus,
+#username:focus,
+#email:focus,
+#password:focus,
+#address:focus,
+#city:focus,
+#state:focus,
+#zip:focus,
+#email:focus,
 #pass:focus {
   outline: none;
 }
 
-#rememberMe {
-  margin: 2em 0 2em 0;
-}
-.forgetPass {
+.radio-container {
+  border-radius: 0.5em;
+  height: 3em;
   width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-.forgetPass a {
-  color: #b5b5b5;
-  margin: 0 0.5em 2em 0;
-  font-family: Poppins;
-  font-size: 10px;
-  font-weight: 400;
-  letter-spacing: 0em;
-  text-align: right;
-  width: max-content;
+  padding: 0.5em 0;
+  font-family: "Poppins";
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: left;
+  padding-left: 10px;
+  border: none;
 }
 
-.login-button {
+.register-button {
   cursor: pointer;
   background-color: #1f2c4c;
   color: #fff;
@@ -191,71 +204,39 @@
   right: 35.75em;
 }
 
-/* Customize the label (the container) */
-.checkContainer {
-  display: block;
+.radio-input {
+  visibility: hidden;
+}
+
+.radio-label {
   position: relative;
-  margin-right: 15em;
-  margin-top: 1.5em;
-  cursor: pointer;
-  font-size: 0.7em;
-  line-height: 1.5em;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  padding-left: 1.5em;
+  font-size: 0.8em;
 }
 
-/* Hide the browser's default checkbox */
-.checkContainer input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0.1em;
-  height: 17px;
-  width: 17px;
-  background-color: #c1d0df50;
-}
-
-/* On mouse-over, add a grey background color */
-.checkContainer:hover input ~ .checkmark {
-  background-color: #c1d0df;
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkContainer input:checked ~ .checkmark {
-  background-color: #2196f3;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+.radio-label:after {
   content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.checkContainer input:checked ~ .checkmark:after {
   display: block;
+  width: 7.5px;
+  height: 7.5px;
+  position: absolute;
+  left: 4.3px;
+  top: 4px;
+  border-radius: 50%;
 }
 
-/* Style the checkmark/indicator */
-.checkContainer .checkmark:after {
-  left: 34%;
-  top: 18%;
-  width: 3px;
-  height: 6px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+.radio-border {
+  width: 10px;
+  height: 10px;
+  outline: solid 2px #1f2c4c;
+  border-radius: 50%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  transform: translate(31%, 30%);
+}
+
+.radio-input:checked + .radio-label:after {
+  transition: all 0.5s;
+  background-color: black;
 }
