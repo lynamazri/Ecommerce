@@ -1,13 +1,22 @@
-import { RiShoppingCart2Line } from "react-icons/ri";
+import React from "react";
+
+import { RiShoppingCart2Line, RiShoppingCart2Fill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 
-function CartIcon({ count }) {
+function CartIcon({ count, open }) {
+  const openCart = <RiShoppingCart2Fill size={21} color="#ffffff" />;
+  {
+    count > 0 && <span className="cart-badge">{count}</span>;
+  }
+
+  const closedCart = <RiShoppingCart2Line size={21} color="#ffffff" />;
+  {
+    count > 0 && <span className="cart-badge">{count}</span>;
+  }
+
   return (
     <div>
-      <Link to="/cart" className="cart">
-        <RiShoppingCart2Line size={21} color="#ffffff" />
-        {count > 0 && <span className="cart-badge">{count}</span>}
-      </Link>
+      <div className="cart">{open ? openCart : closedCart}</div>
     </div>
   );
 }

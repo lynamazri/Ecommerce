@@ -7,8 +7,9 @@ import Menu from "./Menu";
 import CartIcon from "./CartIcon";
 import Search from "./Search";
 
-function UserNavbar() {
+function UserNavbar(props) {
   const { cartItems } = useSelector((state) => state.cart);
+
   // const [cartCount, setCartCount] = useState(1);
 
   return (
@@ -44,7 +45,9 @@ function UserNavbar() {
           <Link to="/profil" className="profil">
             <RiUserLine size={21} color="#ffffff" />
           </Link>
-          <CartIcon count={cartItems.length} />
+          <div onClick={props.toggle}>
+            <CartIcon count={cartItems.length} open={props.open} />
+          </div>
         </div>
       </div>
       <Menu />

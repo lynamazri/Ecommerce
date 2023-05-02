@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import Product from "../../components/Product/Product";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import { categories } from "../../components/UserNavbar/Menu";
+import Cart from "../../components/Cart/Cart";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
 
 function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  function toggle() {
+    setIsOpen((isOpen) => !isOpen);
+  }
+
   return (
     <div>
-      <UserNavbar />
+      <UserNavbar toggle={toggle} open={isOpen} />
       <main>
+        <div className="cart">{isOpen && <Cart />}</div>
         <div className="container">
           <section className="sectionFlex">
             <div className="sectionLeft">
