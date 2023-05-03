@@ -82,8 +82,8 @@ function Register() {
             />
           </div>
 
-          <div className="input-container">
-            <label for="birthDate">Birthate</label>
+          <div className="input-container date-container">
+            <label htmlFor="birthDate">Birthdate :</label>
 
             <input
               type="date"
@@ -94,7 +94,7 @@ function Register() {
               max="2005-12-31"
               required
               onChange={handleChange}
-            ></input>
+            />
           </div>
           <div className="input-container radio-container">
             <span>Gender :</span>
@@ -105,11 +105,10 @@ function Register() {
               value="Female"
               checked={formData.gender === "Female"}
               onChange={handleChange}
-              class="radio-input"
+              className="radio-input"
             />
-            <label htmlFor="Female" class="radio-label">
-              {" "}
-              <span class="radio-border"></span> Female{" "}
+            <label htmlFor="Female" className="radio-label">
+              Female
             </label>
             <input
               type="radio"
@@ -118,11 +117,10 @@ function Register() {
               value="Male"
               checked={formData.gender === "Male"}
               onChange={handleChange}
-              class="radio-input"
+              className="radio-input"
             />
-            <label htmlFor="Male" class="radio-label">
-              {" "}
-              <span class="radio-border"></span> Male{" "}
+            <label htmlFor="Male" className="radio-label">
+              Male
             </label>
           </div>
 
