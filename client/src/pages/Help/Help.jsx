@@ -9,23 +9,6 @@ import "./Help.css";
 import HelpArticle from "./HelpArticle";
 
 function Help() {
-  /* const fetchData = () => {
-   fetch("http://localhost:3001/help")
-     .then((response) => {
-       return response.json();
-     })
-     .then((data) => {
-       setUsers(data);
-     });
- };
-
- useEffect(() => {
-   fetchData();
- }, []);
- */
-
-  const [helpCat, setHelpCat] = useState([]);
-
   return (
     <>
       <UserNavbar />

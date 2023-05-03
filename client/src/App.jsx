@@ -13,6 +13,7 @@ import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Help from "./pages/Help/Help";
+import HelpArticle from "./pages/Help/HelpArticle";
 
 const Layout = () => {
   return (
@@ -66,6 +67,30 @@ function App() {
         <Route path="/" element={<Home />} />
 
         <Route path="/help" element={<Help />} />
+        <Route
+          path="/help/buying"
+          element={<HelpArticle category={"buying"} />}
+        />
+        <Route
+          path="/help/selling"
+          element={<HelpArticle category={"selling"} />}
+        />
+        <Route
+          path="/help/account"
+          element={<HelpArticle category={"account"} />}
+        />
+        <Route
+          path="/help/returns-and-refunds"
+          element={<HelpArticle category={"return"} />}
+        />
+        <Route
+          path="/help/other"
+          element={<HelpArticle category={"other"} />}
+        />
+        <Route
+          path="/help/shipping-and-delivery"
+          element={<HelpArticle category={"ship"} />}
+        />
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/login" element={<Login />} />
