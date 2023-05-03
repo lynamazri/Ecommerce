@@ -30,6 +30,7 @@
   gap: 30px;
   text-align: center;
   width: 25%;
+  min-width: 25%;
 }
 
 .login--title {
@@ -138,7 +139,7 @@
 }
 .forgetPass a {
   color: #b5b5b5;
-  margin: 0 0.5em 2em 0;
+  margin-right: 0.5em;
   font-family: Poppins;
   font-size: 10px;
   font-weight: 400;
@@ -191,71 +192,60 @@
   right: 35.75em;
 }
 
-/* Customize the label (the container) */
-.checkContainer {
-  display: block;
-  position: relative;
-  margin-right: 15em;
-  margin-top: 1.5em;
-  cursor: pointer;
-  font-size: 0.7em;
-  line-height: 1.5em;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.rememberMeContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-left: 0.5em;
 }
 
-/* Hide the browser's default checkbox */
-.checkContainer input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+.rememberMeContainer label {
+  font-size: 10px;
+  font-family: "Poppins";
+  font-weight: 400;
+  color: #b5b5b5;
+  width: max-content;
 }
 
-/* Create a custom checkbox */
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0.1em;
-  height: 17px;
-  width: 17px;
-  background-color: #c1d0df50;
+.rememberMe-forgetPass {
+  display: flex;
+  align-items: center;
+  margin: 1.3em 0 2.2em 0;
 }
 
-/* On mouse-over, add a grey background color */
-.checkContainer:hover input ~ .checkmark {
-  background-color: #c1d0df;
-}
-
-/* When the checkbox is checked, add a blue background */
-.checkContainer input:checked ~ .checkmark {
-  background-color: #2196f3;
-}
-
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: "";
-  position: absolute;
+#rememberMe {
   display: none;
 }
 
-/* Show the checkmark when checked */
-.checkContainer input:checked ~ .checkmark:after {
-  display: block;
+#rememberMe + label {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
 }
 
-/* Style the checkmark/indicator */
-.checkContainer .checkmark:after {
-  left: 34%;
-  top: 18%;
-  width: 3px;
-  height: 6px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+#rememberMe + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+}
+
+#rememberMe + label::after {
+  content: "\2713";
+  position: absolute;
+  left: 4px;
+  top: 2.5px;
+  color: #1f2c4c;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#rememberMe:checked + label::after {
+  opacity: 1;
 }

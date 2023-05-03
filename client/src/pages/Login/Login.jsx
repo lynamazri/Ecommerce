@@ -89,22 +89,25 @@ function Login() {
             {renderErrorMessage("pass")}
           </div>
         </div>
-        <label htmlFor="rememberMe" className="checkContainer">
-          Remember Me?
-          <input
-            type="checkbox"
-            id="rememberMe"
-            checked={formData.rememberMe}
-            onChange={handleChange}
-            name="rememberMe"
-            value={formData.rememberMe}
-          />
-          <span className="checkmark"></span>
-        </label>
-        <br />
-        <span className="forgetPass">
-          <a href="">Forgot Password ?</a>
-        </span>
+        <div className="rememberMe-forgetPass">
+          <div className="rememberMeContainer">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              checked={formData.rememberMe}
+              onChange={handleChange}
+              name="rememberMe"
+              value={formData.rememberMe}
+            />
+            <label htmlFor="rememberMe" className="checkContainer">
+              Remember Me?
+            </label>
+          </div>
+          <span className="forgetPass">
+            <a href="">Forgot Password ?</a>
+          </span>
+        </div>
+
         <div className="input-container">
           <button className="login-button" type="submit" value="Submit">
             Login
@@ -115,9 +118,15 @@ function Login() {
       <div className="sign-up">
         <p>Or login in with</p>
         <div className="sign-up-options">
-          <div className="sign-up-option facebook" ><FaFacebook /></div>
-          <div className="sign-up-option apple"><AiFillApple /></div>
-          <div className="sign-up-option google"><FcGoogle /></div>
+          <div className="sign-up-option facebook">
+            <FaFacebook />
+          </div>
+          <div className="sign-up-option apple">
+            <AiFillApple />
+          </div>
+          <div className="sign-up-option google">
+            <FcGoogle />
+          </div>
         </div>
       </div>
     </div>
