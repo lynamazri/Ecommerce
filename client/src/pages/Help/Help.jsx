@@ -23,6 +23,9 @@ function Help() {
    fetchData();
  }, []);
  */
+
+  const [helpCat, setHelpCat] = useState([]);
+
   return (
     <>
       <UserNavbar />
@@ -83,7 +86,7 @@ function Help() {
           </Link>
         </div>
       </main>
-      <HelpArticle category="selling" />
+      <HelpArticle category="other" />
     </>
   );
 }

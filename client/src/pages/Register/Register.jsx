@@ -173,7 +173,7 @@ function Register() {
               type="address"
               name="address"
               id="address"
-              placeholder="Adress"
+              placeholder="Address"
               required
               onChange={handleChange}
               value={formData.address}
