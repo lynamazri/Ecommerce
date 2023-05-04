@@ -250,7 +250,7 @@ function Register() {
 
   const renderForm = (
     <form>
-      <div>
+      <div className="stepperContainer">
         <Stepper steps={steps} activeStep={step - 1} />
         {steps[step - 1].content}
         <div className="navButtonContainer">

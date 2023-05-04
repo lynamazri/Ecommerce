@@ -308,5 +308,22 @@
 }
 
 .registerInputs {
-  transition: ease-out 0.5s;
+  transition: width 1s ease-out;
+}
+
+.stepperContainer > div > div > div > div {
+  background-color: #1f2c4c !important;
+  padding: 0 !important;
+}
+
+.stepperContainer > div > div > div {
+  padding: 0 !important;
+}
+
+.stepperContainer > div > div > div :nth-child(3) {
+  top: 16px !important;
+}
+
+.stepperContainer > div > div :nth-child(2) :nth-child(4) {
+  top: 16px !important;
 }
