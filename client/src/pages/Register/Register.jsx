@@ -4,6 +4,8 @@ import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import "./Register.css";
 
+import Stepper from "react-stepper-horizontal";
+
 function Register() {
   //const [errorMessages, setErrorMessages] = useState({});
 
@@ -47,6 +49,22 @@ function Register() {
     //rest of logic
   };
 
+  const handleNext = () => {
+    if (step < steps.length) {
+      setStep(step + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handleBack = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
@@ -55,9 +73,60 @@ function Register() {
   const [passInputType, setPassInputType] = React.useState("password");
   const [showPass, setShowPass] = React.useState(false);
 
-  const renderForm = (
-    <div>
-      <form onSubmit={handleSubmit}>
+  const [step, setStep] = useState(1);
+
+  const steps = [
+    {
+      title: <span className="stepTitle">Account details</span>,
+      content: (
+        <div className="registerInputs">
+          <div>
+            <input
+              type="username"
+              name="username"
+              id="username"
+              placeholder="Username"
+              required
+              onChange={handleChange}
+              value={formData.username}
+            />
+          </div>
+          <div>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email"
+              required
+              onChange={handleChange}
+              value={formData.email}
+            />
+          </div>
+          <div className="input-container input-password">
+            <input
+              type={passInputType}
+              name="password"
+              id="password"
+              placeholder="Password"
+              required
+              onChange={handleChange}
+              value={formData.password}
+            />
+            {formData.password ? (
+              <button
+                className="passwordInputType"
+                onClick={togglePasswordInputType}
+              >
+                {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ),
+    },
+    {
+      title: <span className="stepTitle">Personal details</span>,
+      content: (
         <div className="registerInputs">
           <div className="input-container">
             <input
@@ -123,49 +192,13 @@ function Register() {
               Male
             </label>
           </div>
-
-          <div>
-            <input
-              type="username"
-              name="username"
-              id="username"
-              placeholder="Username"
-              required
-              onChange={handleChange}
-              value={formData.username}
-            />
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              required
-              onChange={handleChange}
-              value={formData.email}
-            />
-          </div>
-          <div className="input-container input-password">
-            <input
-              type={passInputType}
-              name="password"
-              id="password"
-              placeholder="Password"
-              required
-              onChange={handleChange}
-              value={formData.password}
-            />
-            {formData.password ? (
-              <button
-                className="passwordInputType"
-                onClick={togglePasswordInputType}
-              >
-                {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
-              </button>
-            ) : null}
-          </div>
-
+        </div>
+      ),
+    },
+    {
+      title: <span className="stepTitle">Shipping details</span>,
+      content: (
+        <div className="registerInputs">
           <div className="input-container">
             <input
               type="address"
@@ -211,12 +244,35 @@ function Register() {
             />
           </div>
         </div>
+      ),
+    },
+  ];
+
+  const renderForm = (
+    <form>
+      <div>
+        <Stepper steps={steps} activeStep={step - 1} />
+        {steps[step - 1].content}
+        <div className="navButtonContainer">
+          {step !== 1 && (
+            <button className="navButton" onClick={handleBack}>
+              Back
+            </button>
+          )}
+          {step !== 3 && (
+            <button className="navButton" onClick={handleNext}>
+              Next
+            </button>
+          )}
+        </div>
+      </div>
+      {step === 3 && (
         <div className="input-container">
           <button className="register-button" type="submit" value="Submit">
             Register
           </button>
         </div>
-      </form>
+      )}
       <div className="sign-up">
         <p>Or continue with</p>
         <div className="sign-up-options">
@@ -231,7 +287,7 @@ function Register() {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   );
 
   function togglePasswordInputType(e) {
