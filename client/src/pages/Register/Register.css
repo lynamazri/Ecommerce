@@ -7,6 +7,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+h1 {
+  color: #212121;
+}
 
 .registerApp {
   margin-top: 1.8em;

@@ -3,6 +3,7 @@ import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import "./Register.css";
+import { Link } from "react-router-dom";
 
 import Stepper from "react-stepper-horizontal";
 
@@ -300,7 +301,10 @@ function Register() {
 
   return (
     <>
-      <h1 className="register-logo">magaza</h1>
+      <Link>
+        <h1 className="register-logo">magaza</h1>
+      </Link>
+
       <div className="registerApp">
         <div className="heroSection">
           <>

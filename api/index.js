@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 
 const products = require("./data/products");
-const help = require("./data/help");
 const helpRoute = require("./routes/helpRoute");
+const authRoute = require("./routes/authRoute");
 
 const app = express();
 app.use(cors());
@@ -13,6 +13,7 @@ app.use(express.urlencoded());
 app.use(cors());
 
 app.use("/", helpRoute);
+app.use("/", authRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;

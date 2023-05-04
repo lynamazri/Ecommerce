@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -134,7 +135,10 @@ function Login() {
 
   return (
     <>
-      <h1 className="login-logo">magaza</h1>
+      <Link to="/">
+        <h1 className="login-logo">magaza</h1>
+      </Link>
+
       <div className="app">
         <div className="heroSection">
           <>
