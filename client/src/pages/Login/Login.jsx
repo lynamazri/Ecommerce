@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
@@ -11,7 +12,7 @@ function Login() {
   const [formData, setFormData] = React.useState({
     uemail: "",
     pass: "",
-    rememberMe: false,
+    //rememberMe: false,
   });
 
   console.log(formData);
@@ -31,9 +32,16 @@ function Login() {
     pass: "invalid password",
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //rest of logic
+    console.log(formData);
+    axios
+      .post("http://localhost:3001/login", {
+        email: formData.uemail,
+        password: formData.pass,
+      })
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
   };
 
   const renderErrorMessage = (name) =>
@@ -51,6 +59,7 @@ function Login() {
     );
     setShowPass((prevShowPass) => !prevShowPass);
   }
+
   const renderForm = (
     <div className="form">
       <form onSubmit={handleSubmit}>
@@ -95,10 +104,10 @@ function Login() {
             <input
               type="checkbox"
               id="rememberMe"
-              checked={formData.rememberMe}
-              onChange={handleChange}
+              //checked={formData.rememberMe}
+              //onChange={handleChange}
               name="rememberMe"
-              value={formData.rememberMe}
+              //value={formData.rememberMe}
             />
             <label htmlFor="rememberMe" className="checkContainer">
               Remember Me?
