@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+//for private routes
+//const verification = require("./verifyToken");
+//add verification to the route middleware
+
 const help = require("../data/help");
 
 router.get("/help/buying", (req, res) => {
