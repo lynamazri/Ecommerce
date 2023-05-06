@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, Routes, Route } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -7,7 +7,8 @@ import axios from "axios";
 import "./Login.css";
 
 function Login() {
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const [formData, setFormData] = React.useState({
     uemail: "",
@@ -27,27 +28,21 @@ function Login() {
     });
   }
 
-  const errors = {
-    uemail: "invalid email",
-    pass: "invalid password",
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
-    axios
-      .post("http://localhost:3001/login", {
+    try {
+      const response = await axios.post("http://localhost:3001/login", {
         email: formData.uemail,
         password: formData.pass,
-      })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
+      });
+      console.log(response);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.response.data);
+    }
   };
-
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
 
   const [passInputType, setPassInputType] = React.useState("password");
   const [showPass, setShowPass] = React.useState(false);
@@ -75,7 +70,6 @@ function Login() {
               onChange={handleChange}
               value={formData.uemail}
             />
-            {renderErrorMessage("uemail")}
           </div>
           <div className="input-container input-password">
             {/* <label htmlFor="pass">Password </label> */}
@@ -96,7 +90,6 @@ function Login() {
                 {showPass ? <AiFillEye /> : <AiFillEyeInvisible />}
               </button>
             ) : null}
-            {renderErrorMessage("pass")}
           </div>
         </div>
         <div className="rememberMe-forgetPass">
@@ -117,12 +110,12 @@ function Login() {
             <a href="">Forgot Password ?</a>
           </span>
         </div>
-
         <div className="input-container">
           <button className="login-button" type="submit" value="Submit">
             Login
           </button>
         </div>
+        {errorMessage && <p className="error"> {errorMessage} </p>}
       </form>
 
       <div className="sign-up">

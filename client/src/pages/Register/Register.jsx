@@ -41,6 +41,7 @@ function Register() {
         [name]: type === "checkbox" ? checked : value,
       };
     });
+    console.log(formData);
   }
 
   //errors here

@@ -16,11 +16,10 @@ router.post("/register", async (req, res) => {
   });
   if (emailExist) return res.status(400).send("Email has already been used.");
 
-  /* const usernameExist = await prisma.Users.findUnique({
+  const usernameExist = await prisma.Users.findUnique({
     where: { username: req.body.username },
   });
   if (usernameExist) return res.status(400).send("Username is already taken.");
- */
 
   //hashing passwords
   const salt = await bcrypt.genSalt(10);
@@ -30,14 +29,38 @@ router.post("/register", async (req, res) => {
   try {
     const user = await prisma.Users.create({
       data: {
-        name: req.body.name,
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
+        birthDate: new Date(req.body.birthDate),
+        gender: req.body.gender,
+
         password: hashPassword,
+        adresses: {
+          create: [
+            {
+              street: req.body.street,
+              city: req.body.city,
+              state: req.body.state,
+              zip: req.body.zip,
+            },
+          ],
+        },
       },
     });
-    console.log(user.id);
+    /*     const address = await prisma.address.create({
+      data: {
+        street: req.body.street, 
+        city: req.body.city, 
+        state: req.body.state,
+        zip: req.body.zip
+      }
+    }) */
+    console.log(user);
     res.send(200);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });
