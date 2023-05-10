@@ -40,23 +40,16 @@ router.post("/register", async (req, res) => {
         adresses: {
           create: [
             {
-              street: req.body.street,
-              city: req.body.city,
-              state: req.body.state,
-              zip: req.body.zip,
+              street: req.body.adresses[0].street,
+              city: req.body.adresses[0].city,
+              state: req.body.adresses[0].state,
+              zip: parseInt(req.body.adresses[0].zip),
             },
           ],
         },
       },
     });
-    /*     const address = await prisma.address.create({
-      data: {
-        street: req.body.street, 
-        city: req.body.city, 
-        state: req.body.state,
-        zip: req.body.zip
-      }
-    }) */
+
     console.log(user);
     res.send(200);
   } catch (error) {
