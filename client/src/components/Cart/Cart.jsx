@@ -33,10 +33,10 @@ function Cart() {
   };
   return (
     <>
-      <div className="container">
+      <div className="cart-container">
         <h2>Shopping Cart</h2>
         {cart.cartItems.length === 0 ? (
-          <div className="empty">
+          <div className="empty-cart-container">
             <span>There are no items in your cart.</span>
             <div className="link-home">
               <Link to="/">
@@ -45,17 +45,17 @@ function Cart() {
             </div>
           </div>
         ) : (
-          <div className="cart-container">
-            <div className="info">
-              <h3>Product Name & Details</h3>
-              <h3>Price</h3>
-              <h3>Quantity</h3>
-              <h3>Total</h3>
-            </div>
+          <div className="full-cart-container">
             {/* use css grid */}
             <div className="cart-content">
               {cart.cartItems?.map((item) => (
-                <div className="item" key={item.id}>
+                <div className="item-card" key={item.id}>
+                  {/* <div className="info">
+                    <h3>Product Name & Details</h3>
+                    <h3>Price</h3>
+                    <h3>Quantity</h3>
+                    <h3>Total</h3>
+                  </div> */}
                   <img src={item.image} alt={item.name} />
                   <div>
                     <h4>{item.name}</h4>
@@ -76,17 +76,24 @@ function Cart() {
                 </div>
               ))}
             </div>
-            <div className="operations">
-              <div className="proceed-checkout">
+
+            <div className="lower-cart">
+              <div className="amount">
                 <h4>Subtotal</h4>
                 <span>DZD{cart.totAmount}</span>
-                <span>Taxes and shipping calculated at checkout</span>
-                <button>Checkout</button>
-                {/* <div>Quantity: {cart.totQuantity}</div> */}
+                {/* <span>Taxes and shipping calculated at checkout</span> */}
               </div>
-              <div className="clear-cart">
-                <span>Start Over?</span>
-                <button onClick={() => handleClear(cart)}>Clear Cart</button>
+              <div className="operations">
+                {/* <div>Quantity: {cart.totQuantity}</div> */}
+                <button
+                  onClick={() => handleClear(cart)}
+                  className="clear-cart"
+                >
+                  Clear Cart
+                </button>
+                <Link to="/checkout">
+                  <button className="checkout">Go to checkout</button>
+                </Link>
               </div>
             </div>
           </div>
