@@ -302,10 +302,9 @@ function Register() {
 
   return (
     <>
-      <Link>
+      <Link to="/">
         <h1 className="register-logo">magaza</h1>
       </Link>
-
       <div className="registerApp">
         <div className="heroSection">
           <>
