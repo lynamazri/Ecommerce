@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,9 +7,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Users{
-   username        String       @id 
+  userId String @id @default(uuid())
+   username        String @unique      
   firstName      String
   lastName      String
   email     String    @unique
@@ -21,13 +18,13 @@ model Users{
   gender String
 adresses Address[]
   registrationDate DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+
 }
 
 
 model Address{
   id       String  @id @default(uuid())
-  user   Users @relation(fields: [userId], references: [username])
+  user   Users @relation(fields: [userId], references: [userId])
   userId String
   street String
   city String

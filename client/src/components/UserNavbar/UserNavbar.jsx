@@ -54,7 +54,7 @@ function UserNavbar(props) {
             <Link to="/profil" className="profil">
               <RiUserLine size={21} color="#ffffff" />
             </Link>
-            <div onClick={toggle}>
+            <div onClick={toggle} className="cartIconContainer">
               <CartIcon count={cartItems.length} open={isOpen} />
             </div>
           </div>

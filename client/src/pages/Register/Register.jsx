@@ -3,18 +3,21 @@ import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import "./Register.css";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Stepper from "react-stepper-horizontal";
 
 function Register() {
-  //const [errorMessages, setErrorMessages] = useState({});
+  const [passInputType, setPassInputType] = React.useState("password");
+  const [showPass, setShowPass] = React.useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
+  const [step, setStep] = useState(1);
   const [formData, setFormData] = React.useState({
     username: "",
     firstName: "",
     lastName: "",
-    phoneNumber: "",
     email: "",
     address: "",
     city: "",
@@ -46,9 +49,33 @@ function Register() {
 
   //errors here
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    //rest of logic
+    console.log(formData);
+    try {
+      const response = await axios.post("http://localhost:3001/register", {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        birthDate: formData.birthDate,
+        gender: formData.gender,
+        adresses: [
+          {
+            street: formData.address,
+            city: formData.city,
+            state: formData.state,
+            zip: 0,
+          },
+        ],
+      });
+      console.log(response);
+      navigate("/", { replace: true });
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.response.data);
+    }
   };
 
   const handleNext = () => {
@@ -66,16 +93,6 @@ function Register() {
       handleSubmit();
     }
   };
-
-  const renderErrorMessage = (name) =>
-    name === errorMessages.name && (
-      <div className="error">{errorMessages.message}</div>
-    );
-
-  const [passInputType, setPassInputType] = React.useState("password");
-  const [showPass, setShowPass] = React.useState(false);
-
-  const [step, setStep] = useState(1);
 
   const steps = [
     {
@@ -198,7 +215,7 @@ function Register() {
       ),
     },
     {
-      title: <span className="stepTitle">Shipping details</span>,
+      title: <span className="stepTitle">Address</span>,
       content: (
         <div className="registerInputs">
           <div className="input-container">
@@ -239,7 +256,7 @@ function Register() {
               type="zip"
               name="zip"
               id="zip"
-              placeholder="Zip code"
+              placeholder="ZIP code"
               required
               onChange={handleChange}
               value={formData.zip}
@@ -251,7 +268,7 @@ function Register() {
   ];
 
   const renderForm = (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div className="stepperContainer">
         <Stepper steps={steps} activeStep={step - 1} />
         {steps[step - 1].content}
@@ -270,6 +287,7 @@ function Register() {
       </div>
       {step === 3 && (
         <div className="input-container">
+          {errorMessage && <p className="error"> {errorMessage} </p>}
           <button className="register-button" type="submit" value="Submit">
             Register
           </button>
@@ -302,10 +320,9 @@ function Register() {
 
   return (
     <>
-      <Link>
+      <Link to="/">
         <h1 className="register-logo">magaza</h1>
       </Link>
-
       <div className="registerApp">
         <div className="heroSection">
           <>
