@@ -2,6 +2,8 @@ import React from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
+// import { StarOutlined, StarFilled, FaRegStar } from "@ant-design/icons";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 import "./Product.css";
 
@@ -15,6 +17,23 @@ function Product() {
   const handleAdd = (product) => {
     dispatch(add(product));
   };
+
+  function generateRatingStars(rate) {
+    const stars = [];
+
+    const floorRating = Math.floor(rate);
+    for (let i = 0; i < floorRating; i++) {
+      stars.push(<FaStar key={i} />);
+    }
+    if (rate - floorRating >= 0.5) {
+      stars.push(<FaStarHalfAlt key={floorRating} />);
+    }
+    const remaining = 5 - stars.length;
+    for (let i = 0; i < remaining; i++) {
+      stars.push(<FaRegStar key={i + floorRating} />);
+    }
+    return stars;
+  }
 
   return (
     <>
@@ -53,15 +72,30 @@ function Product() {
           {items &&
             items?.map((product) => (
               <div class="swiper-wrapper">
-                <SwiperSlide key={product.id} className="productCard">
-                  <img src={product.image} alt={product.title} />
-                  <div className="productDescription">
-                    <h3 className="productTitle">{product.title}</h3>
+                <SwiperSlide key={product.id} className="product-card">
+                  <div className="product-image">
+                    <img src={product.image} alt={product.title} />
+                    {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
+                    <span>10%</span>
+                  </div>
+                  <div className="product-description">
+                    <h3 className="product-title">{product.title}</h3>
                     <span>{product.category}</span>
+                    <div className="rating">
+                      {generateRatingStars(product.rating.rate)}
+                    </div>
                     {/* <span>{product.description}</span> */}
                   </div>
-                  <div className="priceCart">
-                    <span className="productPrice">DZD{product.price}</span>
+                  <div className="product-pay">
+                    <div className="product-price">
+                      {/* {product.isOnSale ? ( */}
+                      <>
+                        <span>$10</span>
+                        <span className="old-price">DZD{product.price}</span>
+                      </>
+                      {/* ) : null} */}
+                      {/* <span>DZD{product.price}</span> */}
+                    </div>
                     <button onClick={() => handleAdd(product)}>
                       Add To Cart
                     </button>
