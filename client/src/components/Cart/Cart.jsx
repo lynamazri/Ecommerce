@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Cart.css";
-import UserNavbar from "../UserNavbar/UserNavbar";
 import { Link } from "react-router-dom";
+import { AiOutlineHeart } from "react-icons/ai";
+import { TbListDetails } from "react-icons/tb";
+import { TiDeleteOutline } from "react-icons/ti";
+import { getStars } from "../../utils";
+
 import {
   clear,
   decrease,
@@ -34,7 +38,7 @@ function Cart() {
   return (
     <>
       <div className="cart-container">
-        <h2>Shopping Cart</h2>
+        <h2 className="cart-header">Shopping Cart</h2>
         {cart.cartItems.length === 0 ? (
           <div className="empty-cart-container">
             <span>There are no items in your cart.</span>
@@ -47,31 +51,49 @@ function Cart() {
         ) : (
           <div className="full-cart-container">
             {/* use css grid */}
-            <div className="cart-content">
+            <div className="cart-items">
               {cart.cartItems?.map((item) => (
                 <div className="item-card" key={item.id}>
-                  {/* <div className="info">
-                    <h3>Product Name & Details</h3>
-                    <h3>Price</h3>
-                    <h3>Quantity</h3>
-                    <h3>Total</h3>
-                  </div> */}
-                  <img src={item.image} alt={item.name} />
-                  <div>
-                    <h4>{item.name}</h4>
-                    <span>{item.desc}</span>
-                    <button onClick={() => handleRemove(item)}>Remove</button>
+                  <div className="left-container">
+                    <img src={item.image} alt={item.name} />
+                    <Link to="/wishlist" className="wishlist">
+                      <span className="svg">
+                        <AiOutlineHeart size={11} color="#D1D1D1" />
+                      </span>
+                      <h4>Wishlist</h4>
+                    </Link>
+                    <Link to="/compare" className="compare">
+                      <span className="svg">
+                        <TbListDetails size={11} color="#FF7F50" />
+                      </span>
+                      <h4>Compare</h4>
+                    </Link>
+                    <button
+                      className="remove-item"
+                      onClick={() => handleRemove(item)}
+                    >
+                      <span className="svg">
+                        <TiDeleteOutline size={11} color="#151515" />
+                      </span>
+                      <h4>Remove</h4>
+                    </button>
                   </div>
-                  <div className="item-price">
-                    <span>DZD{item.price}</span>
-                  </div>
-                  <div className="item-quantity">
-                    <button onClick={() => handleDecrease(item)}>-</button>
-                    <div>{item.quantity}</div>
-                    <button onClick={() => handleIncrease(item)}>+</button>
-                  </div>
-                  <div className="quantity-total-price">
-                    <span>DZD{item.price * item.quantity}</span>
+                  <div className="product-info">
+                    <h4>product title</h4>
+                    <span>store: </span>
+                    <span className="product-rating">{getStars(3.6)}</span>
+                    {/* <span className="item-price">DZD{item.price}</span> */}
+                    <div className="product-pay">
+                      <div className="total-price">
+                        <span>DZD{item.price * item.quantity}</span>
+                      </div>
+
+                      <div className="item-quantity">
+                        <button onClick={() => handleDecrease(item)}>-</button>
+                        <div>{item.quantity}</div>
+                        <button onClick={() => handleIncrease(item)}>+</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -2,14 +2,13 @@ import React from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-// import { StarOutlined, StarFilled, FaRegStar } from "@ant-design/icons";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
 import "./Product.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
+import { getStars } from "../../utils";
 
 function Product() {
   const dispatch = useDispatch();
@@ -17,23 +16,6 @@ function Product() {
   const handleAdd = (product) => {
     dispatch(add(product));
   };
-
-  function generateRatingStars(rate) {
-    const stars = [];
-
-    const floorRating = Math.floor(rate);
-    for (let i = 0; i < floorRating; i++) {
-      stars.push(<FaStar key={i} />);
-    }
-    if (rate - floorRating >= 0.5) {
-      stars.push(<FaStarHalfAlt key={floorRating} />);
-    }
-    const remaining = 5 - stars.length;
-    for (let i = 0; i < remaining; i++) {
-      stars.push(<FaRegStar key={i + floorRating} />);
-    }
-    return stars;
-  }
 
   return (
     <>
@@ -79,10 +61,19 @@ function Product() {
                     <span>10%</span>
                   </div>
                   <div className="product-description">
-                    <h3 className="product-title">{product.title}</h3>
-                    <span>{product.category}</span>
-                    <div className="rating">
-                      {generateRatingStars(product.rating.rate)}
+                    <div>
+                      <h3 className="product-title">{product.title}</h3>
+                      <span className="product-category">
+                        {product.category}
+                      </span>
+                    </div>
+                    <div className="product-specif">
+                      <span className="product-rating">
+                        {getStars(product.rating.rate)}
+                      </span>
+                      <span className="product-count">
+                        {product.rating.count} left
+                      </span>
                     </div>
                     {/* <span>{product.description}</span> */}
                   </div>
@@ -90,11 +81,11 @@ function Product() {
                     <div className="product-price">
                       {/* {product.isOnSale ? ( */}
                       <>
-                        <span>$10</span>
-                        <span className="old-price">DZD{product.price}</span>
+                        <span>DZD10</span>
+                        <span className="old-price">{product.price}</span>
                       </>
-                      {/* ) : null} */}
-                      {/* <span>DZD{product.price}</span> */}
+                      {/* ) : null}
+                      <span>DZD{product.price}</span> */}
                     </div>
                     <button onClick={() => handleAdd(product)}>
                       Add To Cart

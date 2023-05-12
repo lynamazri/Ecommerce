@@ -5,15 +5,17 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
-
-import UserNavbar from "./components/UserNavbar/UserNavbar";
-import Footer from "./components/Footer/Footer";
-import Menu from "./components/UserNavbar/Menu";
 import EditProfile from "./pages/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Help from "./pages/Help/Help";
 import HelpArticle from "./pages/Help/HelpArticle";
+import Compare from "./pages/Compare/Compare";
+import Wishlist from "./pages/Wishlist/Wishlist";
+
+import UserNavbar from "./components/UserNavbar/UserNavbar";
+import Footer from "./components/Footer/Footer";
+import Menu from "./components/UserNavbar/Menu";
 
 const Layout = () => {
   return (
@@ -98,8 +100,10 @@ function App() {
 
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/profile/edit" element={<EditProfile />} />
+        <Route path="/profile/wishlist" element={<Wishlist />} />
 
         <Route path="/product" element={<ProductDetails />} />
+        <Route path="/compare" element={<Compare />} />
       </Routes>
     </div>
   );
