@@ -61,7 +61,7 @@ function Home() {
           </section>
           <section className="sectionFlex">
             <div className="sectionLeft">
-              <h3>categoryTitle</h3>
+              <h3>Best from Shops</h3>
               <ul className="sectionLeftItems">
                 {categories.slice(0, 4).map((category, index) => (
                   <li key={index}>
@@ -71,7 +71,9 @@ function Home() {
               </ul>
               <a className="sectionLeftButton">more Products</a>
             </div>
-            <div className="productWrapper">{/* <Product /> */}</div>
+            <div className="productWrapper">
+              <Product />
+            </div>
           </section>
         </div>
       </main>

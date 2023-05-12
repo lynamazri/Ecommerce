@@ -7,6 +7,7 @@ import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
+import { getStars } from "../../utils";
 
 function Product() {
   const dispatch = useDispatch();
@@ -14,23 +15,6 @@ function Product() {
   const handleAdd = (product) => {
     dispatch(add(product));
   };
-
-  function generateRatingStars(rate) {
-    const stars = [];
-
-    const floorRating = Math.floor(rate);
-    for (let i = 0; i < floorRating; i++) {
-      stars.push(<FaStar key={i} />);
-    }
-    if (rate - floorRating >= 0.5) {
-      stars.push(<FaStarHalfAlt key={floorRating} />);
-    }
-    const remaining = 5 - stars.length;
-    for (let i = 0; i < remaining; i++) {
-      stars.push(<FaRegStar key={i + floorRating} />);
-    }
-    return stars;
-  }
 
   return (
     <>
