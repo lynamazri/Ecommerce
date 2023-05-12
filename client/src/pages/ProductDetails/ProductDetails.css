@@ -12,8 +12,6 @@
   flex-direction: column;
   gap: 3em;
   height: auto;
-  width: 100vw;
-  max-width: 100%;
 }
 
 .flexContainer {
