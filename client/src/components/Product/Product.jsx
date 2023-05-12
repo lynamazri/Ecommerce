@@ -1,12 +1,9 @@
 import React from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import ProductCard from "../ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-// import { StarOutlined, StarFilled, FaRegStar } from "@ant-design/icons";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-
-import "./Product.css";
-
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
@@ -72,34 +69,16 @@ function Product() {
           {items &&
             items?.map((product) => (
               <div class="swiper-wrapper">
-                <SwiperSlide key={product.id} className="product-card">
-                  <div className="product-image">
-                    <img src={product.image} alt={product.title} />
-                    {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
-                    <span>10%</span>
-                  </div>
-                  <div className="product-description">
-                    <h3 className="product-title">{product.title}</h3>
-                    <span>{product.category}</span>
-                    <div className="rating">
-                      {generateRatingStars(product.rating.rate)}
-                    </div>
-                    {/* <span>{product.description}</span> */}
-                  </div>
-                  <div className="product-pay">
-                    <div className="product-price">
-                      {/* {product.isOnSale ? ( */}
-                      <>
-                        <span>$10</span>
-                        <span className="old-price">DZD{product.price}</span>
-                      </>
-                      {/* ) : null} */}
-                      {/* <span>DZD{product.price}</span> */}
-                    </div>
-                    <button onClick={() => handleAdd(product)}>
-                      Add To Cart
-                    </button>
-                  </div>
+                <SwiperSlide key={product.id}>
+                  <ProductCard
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    description={product.description}
+                    category={product.category}
+                    image={product.image}
+                    rating={product.rating}
+                  />
                 </SwiperSlide>
               </div>
             ))}
