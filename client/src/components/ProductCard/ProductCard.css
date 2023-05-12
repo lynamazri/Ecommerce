@@ -65,7 +65,8 @@
   display: flex;
 }
 
-.product-rating {
+/* .product-rating { */
+.rating {
   color: #ffc107;
   margin-right: 1em;
 }
