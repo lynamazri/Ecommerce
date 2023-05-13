@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import {
-  MdKeyboardArrowRight,
-  MdKeyboardArrowDown,
-  MdCompare,
-} from "react-icons/md";
+import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { TbListDetails } from "react-icons/tb";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Footer from "../../components/Footer/Footer";
@@ -157,7 +154,7 @@ export default function ProductDetails() {
                 </span>
                 <span>
                   <button className="wishCompareBtn">
-                    <MdCompare />
+                    <TbListDetails />
                   </button>{" "}
                   Compare
                 </span>
