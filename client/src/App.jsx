@@ -5,15 +5,15 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
-
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./pages/EditProfile/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Help from "./pages/Help/Help";
 import HelpArticle from "./pages/Help/HelpArticle";
+import PersistLogin from "./pages/Login/PersistLogin";
 
 const Layout = () => {
   return (
@@ -64,33 +64,35 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<PersistLogin />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/help" element={<Help />} />
+          <Route
+            path="/help/buying"
+            element={<HelpArticle category={"buying"} />}
+          />
+          <Route
+            path="/help/selling"
+            element={<HelpArticle category={"selling"} />}
+          />
+          <Route
+            path="/help/account"
+            element={<HelpArticle category={"account"} />}
+          />
+          <Route
+            path="/help/returns-and-refunds"
+            element={<HelpArticle category={"return"} />}
+          />
+          <Route
+            path="/help/other"
+            element={<HelpArticle category={"other"} />}
+          />
+          <Route
+            path="/help/shipping-and-delivery"
+            element={<HelpArticle category={"ship"} />}
+          />
+        </Route>
 
-        <Route path="/help" element={<Help />} />
-        <Route
-          path="/help/buying"
-          element={<HelpArticle category={"buying"} />}
-        />
-        <Route
-          path="/help/selling"
-          element={<HelpArticle category={"selling"} />}
-        />
-        <Route
-          path="/help/account"
-          element={<HelpArticle category={"account"} />}
-        />
-        <Route
-          path="/help/returns-and-refunds"
-          element={<HelpArticle category={"return"} />}
-        />
-        <Route
-          path="/help/other"
-          element={<HelpArticle category={"other"} />}
-        />
-        <Route
-          path="/help/shipping-and-delivery"
-          element={<HelpArticle category={"ship"} />}
-        />
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/login" element={<Login />} />

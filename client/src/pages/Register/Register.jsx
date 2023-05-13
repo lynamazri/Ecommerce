@@ -53,23 +53,30 @@ function Register() {
     event.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post("http://localhost:3001/register", {
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        birthDate: formData.birthDate,
-        gender: formData.gender,
-        adresses: [
-          {
-            street: formData.address,
-            city: formData.city,
-            state: formData.state,
-            zip: 0,
-          },
-        ],
-      });
+      const response = await axios.post(
+        "http://localhost:3001/register",
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          birthDate: formData.birthDate,
+          gender: formData.gender,
+          adresses: [
+            {
+              street: formData.address,
+              city: formData.city,
+              state: formData.state,
+              zip: 0,
+            },
+          ],
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
       console.log(response);
       navigate("/", { replace: true });
     } catch (error) {

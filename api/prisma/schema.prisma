@@ -18,6 +18,7 @@ model Users{
   gender String
 adresses Address[]
   registrationDate DateTime  @default(now())
+  refreshToken String?
 
 }
 

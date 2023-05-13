@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { Link, useNavigate, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../redux/Slices/authSlice";
+import { useLoginMutation } from "../../redux/Slices/authApiSlice";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+import usePersist from "../../hooks/usePersist";
 import "./Login.css";
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
+  const [persist, setPersist] = usePersist();
 
   const [formData, setFormData] = React.useState({
     uemail: "",
@@ -28,19 +34,26 @@ function Login() {
     });
   }
 
+  const handleToggle = () => setPersist((prev) => !prev);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post("http://localhost:3001/login", {
+      const { accessToken } = await login({
         email: formData.uemail,
         password: formData.pass,
+      }).unwrap();
+      dispatch(setCredentials({ accessToken }));
+      setFormData({
+        uemail: "",
+        pass: "",
       });
-      console.log(response);
+
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
-      setErrorMessage(error.response.data);
+      setErrorMessage(error.data);
     }
   };
 
@@ -55,7 +68,9 @@ function Login() {
     setShowPass((prevShowPass) => !prevShowPass);
   }
 
-  const renderForm = (
+  const renderForm = isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
     <div className="form">
       <form onSubmit={handleSubmit}>
         <div className="inputs">
@@ -96,9 +111,9 @@ function Login() {
           <div className="rememberMeContainer">
             <input
               type="checkbox"
-              id="rememberMe"
-              //checked={formData.rememberMe}
-              //onChange={handleChange}
+              id="persist"
+              checked={persist}
+              onChange={handleToggle}
               name="rememberMe"
               //value={formData.rememberMe}
             />
