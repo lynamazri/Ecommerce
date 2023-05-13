@@ -69,7 +69,7 @@ function Product() {
                     </div>
                     <div className="product-specif">
                       <span className="product-rating">
-                        {getStars(product.rating.rate)}
+                        {getStars(product.rating.rate, 14)}
                       </span>
                       <span className="product-count">
                         {product.rating.count} left
@@ -82,7 +82,7 @@ function Product() {
                       {/* {product.isOnSale ? ( */}
                       <>
                         <span>DZD10</span>
-                        <span className="old-price">{product.price}</span>
+                        <span className="old-price">DZD{product.price}</span>
                       </>
                       {/* ) : null}
                       <span>DZD{product.price}</span> */}
