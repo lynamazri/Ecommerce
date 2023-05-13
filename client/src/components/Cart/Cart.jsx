@@ -71,9 +71,7 @@ function Cart() {
                     <div className="item-info">
                       <h3>product title</h3>
                       <h4>store: </h4>
-                      <span className="product-rating">
-                        {getStars(3.6, 12)}
-                      </span>
+                      <span className="rating">{getStars(3.6, 12)}</span>
                     </div>
                   </div>
                   <div className="lower-card">

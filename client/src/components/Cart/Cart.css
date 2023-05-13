@@ -74,6 +74,7 @@
 .item-info > h3 {
   font-size: 13px;
 }
+
 .lower-card {
   width: 100%;
   display: flex;
@@ -226,3 +227,23 @@ h4 {
 }
 
 /*khatini l grid dabro raskoum x) */
+
+/* For Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
