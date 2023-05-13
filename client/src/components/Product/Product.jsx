@@ -1,13 +1,13 @@
 import React from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import ProductCard from "../ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-
-import "./Product.css";
-
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
+import { getStars } from "../../utils";
 
 function Product() {
   const dispatch = useDispatch();
@@ -53,19 +53,16 @@ function Product() {
           {items &&
             items?.map((product) => (
               <div class="swiper-wrapper">
-                <SwiperSlide key={product.id} className="productCard">
-                  <img src={product.image} alt={product.title} />
-                  <div className="productDescription">
-                    <h3 className="productTitle">{product.title}</h3>
-                    <span>{product.category}</span>
-                    {/* <span>{product.description}</span> */}
-                  </div>
-                  <div className="priceCart">
-                    <span className="productPrice">DZD{product.price}</span>
-                    <button onClick={() => handleAdd(product)}>
-                      Add To Cart
-                    </button>
-                  </div>
+                <SwiperSlide key={product.id}>
+                  <ProductCard
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    description={product.description}
+                    category={product.category}
+                    image={product.image}
+                    rating={product.rating}
+                  />
                 </SwiperSlide>
               </div>
             ))}
