@@ -8,9 +8,9 @@ const registerValidation = (data) => {
     email: Joi.string().required().email(),
     password: Joi.string().min(8).required(),
     birthDate: Joi.string().required(),
-
     adresses: Joi.any(),
     gender: Joi.string().required(),
+    refreshToken: Joi.any(),
   });
   return schema.validate(data);
 };

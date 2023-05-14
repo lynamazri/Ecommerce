@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -78,9 +79,94 @@ router.post("/login", async (req, res) => {
         "Email or password is incorrect. Please try again or click on 'Forgot password'."
       );
 
-  //token
-  const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET);
-  res.header("auth-token", token).send(token);
+  //create tokens
+  const accessToken = jwt.sign(
+    { username: user.username },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "30s",
+    }
+  );
+  const refreshToken = jwt.sign(
+    { username: user.username },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "1d",
+    }
+  );
+
+  //store refresh token in db
+  const updateUser = await prisma.Users.update({
+    where: { email: req.body.email },
+    data: {
+      refreshToken: refreshToken,
+    },
+  });
+
+  //sending the token
+  res.cookie("jwt", refreshToken, {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  res.json({ accessToken });
+});
+
+router.get("/refresh", async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt) return res.sendStatus(401);
+  const refreshToken = cookies.jwt;
+
+  const user = await prisma.Users.findFirst({
+    where: { refreshToken: refreshToken },
+  });
+  if (!user) return res.sendStatus(403);
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err || user.username !== decoded.username) return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      { username: decoded.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "30s" }
+    );
+    res.json({ accessToken });
+  });
+});
+
+router.get("/logout", async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt) return res.sendStatus(204);
+  const refreshToken = cookies.jwt;
+
+  const user = await prisma.Users.findFirst({
+    where: { refreshToken: refreshToken },
+  });
+  if (!user) {
+    res.clearCookie("jwt", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    return res.sendStatus(204);
+  }
+
+  const updateUser = await prisma.Users.updateMany({
+    where: { refreshToken: refreshToken },
+    data: {
+      refreshToken: "",
+    },
+  });
+
+  res.clearCookie("jwt", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
+
+  res.sendStatus(204);
 });
 
 module.exports = router;

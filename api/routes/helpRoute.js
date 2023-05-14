@@ -5,6 +5,8 @@ const router = express.Router();
 //const verification = require("./verifyToken");
 //add verification to the route middleware
 
+//easier method to protect is here https://www.youtube.com/watch?v=f2EqECiTBL8 @ 4:36:40
+
 const help = require("../data/help");
 
 router.get("/help/buying", (req, res) => {

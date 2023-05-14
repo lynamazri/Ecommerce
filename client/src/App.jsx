@@ -16,6 +16,7 @@ import Wishlist from "./pages/Wishlist/Wishlist";
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
 import Menu from "./components/UserNavbar/Menu";
+import PersistLogin from "./pages/Login/PersistLogin";
 
 const Layout = () => {
   return (
@@ -66,33 +67,35 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<PersistLogin />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/help" element={<Help />} />
+          <Route
+            path="/help/buying"
+            element={<HelpArticle category={"buying"} />}
+          />
+          <Route
+            path="/help/selling"
+            element={<HelpArticle category={"selling"} />}
+          />
+          <Route
+            path="/help/account"
+            element={<HelpArticle category={"account"} />}
+          />
+          <Route
+            path="/help/returns-and-refunds"
+            element={<HelpArticle category={"return"} />}
+          />
+          <Route
+            path="/help/other"
+            element={<HelpArticle category={"other"} />}
+          />
+          <Route
+            path="/help/shipping-and-delivery"
+            element={<HelpArticle category={"ship"} />}
+          />
+        </Route>
 
-        <Route path="/help" element={<Help />} />
-        <Route
-          path="/help/buying"
-          element={<HelpArticle category={"buying"} />}
-        />
-        <Route
-          path="/help/selling"
-          element={<HelpArticle category={"selling"} />}
-        />
-        <Route
-          path="/help/account"
-          element={<HelpArticle category={"account"} />}
-        />
-        <Route
-          path="/help/returns-and-refunds"
-          element={<HelpArticle category={"return"} />}
-        />
-        <Route
-          path="/help/other"
-          element={<HelpArticle category={"other"} />}
-        />
-        <Route
-          path="/help/shipping-and-delivery"
-          element={<HelpArticle category={"ship"} />}
-        />
         <Route path="/checkout" element={<Checkout />} />
 
         <Route path="/login" element={<Login />} />
