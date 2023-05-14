@@ -7,7 +7,9 @@ const initialState = {
     : [],
   totQuantity: 0,
   //addedQuantity: 1,
-  totAmount: 0,
+  totAmount: localStorage.getItem("totalAmount")
+    ? JSON.parse(localStorage.getItem("totalAmount"))
+    : 0,
 };
 
 //add toastify pop ups or maybe snackbar idk yet
@@ -40,6 +42,7 @@ const cartSlice = createSlice({
       state.totAmount += action.payload.price;
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("totalAmount", JSON.stringify(state.totAmount));
       //state.totQuantity++;
     },
     remove(state = initialState, action) {
@@ -66,6 +69,7 @@ const cartSlice = createSlice({
       });
 
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("totalAmount", JSON.stringify(state.totAmount));
     },
     /*     subTotal(state = initialState, action) {
       let { total, quantity } = state.cartItems.reduce(
@@ -96,6 +100,7 @@ const cartSlice = createSlice({
       state.cartItems[curItem].quantity += 1;
       state.totAmount += action.payload.price;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("totalAmount", JSON.stringify(state.totAmount));
     }, //to increase quantity,
 
     decrease(state = initialState, action) {
@@ -106,6 +111,7 @@ const cartSlice = createSlice({
         state.cartItems[curItem].quantity -= 1;
         state.totAmount -= action.payload.price;
         localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        localStorage.setItem("totalAmount", JSON.stringify(state.totAmount));
       } else if (state.cartItems[curItem].quantity === 1) {
         cartSlice.caseReducers.remove(state, action);
       }
@@ -126,6 +132,7 @@ const cartSlice = createSlice({
       });
       state.totAmount = 0;
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      localStorage.setItem("totalAmount", JSON.stringify(state.totAmount));
     }, //to remove everything from cart
   },
 });

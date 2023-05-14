@@ -102,7 +102,7 @@ function App() {
         <Route path="/profile/edit" element={<EditProfile />} />
         <Route path="/profile/wishlist" element={<Wishlist />} />
 
-        <Route path="/product" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/compare" element={<Compare />} />
       </Routes>
     </div>

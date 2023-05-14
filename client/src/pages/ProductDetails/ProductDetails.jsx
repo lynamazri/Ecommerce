@@ -3,9 +3,12 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Footer from "../../components/Footer/Footer";
 import Product from "../../components/Product/Product";
+import { useParams } from "react-router-dom";
+import { add } from "../../redux/Slices/CartSlice";
 
 import "./ProductDetails.css";
 
@@ -13,7 +16,18 @@ export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
-  const handleAdd = () => {};
+  const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  const params = useParams();
+  let product;
+  items.forEach((element) => {
+    if (element.id == params.id) {
+      product = element;
+    }
+  });
+  const dispatch = useDispatch();
+  const handleAdd = () => {
+    dispatch(add(product));
+  };
   const handleAddToWishList = () => {
     setWishListIcon((prevWishListIcon) => !prevWishListIcon);
   };
@@ -48,16 +62,14 @@ export default function ProductDetails() {
                   <span className="countLabel">Free shipping</span>
                 </div>
               </div>
-              <div className="photo">
-                <img></img>
-              </div>
-              <div className="photo">
+              <div>
+                <img className="photo" src={product.image} />
                 <img></img>
               </div>
             </section>
             <section className="info">
               <div className="title">
-                <h3>iPhone 14 pro max</h3>
+                <h3>{product.title}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
                     <BsStarFill />
@@ -70,12 +82,7 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div className="description">
-                <p>
-                  Carrots from Tomissy Farm are one of the best on the market.
-                  Tomisso and his family are giving a full love to his Bio
-                  products. Tomisso’s carrots are growing on the fields
-                  naturally.
-                </p>
+                <p>{product.description}</p>
               </div>
               <div className="informationContainer">
                 <div className="information">
@@ -113,29 +120,16 @@ export default function ProductDetails() {
               </div>
               <div className="addToCart">
                 <div className="price">
-                  <p>1,329 USD</p>
-                  <small>1500 USD</small>
+                  {/* {props.isOnSale ? ( */}
+                  <>
+                    <span>$10</span>
+                    <span className="old-price">DZD{product.price}</span>
+                  </>
+                  {/* ) : null} */}
+                  {/* <span>DZD{props.price}</span> */}
                 </div>
 
                 <div className="buttons">
-                  <div className="qte">
-                    <div className="pcsContainer" onClick={toogleQteDiv}>
-                      <div className="pcsCount">{pcsCount}</div>
-                      <div className="pcsSeparator">|</div>
-                      <div className="pcs">
-                        <span>pcs</span>
-                        <span className="arrowDown">
-                          <MdKeyboardArrowDown />
-                        </span>
-                      </div>
-                    </div>
-                    {showQteDiv && (
-                      <div className="handlePcs">
-                        <button onClick={handlePcsDecrement}>-</button>
-                        <button onClick={handlePcsIncrement}>+</button>
-                      </div>
-                    )}
-                  </div>
                   <div className="addToCartButton">
                     <button onClick={() => handleAdd()}>+ Add To Cart</button>
                   </div>
