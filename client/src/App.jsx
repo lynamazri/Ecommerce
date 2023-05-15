@@ -97,7 +97,7 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/product" element={<ProductDetails />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/
         <Route element={<PersistLogin />}>

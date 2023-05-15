@@ -8,6 +8,7 @@ import "./ProductCard.css";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
+import { Link } from "react-router-dom";
 
 function ProductCard(props) {
   const dispatch = useDispatch();
@@ -42,7 +43,9 @@ function ProductCard(props) {
           <span>10%</span>
         </div>
         <div className="product-description">
-          <h3 className="product-title">{props.title}</h3>
+          <Link to={`/product/${props.id}`} className="product-title">
+            {props.title}
+          </Link>
           <span>{props.category}</span>
           <div className="rating">{generateRatingStars(props.rating.rate)}</div>
           {/* <span>{product.description}</span> */}
