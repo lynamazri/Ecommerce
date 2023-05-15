@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const products = require("./data/products");
 const helpRoute = require("./routes/helpRoute");
 const authRoute = require("./routes/authRoute");
+const storeRoute = require("./routes/storeRoute");
 const profileRoute = require("./routes/profileRoute");
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use("/", helpRoute);
 app.use("/", authRoute);
 app.use("/", profileRoute);
+app.use("/", storeRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
