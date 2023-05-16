@@ -9,6 +9,7 @@ import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
 import Footer from "../../components/Footer/Footer";
+import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 
@@ -130,7 +131,7 @@ export default function ProductDetails() {
                 <div className="price">
                   {/* {props.isOnSale ? ( */}
                   <>
-                    <p>DZD {product.price - 20}</p>
+                    <p>DZD {product.price}</p>
                     <small className="old-price">DZD {product.price}</small>
                   </>
                   {/* ) : null} */}
@@ -169,6 +170,26 @@ export default function ProductDetails() {
                 <button>
                   Questions <span className="countLabel">4</span>
                 </button>
+              </div>
+              <div className="reviews-container">
+                <ReviewCard
+                  author="NapSTER"
+                  role="Admin"
+                  rating={3.5}
+                  date="22. 4. 2023"
+                />
+                <ReviewCard
+                  author="Cha3ban"
+                  role="Admin"
+                  rating={4.5}
+                  date="25. 4. 2023"
+                />
+                <ReviewCard
+                  author="Wahid"
+                  role="Customer"
+                  rating={1.5}
+                  date="12. 5. 2023"
+                />
               </div>
             </section>
           </div>
