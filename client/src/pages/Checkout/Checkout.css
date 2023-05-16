@@ -1,0 +1,122 @@
+.checkout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1em 3em;
+}
+
+.checkout > .left-container {
+  width: 60%;
+  height: 100%;
+  padding: 1em 1em 1em 0em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.shipping-info,
+.payment-method,
+.confirmation {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header > .lower-part {
+  width: 100%;
+  padding: 0.5em 0em 1em 0em;
+
+  display: flex;
+  justify-content: space-between;
+
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #a9a9a9;
+}
+
+.body {
+  padding-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.body > .input {
+  width: 300px;
+  height: 40px;
+  padding: 0.3em 0.9em;
+  margin: 0.5em 0em;
+
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 14px;
+  color: #a9a9a9;
+}
+
+.body > label {
+  width: auto;
+  height: 40px;
+  padding: 0.3em 0.9em;
+  margin: 0.5em 0em;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.body > .payment-option {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.checkout > .right-container {
+  width: 40%;
+}
+
+.checkout > .right-container > .cart-container {
+  position: unset;
+  width: 100%;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.order-button {
+  width: 170px;
+  height: 45px;
+  padding: 0.3em 0.9em;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-weight: 700;
+  font-size: 12px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #fff;
+  background-color: #1f2c4c;
+  border-radius: 12px;
+  cursor: pointer;
+}

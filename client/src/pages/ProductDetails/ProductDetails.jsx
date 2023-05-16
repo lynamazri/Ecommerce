@@ -6,9 +6,10 @@ import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Footer from "../../components/Footer/Footer";
+import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
 import Path from "../../components/Path/Path";
+import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 
@@ -19,6 +20,7 @@ export default function ProductDetails() {
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
   const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  console.log(items);
   const params = useParams();
   let product;
   items.forEach((element) => {

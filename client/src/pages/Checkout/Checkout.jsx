@@ -1,10 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Checkout.css";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import { Link } from "react-router-dom";
+import Path from "../../components/Path/Path";
+import Cart from "../../components/Cart/Cart";
+import Footer from "../../components/Footer/Footer";
 
 function Checkout() {
-  return <UserNavbar />;
+  const [displayExistingAddress, setDisplayExistingAddress] = useState(false);
+
+  const handleExistingAddress = (event) => {
+    setDisplayExistingAddress(event.target.checked);
+  };
+
+  return (
+    <div>
+      <UserNavbar />
+      <Path />
+      <div className="checkout">
+        <div className="left-container">
+          <div className="shipping-info">
+            <div className="header">
+              <h3>Shipping Address</h3>
+              <div className="lower-part">
+                <p>Please enter your billing info</p>
+                <p>Step 1 of 3</p>
+              </div>
+            </div>
+            <div className="body">
+              <input
+                className="input"
+                type="text"
+                placeholder="Enter your address"
+              />
+              <label className="">
+                <input
+                  type="checkbox"
+                  name="existing-address"
+                  onChange={handleExistingAddress}
+                />
+                Use existing address
+              </label>
+              {displayExistingAddress && (
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Enter your address"
+                />
+              )}
+            </div>
+          </div>
+
+          <div className="payment-method">
+            <div className="header">
+              <h3>Payment method</h3>
+              <div className="lower-part">
+                <p>Please enter your payment method</p>
+                <p>Step 2 of 3</p>
+              </div>
+            </div>
+            <div className="body">
+              <label className="payment-option">
+                <input type="radio" name="payment-option" value="MagazaCoin" />
+                MagazaCoin
+              </label>
+              <label className="payment-option">
+                <input type="radio" name="payment-option" value="on-delivery" />
+                On Delivery Payment
+              </label>
+            </div>
+          </div>
+
+          <div className="confirmation">
+            <div className="header">
+              <h3>Confirmation</h3>
+              <div className="lower-part">
+                <p>
+                  We are getting to the end. Just few clicks and your order si
+                  ready!
+                </p>
+                <p>Step 3 of 3</p>
+              </div>
+            </div>
+            <div className="body">
+              <label>
+                <input type="checkbox" name="privacy-policy" />I agree with our
+                terms and conditions and privacy policy.
+              </label>
+              <button className="order-button">Complete order</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="right-container">
+          <Cart isCheckoutPage />
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 export default Checkout;

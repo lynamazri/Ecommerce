@@ -98,12 +98,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}>
             <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/checkout" element={<Checkout />} />
             <Route path="/profile/wishlist" element={<Wishlist />} />
             <Route path="/compare" element={<Compare />} />
             <Route path="welcome" element={<Welcome />} />
