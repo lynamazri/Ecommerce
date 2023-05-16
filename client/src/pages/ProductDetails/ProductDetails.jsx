@@ -5,8 +5,9 @@ import { TbListDetails } from "react-icons/tb";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Footer from "../../components/Footer/Footer";
+import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
+import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 
@@ -17,6 +18,7 @@ export default function ProductDetails() {
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
   const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  console.log(items);
   const params = useParams();
   let product;
   items.forEach((element) => {
@@ -47,12 +49,7 @@ export default function ProductDetails() {
       <UserNavbar />
       <main>
         <div className="container">
-          <div className="path">
-            <small>
-              Homepage / Electronics /{" "}
-              <span className="productName">iPhone 14 pro max</span>
-            </small>
-          </div>
+          <Path />
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
@@ -63,13 +60,13 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div>
-                <img className="photo" src={product.image} />
+                {/* <img className="photo" src={product.image} /> */}
                 <img></img>
               </div>
             </section>
             <section className="info">
               <div className="title">
-                <h3>{product.title}</h3>
+                {/* <h3>{product.title}</h3> */}
                 <div className="reviewStars">
                   <div className="starsContainer">
                     <BsStarFill />
@@ -82,7 +79,7 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div className="description">
-                <p>{product.description}</p>
+                {/* <p>{product.description}</p> */}
               </div>
               <div className="informationContainer">
                 <div className="information">
@@ -123,7 +120,7 @@ export default function ProductDetails() {
                   {/* {props.isOnSale ? ( */}
                   <>
                     <span>$10</span>
-                    <span className="old-price">DZD{product.price}</span>
+                    {/* <span className="old-price">DZD{product.price}</span> */}
                   </>
                   {/* ) : null} */}
                   {/* <span>DZD{props.price}</span> */}

@@ -3,16 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./Cart.css";
 import { Link } from "react-router-dom";
-import {
-  clear,
-  decrease,
-  increase,
-  remove,
-  subTotal,
-} from "../../redux/Slices/CartSlice";
+import { clear } from "../../redux/Slices/CartSlice";
 import CartItem from "./CartItem";
 
-function Cart() {
+function Cart({ isCheckoutPage }) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -61,7 +55,9 @@ function Cart() {
                   Clear Cart
                 </button>
                 <Link to="/checkout">
-                  <button className="checkout">Go to checkout</button>
+                  {!isCheckoutPage && (
+                    <button className="checkout-button">Go to checkout</button>
+                  )}
                 </Link>
               </div>
             </div>

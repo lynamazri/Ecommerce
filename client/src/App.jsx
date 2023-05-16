@@ -5,7 +5,7 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./pages/EditProfile/EditProfile";
 import NotFound from "./pages/NotFound/NotFound";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Help from "./pages/Help/Help";
