@@ -48,8 +48,9 @@ export default function ProductDetails() {
     <>
       <UserNavbar />
       <main>
+        <Path />
+
         <div className="container">
-          <Path />
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
@@ -60,7 +61,7 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div>
-                <img className="photo" src={product.image} />
+                {/* <img className="photo" src={product.image} /> */}
                 <img></img>
               </div>
             </section>
