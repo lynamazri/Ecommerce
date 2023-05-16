@@ -32,7 +32,7 @@ function Checkout() {
                 type="text"
                 placeholder="Enter your address"
               />
-              <label>
+              <label className="checkout">
                 <input
                   type="checkbox"
                   name="existing-address"
@@ -82,7 +82,7 @@ function Checkout() {
               />
               I agree with our terms and conditions and privacy policy.
             </label>
-            <button>Complete order</button>
+            <button className="order-button">Complete order</button>
           </div>
         </div>
 

@@ -60,13 +60,13 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div>
-                {/* <img className="photo" src={product.image} /> */}
+                <img className="photo" src={product.image} />
                 <img></img>
               </div>
             </section>
             <section className="info">
               <div className="title">
-                {/* <h3>{product.title}</h3> */}
+                <h3>{product.title}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
                     <BsStarFill />
@@ -79,7 +79,7 @@ export default function ProductDetails() {
                 </div>
               </div>
               <div className="description">
-                {/* <p>{product.description}</p> */}
+                <p>{product.description}</p>
               </div>
               <div className="informationContainer">
                 <div className="information">
@@ -120,7 +120,7 @@ export default function ProductDetails() {
                   {/* {props.isOnSale ? ( */}
                   <>
                     <span>$10</span>
-                    {/* <span className="old-price">DZD{product.price}</span> */}
+                    <span className="old-price">DZD{product.price}</span>
                   </>
                   {/* ) : null} */}
                   {/* <span>DZD{props.price}</span> */}
