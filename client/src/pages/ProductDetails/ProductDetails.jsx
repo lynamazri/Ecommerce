@@ -171,6 +171,25 @@ export default function ProductDetails() {
                   Questions <span className="countLabel">4</span>
                 </button>
               </div>
+              <div className="description-container">
+                <div className="description">
+                  <h5>Origins</h5>
+                  <p>
+                    We work hard to ensure that the fruit and vegetables we sell
+                    are fresh and high in quality. If we don’t grow them
+                    ourselves, we source them from carefully chosen suppliers,
+                    preferring to buy locally whenever possible.
+                  </p>
+                </div>
+                <div className="features">
+                  <h5>Features</h5>
+                  <p>
+                    Enumerate the product's key features in a bullet-point
+                    format. Focus on the most important aspects that
+                    differentiate it from other products.
+                  </p>
+                </div>
+              </div>
               <div className="reviews-container">
                 <ReviewCard
                   author="NapSTER"
