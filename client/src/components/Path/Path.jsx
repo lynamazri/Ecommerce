@@ -20,3 +20,4 @@ function Path() {
     </div>
   );
 }
+export default Path;

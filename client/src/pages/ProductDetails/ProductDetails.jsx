@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
-import Path from "../../components/Path/Path";
 import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
@@ -78,10 +77,7 @@ export default function ProductDetails() {
                   <span className="countLabel">Free shipping</span>
                 </div>
               </div>
-              <div>
-                {/* <img className="photo" src={product.image} /> */}
-                <img></img>
-              </div>
+              <div>{/* <img className="photo" src={product.image} /> */}</div>
             </section>
             <section className="info">
               <div className="title">
