@@ -3,10 +3,12 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
+import Path from "../../components/Path/Path";
 import Footer from "../../components/Footer/Footer";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
@@ -44,6 +46,22 @@ export default function ProductDetails() {
       setPcsCount((prevPcsCount) => prevPcsCount - 1);
     }
   };
+  function generateRatingStars(rate) {
+    const stars = [];
+
+    const floorRating = Math.floor(rate);
+    for (let i = 0; i < floorRating; i++) {
+      stars.push(<FaStar key={i} />);
+    }
+    if (rate - floorRating >= 0.5) {
+      stars.push(<FaStarHalfAlt key={floorRating} />);
+    }
+    const remaining = 5 - stars.length;
+    for (let i = 0; i < remaining; i++) {
+      stars.push(<FaRegStar key={i + floorRating} />);
+    }
+    return stars;
+  }
   return (
     <>
       <UserNavbar />
@@ -54,7 +72,7 @@ export default function ProductDetails() {
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
-                <img></img>
+                <img src={product.image} />
                 <div className="countLabelContainer">
                   <span className="countLabel">- 36 %</span>
                   <span className="countLabel">Free shipping</span>
@@ -70,13 +88,9 @@ export default function ProductDetails() {
                 <h3>{product.title}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarHalf />
-                    <BsStar />
+                    {generateRatingStars(product.rating.rate)}
                   </div>
-                  <small>(12 customer review)</small>
+                  <small>({product.rating.count} customer review)</small>
                 </div>
               </div>
               <div className="description">
@@ -95,7 +109,7 @@ export default function ProductDetails() {
                   <div className="detailsValue">
                     <ul className="detailValueList">
                       <li>76645</li>
-                      <li>Electronics</li>
+                      <li>{product.category}</li>
                       <li>Stock</li>
                       <li>Apple dz</li>
                     </ul>
@@ -120,8 +134,8 @@ export default function ProductDetails() {
                 <div className="price">
                   {/* {props.isOnSale ? ( */}
                   <>
-                    <span>$10</span>
-                    <span className="old-price">DZD{product.price}</span>
+                    <p>DZD {product.price - 20}</p>
+                    <small className="old-price">DZD {product.price}</small>
                   </>
                   {/* ) : null} */}
                   {/* <span>DZD{props.price}</span> */}

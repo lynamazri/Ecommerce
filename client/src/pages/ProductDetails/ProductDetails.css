@@ -29,12 +29,25 @@
 }
 
 .photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 100%;
+  height: auto;
   height: 400px;
   border-radius: 12px;
   margin-bottom: 10px;
   background-color: #f9f9f9;
+}
+
+.photo img {
+  width: 50%;
+  /* position: absolute;
+
+  left: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%); */
 }
 
 .photo .countLabel {
@@ -222,6 +235,7 @@ small {
   padding: 0;
   line-height: inherit;
   color: #ff7f50;
+  cursor: pointer;
 }
 
 .buttonsContainer {
