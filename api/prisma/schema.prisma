@@ -19,7 +19,7 @@ model Users{
 adresses Address[]
   registrationDate DateTime  @default(now())
   refreshToken String?
-
+store UserStore[]
 }
 
 
@@ -31,4 +31,43 @@ model Address{
   city String
   state String
   zip Int
+}
+
+model Store{
+  storeId String @id @default(uuid())
+name String
+description String
+phone Int
+email String?
+openingDate DateTime  @default(now())
+owners UserStore[]
+approved Boolean @default(false)
+}
+
+model UserStore{
+  id       String  @id @default(uuid())
+user       Users     @relation(fields: [userId], references: [userId])
+  userId     String @unique
+  store   Store @relation(fields: [storeId], references: [storeId])
+  storeId String 
+
+}
+
+
+model Product{
+  productId String @id @default(uuid())
+  name String
+  description String
+
+}
+
+
+model Category{
+  catId Int @id @default(autoincrement())
+  name String
+  description String?
+parentCategoryId Int? @unique
+parentCategory Category? @relation("Category Inheritance", fields: [parentCategoryId], references: [catId])
+childCategory Category? @relation("Category Inheritance")
+
 }

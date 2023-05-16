@@ -14,7 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
-  const [persist, setPersist] = usePersist();
+  //const [persist, setPersist] = usePersist();
 
   const [formData, setFormData] = React.useState({
     uemail: "",
@@ -34,11 +34,12 @@ function Login() {
     });
   }
 
-  const handleToggle = () => setPersist((prev) => !prev);
+  //const handleToggle = () => setPersist((prev) => !prev);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formData);
+
     try {
       const { accessToken } = await login({
         email: formData.uemail,
@@ -49,7 +50,6 @@ function Login() {
         uemail: "",
         pass: "",
       });
-
       navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
@@ -112,8 +112,8 @@ function Login() {
             <input
               type="checkbox"
               id="persist"
-              checked={persist}
-              onChange={handleToggle}
+              //checked={persist}
+              //onChange={handleToggle}
               name="rememberMe"
               //value={formData.rememberMe}
             />

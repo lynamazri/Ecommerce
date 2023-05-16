@@ -84,14 +84,14 @@ router.post("/login", async (req, res) => {
     { username: user.username },
     process.env.ACCESS_TOKEN_SECRET,
     {
-      expiresIn: "30s",
+      expiresIn: "15m",
     }
   );
   const refreshToken = jwt.sign(
     { username: user.username },
     process.env.REFRESH_TOKEN_SECRET,
     {
-      expiresIn: "1d",
+      expiresIn: "7d",
     }
   );
 
@@ -107,8 +107,8 @@ router.post("/login", async (req, res) => {
   res.cookie("jwt", refreshToken, {
     httpOnly: true,
     sameSite: "None",
-    secure: true,
-    maxAge: 24 * 60 * 60 * 1000,
+    //secure: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
   });
   res.json({ accessToken }); // already sent in cookie
 });
@@ -129,13 +129,13 @@ router.get("/refresh", async (req, res) => {
     const accessToken = jwt.sign(
       { username: decoded.username },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "30s" }
+      { expiresIn: "15m" }
     );
     res.json({ accessToken }); // same thing
   });
 });
 
-router.get("/logout", async (req, res) => {
+router.post("/logout", async (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(204);
@@ -147,7 +147,7 @@ router.get("/logout", async (req, res) => {
   if (!user) {
     res.clearCookie("jwt", refreshToken, {
       httpOnly: true,
-      secure: true,
+      //secure: true,
       sameSite: "None",
     });
     return res.sendStatus(204);
@@ -162,7 +162,7 @@ router.get("/logout", async (req, res) => {
 
   res.clearCookie("jwt", refreshToken, {
     httpOnly: true,
-    secure: true,
+    //secure: true,
     sameSite: "None",
   });
 
