@@ -1,11 +1,11 @@
-.checkout {
+.checkout-page {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 1em 3em;
 }
 
-.checkout > .left-container {
+.checkout-page > .left-container {
   width: 60%;
   height: 100%;
   padding: 1em 1em 1em 0em;
@@ -44,7 +44,7 @@
   color: #a9a9a9;
 }
 
-.body {
+.checkout-page > div > div > .body {
   padding-bottom: 1em;
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@
   gap: 8px;
 }
 
-.body > .input {
+.checkout-page > div > div > .body > .input {
   width: 300px;
   height: 40px;
   padding: 0.3em 0.9em;
@@ -69,7 +69,7 @@
   color: #a9a9a9;
 }
 
-.body > label {
+.checkout-page > div > div > .body > label {
   width: auto;
   height: 40px;
   padding: 0.3em 0.9em;
@@ -86,16 +86,16 @@
   font-size: 14px;
 }
 
-.body > .payment-option {
+.checkout-page > div > div > .body > .payment-option {
   width: 100%;
   justify-content: space-between;
 }
 
-.checkout > .right-container {
+.checkout-page > .right-container {
   width: 40%;
 }
 
-.checkout > .right-container > .cart-container {
+.checkout-page > .right-container > .cart-container {
   position: unset;
   width: 100%;
   border: 1px solid #d1d1d1;
