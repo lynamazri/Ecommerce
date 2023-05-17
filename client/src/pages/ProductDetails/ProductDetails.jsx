@@ -19,6 +19,7 @@ export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
+  const [details,setDetails] = useState("description");
   const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
   console.log(items);
   const params = useParams();
@@ -163,15 +164,21 @@ export default function ProductDetails() {
                 </span>
               </div>
               <div className="buttonsContainer">
-                <button>Description</button>
-                <button>
+                <button className={`${details === "description" ? "selected-button" : ""}`} onClick={()=>{
+                  setDetails("description");
+                }}>Description</button>
+                <button  
+                className={`${details === "reviews" ? "selected-button" : ""}`}
+                onClick={()=>{
+                  setDetails("reviews")
+                }}>
                   Reviews <span className="countLabel">18</span>
                 </button>
                 <button>
                   Questions <span className="countLabel">4</span>
                 </button>
               </div>
-              <div className="description-container">
+              {details === "description" && <div className="description-container">
                 <div className="description">
                   <h5>Origins</h5>
                   <p>
@@ -189,8 +196,8 @@ export default function ProductDetails() {
                     differentiate it from other products.
                   </p>
                 </div>
-              </div>
-              <div className="reviews-container">
+              </div>}
+              {details === "reviews" && <div className="reviews-container">
                 <ReviewCard
                   author="NapSTER"
                   role="Admin"
@@ -209,7 +216,7 @@ export default function ProductDetails() {
                   rating={1.5}
                   date="12. 5. 2023"
                 />
-              </div>
+              </div>}
             </section>
           </div>
           <div className="relatedProducts">

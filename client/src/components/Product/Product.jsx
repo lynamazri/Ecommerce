@@ -3,11 +3,9 @@ import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import ProductCard from "../ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
-import { getStars } from "../../utils";
 
 function Product() {
   const dispatch = useDispatch();

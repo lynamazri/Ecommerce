@@ -16,7 +16,7 @@ function Checkout() {
     <div>
       <UserNavbar />
       <Path />
-      <div className="checkout">
+      <div className="checkout-page">
         <div className="left-container">
           <div className="shipping-info">
             <div className="header">
