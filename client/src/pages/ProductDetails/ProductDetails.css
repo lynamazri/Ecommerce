@@ -38,11 +38,14 @@
   height: 400px;
   border-radius: 12px;
   margin-bottom: 10px;
-  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px 0px #a9a9a9;
+  -webkit-box-shadow: 0px 0px 10px 0px #a9a9a9;
+  -moz-box-shadow: 0px 0px 10px 0px #a9a9a9;
 }
 
 .photo img {
   width: 50%;
+  max-width: 40%;
   /* position: absolute;
 
   left: 50%;
@@ -251,7 +254,7 @@ small {
   background: none;
   outline: none;
   box-shadow: none;
-  padding: 0.5em 0.75em 0.5em 0.25em;
+  padding: 0.5em 0.75em 0.5em 0em;
   font-size: 1.2em;
   font-weight: 600;
   border-bottom: 1px solid #f5f5f5;
@@ -295,4 +298,34 @@ small {
 .productWrapper {
   width: 100%;
   margin-top: 0.75em;
+}
+
+.reviews-container {
+  display: none;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: inherit;
+}
+
+.description,
+.features {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.description h5,
+.features h5 {
+  font-size: 1em;
+}
+
+.description,
+p .features p {
+  font-size: 0.85em;
 }

@@ -43,7 +43,28 @@ const applyStoreValidation = (data) => {
   return schema.validate(data);
 };
 
+const updateProfileValidation = (data) => {
+  const schema = Joi.object({
+    firstName: Joi.string().min(4).max(30),
+    lastName: Joi.string().min(4).max(30),
+    newUsername: Joi.string().min(6).max(30),
+  });
+  return schema.validate(data);
+};
+
+const addressValidation = (data) => {
+  const schema = Joi.object({
+    street: Joi.string().min(8).max(100).required(),
+    city: Joi.string().min(4).max(40).required(),
+    state: Joi.string().min(4).max(40).required(),
+    zip: Joi.number().integer().positive().min(1000).max(48999),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
 module.exports.applyStoreValidation = applyStoreValidation;
+module.exports.updateProfileValidation = updateProfileValidation;
+module.exports.addressValidation = addressValidation;

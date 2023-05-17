@@ -9,6 +9,7 @@ const helpRoute = require("./routes/helpRoute");
 const authRoute = require("./routes/authRoute");
 const storeRoute = require("./routes/storeRoute");
 const profileRoute = require("./routes/profileRoute");
+const addressRoute = require("./routes/addressRoute");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/", helpRoute);
 app.use("/", authRoute);
 app.use("/", profileRoute);
 app.use("/", storeRoute);
+app.use("/", addressRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
