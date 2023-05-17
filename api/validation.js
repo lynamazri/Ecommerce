@@ -62,9 +62,27 @@ const addressValidation = (data) => {
   return schema.validate(data);
 };
 
+const categoryValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(4).max(35).required(),
+    description: Joi.string().min(20).max(500).required(),
+  });
+  return schema.validate(data);
+};
+
+const subCatValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(4).max(35).required(),
+    parentCat: Joi.string().min(4).max(35).required(),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
 module.exports.applyStoreValidation = applyStoreValidation;
 module.exports.updateProfileValidation = updateProfileValidation;
 module.exports.addressValidation = addressValidation;
+module.exports.categoryValidation = categoryValidation;
+module.exports.subCatValidation = subCatValidation;

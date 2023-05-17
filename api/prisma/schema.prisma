@@ -58,16 +58,23 @@ model Product{
   productId String @id @default(uuid())
   name String
   description String
+subCat   SubCat @relation(fields: [subCatId], references: [subCatId])
+  subCatId Int
 
 }
 
 
-model Category{
-  catId Int @id @default(autoincrement())
-  name String
-  description String?
-parentCategoryId Int? @unique
-parentCategory Category? @relation("Category Inheritance", fields: [parentCategoryId], references: [catId])
-childCategory Category? @relation("Category Inheritance")
+model Category {
+  catId             Int              @id @default(autoincrement())
+  name            String @unique
+  description    String @db.VarChar(500)
+  subCats SubCat[]
+}
 
+model SubCat {
+  subCatId          Int       @id @default(autoincrement())
+  name         String @unique
+  catId Int
+  category   Category @relation(fields: [catId], references: [catId], onDelete: Cascade)
+  products    Product[]
 }
