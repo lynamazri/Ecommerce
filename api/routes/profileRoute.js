@@ -7,7 +7,10 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 
 const verification = require("./verifyToken");
-const { changePassValidation } = require("../validation");
+const {
+  changePassValidation,
+  updateProfileValidation,
+} = require("../validation");
 
 router.post("/profile/edit/changepass", verification, async (req, res) => {
   const { error } = changePassValidation(req.body);
@@ -50,10 +53,67 @@ router.post("/profile/edit/changepass", verification, async (req, res) => {
       }
     );
   }
+});
 
-  /*   const user = await prisma.Users.findUnique({
-    where: { email: email },
-  }); */
+router.post("/profile/edit/update-info", verification, async (req, res) => {
+  const { error } = updateProfileValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const { newUsername, firstName, lastName } = req.body;
+
+  const token = req.cookies.jwt;
+  console.log(token);
+  if (!token) {
+    return res.sendStatus(401);
+  } else {
+    jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) console.log(err.message);
+        else {
+          const user = await prisma.Users.findUnique({
+            where: { username: decoded.username },
+          });
+
+          if (newUsername) {
+            const updateUsername = await prisma.Users.update({
+              where: {
+                username: decoded.username,
+              },
+              data: {
+                username: newUsername,
+              },
+            });
+          }
+
+          if (firstName) {
+            const updateUserfname = await prisma.Users.update({
+              where: {
+                username: decoded.username,
+              },
+              data: {
+                firstName: firstName,
+              },
+            });
+          }
+
+          if (lastName) {
+            const updateUserlname = await prisma.Users.update({
+              where: {
+                username: decoded.username,
+              },
+              data: {
+                lastName: lastName,
+              },
+            });
+          }
+
+          res.sendStatus(200);
+        }
+      }
+    );
+  }
 });
 
 module.exports = router;
