@@ -43,7 +43,10 @@ function ProductCard(props) {
           <span>10%</span>
         </div>
         <div className="product-description">
-          <Link to={`/product/${props.id}`} className="product-title">
+          <Link
+            to={`/product/${props.category}/${props.id}`}
+            className="product-title"
+          >
             {props.title}
           </Link>
           <span>{props.category}</span>

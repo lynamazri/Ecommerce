@@ -110,7 +110,7 @@ router.post("/login", async (req, res) => {
     //secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  res.json({ accessToken });
+  res.json({ accessToken }); // already sent in cookie
 });
 
 router.get("/refresh", async (req, res) => {
@@ -131,7 +131,7 @@ router.get("/refresh", async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
-    res.json({ accessToken });
+    res.json({ accessToken }); // same thing
   });
 });
 

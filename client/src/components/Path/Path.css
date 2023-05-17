@@ -1,0 +1,17 @@
+.path {
+  width: auto;
+  margin-top: 0.5em;
+  padding-left: 3rem;
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 12px;
+
+  color: #a9a9a9;
+}
+.path > a {
+  color: #a9a9a9;
+}
+
+.last-path {
+  color: #151515;
+}

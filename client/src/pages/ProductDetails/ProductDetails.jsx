@@ -3,10 +3,13 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Footer from "../../components/Footer/Footer";
+import Path from "../../components/Path/Path";
 import Product from "../../components/Product/Product";
+import Footer from "../../components/Footer/Footer";
+import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 
@@ -17,6 +20,7 @@ export default function ProductDetails() {
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
   const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  console.log(items);
   const params = useParams();
   let product;
   items.forEach((element) => {
@@ -42,43 +46,48 @@ export default function ProductDetails() {
       setPcsCount((prevPcsCount) => prevPcsCount - 1);
     }
   };
+  function generateRatingStars(rate) {
+    const stars = [];
+
+    const floorRating = Math.floor(rate);
+    for (let i = 0; i < floorRating; i++) {
+      stars.push(<FaStar key={i} />);
+    }
+    if (rate - floorRating >= 0.5) {
+      stars.push(<FaStarHalfAlt key={floorRating} />);
+    }
+    const remaining = 5 - stars.length;
+    for (let i = 0; i < remaining; i++) {
+      stars.push(<FaRegStar key={i + floorRating} />);
+    }
+    return stars;
+  }
   return (
     <>
       <UserNavbar />
       <main>
+        <Path />
+
         <div className="container">
-          <div className="path">
-            <small>
-              Homepage / Electronics /{" "}
-              <span className="productName">iPhone 14 pro max</span>
-            </small>
-          </div>
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
-                <img></img>
+                <img src={product.image} />
                 <div className="countLabelContainer">
                   <span className="countLabel">- 36 %</span>
                   <span className="countLabel">Free shipping</span>
                 </div>
               </div>
-              <div>
-                <img className="photo" src={product.image} />
-                <img></img>
-              </div>
+              <div>{/* <img className="photo" src={product.image} /> */}</div>
             </section>
             <section className="info">
               <div className="title">
                 <h3>{product.title}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarFill />
-                    <BsStarHalf />
-                    <BsStar />
+                    {generateRatingStars(product.rating.rate)}
                   </div>
-                  <small>(12 customer review)</small>
+                  <small>({product.rating.count} customer review)</small>
                 </div>
               </div>
               <div className="description">
@@ -97,7 +106,7 @@ export default function ProductDetails() {
                   <div className="detailsValue">
                     <ul className="detailValueList">
                       <li>76645</li>
-                      <li>Electronics</li>
+                      <li>{product.category}</li>
                       <li>Stock</li>
                       <li>Apple dz</li>
                     </ul>
@@ -122,8 +131,8 @@ export default function ProductDetails() {
                 <div className="price">
                   {/* {props.isOnSale ? ( */}
                   <>
-                    <span>$10</span>
-                    <span className="old-price">DZD{product.price}</span>
+                    <p>DZD {product.price}</p>
+                    <small className="old-price">DZD {product.price}</small>
                   </>
                   {/* ) : null} */}
                   {/* <span>DZD{props.price}</span> */}
@@ -161,6 +170,45 @@ export default function ProductDetails() {
                 <button>
                   Questions <span className="countLabel">4</span>
                 </button>
+              </div>
+              <div className="description-container">
+                <div className="description">
+                  <h5>Origins</h5>
+                  <p>
+                    We work hard to ensure that the fruit and vegetables we sell
+                    are fresh and high in quality. If we don’t grow them
+                    ourselves, we source them from carefully chosen suppliers,
+                    preferring to buy locally whenever possible.
+                  </p>
+                </div>
+                <div className="features">
+                  <h5>Features</h5>
+                  <p>
+                    Enumerate the product's key features in a bullet-point
+                    format. Focus on the most important aspects that
+                    differentiate it from other products.
+                  </p>
+                </div>
+              </div>
+              <div className="reviews-container">
+                <ReviewCard
+                  author="NapSTER"
+                  role="Admin"
+                  rating={3.5}
+                  date="22. 4. 2023"
+                />
+                <ReviewCard
+                  author="Cha3ban"
+                  role="Admin"
+                  rating={4.5}
+                  date="25. 4. 2023"
+                />
+                <ReviewCard
+                  author="Wahid"
+                  role="Customer"
+                  rating={1.5}
+                  date="12. 5. 2023"
+                />
               </div>
             </section>
           </div>
