@@ -1,29 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RiUserLine } from "react-icons/ri";
-import "./Navbar.css";
 import Menu from "./Menu";
 import CartIcon from "./CartIcon";
 import Search from "./Search";
 import Cart from "../../components/Cart/Cart";
+import ProfileMenu from "../../components/ProfileMenu/ProfileMenu";
+import { useSelector } from "react-redux";
+import { RiUserLine } from "react-icons/ri";
+
+import "./Navbar.css";
 
 function UserNavbar(props) {
   const { cartItems } = useSelector((state) => state.cart);
+  const [isCartOpen, setCartOpen] = useState(false);
+  const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
+  const navbarRef = useRef(null);
 
-  const [isOpen, setIsOpen] = useState(false);
-  function toggle() {
-    setIsOpen((isOpen) => !isOpen);
-  }
+  const handleCartIconClick = () => {
+    setCartOpen(!isCartOpen);
+    setProfileMenuOpen(false);
+  };
 
-  //toggle={toggle} open={isOpen}
-  {
-    /* <div className="cart">{isOpen && <Cart />}</div>; */
-  }
+  const handleProfileIconClick = () => {
+    setProfileMenuOpen(!isProfileMenuOpen);
+    setCartOpen(false);
+  };
+
+  const closeMenus = () => {
+    setCartOpen(false);
+    setProfileMenuOpen(false);
+  };
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        navbarRef.current &&
+        !navbarRef.current.contains(event.target) &&
+        (isCartOpen || isProfileMenuOpen)
+      ) {
+        closeMenus();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isCartOpen, isProfileMenuOpen]);
 
   return (
     <>
-      <header>
+      <header ref={navbarRef}>
         <div className="upperBar">
           <div className="siteInfo">
             <p>+213-555-065-685</p>
@@ -51,17 +78,28 @@ function UserNavbar(props) {
           </Link>
           <Search />
           <div className="profil--cart">
-            <Link to="/profile/edit" className="profil">
+            {/* <Link to="/profile/edit" className="profil">
               <RiUserLine size={21} color="#ffffff" />
-            </Link>
-            <div onClick={toggle} className="cartIconContainer">
-              <CartIcon count={cartItems.length} open={isOpen} />
+            </Link> */}
+            <div onClick={handleProfileIconClick} className="profilIcon">
+              <RiUserLine size={21} color="#ffffff" />
+            </div>
+            <div onClick={handleCartIconClick} className="cartIconContainer">
+              <CartIcon count={cartItems.length} open={isCartOpen} />
             </div>
           </div>
         </div>
         <Menu />
+        {isProfileMenuOpen && (
+          <ProfileMenu closeMenu={closeMenus} style={{ zIndex: 3 }} />
+        )}
+        {isCartOpen && <Cart closeMenu={closeMenus} style={{ zIndex: 3 }} />}
       </header>
-      <div className="cart">{isOpen && <Cart />}</div>
+      {isCartOpen || isProfileMenuOpen ? (
+        <div className="overlay-wrapper">
+          <div className="overlay" onClick={closeMenus} />
+        </div>
+      ) : null}
     </>
   );
 }

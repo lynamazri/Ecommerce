@@ -1,11 +1,8 @@
 import React from "react";
-
 import { RiShoppingCart2Line, RiShoppingCart2Fill } from "react-icons/ri";
-import { Link } from "react-router-dom";
 
 function CartIcon({ count, open }) {
   const openCart = <RiShoppingCart2Fill size={21} color="#ffffff" />;
-
   const closedCart = <RiShoppingCart2Line size={21} color="#ffffff" />;
 
   return (

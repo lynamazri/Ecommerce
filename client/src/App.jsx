@@ -17,7 +17,6 @@ import RequireAuth from "./pages/Login/RequireAuth";
 
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
-import Menu from "./components/UserNavbar/Menu";
 import Welcome from "./pages/Home/Welcome";
 import PersistLogin from "./pages/Login/PersistLogin";
 
@@ -25,7 +24,6 @@ const Layout = () => {
   return (
     <>
       <UserNavbar />
-      <Menu />
       <Outlet />
       <Footer />
     </>
