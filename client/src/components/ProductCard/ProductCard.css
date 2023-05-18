@@ -65,12 +65,6 @@
   display: flex;
 }
 
-/* .product-rating { */
-.rating {
-  color: #ffc107;
-  margin-right: 1em;
-}
-
 .product-count {
   color: #a9a9a9;
 }

@@ -65,7 +65,7 @@ function Checkout() {
               </label>
               <label className="payment-option">
                 <input type="radio" name="payment-option" value="on-delivery" />
-                On Delivery Payment
+                Payment on delivery
               </label>
             </div>
           </div>

@@ -100,7 +100,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
-        <Route path="/products" element={<Products />} />
+        <Route path="/products/:category" element={<Products />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/

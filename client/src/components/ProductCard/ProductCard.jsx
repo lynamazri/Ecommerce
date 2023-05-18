@@ -8,6 +8,8 @@ import "./ProductCard.css";
 import { useSelector, useDispatch } from "react-redux";
 import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
+import { getStars } from "../../utils";
+
 import { Link } from "react-router-dom";
 
 function ProductCard(props) {
@@ -17,30 +19,13 @@ function ProductCard(props) {
     dispatch(add(product));
   };
 
-  function generateRatingStars(rate) {
-    const stars = [];
-
-    const floorRating = Math.floor(rate);
-    for (let i = 0; i < floorRating; i++) {
-      stars.push(<FaStar key={i} />);
-    }
-    if (rate - floorRating >= 0.5) {
-      stars.push(<FaStarHalfAlt key={floorRating} />);
-    }
-    const remaining = 5 - stars.length;
-    for (let i = 0; i < remaining; i++) {
-      stars.push(<FaRegStar key={i + floorRating} />);
-    }
-    return stars;
-  }
-
   return (
     <>
       <div className="product-card">
         <div className="product-image">
           <img src={props.image} alt={props.title} />
           {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
-          <span>10%</span>
+          <span>-10%</span>
         </div>
         <div className="product-description">
           <Link
@@ -50,7 +35,7 @@ function ProductCard(props) {
             {props.title}
           </Link>
           <span>{props.category}</span>
-          <div className="rating">{generateRatingStars(props.rating.rate)}</div>
+          <div>{getStars(props.rating.rate, 14)}</div>
           {/* <span>{product.description}</span> */}
         </div>
         <div className="product-pay">

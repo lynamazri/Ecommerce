@@ -23,14 +23,14 @@
   margin-bottom: 1em;
 }
 
-.header {
+.checkout-page > .left-container > div > .header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.header > .lower-part {
+.checkout-page > .left-container > div > .header > .lower-part {
   width: 100%;
   padding: 0.5em 0em 1em 0em;
 
