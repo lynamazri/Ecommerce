@@ -1,6 +1,11 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { categoryValidation, subCatValidation } = require("../validation");
+const {
+  categoryValidation,
+  subCatValidation,
+  categoryValidationOnUpdate,
+  subCatValidationOnUpdate,
+} = require("../validation");
 
 const getCatgory = async (req, res) => {
   const categories = await prisma.Category.findMany({
@@ -76,7 +81,85 @@ const deleteSubCat = async (req, res) => {
   else res.status(400).send("Unable to delete sub-category.");
 };
 
-const updateCatgory = async (req, res) => {};
+const updateCatgory = async (req, res) => {
+  const { error } = categoryValidationOnUpdate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const { id } = req.params;
+  const { name, description } = req.body;
+  const findCat = await prisma.Category.findUnique({
+    where: {
+      catId: parseInt(id),
+    },
+  });
+
+  if (!findCat) res.status(400).send("Unable to find category.");
+  else {
+    const updateCategory = await prisma.Category.update({
+      where: {
+        catId: parseInt(id),
+      },
+      data: {
+        name: name ? name : findCat.name,
+        description: description ? description : findCat.description,
+      },
+    });
+    if (updateCatgory) res.sendStatus(200);
+    else res.status(400).json({ message: "Unable to update category." });
+  }
+};
+
+const updateSubCat = async (req, res) => {
+  const { error } = subCatValidationOnUpdate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const { id } = req.params;
+  const { name, parentCat } = req.body;
+
+  const findSubCat = await prisma.SubCat.findUnique({
+    where: {
+      subCatId: parseInt(id),
+    },
+  });
+
+  if (!findSubCat) res.status(400).send("Unable to find sub-category.");
+  else {
+    if (parentCat) {
+      const findParentCat = await prisma.Category.findUnique({
+        where: {
+          name: parentCat,
+        },
+      });
+
+      if (!findParentCat)
+        res.status(400).send("Unable to find parent category.");
+      else {
+        const updateSubCategory = await prisma.SubCat.update({
+          where: {
+            subCatId: parseInt(id),
+          },
+          data: {
+            name: name ? name : findSubCat.name,
+            catId: findParentCat.catId,
+          },
+        });
+        if (updateSubCategory) res.sendStatus(200);
+        else res.status(400).json({ message: "Unable to update category." });
+      }
+    } else {
+      const updateSubCategory = await prisma.SubCat.update({
+        where: {
+          subCatId: parseInt(id),
+        },
+        data: {
+          name: name ? name : findSubCat.name,
+        },
+      });
+      if (updateSubCategory) res.sendStatus(200);
+      else res.status(400).json({ message: "Unable to update category." });
+    }
+  }
+};
 
 module.exports = {
   getCatgory,
@@ -85,4 +168,5 @@ module.exports = {
   deleteCatgory,
   updateCatgory,
   deleteSubCat,
+  updateSubCat,
 };
