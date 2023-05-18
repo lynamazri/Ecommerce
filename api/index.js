@@ -24,10 +24,10 @@ app.use(cookieParser());
 //routes
 app.use("/", helpRoute);
 app.use("/", authRoute);
-app.use("/", profileRoute);
-app.use("/", storeRoute);
+app.use("/store", storeRoute);
 app.use("/address", addressRoute);
 app.use("/category", categoryRoute);
+app.use("/profile", profileRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
