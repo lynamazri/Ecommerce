@@ -8,6 +8,7 @@ const {
   updateCatgory,
   createSubCat,
   deleteSubCat,
+  updateSubCat,
 } = require("../controllers/categoryController");
 
 router.get("/", getCatgory);
@@ -19,5 +20,6 @@ router.delete("/:id", deleteCatgory);
 router.delete("/sub-category/:id", deleteSubCat);
 
 router.patch("/:id", updateCatgory);
+router.patch("/sub-category/:id", updateSubCat);
 
 module.exports = router;

@@ -78,6 +78,22 @@ const subCatValidation = (data) => {
   return schema.validate(data);
 };
 
+const categoryValidationOnUpdate = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(4).max(35),
+    description: Joi.string().min(20).max(500),
+  });
+  return schema.validate(data);
+};
+
+const subCatValidationOnUpdate = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(4).max(35),
+    parentCat: Joi.string().min(4).max(35),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
@@ -86,3 +102,5 @@ module.exports.updateProfileValidation = updateProfileValidation;
 module.exports.addressValidation = addressValidation;
 module.exports.categoryValidation = categoryValidation;
 module.exports.subCatValidation = subCatValidation;
+module.exports.categoryValidationOnUpdate = categoryValidationOnUpdate;
+module.exports.subCatValidationOnUpdate = subCatValidationOnUpdate;
