@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-
 import { useSelector, useDispatch } from "react-redux";
-import "./Cart.css";
 import { Link } from "react-router-dom";
 import { clear } from "../../redux/Slices/CartSlice";
 import CartItem from "./CartItem";
+import "./Cart.css";
 
-function Cart({ isCheckoutPage }) {
+function Cart({ isCheckoutPage }, { closeMenu }) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
@@ -21,7 +20,10 @@ function Cart({ isCheckoutPage }) {
   return (
     <>
       <div className="cart-container">
-        <h2 className="cart-header">Shopping Cart</h2>
+        <div className="cart-header">
+          <h2>Shopping Cart</h2>
+          {!isCheckoutPage && <button onClick={closeMenu}>Close Menu</button>}
+        </div>
         {cart.cartItems.length === 0 ? (
           <div className="empty-cart-container">
             <span>There are no items in your cart.</span>
