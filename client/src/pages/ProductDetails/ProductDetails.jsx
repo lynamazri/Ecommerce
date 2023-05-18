@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
@@ -19,7 +20,7 @@ export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
-  const [details,setDetails] = useState("description");
+  const [details, setDetails] = useState("description");
   const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
   console.log(items);
   const params = useParams();
@@ -73,7 +74,7 @@ export default function ProductDetails() {
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
-                <img src={product.image} />
+                {product.image && <img src={product?.image} />}
                 <div className="countLabelContainer">
                   <span className="countLabel">- 36 %</span>
                   <span className="countLabel">Free shipping</span>
@@ -164,59 +165,108 @@ export default function ProductDetails() {
                 </span>
               </div>
               <div className="buttonsContainer">
-                <button className={`${details === "description" ? "selected-button" : ""}`} onClick={()=>{
-                  setDetails("description");
-                }}>Description</button>
-                <button  
-                className={`${details === "reviews" ? "selected-button" : ""}`}
-                onClick={()=>{
-                  setDetails("reviews")
-                }}>
+                <button
+                  className={`${
+                    details === "description" ? "selected-button" : ""
+                  }`}
+                  onClick={() => {
+                    setDetails("description");
+                  }}
+                >
+                  Description
+                </button>
+                <button
+                  className={`${
+                    details === "reviews" ? "selected-button" : ""
+                  }`}
+                  onClick={() => {
+                    setDetails("reviews");
+                  }}
+                >
                   Reviews <span className="countLabel">18</span>
                 </button>
-                <button>
+                <button
+                  className={`${
+                    details === "questions" ? "selected-button" : ""
+                  }`}
+                  onClick={() => setDetails("questions")}
+                >
                   Questions <span className="countLabel">4</span>
                 </button>
               </div>
-              {details === "description" && <div className="description-container">
-                <div className="description">
-                  <h5>Origins</h5>
-                  <p>
-                    We work hard to ensure that the fruit and vegetables we sell
-                    are fresh and high in quality. If we don’t grow them
-                    ourselves, we source them from carefully chosen suppliers,
-                    preferring to buy locally whenever possible.
-                  </p>
-                </div>
-                <div className="features">
-                  <h5>Features</h5>
-                  <p>
-                    Enumerate the product's key features in a bullet-point
-                    format. Focus on the most important aspects that
-                    differentiate it from other products.
-                  </p>
-                </div>
-              </div>}
-              {details === "reviews" && <div className="reviews-container">
-                <ReviewCard
-                  author="NapSTER"
-                  role="Admin"
-                  rating={3.5}
-                  date="22. 4. 2023"
-                />
-                <ReviewCard
-                  author="Cha3ban"
-                  role="Admin"
-                  rating={4.5}
-                  date="25. 4. 2023"
-                />
-                <ReviewCard
-                  author="Wahid"
-                  role="Customer"
-                  rating={1.5}
-                  date="12. 5. 2023"
-                />
-              </div>}
+              {details === "description" && (
+                <motion.div
+                  className="description-container"
+                  initial={{ x: "50vw" }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 30,
+                    duration: 0.1,
+                  }}
+                >
+                  <div className="description">
+                    <h5>Origins</h5>
+                    <p>
+                      We work hard to ensure that the fruit and vegetables we
+                      sell are fresh and high in quality. If we don’t grow them
+                      ourselves, we source them from carefully chosen suppliers,
+                      preferring to buy locally whenever possible.
+                    </p>
+                  </div>
+                  <div className="features">
+                    <h5>Features</h5>
+                    <p>
+                      Enumerate the product's key features in a bullet-point
+                      format. Focus on the most important aspects that
+                      differentiate it from other products.
+                    </p>
+                  </div>
+                </motion.div>
+              )}
+              {details === "reviews" && (
+                <motion.div
+                  className="reviews-container"
+                  initial={{ x: "50vw" }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 30,
+                    duration: 0.1,
+                  }}
+                >
+                  <ReviewCard
+                    author="NapSTER"
+                    role="Admin"
+                    rating={3.5}
+                    date="22. 4. 2023"
+                  />
+                  <ReviewCard
+                    author="Cha3ban"
+                    role="Admin"
+                    rating={4.5}
+                    date="25. 4. 2023"
+                  />
+                  <ReviewCard
+                    author="Wahid"
+                    role="Customer"
+                    rating={1.5}
+                    date="12. 5. 2023"
+                  />
+                </motion.div>
+              )}
+              {details === "questions" && (
+                <motion.div
+                  className="questions-container"
+                  initial={{ x: "50vw" }}
+                  animate={{ x: 0 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 30,
+                    duration: 0.1,
+                  }}
+                ></motion.div>
+              )}
             </section>
           </div>
           <div className="relatedProducts">
