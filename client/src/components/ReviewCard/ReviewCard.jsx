@@ -1,5 +1,6 @@
 import React from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import { TbMessageReport } from "react-icons/tb";
 import "./ReviewCard.css";
 
 function generateRatingStars(rate) {
@@ -23,17 +24,19 @@ export default function ReviewCard(props) {
   return (
     <div className="review-card">
       <div className="review-header">
-        <img className="profile-picture" />
-        <div className="head">
-          <div className="username-container">
+        <div className="username-container">
+          <div className="bzbz">
             <h6 className="username">{props.author}</h6>
             <h6 className="role countLabel">{props.role}</h6>
             <div className="review-rating-cointainer">
               {generateRatingStars(props.rating)}
             </div>
           </div>
-          <small className="review-date">{props.date}</small>
+          <button className="report-button">
+            <TbMessageReport />
+          </button>
         </div>
+        <small className="review-date">{props.date}</small>
       </div>
       <p className="review-comment">
         Hi everyone, we have been working hard with the team bringing a new

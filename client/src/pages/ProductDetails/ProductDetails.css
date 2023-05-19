@@ -215,10 +215,10 @@ small {
   color: #fff;
   background-color: #1f2c4c;
   border: none;
+  transition: all 0.3s ease-in-out;
 }
-
 .addToCartButton button:hover {
-  background-color: hsl(223, 42%, 18%);
+  background-color: #3b82f6;
 }
 
 .wishCompareContainer {
@@ -303,6 +303,8 @@ small {
 }
 
 .reviews-container {
+  max-height: 56em;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -338,4 +340,45 @@ small {
 .description,
 p .features p {
   font-size: 0.85em;
+}
+
+.comment-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: flex-start;
+}
+
+.textarea-container {
+  display: flex;
+  flex-direction: column;
+}
+.textarea-container label {
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.comment-input {
+  outline: none;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  padding: 0.5em;
+}
+
+.comment-button {
+  color: #fff;
+  padding: 0.4em 0.85em;
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 700;
+  color: #fff;
+  background-color: #1f2c4c;
+  border: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.comment-button:hover {
+  background-color: #3b82f6;
 }
