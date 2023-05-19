@@ -78,9 +78,6 @@ function UserNavbar(props) {
           </Link>
           <Search />
           <div className="profil--cart">
-            {/* <Link to="/profile/edit" className="profil">
-              <RiUserLine size={21} color="#ffffff" />
-            </Link> */}
             <div onClick={handleProfileIconClick} className="profilIcon">
               <RiUserLine size={21} color="#ffffff" />
             </div>

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { decrease, increase, remove } from "../../redux/Slices/CartSlice";
+
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const handleRemove = (item) => {
@@ -28,13 +29,16 @@ const CartItem = ({ item }) => {
       <div className="upper-card">
         <img src={item.image} alt={item.title} />
         <div className="item-info">
-          <h3>{item.title}</h3>
+          <Link to={`/product/${item.category}/${item.id}`}>
+            <h3>{item.title}</h3>
+          </Link>
+
           <h4>store: </h4>
           <span className="rating">{getStars(3.6, 12)}</span>
         </div>
       </div>
       <div className="lower-card">
-        <div>
+        <div className="list">
           <Link to="/wishlist" className="wishlist">
             <span className="svg">
               <AiOutlineHeart size={11} color="#D1D1D1" />

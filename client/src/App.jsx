@@ -101,14 +101,13 @@ function App() {
         <Route path="/products/:category" element={<Products />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
+        <Route path="/profile/edit" element={<EditProfile />} />
+        <Route path="/profile/wishlist" element={<Wishlist />} />
+        <Route path="/compare" element={<Compare />} />
+        <Route path="welcome" element={<Welcome />} />
         /*priv*/
         <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}>
-            <Route path="/profile/edit" element={<EditProfile />} />
-            <Route path="/profile/wishlist" element={<Wishlist />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="welcome" element={<Welcome />} />
-          </Route>
+          <Route element={<RequireAuth />}></Route>
         </Route>
       </Routes>
     </div>
