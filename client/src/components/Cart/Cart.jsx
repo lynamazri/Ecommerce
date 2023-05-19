@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { clear } from "../../redux/Slices/CartSlice";
+import { GrFormClose } from "react-icons/gr";
 import CartItem from "./CartItem";
 import "./Cart.css";
 
@@ -21,8 +22,12 @@ function Cart({ isCheckoutPage }, { closeMenu }) {
     <>
       <div className="cart-container">
         <div className="cart-header">
-          <h2>Shopping Cart</h2>
-          {!isCheckoutPage && <button onClick={closeMenu}>Close Menu</button>}
+          <h3>Shopping Cart</h3>
+          {!isCheckoutPage && (
+            <button onClick={closeMenu}>
+              Close <GrFormClose size={20} />
+            </button>
+          )}
         </div>
         {cart.cartItems.length === 0 ? (
           <div className="empty-cart-container">
@@ -45,7 +50,7 @@ function Cart({ isCheckoutPage }, { closeMenu }) {
             <div className="lower-cart">
               <div className="amount">
                 <h4>Subtotal</h4>
-                <span>DZD{cart.totAmount}</span>
+                <div>DZD{cart.totAmount}</div>
                 {/* <span>Taxes and shipping calculated at checkout</span> */}
               </div>
               <div className="operations">
