@@ -89,7 +89,7 @@ export default function ProductDetails() {
                   <div className="starsContainer">
                     {generateRatingStars(product.rating.rate)}
                   </div>
-                  <small>({product.rating.count} customer review)</small>
+                  <small>({product.rating.count} customer reviews)</small>
                 </div>
               </div>
               <div className="description">
