@@ -4,6 +4,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./credentials");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 const products = require("./data/products");
 const helpRoute = require("./routes/helpRoute");
 const authRoute = require("./routes/authRoute");
@@ -16,10 +17,11 @@ const app = express();
 
 //middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(credentials);
 app.use(cors(corsOptions));
 app.use(cookieParser());
+app.use(fileUpload({ useTempFiles: true }));
 
 //routes
 app.use("/", helpRoute);

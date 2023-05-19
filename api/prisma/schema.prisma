@@ -61,12 +61,14 @@ model Product{
   name String
   description String
   price Int
+  quantity Int
 subCat   SubCat @relation(fields: [subCatId], references: [subCatId])
   subCatId Int
 images           ProductImage[]
 options ProductOptions[]
-store   Store @relation(fields: [storeId], references: [storeId])
-  storeId String 
+store   Store @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
+  storeId String
+  verified Boolean @default(false)
 }
 
 

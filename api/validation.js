@@ -7,6 +7,7 @@ const registerValidation = (data) => {
     lastName: Joi.string().max(30).required(),
     email: Joi.string().required().email(),
     password: Joi.string().min(8).max(30).required(),
+    //.pattern(new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$"))
     birthDate: Joi.string().required(),
     adresses: Joi.any(),
     gender: Joi.string().required(),
