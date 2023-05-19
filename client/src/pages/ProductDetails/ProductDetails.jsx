@@ -235,6 +235,22 @@ export default function ProductDetails() {
                     duration: 0.1,
                   }}
                 >
+                  <div className="comment-form-container">
+                    <h3>Leave a comment</h3>
+                    <div className="textarea-container">
+                      <label htmlFor="comment">Comment</label>
+                      <textarea
+                        id="comment"
+                        className="comment-input"
+                        name="comment"
+                        placeholder="Space for your comment"
+                        rows="4"
+                        cols="50"
+                      ></textarea>
+                    </div>
+
+                    <button className="comment-button">Send a comment</button>
+                  </div>
                   <ReviewCard
                     author="NapSTER"
                     role="Admin"
@@ -246,6 +262,24 @@ export default function ProductDetails() {
                     role="Admin"
                     rating={4.5}
                     date="25. 4. 2023"
+                  />
+                  <ReviewCard
+                    author="Wahid"
+                    role="Customer"
+                    rating={1.5}
+                    date="12. 5. 2023"
+                  />
+                  <ReviewCard
+                    author="Wahid"
+                    role="Customer"
+                    rating={1.5}
+                    date="12. 5. 2023"
+                  />
+                  <ReviewCard
+                    author="Wahid"
+                    role="Customer"
+                    rating={1.5}
+                    date="12. 5. 2023"
                   />
                   <ReviewCard
                     author="Wahid"
