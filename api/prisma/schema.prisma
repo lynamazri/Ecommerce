@@ -41,6 +41,8 @@ phone Int
 email String?
 openingDate DateTime  @default(now())
 owners UserStore[]
+banner StoreImage[]
+products Product[]
 approved Boolean @default(false)
 }
 
@@ -58,9 +60,13 @@ model Product{
   productId String @id @default(uuid())
   name String
   description String
+  price Int
 subCat   SubCat @relation(fields: [subCatId], references: [subCatId])
   subCatId Int
-
+images           ProductImage[]
+options ProductOptions[]
+store   Store @relation(fields: [storeId], references: [storeId])
+  storeId String 
 }
 
 
@@ -77,4 +83,35 @@ model SubCat {
   catId Int
   category   Category @relation(fields: [catId], references: [catId], onDelete: Cascade)
   products    Product[]
+}
+
+
+model ProductImage {
+  prodImgId        Int     @id @default(autoincrement())
+  url String
+  product   Product @relation(fields: [productId], references: [productId])
+  productId String
+}
+
+
+model StoreImage {
+  storeImgId        Int     @id @default(autoincrement())
+  url String
+  store   Store @relation(fields: [storeId], references: [storeId])
+  storeId String
+}
+
+model ProductOptions {
+  optionId Int @id @default(autoincrement())
+  option String
+  product   Product @relation(fields: [productId], references: [productId])
+  productId String
+   OptionValue   OptionValue     @relation(fields: [valueId], references: [valueId])
+  valueId Int
+}
+
+model OptionValue {
+  valueId        Int       @id @default(autoincrement())
+  value      String
+  options ProductOptions[]
 }
