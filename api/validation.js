@@ -95,6 +95,14 @@ const subCatValidationOnUpdate = (data) => {
   return schema.validate(data);
 };
 
+const reviewValidation = (data) => {
+  const schema = Joi.object({
+    content: Joi.string().min(10).max(500),
+    stars: Joi.any(),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
@@ -105,3 +113,4 @@ module.exports.categoryValidation = categoryValidation;
 module.exports.subCatValidation = subCatValidation;
 module.exports.categoryValidationOnUpdate = categoryValidationOnUpdate;
 module.exports.subCatValidationOnUpdate = subCatValidationOnUpdate;
+module.exports.reviewValidation = reviewValidation;
