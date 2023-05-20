@@ -299,7 +299,7 @@ const deleteProduct = async (req, res) => {
 
   const deleteProduct = await prisma.Product.delete({
     where: {
-      productId: parseInt(id),
+      productId: id,
     },
   });
   if (deleteProduct) res.sendStatus(200);
