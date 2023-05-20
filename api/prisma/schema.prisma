@@ -125,7 +125,7 @@ model OptionValue {
 
 model Reviews {
   reviewId Int @id @default(autoincrement())
-  postedAt DateTime @default(now())
+  posted DateTime @default(now())
   stars Int 
   content String @db.VarChar(500)
   userId String
@@ -136,7 +136,7 @@ model Reviews {
 
 model Questions {
    questionId Int @id @default(autoincrement())
-  postedAt DateTime @db.Date @default(now()) 
+  posted DateTime @default(now()) 
   content String @db.VarChar(500)
   answer String? @db.VarChar(500)
   userId String
