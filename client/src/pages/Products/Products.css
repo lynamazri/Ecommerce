@@ -52,7 +52,7 @@
 
 .products-page > div > div > div > .body {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 8px;
 }
 

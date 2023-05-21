@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
-import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";

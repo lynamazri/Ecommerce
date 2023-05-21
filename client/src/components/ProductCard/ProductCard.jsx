@@ -1,57 +1,44 @@
 import React from "react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/bundle";
-// import { StarOutlined, StarFilled, FaRegStar } from "@ant-design/icons";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import "./ProductCard.css";
 import { useSelector, useDispatch } from "react-redux";
-import RingLoader from "react-spinners/RingLoader";
 import { add } from "../../redux/Slices/CartSlice";
 import { getStars } from "../../utils";
-
 import { Link } from "react-router-dom";
+import "./ProductCard.css";
 
-function ProductCard(props) {
+function ProductCard({ id, image, title, category, rating, price }) {
   const dispatch = useDispatch();
-  const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
-  const handleAdd = (product) => {
-    dispatch(add(product));
+  // const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  const handleAdd = () => {
+    dispatch(add({ id, image, title, category, rating, price }));
   };
 
   return (
-    <>
-      <div className="product-card">
-        <div className="product-image">
-          <img src={props.image} alt={props.title} />
-          {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
-          <span>-10%</span>
-        </div>
-        <div className="product-description">
-          <Link
-            to={`/product/${props.category}/${props.id}`}
-            className="product-title"
-          >
-            {props.title}
-          </Link>
-          <span>{props.category}</span>
-          <div>{getStars(props.rating.rate, 14)}</div>
-          {/* <span>{product.description}</span> */}
-        </div>
-        <div className="product-pay">
-          <div className="product-price">
-            {/* {props.isOnSale ? ( */}
-            <>
-              <span>$10</span>
-              <span className="old-price">DZD{props.price}</span>
-            </>
-            {/* ) : null} */}
-            {/* <span>DZD{props.price}</span> */}
-          </div>
-          <button onClick={() => handleAdd(props)}>Add To Cart</button>
-        </div>
+    <div className="product-card">
+      <div className="product-image">
+        <img src={image} alt={title} />
+        {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
+        <span>-10%</span>
       </div>
-    </>
+      <div className="product-description">
+        <Link to={`/product/${category}/${id}`} className="product-title">
+          {title}
+        </Link>
+        <span>{category}</span>
+        <div>{getStars(rating.rate, 14)}</div>
+      </div>
+      <div className="product-pay">
+        <div className="product-price">
+          {/* {isOnSale ? ( */}
+          <>
+            <span>$10</span>
+            <span className="old-price">DZD{price}</span>
+          </>
+          {/* ) : null} */}
+          {/* <span>DZD{price}</span> */}
+        </div>
+        <button onClick={handleAdd}>Add To Cart</button>
+      </div>
+    </div>
   );
 }
 

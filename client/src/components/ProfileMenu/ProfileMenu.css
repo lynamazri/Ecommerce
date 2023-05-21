@@ -1,32 +1,92 @@
 .profile-menu {
   display: flex;
   flex-direction: column;
+  gap: 10px;
   position: absolute;
   width: 300px;
-  height: 480px;
   right: 48px;
-  top: 146px;
+  top: 130.3px;
   z-index: 3;
   padding: 1em;
   background: #ffffff;
   box-shadow: 0px 2px 32px rgba(0, 0, 0, 0.15);
 }
 
+.profile-menu > div > a {
+  color: #151515;
+}
+
+.profile-menu > .pm-body > a {
+  font-weight: 500;
+  font-size: 14px;
+}
+
 .pm-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  font-size: 18px;
+  font-size: 16px;
 }
 
-.pm-header > button {
+.pm-header > div > p {
+  /* color: #d1d1d1; */
+  color: #8c8c8c;
+  font-size: 14px;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.pm-body {
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pm-body > .section-heading {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.pm-body > a {
   display: flex;
   align-items: center;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-family: "Open Sans";
-  font-weight: 400;
+  color: #151515;
+  text-decoration: none;
+  padding: 4px 0;
+  gap: 8px;
   font-size: 14px;
-  color: #d1d1d1;
+}
+
+.pm-body > a:hover,
+.pm-footer > a:hover {
+  background-color: #f0f0f0;
+}
+
+.pm-body > a.active {
+  background-color: #ebebeb;
+  font-weight: 600;
+}
+
+.pm-footer {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 0.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pm-footer > a {
+  display: flex;
+  align-items: center;
+  color: #151515;
+  text-decoration: none;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.pm-footer > a:hover {
+  color: #ff0000;
 }

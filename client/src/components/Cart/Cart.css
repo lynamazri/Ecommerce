@@ -3,9 +3,9 @@
   flex-direction: column;
   position: absolute;
   width: 300px;
-  height: 480px;
+  height: 500px;
   right: 48px;
-  top: 146px;
+  top: 130.3px;
   z-index: 3;
   padding: 1em;
   background: #ffffff;
@@ -13,22 +13,53 @@
 }
 
 .cart-header {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
 }
 
-.cart-header > button {
+.close-button {
   display: flex;
   align-items: center;
   border: none;
   background: none;
   cursor: pointer;
-  font-family: "Open Sans";
   font-weight: 400;
   font-size: 14px;
   color: #d1d1d1;
+  transition: color 0.3s ease;
+}
+
+.close-button:hover {
+  color: #1f2c4c;
+}
+
+.close-buttonton:active {
+  color: #0e1529;
+}
+
+.empty-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.empty-cart-container span {
+  margin-bottom: 1em;
+}
+
+.link-home {
+  margin-top: 1em;
+}
+
+.link-home a {
+  font-weight: 500;
+  color: #1f2c4c;
 }
 
 .full-cart-container {
@@ -52,12 +83,10 @@
 .item-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  /* align-items: center; */
   height: 180px;
   width: 100%;
   padding: 1em 0em;
-  border-bottom: 1px solid #d1d1d1;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .upper-card {
@@ -113,8 +142,6 @@
   display: flex;
   cursor: pointer;
   margin: 5px 0px;
-  /* width: 70px;
-  margin-right: 1em; */
 }
 
 .remove-item {
@@ -159,7 +186,6 @@ h4 {
 }
 
 .item-quantity {
-  /* height: 100%; */
   width: 70px;
   display: flex;
   flex-direction: column;
@@ -183,7 +209,6 @@ h4 {
   padding: 0px 5px 0px 8px;
   border-left: 1px solid #d1d1d1;
 }
-/*330 170  450 265   1040 350 700 140*/
 
 .quantity-handler {
   height: 25px;
@@ -209,7 +234,6 @@ h4 {
   border: 1px solid #d1d1d1;
   cursor: pointer;
 }
-/* cc */
 
 .lower-cart {
   height: 30%;
@@ -221,7 +245,7 @@ h4 {
 }
 
 .amount {
-  border-bottom: 1px solid #ebebeb;
+  border-bottom: 1px solid #e5e5e5;
   padding-bottom: 0.8em;
 }
 
@@ -244,26 +268,43 @@ h4 {
 
 .clear-cart {
   font-weight: 500;
-  font-size: 12px;
+  font-size: 14px;
   color: #151515;
   border: none;
   background: none;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.clear-cart:hover {
+  color: #1f2c4c;
+}
+
+.clear-cart:active {
+  color: #0e1529;
 }
 
 .checkout-button {
   height: 37px;
-  width: 120px;
-  padding: 0.3em 0.9em;
+  width: 130px;
+  padding: 0.3em;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 14px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: #fff;
   background-color: #1f2c4c;
   border-radius: 12px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.checkout-button:hover {
+  background-color: #15203b;
+}
+
+.checkout-button:active {
+  background-color: #0e1529;
+}
 /*khatini l grid dabro raskoum x) */
 
 /* For Chrome, Safari and Opera */

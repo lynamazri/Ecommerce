@@ -92,7 +92,7 @@ function Checkout() {
         </div>
 
         <div className="right-container">
-          <Cart isCheckoutPage />
+          <Cart isCheckoutPage={true} />
         </div>
       </div>
       <Footer />

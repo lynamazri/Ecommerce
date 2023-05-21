@@ -16,13 +16,17 @@
   width: 100%;
   height: 50%;
   position: relative;
-  /* z-index: auto; */
 }
 
 .product-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-image img:hover {
+  transform: scale(1.05);
 }
 
 .product-image span {
@@ -53,6 +57,12 @@
   max-height: 2.5em;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #1f2c4c;
+}
+
+.product-title:hover {
+  background-color: #f2f2f2;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .product-description span {
@@ -62,20 +72,38 @@
   line-height: 16px;
 }
 
-.product-specif {
-  display: flex;
-}
-
-.product-count {
-  color: #a9a9a9;
-}
-
 .product-pay {
-  /* height: 15%; */
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.product-pay > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-basis: 50%;
+  height: 3em;
+  width: 7em;
+  padding: 5px 0px;
+  font-weight: 700;
+  font-size: 11px;
+  color: #fff;
+  background: var(--primaryColor);
+  border: none;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.product-pay > button:hover {
+  background-color: #15203b;
+}
+
+.product-pay > button:active {
+  background-color: #0e1529;
 }
 
 .product-price {
@@ -92,27 +120,20 @@
   font-size: 0.7em;
   color: #a9a9a9;
   text-decoration: line-through 1.2px;
+  text-decoration: line-through;
 }
 
-.product-pay > button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-basis: 50%;
-  padding: 5px 0px;
-  color: #fff;
-  background: var(--primaryColor);
-  height: 3em;
-  width: 7em;
-  border: none;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
+a:focus,
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(31, 44, 76, 0.4);
 }
 
-.product-pay > button:hover {
-  background-color: #3b82f6;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

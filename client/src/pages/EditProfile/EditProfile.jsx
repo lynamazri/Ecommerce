@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import "../Register/Register.css";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import axios from "axios";
+import "../EditProfile/EditProfile.css";
 
 function EditProfile() {
   const [formData, setFormData] = React.useState({
@@ -184,25 +184,27 @@ function EditProfile() {
   return (
     <>
       <UserNavbar></UserNavbar>
-      <div className="vertical-menu">
-        <h2 className="menu-item">User Info</h2>
-        <h2 className="menu-item">Shipping Addresses</h2>
-        <h2 className="menu-item">Account Settings</h2>
-        <h2 className="menu-item">Email Notifications</h2>
-        <h2 className="menu-item">Help & Feedback</h2>
-        <div className="logout">
-          <button>logout</button>
+      <div className="profile-container">
+        <div className="vertical-menu">
+          <h2 className="menu-item">User Info</h2>
+          <h2 className="menu-item">Shipping Addresses</h2>
+          <h2 className="menu-item">Account Settings</h2>
+          <h2 className="menu-item">Email Notifications</h2>
+          <h2 className="menu-item">Help & Feedback</h2>
+          <div className="logout">
+            <button>logout</button>
+          </div>
         </div>
-      </div>
-      <div className="edit-user-info">
-        <h1 className="menu-cur-title">User Info</h1>
-        <img
-          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          className="profile-pic"
-          width={140}
-        ></img>
-        <span className="edit-pic">•••</span>
-        {renderForm}
+        <div className="edit-user-info">
+          <h1 className="menu-cur-title">User Info</h1>
+          <img
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            className="profile-pic"
+            width={140}
+          ></img>
+          <span className="edit-pic">•••</span>
+          {renderForm}
+        </div>
       </div>
     </>
   );

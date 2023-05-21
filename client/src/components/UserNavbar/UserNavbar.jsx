@@ -90,7 +90,13 @@ function UserNavbar(props) {
         {isProfileMenuOpen && (
           <ProfileMenu closeMenu={closeMenus} style={{ zIndex: 3 }} />
         )}
-        {isCartOpen && <Cart closeMenu={closeMenus} style={{ zIndex: 3 }} />}
+        {isCartOpen && (
+          <Cart
+            isCheckoutPage={false}
+            closeMenu={closeMenus}
+            style={{ zIndex: 3 }}
+          />
+        )}
       </header>
       {isCartOpen || isProfileMenuOpen ? (
         <div className="overlay-wrapper">
