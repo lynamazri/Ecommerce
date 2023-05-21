@@ -7,6 +7,7 @@ const registerValidation = (data) => {
     lastName: Joi.string().max(30).required(),
     email: Joi.string().required().email(),
     password: Joi.string().min(8).max(30).required(),
+    //.pattern(new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,30}$"))
     birthDate: Joi.string().required(),
     adresses: Joi.any(),
     gender: Joi.string().required(),
@@ -94,6 +95,20 @@ const subCatValidationOnUpdate = (data) => {
   return schema.validate(data);
 };
 
+const reviewValidation = (data) => {
+  const schema = Joi.object({
+    content: Joi.string().min(10).max(500).required,
+    stars: Joi.any(),
+  });
+  return schema.validate(data);
+};
+
+const questionValidation = (data) => {
+  const schema = Joi.object({
+    content: Joi.string().min(10).max(500).required,
+  });
+  return schema.validate(data);
+};
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
@@ -104,3 +119,5 @@ module.exports.categoryValidation = categoryValidation;
 module.exports.subCatValidation = subCatValidation;
 module.exports.categoryValidationOnUpdate = categoryValidationOnUpdate;
 module.exports.subCatValidationOnUpdate = subCatValidationOnUpdate;
+module.exports.reviewValidation = reviewValidation;
+module.exports.questionValidation = questionValidation;
