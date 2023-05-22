@@ -37,7 +37,7 @@
   display: flex;
   justify-content: space-between;
 
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 12px;
   line-height: 16px;
@@ -53,7 +53,7 @@
   gap: 8px;
 }
 
-.checkout-page > div > div > .body > .input {
+.input-checkout {
   width: 300px;
   height: 40px;
   padding: 0.3em 0.9em;
@@ -63,14 +63,20 @@
   border: 1px solid #d1d1d1;
   border-radius: 12px;
 
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #a9a9a9;
 }
 
-.checkout-page > div > div > .body > label {
-  width: auto;
+.input-checkout:focus {
+  outline: none;
+  border-color: #1f2c4c;
+  box-shadow: 0 0 3px 2px rgba(31, 44, 76, 0.5);
+}
+
+.label-checkout {
+  width: max-content;
   height: 40px;
   padding: 0.3em 0.9em;
   margin: 0.5em 0em;
@@ -81,14 +87,27 @@
   background: #f9f9f9;
   border: 1px solid #d1d1d1;
   border-radius: 12px;
-  font-family: "Open Sans";
+  font-family: "Open Sans", sans-serif;
   font-weight: 400;
   font-size: 14px;
 }
 
-.checkout-page > div > div > .body > .payment-option {
+.payment-option {
   width: 100%;
   justify-content: space-between;
+  height: 40px;
+  padding: 0.3em 0.9em;
+  margin: 0.5em 0em;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
 }
 
 .checkout-page > .right-container {
@@ -103,7 +122,8 @@
   box-shadow: none;
 }
 
-.order-button {
+.order-button,
+.next-button {
   width: 170px;
   height: 45px;
   padding: 0.3em 0.9em;
@@ -119,4 +139,34 @@
   background-color: #1f2c4c;
   border-radius: 12px;
   cursor: pointer;
+  border: none;
+}
+
+.order-button:focus,
+.next-button:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(31, 44, 76, 0.5);
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 12px;
+  margin-top: 5px;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.success-message {
+  color: #00ff00;
+  font-size: 12px;
+  margin-top: 5px;
+  animation: fade-in 0.3s ease-in-out;
 }

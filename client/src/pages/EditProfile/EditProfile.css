@@ -1,4 +1,49 @@
-.profile-container {
+.profile-page {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  padding: 1em 3em;
+}
+
+.profile-page > .left-container {
+  width: 30%;
+  height: 100%;
+  padding: 1em 1em 1em 0em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #f1f1f1;
+}
+
+.sidebar-item {
+  font-weight: bold;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+  color: #1f2c4c;
+}
+
+.subheadings {
+  margin-left: 20px;
+}
+
+.subheadings li {
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.subheadings li:hover {
+  color: #1f2c4c;
+}
+
+.right-container {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
 }
