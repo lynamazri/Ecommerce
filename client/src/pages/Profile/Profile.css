@@ -1,0 +1,117 @@
+.profile-page {
+  height: 74vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 1em 3em;
+}
+
+.profile-page > .left-container {
+  width: 20%;
+  height: 100%;
+  padding: 1em 1em 1em 0em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-right: 1px solid #e5e5e5;
+}
+
+.sidebar-item {
+  font-weight: bold;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+  color: #1f2c4c;
+}
+
+.subheadings {
+  margin-left: 20px;
+}
+
+.subheadings li {
+  margin-bottom: 5px;
+}
+
+.subheadings li > a {
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  color: #191919;
+}
+
+.subheadings li > a:hover {
+  color: #1f2c4c;
+}
+
+.subheadings li > a.active {
+  background-color: #ebebeb;
+  font-weight: 600;
+}
+
+.right-container {
+  width: 80%;
+  height: 100%;
+  padding: 1em 0em 1em 3em;
+  background-color: #fff;
+}
+
+.security-page > div > .input-container,
+.tfa-container {
+  width: 400px;
+  margin-bottom: 1em;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-password {
+  position: relative;
+}
+
+.input-password > input,
+.tfa-container > input {
+  height: 35px;
+  width: 100%;
+  padding: 0.3em 0.5em;
+  margin: 0.5em 0em;
+
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  background-color: #ebf1f6;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+}
+
+.show-password {
+  position: absolute;
+  top: 52%;
+  right: 3%;
+  transform: translateY(-40%);
+  width: fit-content;
+  color: #191919;
+  border: none;
+  cursor: pointer;
+  background-color: #ebf1f6;
+}
+
+.security-page > div > button {
+  width: 155px;
+  height: 2.7em;
+  padding: 0.3em 0.9em;
+  margin-bottom: 0.9em;
+  font-weight: 700;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #fff;
+  background-color: #1f2c4c;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.security-page > div > button:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(31, 44, 76, 0.5);
+}
