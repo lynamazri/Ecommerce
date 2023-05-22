@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import axios from "axios";
+import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
+import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Path from "../../components/Path/Path";
 import "../EditProfile/EditProfile.css";
 
 function EditProfile() {
@@ -183,27 +184,44 @@ function EditProfile() {
 
   return (
     <>
-      <UserNavbar></UserNavbar>
-      <div className="profile-container">
-        <div className="vertical-menu">
-          <h2 className="menu-item">User Info</h2>
-          <h2 className="menu-item">Shipping Addresses</h2>
-          <h2 className="menu-item">Account Settings</h2>
-          <h2 className="menu-item">Email Notifications</h2>
-          <h2 className="menu-item">Help & Feedback</h2>
-          <div className="logout">
-            <button>logout</button>
-          </div>
+      <UserNavbar />
+      <Path />
+      <div className="profile-page">
+        <div className="left-container">
+          <ul className="sidebar">
+            <li className="sidebar-item">Manage My Account</li>
+            <ul className="subheadings">
+              <li>My Profile </li>
+              <li>Address Book</li>
+              <li>Payment Methods</li>
+            </ul>
+            <li className="sidebar-item">Order History</li>
+            <ul className="subheadings">
+              <li>Orders</li>
+              <li>Cancelations</li>
+              <li>Returns</li>
+            </ul>
+            <li className="sidebar-item">My Settings</li>
+            <ul className="subheadings">
+              <li>Language</li>
+              <li>Security (Password Change)</li>
+              <li>Two-Factor Authentication</li>
+            </ul>
+            <li className="sidebar-item">Help & Feedback</li>
+          </ul>
         </div>
-        <div className="edit-user-info">
-          <h1 className="menu-cur-title">User Info</h1>
-          <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-            className="profile-pic"
-            width={140}
-          ></img>
-          <span className="edit-pic">•••</span>
-          {renderForm}
+
+        <div className="right-container">
+          <div className="edit-user-info">
+            <h1 className="menu-cur-title">User Info</h1>
+            <img
+              src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+              className="profile-pic"
+              width={140}
+            ></img>
+            <span className="edit-pic">•••</span>
+            {renderForm}
+          </div>
         </div>
       </div>
     </>
