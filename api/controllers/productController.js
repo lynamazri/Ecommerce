@@ -96,12 +96,17 @@ const createProduct = async (req, res) => {
     subCat,
     quantity,
     options,
-    img1,
+    /*   img1,
     img2,
     img3,
     img4,
-    img5,
+    img5, */
   } = req.body;
+  img1 = req.files?.img1;
+  img2 = req.files?.img2;
+  img3 = req.files?.img3;
+  img4 = req.files?.img4;
+  img5 = req.files?.img5;
   const { store } = req.params;
   console.log(req.body);
   let upload1;
@@ -123,21 +128,20 @@ const createProduct = async (req, res) => {
       name: subCat,
     },
   });
+  console.log(findSubCat);
 
   if (!findSubCat) {
     res.status(400).send("Product sub-category doesn't exist.");
   } else {
-    try {
+    /*    try {
       upload1 = await cloudinary.uploader.upload(img1, {
         folder: "products",
-        crop: scale,
       });
       var images = [{ image_url: upload1.url }];
 
       if (img2) {
         upload2 = await cloudinary.uploader.upload(img2, {
           folder: "products",
-          crop: scale,
         });
         images.push({ image_url: upload2.url });
       }
@@ -145,7 +149,6 @@ const createProduct = async (req, res) => {
       if (img3) {
         upload3 = await cloudinary.uploader.upload(img3, {
           folder: "products",
-          crop: scale,
         });
         images.push({ image_url: upload3.url });
       }
@@ -153,7 +156,6 @@ const createProduct = async (req, res) => {
       if (img4) {
         upload4 = await cloudinary.uploader.upload(img4, {
           folder: "products",
-          crop: scale,
         });
         images.push({ image_url: upload4.url });
       }
@@ -161,37 +163,44 @@ const createProduct = async (req, res) => {
       if (img5) {
         upload5 = await cloudinary.uploader.upload(img5, {
           folder: "products",
-          crop: scale,
         });
         images.push({ image_url: upload5.url });
       }
-
-      const product = await prisma.Product.create({
-        data: {
-          name: name,
-          description: description,
-          price: parseInt(price),
-          subCat: findSubCat.subCatId,
-          quantity: parseInt(quantity),
-          store: findStore.storeId,
-          images: {
-            create: Array.from(images),
-          },
-          options: {
-            create: Array.from(options),
+ */
+    const product = await prisma.Product.create({
+      data: {
+        name: name,
+        description: description,
+        price: parseInt(price),
+        subCat: {
+          connect: {
+            subCatId: findSubCat.subCatId,
           },
         },
-      });
+        quantity: parseInt(quantity),
+        store: {
+          connect: {
+            storeId: findStore.storeId,
+          },
+        },
+        /* images: {
+            create: Array.from(images),
+          }, */
+        options: {
+          create: Array.from(options),
+        },
+      },
+    });
 
-      if (!product) {
-        res.status(400).send("Unable to create product");
-      } else {
-        res.status(200).json(product);
-      }
-    } catch (error) {
+    if (!product) {
+      res.status(400).send("Unable to create product");
+    } else {
+      res.status(200).json(product);
+    }
+    /* } catch (error) {
       console.log(error);
       res.sendStatus(400);
-    }
+    } */
   }
 };
 
