@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import ProductCard from "../ProductCard/ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -39,8 +39,6 @@ function Product() {
           init="false"
           navigation
           scrollbar={{ draggable: true }}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
           effect={"cube"}
           cubeEffect={{
             shadow: true,
@@ -49,18 +47,18 @@ function Product() {
             shadowScale: 0.94,
           }}
         >
-          {items &&
+          {items.length > 0 &&
             items?.map((product) => (
               <div class="swiper-wrapper">
                 <SwiperSlide key={product.productId}>
                   <ProductCard
-                    id={product.productId}
-                    title={product.name}
-                    price={product.price}
-                    description={product.description}
-                    category={product.subCat.name}
-                    image={product.images[0].url}
-                    rating={product.reviews.length}
+                    id={product?.productId}
+                    title={product?.name}
+                    price={product?.price}
+                    description={product?.description}
+                    category={product?.subCat.name}
+                    image={product?.images[0].url}
+                    rating={product?.reviews.length}
                   />
                 </SwiperSlide>
               </div>
@@ -76,7 +74,7 @@ function Product() {
           <RingLoader color="#1f2c4c" />
         </div>
       ) : (
-        <p>Error</p>
+        <p>{error}</p>
       )}
     </>
   );
