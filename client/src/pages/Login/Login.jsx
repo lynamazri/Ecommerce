@@ -41,11 +41,11 @@ function Login() {
     console.log(formData);
 
     try {
-      const { accessToken } = await login({
+      const { accessToken, user } = await login({
         email: formData.uemail,
         password: formData.pass,
       }).unwrap();
-      dispatch(setCredentials({ accessToken }));
+      dispatch(setCredentials({ accessToken, user }));
       setFormData({
         uemail: "",
         pass: "",

@@ -15,6 +15,7 @@ const getProducts = async (req, res) => {
       subCat: true,
       images: true,
       options: true,
+      reviews: true,
     },
   });
   if (!products) res.status(400).send("No products found.");
@@ -45,16 +46,19 @@ const getProductsFromStore = async (req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
-  const product = await prisma.Product.findUnique({
+  const product = await prisma.Product.findFirst({
     where: {
       productId: id,
-      verified: true,
+      AND: {
+        verified: true,
+      }
     },
     include: {
       images: true,
       store: true,
       subCat: true,
       options: true,
+      reviews: true,
     },
   });
 

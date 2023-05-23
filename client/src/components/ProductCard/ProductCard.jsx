@@ -24,7 +24,7 @@ function ProductCard({ id, image, title, category, rating, price }) {
           {title}
         </Link>
         <span>{category}</span>
-        <div>{getStars(rating.rate, 14)}</div>
+        <div>{getStars(rating, 14)}</div>
       </div>
       <div className="product-pay">
         <div className="product-price">

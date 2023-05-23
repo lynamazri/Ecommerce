@@ -10,6 +10,7 @@ import { add } from "../../redux/Slices/CartSlice";
 function Product() {
   const dispatch = useDispatch();
   const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  console.log(items);
   const handleAdd = (product) => {
     dispatch(add(product));
   };
@@ -51,15 +52,15 @@ function Product() {
           {items &&
             items?.map((product) => (
               <div class="swiper-wrapper">
-                <SwiperSlide key={product.id}>
+                <SwiperSlide key={product.productId}>
                   <ProductCard
-                    id={product.id}
-                    title={product.title}
+                    id={product.productId}
+                    title={product.name}
                     price={product.price}
                     description={product.description}
-                    category={product.category}
-                    image={product.image}
-                    rating={product.rating}
+                    category={product.subCat.name}
+                    image={product.images[0].url}
+                    rating={product.reviews.length}
                   />
                 </SwiperSlide>
               </div>

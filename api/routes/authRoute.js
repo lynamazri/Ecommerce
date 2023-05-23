@@ -110,7 +110,7 @@ router.post("/login", async (req, res) => {
     //secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  res.json({ accessToken }); // already sent in cookie
+  res.json({ accessToken, user }); // already sent in cookie
 });
 
 router.get("/refresh", async (req, res) => {
