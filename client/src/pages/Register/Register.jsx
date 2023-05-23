@@ -3,16 +3,17 @@ import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import "./Register.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Stepper from "react-stepper-horizontal";
+import { useSelector } from "react-redux";
 
 function Register() {
   const [passInputType, setPassInputType] = React.useState("password");
   const [showPass, setShowPass] = React.useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
+  const user = useSelector((state) => state.auth.user);
   const [step, setStep] = useState(1);
   const [formData, setFormData] = React.useState({
     username: "",
@@ -324,7 +325,9 @@ function Register() {
     );
     setShowPass((prevShowPass) => !prevShowPass);
   }
-
+  if (user) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <Link to="/">

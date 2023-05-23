@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate, Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../redux/Slices/authSlice";
 import { useLoginMutation } from "../../redux/Slices/authApiSlice";
 import { AiFillEyeInvisible, AiFillEye, AiFillApple } from "react-icons/ai";
@@ -11,6 +11,7 @@ import "./Login.css";
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState("");
+  const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
@@ -41,11 +42,11 @@ function Login() {
     console.log(formData);
 
     try {
-      const { accessToken } = await login({
+      const { accessToken, user } = await login({
         email: formData.uemail,
         password: formData.pass,
       }).unwrap();
-      dispatch(setCredentials({ accessToken }));
+      dispatch(setCredentials({ accessToken, user }));
       setFormData({
         uemail: "",
         pass: "",
@@ -149,7 +150,9 @@ function Login() {
       </div>
     </div>
   );
-
+  if (user) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <Link to="/">

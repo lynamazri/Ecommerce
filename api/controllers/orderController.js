@@ -47,7 +47,7 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-const createOrderWithOldAddress = async (req, res) => {
+const createOrder = async (req, res) => {
   const { total, method, cart, address, coupon } = req.body;
   const currentdate = new Date();
   const token = req.cookies.jwt;
@@ -132,9 +132,7 @@ const createOrderWithOldAddress = async (req, res) => {
                   },
                 },
                 items: {
-                  create: {
-                    cart,
-                  },
+                  create: cart,
                 },
               });
             }
@@ -145,8 +143,44 @@ const createOrderWithOldAddress = async (req, res) => {
   }
 };
 
+const createComplaint = async (req, res) => {
+  const { title, type, description } = req.body;
+
+  const token = req.cookies.jwt;
+  console.log(token);
+  if (!token) {
+    return res.sendStatus(401);
+  } else {
+    jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) console.log(err.message);
+        else {
+          const user = await prisma.Users.findUnique({
+            where: { username: decoded.username },
+          });
+
+          const createComplaint = await prisma.Complaint.create({
+            data: {
+              type: type,
+              userId: user.userId,
+              title: title,
+              description: description,
+            },
+          });
+          if (createComplaint) res.sendStatus(200);
+          else res.status(400).send("Unable to create complaint.");
+        }
+      }
+    );
+  }
+};
+
 module.exports = {
   createOrderWithOldAddress,
   getStoreOrders,
   getUserOrders,
+  createOrder,
+  createComplaint,
 };

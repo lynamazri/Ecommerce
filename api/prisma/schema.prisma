@@ -16,6 +16,8 @@ model Users{
   password  String
   birthDate DateTime @db.Date
   gender String
+  credit Int?
+  bankAccount String?
 adresses Address[]
   registrationDate DateTime  @default(now())
   refreshToken String?
@@ -23,6 +25,8 @@ store Store?
 reviews Reviews[]
 questions Questions[]
 orders Order[]
+complaints Complaint[]
+reports Report[]
 }
 
 
@@ -141,6 +145,7 @@ model Reviews {
   user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
   productId String
   product   Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  reports Report[]
 }
 
 model Questions {
@@ -197,4 +202,24 @@ model Coupons {
   dateStart DateTime @default(now())
   dataEnd   DateTime
   percentage Int
+}
+
+
+model Complaint {
+  complaintId            Int         @id @default(autoincrement())
+  title          String
+  description   String @db.VarChar(500)
+  date DateTime @default(now())
+  userId String
+  user   Users @relation(fields: [userId], references: [userId])
+}
+
+model Report {
+  reportId Int         @id @default(autoincrement())
+  type String
+  date DateTime @default(now())
+  userId String
+  user   Users @relation(fields: [userId], references: [userId])
+  reviewId Int
+  review   Reviews @relation(fields: [reviewId], references: [reviewId])
 }

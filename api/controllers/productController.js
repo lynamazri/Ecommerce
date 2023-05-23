@@ -15,6 +15,7 @@ const getProducts = async (req, res) => {
       subCat: true,
       images: true,
       options: true,
+      reviews: true,
     },
   });
   if (!products) res.status(400).send("No products found.");
@@ -45,16 +46,19 @@ const getProductsFromStore = async (req, res) => {
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
-  const product = await prisma.Product.findUnique({
+  const product = await prisma.Product.findFirst({
     where: {
       productId: id,
-      verified: true,
+      AND: {
+        verified: true,
+      }
     },
     include: {
       images: true,
       store: true,
       subCat: true,
       options: true,
+      reviews: true,
     },
   });
 
@@ -118,6 +122,7 @@ const createProduct = async (req, res) => {
   const findStore = await prisma.store.findFirst({
     where: {
       name: store,
+      approved: true,
     },
   });
 
@@ -330,6 +335,40 @@ const verifyProduct = async (req, res) => {
   else res.status(400).send("Unable to verify product.");
 };
 
+const createReport = async (req, res) => {
+  const { type } = req.body;
+  const { review } = req.params;
+
+  const token = req.cookies.jwt;
+  console.log(token);
+  if (!token) {
+    return res.sendStatus(401);
+  } else {
+    jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) console.log(err.message);
+        else {
+          const user = await prisma.Users.findUnique({
+            where: { username: decoded.username },
+          });
+
+          const createReport = await prisma.Report.create({
+            data: {
+              type: type,
+              userId: user.userId,
+              reviewId: review,
+            },
+          });
+          if (createReport) res.sendStatus(200);
+          else res.status(400).send("Unable to create report.");
+        }
+      }
+    );
+  }
+};
+
 module.exports = {
   getProducts,
   getProductsFromStore,
@@ -342,4 +381,5 @@ module.exports = {
   deleteQuestion,
   deleteProduct,
   verifyProduct,
+  createReport,
 };

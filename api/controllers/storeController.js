@@ -130,6 +130,10 @@ const deleteStore = async (req, res) => {
   else res.status(400).send("Unable to delete store.");
 };
 
+const getReviews = async (req, res) => {
+  //get all the reviews of a specific product
+};
+
 module.exports = {
   createStore,
   verifyStore,

@@ -13,6 +13,7 @@ const productRoute = require("./routes/productRoute");
 const profileRoute = require("./routes/profileRoute");
 const addressRoute = require("./routes/addressRoute");
 const categoryRoute = require("./routes/categoryRoute");
+const adminRoute = require("./routes/adminRoute");
 
 const app = express();
 
@@ -26,12 +27,13 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //routes
 app.use("/", helpRoute);
-app.use("/", authRoute);
+app.use("/auth", authRoute);
 app.use("/store", storeRoute);
 app.use("/address", addressRoute);
 app.use("/category", categoryRoute);
 app.use("/profile", profileRoute);
 app.use("/productss", productRoute);
+app.use("/admin", adminRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;

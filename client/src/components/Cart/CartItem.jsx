@@ -25,15 +25,15 @@ const CartItem = ({ item }) => {
     setShowHandler((prevShowHandler) => !prevShowHandler);
   };
   return (
-    <div className="item-card" key={item.id}>
+    <div className="item-card" key={item.productId}>
       <div className="upper-card">
-        <img src={item.image} alt={item.title} />
+        <img src={item.images[0].url} alt={item.name} />
         <div className="item-info">
-          <Link to={`/product/${item.category}/${item.id}`}>
-            <h3>{item.title}</h3>
+          <Link to={`/product/${item.subCat.name}/${item.productId}`}>
+            <h3>{item.name}</h3>
           </Link>
 
-          <h4>store: </h4>
+          <h4>store: {item.store.name}</h4>
           <span className="rating">{getStars(3.6, 12)}</span>
         </div>
       </div>
