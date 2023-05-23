@@ -19,7 +19,7 @@
 
 .sidebar-item {
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 0.6em;
   cursor: pointer;
   transition: color 0.3s ease-in-out;
   color: #191919;
@@ -31,11 +31,11 @@
 }
 
 .subheadings {
-  margin-left: 20px;
+  margin-left: 1.5em;
 }
 
 .subheadings li {
-  margin-bottom: 5px;
+  margin-bottom: 0.3em;
 }
 
 .subheadings li > a {
@@ -76,7 +76,7 @@
   color: #a9a9a9;
 }
 
-.my-profile-inputs > .input-container,
+.input-container,
 .security-page > div > .input-container,
 .tfa-container {
   width: 400px;
@@ -90,7 +90,7 @@
   position: relative;
 }
 
-.my-profile-inputs > .input-container > input,
+.input-container > input,
 .input-password > input,
 .tfa-container > input {
   height: 35px;
@@ -133,4 +133,70 @@
 .security-page > div > button:focus {
   outline: none;
   box-shadow: 0 0 3px 2px rgba(31, 44, 76, 0.5);
+}
+
+.old-addresses {
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.address-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.address-item > .inputs {
+  margin-bottom: 0.5em;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.address-item > .inputs > p {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  width: 200px;
+  padding: 0.3em 0.7em;
+  margin: 0.5em 0em 1em 0em;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.85em;
+  background-color: #ebf1f6;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+}
+
+.address-item > .buttons {
+  display: flex;
+}
+
+.address-item > .buttons > .delete {
+  width: 155px;
+  height: 2.7em;
+  padding: 0.3em 0.9em;
+  margin-bottom: 0.9em;
+  font-weight: 700;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #191919;
+  background: #f5f5f5;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.address-item > .buttons > .edit {
+  width: 155px;
+  height: 2.7em;
+  padding: 0.3em 0.9em;
+  margin-bottom: 0.9em;
+  font-weight: 700;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  color: #fff;
+  background-color: #1f2c4c;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
 }
