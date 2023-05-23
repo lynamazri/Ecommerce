@@ -75,8 +75,8 @@
   font-size: 14px;
   color: #a9a9a9;
 }
-
-.input-container,
+.add-addresses > .input-container,
+.my-profile-inputs > .input-container,
 .security-page > div > .input-container,
 .tfa-container {
   width: 400px;
@@ -90,7 +90,8 @@
   position: relative;
 }
 
-.input-container > input,
+.add-addresses > .input-container > input,
+.my-profile-inputs > .input-container > input,
 .input-password > input,
 .tfa-container > input {
   height: 35px;
@@ -116,7 +117,8 @@
   background-color: #ebf1f6;
 }
 
-.input-container > button {
+.add-addresses > .input-container > button,
+.profile-page > .right-container > div > .input-container > button {
   width: 155px;
   height: 2.7em;
   padding: 0.3em 0.9em;
