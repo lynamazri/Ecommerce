@@ -54,17 +54,17 @@ function ProfileMenu({ closeMenu, userHasShop }) {
         >
           <RiSettingsLine size={18} /> Settings
         </Link>
-        <div className="section-heading">Shops</div>
+        <div className="section-heading">Shop</div>
         {userHasShop ? (
           <Link to="/shops" className={isActive("/shops") ? "active" : ""}>
-            <RiShoppingBagLine size={18} /> Manage Shops
+            <RiShoppingBagLine size={18} /> Manage Shop
           </Link>
         ) : (
           <Link
             to="/profile/apply"
             className={isActive("/profile/apply") ? "active" : ""}
           >
-            <RiShoppingBagLine size={18} /> Apply for Shop
+            <RiShoppingBagLine size={18} /> Open a Shop
           </Link>
         )}
       </div>

@@ -59,7 +59,7 @@ function Profile() {
                   to="/profile/apply"
                   className={isActive("/profile/apply") ? "active" : ""}
                 >
-                  Apply for Shop
+                  Open a Shop
                 </Link>
               </li>
               {/* )} */}
