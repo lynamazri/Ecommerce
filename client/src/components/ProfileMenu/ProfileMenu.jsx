@@ -10,17 +10,21 @@ import {
   RiLogoutBoxLine,
 } from "react-icons/ri";
 import "./ProfileMenu.css";
+import { useSelector } from "react-redux";
+import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
 
 function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
-
-  const isActive = (pathname) => location.pathname === pathname;
-
+  const [sendLogout, { isLoading }] = useSendLogoutMutation();
+  const isActive = (pathname) => {
+    return location.pathname === pathname;
+  };
+  const user = useSelector((state) => state.auth.user);
   return (
     <div className="profile-menu">
       <div className="pm-header">
         <div>
-          <h3>Akram chaabnia</h3>
+          <h3>{user ? user.username : "Login first"}</h3>
           <p>User</p>
         </div>
         <button className="close-button" onClick={closeMenu}>
@@ -65,9 +69,13 @@ function ProfileMenu({ closeMenu, userHasShop }) {
         )}
       </div>
       <div className="pm-footer">
-        <Link>
+        <button
+          onClick={() => {
+            sendLogout();
+          }}
+        >
           <RiLogoutBoxLine size={18} /> Log out
-        </Link>
+        </button>
       </div>
     </div>
   );

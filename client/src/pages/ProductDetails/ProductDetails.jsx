@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
@@ -14,21 +14,36 @@ import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 
 import "./ProductDetails.css";
+import axios from "axios";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
   const [pcsCount, setPcsCount] = useState(1);
   const [showQteDiv, setShowQteDiv] = useState(false);
   const [details, setDetails] = useState("description");
-  const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
-  console.log(items);
+  const [product, setProduct] = useState({});
+  const [images, setImages] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  // const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  // console.log(items);
   const params = useParams();
-  let product;
-  items.forEach((element) => {
-    if (element.id == params.id) {
-      product = element;
-    }
-  });
+  // items.forEach((element) => {
+  //   if (element.id == params.id) {
+  //     product = element;
+  //   }
+  // });
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/products/store/${params.id}`)
+      .then((res) => {
+        console.log(res.data);
+        setProduct(res.data);
+        console.log(res.data.images);
+        setImages(res.data.images);
+        setReviews(res.data.reviews);
+      });
+  }, []);
+
   const dispatch = useDispatch();
   const handleAdd = () => {
     dispatch(add(product));
@@ -73,7 +88,7 @@ export default function ProductDetails() {
           <div className="flexContainer">
             <section className="photos">
               <div className="photo">
-                {product.image && <img src={product?.image} />}
+                {images[0]?.url && <img src={images[0]?.url} />}
                 <div className="countLabelContainer">
                   <span className="countLabel">- 36 %</span>
                   <span className="countLabel">Free shipping</span>
@@ -83,16 +98,16 @@ export default function ProductDetails() {
             </section>
             <section className="info">
               <div className="title">
-                <h3>{product.title}</h3>
+                <h3>{product?.name}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
-                    {generateRatingStars(product.rating.rate)}
+                    {generateRatingStars(reviews.length)}
                   </div>
-                  <small>({product.rating.count} customer reviews)</small>
+                  <small>({reviews?.length} customer reviews)</small>
                 </div>
               </div>
               <div className="description">
-                <p>{product.description}</p>
+                <p>{product?.description}</p>
               </div>
               <div className="informationContainer">
                 <div className="information">
@@ -107,9 +122,9 @@ export default function ProductDetails() {
                   <div className="detailsValue">
                     <ul className="detailValueList">
                       <li>76645</li>
-                      <li>{product.category}</li>
+                      <li>{product?.subCat?.name}</li>
                       <li>Stock</li>
-                      <li>Apple dz</li>
+                      <li>{product?.store?.name}</li>
                     </ul>
                   </div>
                 </div>
@@ -132,8 +147,8 @@ export default function ProductDetails() {
                 <div className="price">
                   {/* {props.isOnSale ? ( */}
                   <>
-                    <p>DZD {product.price}</p>
-                    <small className="old-price">DZD {product.price}</small>
+                    <p>DZD {product?.price}</p>
+                    <small className="old-price">DZD {product?.price}</small>
                   </>
                   {/* ) : null} */}
                   {/* <span>DZD{props.price}</span> */}
