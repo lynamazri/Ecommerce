@@ -74,7 +74,7 @@ function Product() {
           <RingLoader color="#1f2c4c" />
         </div>
       ) : (
-        <p>{error}</p>
+        <p>Error.</p>
       )}
     </>
   );
