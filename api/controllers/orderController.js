@@ -47,7 +47,7 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-const createOrderWithOldAddress = async (req, res) => {
+const createOrder = async (req, res) => {
   const { total, method, cart, address, coupon } = req.body;
   const currentdate = new Date();
   const token = req.cookies.jwt;
@@ -132,9 +132,7 @@ const createOrderWithOldAddress = async (req, res) => {
                   },
                 },
                 items: {
-                  create: {
-                    cart,
-                  },
+                  create: cart,
                 },
               });
             }
@@ -149,4 +147,5 @@ module.exports = {
   createOrderWithOldAddress,
   getStoreOrders,
   getUserOrders,
+  createOrder,
 };

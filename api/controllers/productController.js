@@ -118,6 +118,7 @@ const createProduct = async (req, res) => {
   const findStore = await prisma.store.findFirst({
     where: {
       name: store,
+      approved: true,
     },
   });
 

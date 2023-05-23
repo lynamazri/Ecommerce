@@ -26,12 +26,12 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //routes
 app.use("/", helpRoute);
-app.use("/", authRoute);
+app.use("/auth", authRoute);
 app.use("/store", storeRoute);
 app.use("/address", addressRoute);
 app.use("/category", categoryRoute);
 app.use("/profile", profileRoute);
-app.use("/productss", productRoute);
+app.use("/products", productRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
@@ -46,7 +46,7 @@ app.get("/", (req, res) => {
   q ? res.json(search(products).slice(0, 10)) : res.json(products.slice(0, 10));
 });
 
-app.get("/products", (req, res) => {
+app.get("/productss", (req, res) => {
   res.send(products);
 });
 
