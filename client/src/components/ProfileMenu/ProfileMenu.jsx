@@ -9,9 +9,9 @@ import {
   RiSettingsLine,
   RiLogoutBoxLine,
 } from "react-icons/ri";
-import "./ProfileMenu.css";
 import { useSelector } from "react-redux";
 import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
+import "./ProfileMenu.css";
 
 function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
