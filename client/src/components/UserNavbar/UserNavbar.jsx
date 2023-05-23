@@ -90,7 +90,7 @@ function UserNavbar(props) {
         {isProfileMenuOpen && (
           <ProfileMenu
             closeMenu={closeMenus}
-            userHasShop={true}
+            userHasShop={false}
             style={{ zIndex: 3 }}
           />
         )}
