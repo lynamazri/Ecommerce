@@ -104,8 +104,8 @@ const updateCatgory = async (req, res) => {
         description: description ? description : findCat.description,
       },
     });
-    if (updateCatgory) res.sendStatus(200);
-    else res.status(400).json({ message: "Unable to update category." });
+    if (updateCategory) res.sendStatus(200);
+    else res.status(400).json("Unable to update category.");
   }
 };
 

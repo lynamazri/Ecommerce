@@ -88,8 +88,39 @@ const deleteAddress = async (req, res) => {
   } else res.status(400).send("Error deleting address.");
 };
 
+const updateAddress = async (req, res) => {
+  const { street, city, state, zip } = req.body;
+  const { id } = req.params;
+
+  const findAddress = await prisma.Address.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!findAddress) res.status(400).send("Unable to find address");
+  else {
+    const updateAddress = await prisma.Address.update({
+      where: {
+        id: id,
+      },
+      data: {
+        street: street ? street : findAddress.street,
+        city: city ? city : findAddress.city,
+        state: state ? state : findAddress.state,
+        zip: zip ? parseInt(zip) : findAddress.zip,
+      },
+    });
+
+    if (updateAddress) {
+      res.sendStatus(200);
+    } else res.status(400).send("Error updating address.");
+  }
+};
+
 module.exports = {
   createAddress,
   deleteAddress,
   getAddresses,
+  updateAddress,
 };

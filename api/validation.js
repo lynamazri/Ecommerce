@@ -49,6 +49,7 @@ const updateProfileValidation = (data) => {
     firstName: Joi.string().min(4).max(30),
     lastName: Joi.string().min(4).max(30),
     newUsername: Joi.string().min(6).max(30),
+    bankAccount: Joi.string().min(8).max(30),
   });
   return schema.validate(data);
 };

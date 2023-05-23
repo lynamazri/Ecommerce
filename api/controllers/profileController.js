@@ -47,8 +47,9 @@ const updatePassword = async (req, res) => {
                 password: hashPassword,
               },
             });
-
-            res.sendStatus(200);
+            if (updateUser) {
+              res.sendStatus(200);
+            } else res.status(400).send("Error updating password.");
           }
         }
       }
@@ -60,7 +61,7 @@ const updateProfile = async (req, res) => {
   const { error } = updateProfileValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { newUsername, firstName, lastName } = req.body;
+  const { newUsername, firstName, lastName, bankAccount } = req.body;
 
   const token = req.cookies.jwt;
   console.log(token);
@@ -76,41 +77,24 @@ const updateProfile = async (req, res) => {
           const user = await prisma.Users.findUnique({
             where: { username: decoded.username },
           });
-
-          if (newUsername) {
-            const updateUsername = await prisma.Users.update({
+          if (!user) res.status(400).send("Unable to find user.");
+          else {
+            const updateProfile = await prisma.Users.update({
               where: {
-                username: decoded.username,
+                userId: user.userId,
               },
               data: {
-                username: newUsername,
+                firstName: firstName ? firstName : user.firstName,
+                lastName: lastName ? lastName : user.lastName,
+                bankAccount: bankAccount ? bankAccount : user.bankAccount,
+                username: newUsername ? newUsername : user.username,
               },
             });
-          }
 
-          if (firstName) {
-            const updateUserfname = await prisma.Users.update({
-              where: {
-                username: decoded.username,
-              },
-              data: {
-                firstName: firstName,
-              },
-            });
+            if (updateProfile) {
+              res.sendStatus(200);
+            } else res.status(400).send("Error updating profile.");
           }
-
-          if (lastName) {
-            const updateUserlname = await prisma.Users.update({
-              where: {
-                username: decoded.username,
-              },
-              data: {
-                lastName: lastName,
-              },
-            });
-          }
-
-          res.sendStatus(200);
         }
       }
     );

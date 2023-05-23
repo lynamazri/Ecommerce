@@ -15,6 +15,7 @@ const {
   deleteQuestion,
   deleteProduct,
   verifyProduct,
+  createReport,
 } = require("../controllers/productController");
 
 router.get("/", getProducts);
@@ -23,6 +24,7 @@ router.get("/store/:id", getProductById);
 router.get("/allProducts/:name", getProductByName);
 router.post("/:store", createProduct);
 router.post("/:product/review", verification, createReview);
+router.post("/:product/:review", verification, createReport);
 router.delete("/review/:id", verification, deleteReview);
 router.post("/:product/question", verification, createQuestion);
 router.delete("/question/:id", verification, deleteQuestion);
