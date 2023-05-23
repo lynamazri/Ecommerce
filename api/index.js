@@ -26,7 +26,7 @@ app.use(fileUpload({ useTempFiles: true }));
 
 //routes
 app.use("/", helpRoute);
-app.use("/", authRoute);
+app.use("/auth", authRoute);
 app.use("/store", storeRoute);
 app.use("/address", addressRoute);
 app.use("/category", categoryRoute);

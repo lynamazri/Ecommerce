@@ -13,7 +13,7 @@ import "./ProfileMenu.css";
 import { useSelector } from "react-redux";
 import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
 
-function ProfileMenu({ closeMenu }) {
+function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
   const [sendLogout, { isLoading }] = useSendLogoutMutation();
   const isActive = (pathname) => {
@@ -34,8 +34,8 @@ function ProfileMenu({ closeMenu }) {
       <div className="pm-body">
         <div className="section-heading">My Account</div>
         <Link
-          to="/profile/edit"
-          className={isActive("/profile/edit") ? "active" : ""}
+          to="/profile/my-profile"
+          className={isActive("/profile/my-profile") ? "active" : ""}
         >
           <RiUserLine size={18} /> User Profile
         </Link>
@@ -45,22 +45,28 @@ function ProfileMenu({ closeMenu }) {
         >
           <RiHistoryLine size={18} /> Order History
         </Link>
-        <Link
-          to="/profile/wishlist"
-          className={isActive("/profile/wishlist") ? "active" : ""}
-        >
+        <Link to="/wishlist" className={isActive("/wishlist") ? "active" : ""}>
           <RiHeartLine size={18} /> Wishlist
         </Link>
         <Link
-          to="/profile/settings"
-          className={isActive("/profile/settings") ? "active" : ""}
+          to="/profile/security"
+          className={isActive("/profile/security") ? "active" : ""}
         >
           <RiSettingsLine size={18} /> Settings
         </Link>
         <div className="section-heading">Shops</div>
-        <Link to="/shops" className={isActive("/shops") ? "active" : ""}>
-          <RiShoppingBagLine size={18} /> Manage Shops
-        </Link>
+        {userHasShop ? (
+          <Link to="/shops" className={isActive("/shops") ? "active" : ""}>
+            <RiShoppingBagLine size={18} /> Manage Shops
+          </Link>
+        ) : (
+          <Link
+            to="/profile/apply"
+            className={isActive("/profile/apply") ? "active" : ""}
+          >
+            <RiShoppingBagLine size={18} /> Apply for Shop
+          </Link>
+        )}
       </div>
       <div className="pm-footer">
         <button

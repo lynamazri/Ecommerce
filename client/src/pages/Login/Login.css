@@ -94,7 +94,7 @@ h1 {
   position: relative;
 }
 
-.inputs {
+form > .inputs {
   display: flex;
   flex-direction: column;
   gap: 20px;

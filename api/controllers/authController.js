@@ -1,61 +1,63 @@
-const express = require("express");
-const router = express.Router();
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const bcrypt = require("bcryptjs");
+const { registerValidation, loginValidation } = require("../validation");
 
-const {
-  register,
-  login,
-  refresh,
-  logout,
-} = require("../controllers/authController");
+const register = async (req, res) => {
+  //validation
+  const { error } = registerValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
 
-const emailExist = await prisma.Users.findUnique({
-  where: { email: req.body.email },
-});
-if (emailExist) return res.status(400).send("Email has already been used.");
-
-const usernameExist = await prisma.Users.findUnique({
-  where: { username: req.body.username },
-});
-if (usernameExist) return res.status(400).send("Username is already taken.");
-
-//hashing passwords
-const salt = await bcrypt.genSalt(10);
-const hashPassword = await bcrypt.hash(req.body.password, salt);
-
-//adding user to db
-try {
-  const user = await prisma.Users.create({
-    data: {
-      username: req.body.username,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      birthDate: new Date(req.body.birthDate),
-      gender: req.body.gender,
-
-      password: hashPassword,
-      adresses: {
-        create: [
-          {
-            street: req.body.adresses[0].street,
-            city: req.body.adresses[0].city,
-            state: req.body.adresses[0].state,
-            zip: parseInt(req.body.adresses[0].zip),
-          },
-        ],
-      },
-    },
+  const emailExist = await prisma.Users.findUnique({
+    where: { email: req.body.email },
   });
+  if (emailExist) return res.status(400).send("Email has already been used.");
 
-  console.log(user);
-  res.send(200);
-} catch (error) {
-  console.log(error);
-  res.status(400).send(error);
-}
-});
+  const usernameExist = await prisma.Users.findUnique({
+    where: { username: req.body.username },
+  });
+  if (usernameExist) return res.status(400).send("Username is already taken.");
 
-router.post("/login", async (req, res) => {
+  //hashing passwords
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+  //adding user to db
+  try {
+    const user = await prisma.Users.create({
+      data: {
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        birthDate: new Date(req.body.birthDate),
+        gender: req.body.gender,
+
+        password: hashPassword,
+        adresses: {
+          create: [
+            {
+              street: req.body.adresses[0].street,
+              city: req.body.adresses[0].city,
+              state: req.body.adresses[0].state,
+              zip: parseInt(req.body.adresses[0].zip),
+            },
+          ],
+        },
+      },
+    });
+
+    console.log(user);
+    res.send(200);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+
+const login = async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   const user = await prisma.Users.findUnique({
@@ -106,10 +108,10 @@ router.post("/login", async (req, res) => {
     //secure: true,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
-  res.json({ accessToken, user }); // already sent in cookie
-});
+  res.json({ accessToken }); // already sent in cookie
+};
 
-router.get("/refresh", async (req, res) => {
+const refresh = async (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(401);
@@ -129,9 +131,9 @@ router.get("/refresh", async (req, res) => {
     );
     res.json({ accessToken }); // same thing
   });
-});
+};
 
-router.post("/logout", async (req, res) => {
+const logout = async (req, res) => {
   const cookies = req.cookies;
 
   if (!cookies?.jwt) return res.sendStatus(204);
@@ -163,6 +165,11 @@ router.post("/logout", async (req, res) => {
   });
 
   res.sendStatus(204);
-});
+};
 
-module.exports = router;
+module.exports = {
+  register,
+  login,
+  refresh,
+  logout,
+};
