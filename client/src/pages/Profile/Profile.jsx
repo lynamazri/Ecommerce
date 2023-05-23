@@ -84,8 +84,11 @@ function Profile() {
                 </Link>
               </li>
             </ul>
-            <li className="sidebar-item">
-              <Link to="/help" className={isActive("/help") ? "active" : ""}>
+            <li>
+              <Link
+                to="/help"
+                className={` ${isActive("/help") ? "active" : ""} sidebar-item`}
+              >
                 Help & Feedback
               </Link>
             </li>

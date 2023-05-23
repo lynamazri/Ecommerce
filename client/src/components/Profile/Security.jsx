@@ -10,17 +10,16 @@ function Security() {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [passInputType, setPassInputType] = React.useState({
+  const [passInputType, setPassInputType] = useState({
     oldPass: "password",
     newPass: "password",
     confirmNewPass: "password",
   });
-  const [showPass, setShowPass] = React.useState({
+  const [showPass, setShowPass] = useState({
     oldPass: false,
     newPass: false,
     confirmNewPass: false,
   });
-  const [isTwoFactorEnabled, setTwoFactorEnabled] = useState(false);
 
   function togglePasswordInputType(name) {
     setPassInputType((prevPassInputType) => ({
@@ -60,7 +59,7 @@ function Security() {
       console.log(response);
       setSuccessMessage("Password updated successfully");
       setErrorMessage("");
-      //navigate("/", { replace: true });
+      // navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
       setErrorMessage(error.response.data);
@@ -71,6 +70,10 @@ function Security() {
   return (
     <form className="right-container" onSubmit={handleSubmit}>
       <div className="security-page">
+        <div className="header">
+          <h3>Security</h3>
+          <p>Fill in the inputs below to change your password</p>
+        </div>
         {/* Input fields */}
         <div className="security-inputs">
           <div className="input-container">

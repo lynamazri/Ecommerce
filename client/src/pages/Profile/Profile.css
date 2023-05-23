@@ -1,5 +1,5 @@
 .profile-page {
-  height: 74vh;
+  min-height: 74vh;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
@@ -22,6 +22,7 @@
   margin-bottom: 10px;
   cursor: pointer;
   transition: color 0.3s ease-in-out;
+  color: #191919;
 }
 
 .sidebar-item:hover,
@@ -57,29 +58,47 @@
   height: 100%;
   padding: 1em 0em 1em 3em;
   background-color: #fff;
+  border-left: 1px solid #e5e5e5;
 }
 
+.profile-page > .right-container > div > .header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.profile-page > .right-container > div > .header > p {
+  padding: 0.5em 0em 1em 0em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #a9a9a9;
+}
+
+.my-profile-inputs > .input-container,
 .security-page > div > .input-container,
 .tfa-container {
   width: 400px;
   margin-bottom: 1em;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
 }
 
 .input-password {
   position: relative;
 }
 
+.my-profile-inputs > .input-container > input,
 .input-password > input,
 .tfa-container > input {
   height: 35px;
   width: 100%;
-  padding: 0.3em 0.5em;
+  padding: 0.3em 0.7em;
   margin: 0.5em 0em;
-
   font-family: "Open Sans", sans-serif;
-  font-size: 14px;
+  font-size: 0.85em;
   background-color: #ebf1f6;
   border: 1px solid #d1d1d1;
   border-radius: 12px;
@@ -97,7 +116,7 @@
   background-color: #ebf1f6;
 }
 
-.security-page > div > button {
+.input-container > button {
   width: 155px;
   height: 2.7em;
   padding: 0.3em 0.9em;
