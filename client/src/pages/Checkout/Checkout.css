@@ -54,19 +54,16 @@
 }
 
 .input-checkout {
+  height: 35px;
   width: 300px;
-  height: 40px;
-  padding: 0.3em 0.9em;
-  margin: 0.5em 0em;
-
-  background: #f9f9f9;
-  border: 1px solid #d1d1d1;
-  border-radius: 12px;
+  padding: 0.3em 0.5em;
+  margin: 0.2em 0em;
 
   font-family: "Open Sans", sans-serif;
-  font-weight: 400;
   font-size: 14px;
-  color: #a9a9a9;
+  background-color: #ebf1f6;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
 }
 
 .input-checkout:focus {
@@ -77,8 +74,8 @@
 
 .label-checkout {
   width: max-content;
-  height: 40px;
-  padding: 0.3em 0.9em;
+  height: 35px;
+  padding: 0.3em 0.5em;
   margin: 0.5em 0em;
 
   display: flex;
@@ -88,16 +85,15 @@
   border: 1px solid #d1d1d1;
   border-radius: 12px;
   font-family: "Open Sans", sans-serif;
-  font-weight: 400;
   font-size: 14px;
 }
 
 .payment-option {
   width: 100%;
   justify-content: space-between;
-  height: 40px;
+  height: 35px;
   padding: 0.3em 0.9em;
-  margin: 0.5em 0em;
+  margin: 0.7em 0em;
 
   display: flex;
   align-items: center;
@@ -122,18 +118,15 @@
   box-shadow: none;
 }
 
-.order-button,
-.next-button {
+.order-button {
   width: 170px;
   height: 45px;
   padding: 0.3em 0.9em;
-
+  margin: 0.9em 0em;
   display: flex;
   justify-content: center;
   align-items: center;
-
   font-weight: 700;
-  font-size: 12px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   color: #fff;
   background-color: #1f2c4c;
@@ -142,8 +135,7 @@
   border: none;
 }
 
-.order-button:focus,
-.next-button:focus {
+.order-button:focus {
   outline: none;
   box-shadow: 0 0 3px 2px rgba(31, 44, 76, 0.5);
 }

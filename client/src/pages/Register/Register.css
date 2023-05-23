@@ -113,17 +113,7 @@ h1 {
   cursor: pointer;
 }
 
-#firstName,
-#lastName,
-#username,
-#email,
-#password,
-#address,
-#city,
-#state,
-#zip,
-#email,
-#pass,
+.registerInputs > div > input,
 .radio-container,
 .date-container {
   border-radius: 0.5em;

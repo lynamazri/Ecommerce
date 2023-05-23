@@ -5,9 +5,9 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
-import EditProfile from "./pages/EditProfile/EditProfile";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Products from "./pages/Products/Products";
+import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound/NotFound";
 import Help from "./pages/Help/Help";
 import HelpArticle from "./pages/Help/HelpArticle";
@@ -17,6 +17,13 @@ import RequireAuth from "./pages/Login/RequireAuth";
 
 import UserNavbar from "./components/UserNavbar/UserNavbar";
 import Footer from "./components/Footer/Footer";
+import MyProfile from "./components/Profile/MyProfile";
+import AddressBook from "./components/Profile/AddressBook";
+import PaymentMethod from "./components/Profile/PaymentMethod";
+import OrderHistory from "./components/Profile/OrderHistory";
+import ApplyShop from "./components/Profile/ApplyShop";
+import Security from "./components/Profile/Security";
+import Language from "./components/Profile/Language";
 import Welcome from "./pages/Home/Welcome";
 import PersistLogin from "./pages/Login/PersistLogin";
 
@@ -101,10 +108,18 @@ function App() {
         <Route path="/products/:category" element={<Products />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
-        <Route path="/profile/edit" element={<EditProfile />} />
-        <Route path="/profile/wishlist" element={<Wishlist />} />
+        <Route path="/profile" element={<Profile />}>
+          <Route path="/profile/my-profile" element={<MyProfile />} />
+          <Route path="/profile/address-book" element={<AddressBook />} />
+          <Route path="/profile/payment-method" element={<PaymentMethod />} />
+          <Route path="/profile/orderhistory" element={<OrderHistory />} />
+          <Route path="/profile/security" element={<Security />} />
+          <Route path="/profile/language" element={<Language />} />
+          <Route path="/profile/apply" element={<ApplyShop />} />
+        </Route>
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/compare" element={<Compare />} />
-        <Route path="welcome" element={<Welcome />} />
+        <Route path="/welcome" element={<Welcome />} />
         /*priv*/
         <Route element={<PersistLogin />}>
           <Route element={<RequireAuth />}></Route>

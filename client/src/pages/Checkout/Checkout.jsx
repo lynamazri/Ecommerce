@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import "./Checkout.css";
 import UserNavbar from "../../components/UserNavbar/UserNavbar";
 import Path from "../../components/Path/Path";
 import Cart from "../../components/Cart/Cart";
 import Footer from "../../components/Footer/Footer";
+import "./Checkout.css";
 
 function Checkout() {
   const [displayExistingAddress, setDisplayExistingAddress] = useState(false);
