@@ -9,7 +9,6 @@
 .left-container > div > h3 {
   padding-bottom: 1em;
   font-weight: 600;
-  font-size: 18px;
 }
 
 .products-page > .header {
@@ -32,11 +31,11 @@
 .products-page > .body > .left-container {
   width: 28%;
   height: 100%;
-  padding: 1em 1em 1em 0em;
+  padding-right: 1.5em;
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 1.5em;
   align-items: flex-start;
 }
 
@@ -44,7 +43,7 @@
 .rating-filter,
 .price-filter {
   width: 100%;
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
 }
 
 .categories-filter {
@@ -53,7 +52,7 @@
 .products-page > div > div > div > .body {
   display: flex;
   flex-direction: column-reverse;
-  gap: 8px;
+  gap: 0.5em;
 }
 
 .products-page > div > div > div > .body > div {
@@ -70,7 +69,7 @@
   background: #d7e2ee;
   border-radius: 12px;
 }
-.products-page > div > div > div > .body > li {
+.products-page > div > div > div > .body > div > li {
   padding-bottom: 0.5em;
   font-family: "Open Sans";
   font-weight: 500;
@@ -83,8 +82,6 @@
   gap: 5px;
 }
 
-.products-page > div > div > div > .body > label > input {
-}
 .products-page > .body > .right-container {
   width: 70%;
   display: grid;

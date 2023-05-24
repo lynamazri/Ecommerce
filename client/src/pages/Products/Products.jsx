@@ -52,7 +52,7 @@ function Products() {
                   return (
                     <label key={rating}>
                       <input type="checkbox" name="rating" value={rating} />
-                      {getStars(rating)}
+                      {getStars(rating, 15)}
                     </label>
                   );
                 })}

@@ -221,3 +221,62 @@ function AddressBook() {
 }
 
 export default AddressBook;
+
+/*
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function AddressBook() {
+  const [addresses, setAddresses] = useState([]);
+
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const response = await axios.get("/api/addresses");
+        setAddresses(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchAddresses();
+  }, []);
+
+  // Rest of the code...
+}
+
+const handleEditAddress = async (addressId, updatedAddress) => {
+  try {
+    const response = await axios.put(`/api/addresses/${addressId}`, updatedAddress);
+    // Handle the response as needed
+    console.log(response);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+  }
+};
+
+const handleDeleteAddress = async (addressId) => {
+  try {
+    const response = await axios.delete(`/api/addresses/${addressId}`);
+    // Handle the response as needed
+    console.log(response);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+  }
+};
+
+
+const handleAddAddress = async (newAddress) => {
+  try {
+    const response = await axios.post("/api/addresses", newAddress);
+    // Handle the response as needed
+    console.log(response);
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+  }
+};
+
+*/
