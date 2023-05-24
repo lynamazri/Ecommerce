@@ -11,7 +11,7 @@ export const productsFetch = createAsyncThunk(
   "products/productsFetch",
   async (id = null, { rejectWithValue }) => {
     try {
-      const res = await axios.get("http://localhost:3001/products");
+      const res = await axios.get("http://localhost:3001/productss");
       return res?.data;
     } catch (error) {
       return rejectWithValue("There was an error during data fetching");
@@ -40,20 +40,20 @@ const productsSlice = createSlice({
   //   },
   // },
   extraReducers: (builder) => {
-    builder.addCase(productsFetch.pending, state => {
-      state.status = 'loading'
-    })
+    builder.addCase(productsFetch.pending, (state) => {
+      state.status = "loading";
+    });
     builder.addCase(productsFetch.fulfilled, (state, action) => {
-      state.status = 'success'
-      state.items = action.payload
-      state.error = ''
-    })
+      state.status = "success";
+      state.items = action.payload;
+      state.error = "";
+    });
     builder.addCase(productsFetch.rejected, (state, action) => {
-      state.status = 'failure'
-      state.items = []
-      state.error = action.payload
-    })
-  }
+      state.status = "failure";
+      state.items = [];
+      state.error = action.payload;
+    });
+  },
 });
 
 export default productsSlice.reducer;

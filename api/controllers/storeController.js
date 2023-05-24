@@ -32,7 +32,7 @@ const createStore = async (req, res) => {
               description: description,
               email: email,
               phone: parseInt(phone),
-
+              //update this shit
               owners: {
                 create: [
                   {
