@@ -37,7 +37,7 @@ const getUserByUsername = async (req, res) => {
     },
   });
   if (!user) res.status(400).send("Unable to find user.");
-  else res.status(200);
+  else res.sendStatus(200);
 };
 
 const getComplaints = async (req, res) => {
@@ -46,9 +46,75 @@ const getComplaints = async (req, res) => {
   else res.status(200).json(complaints);
 };
 
+const addCredit = async (req, res) => {
+  const { amount, bankAccount } = req.body;
+
+  const user = prisma.Users.findUnique({
+    where: {
+      bankAccount: bankAccount,
+    },
+  });
+
+  if (!user) res.status(400).send("Unable to find user.");
+  else {
+    const deposit = prisma.Users.update({
+      where: {
+        userId: user.userId,
+      },
+      data: {
+        credit: user.credit + amount,
+      },
+    });
+  }
+  if (!deposit) res.status(400).send("Unable to deposit credit.");
+  else res.sendStatus(200);
+};
+
+const setCredit = async (req, res) => {
+  const { amount, bankAccount } = req.body;
+
+  const user = prisma.Users.findUnique({
+    where: {
+      bankAccount: bankAccount,
+    },
+  });
+
+  if (!user) res.status(400).send("Unable to find user.");
+  else {
+    const deposit = prisma.Users.update({
+      where: {
+        userId: user.userId,
+      },
+      data: {
+        credit: amount,
+      },
+    });
+  }
+  if (!deposit) res.status(400).send("Unable to deposit credit.");
+  else res.sendStatus(200);
+};
+
+const handleComplaint = async (req, res) => {
+  const { complaint } = req.params;
+
+  const handleComplaint = prisma.Complaint.update({
+    where: {
+      complaintId: complaint,
+    },
+    data: {
+      handled: true,
+    },
+  });
+  if (!handleComplaint) res.status(400).send("Unable to handle complaint.");
+  else res.sendStatus(200);
+};
+
 module.exports = {
   getUsers,
   deleteUser,
   getUserByUsername,
   getComplaints,
+  addCredit,
+  setCredit,
+  handleComplaint,
 };

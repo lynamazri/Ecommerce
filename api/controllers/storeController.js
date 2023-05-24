@@ -131,7 +131,58 @@ const deleteStore = async (req, res) => {
 };
 
 const getReviews = async (req, res) => {
-  //get all the reviews of a specific product
+  const { id } = req.params;
+
+  const reviewsOnStoreProducts = await prisma.Product.findMany({
+    where: {
+      storeId: id,
+      verified: true,
+    },
+    include: {
+      reviews: true,
+    },
+  });
+  if (!reviewsOnStoreProducts) {
+    res.status(400).send("Unable to find reviews.");
+  } else {
+    res.status(200).json(reviewsOnStoreProducts);
+  }
+};
+
+const getQuestions = async (req, res) => {
+  const { id } = req.params;
+
+  const questionsOnStoreProducts = await prisma.Product.findMany({
+    where: {
+      storeId: id,
+      verified: true,
+    },
+    include: {
+      questions: true,
+    },
+  });
+  if (!questionsOnStoreProducts) {
+    res.status(400).send("Unable to find questions.");
+  } else {
+    res.status(200).json(questionsOnStoreProducts);
+  }
+};
+
+const answerQuestion = async (req, res) => {
+  const { question } = req.params;
+  const { answer } = req.body;
+
+  const answerQuestion = prisma.Questions.update({
+    where: {
+      questionId: question,
+    },
+    data: {
+      answer: answer,
+    },
+  });
+
+  if (!answerQuestion) res.status(400).send("Unable to post answer.");
+  else res.sendStatus(200);
 };
 
 module.exports = {
@@ -140,4 +191,7 @@ module.exports = {
   getStores,
   editStore,
   deleteStore,
+  getReviews,
+  getQuestions,
+  answerQuestion,
 };
