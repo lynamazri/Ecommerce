@@ -61,8 +61,8 @@ function ProfileMenu({ closeMenu, userHasShop }) {
           </Link>
         ) : (
           <Link
-            to="/profile/apply"
-            className={isActive("/profile/apply") ? "active" : ""}
+            to="/profile/open-shop"
+            className={isActive("/profile/open-shop") ? "active" : ""}
           >
             <RiShoppingBagLine size={18} /> Open a Shop
           </Link>

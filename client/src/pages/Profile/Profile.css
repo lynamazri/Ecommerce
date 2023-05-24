@@ -41,15 +41,16 @@
 .subheadings li > a {
   cursor: pointer;
   transition: color 0.3s ease-in-out;
-  color: #191919;
+  color: #6d6d6d;
 }
 
 .subheadings li > a:hover {
+  font-weight: 500;
   color: #1f2c4c;
 }
 
 .subheadings li > a.active {
-  background-color: #ebebeb;
+  color: #1f2c4c;
   font-weight: 600;
 }
 
@@ -249,7 +250,7 @@
 
 .order-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   grid-gap: 20px;
 }
 
