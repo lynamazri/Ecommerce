@@ -25,19 +25,34 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
-  extraReducers: {
-    //decrepated, use builder callback later
-    [productsFetch.pending]: (state, action) => {
+  // extraReducers: {
+  //   //decrepated, use builder callback later
+  //   [productsFetch.pending]: (state) => {
+  //     state.status = "loading";
+  //   },
+  //   [productsFetch.fulfilled]: (state, action) => {
+  //     state.status = "success";
+  //     state.items = action.payload;
+  //   },
+  //   [productsFetch.rejected]: (state, action) => {
+  //     state.status = "failure";
+  //     state.error = action.payload;
+  //   },
+  // },
+  extraReducers: (builder) => {
+    builder.addCase(productsFetch.pending, (state) => {
       state.status = "loading";
-    },
-    [productsFetch.fulfilled]: (state, action) => {
+    });
+    builder.addCase(productsFetch.fulfilled, (state, action) => {
       state.status = "success";
       state.items = action.payload;
-    },
-    [productsFetch.rejected]: (state, action) => {
+      state.error = "";
+    });
+    builder.addCase(productsFetch.rejected, (state, action) => {
       state.status = "failure";
+      state.items = [];
       state.error = action.payload;
-    },
+    });
   },
 });
 

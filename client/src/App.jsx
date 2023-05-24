@@ -21,7 +21,7 @@ import MyProfile from "./components/Profile/MyProfile";
 import AddressBook from "./components/Profile/AddressBook";
 import PaymentMethod from "./components/Profile/PaymentMethod";
 import OrderHistory from "./components/Profile/OrderHistory";
-import ApplyShop from "./components/Profile/ApplyShop";
+import OpenShop from "./components/Profile/OpenShop";
 import Security from "./components/Profile/Security";
 import Language from "./components/Profile/Language";
 import Welcome from "./pages/Home/Welcome";
@@ -115,7 +115,7 @@ function App() {
           <Route path="/profile/orderhistory" element={<OrderHistory />} />
           <Route path="/profile/security" element={<Security />} />
           <Route path="/profile/language" element={<Language />} />
-          <Route path="/profile/apply" element={<ApplyShop />} />
+          <Route path="/profile/open-shop" element={<OpenShop />} />
         </Route>
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/compare" element={<Compare />} />

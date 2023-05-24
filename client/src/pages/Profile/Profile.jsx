@@ -56,8 +56,8 @@ function Profile() {
               {/* {!userHasShop && ( */}
               <li>
                 <Link
-                  to="/profile/apply"
-                  className={isActive("/profile/apply") ? "active" : ""}
+                  to="/profile/open-shop"
+                  className={isActive("/profile/open-shop") ? "active" : ""}
                 >
                   Open a Shop
                 </Link>

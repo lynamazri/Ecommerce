@@ -23,8 +23,6 @@ function Login() {
     //rememberMe: false,
   });
 
-  console.log(formData);
-
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
     setFormData((prevFormData) => {
@@ -39,7 +37,6 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
 
     try {
       const { accessToken, user } = await login({

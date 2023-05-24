@@ -51,7 +51,7 @@ const getProductById = async (req, res) => {
       productId: id,
       AND: {
         verified: true,
-      }
+      },
     },
     include: {
       images: true,

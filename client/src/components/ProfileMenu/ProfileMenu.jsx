@@ -9,9 +9,9 @@ import {
   RiSettingsLine,
   RiLogoutBoxLine,
 } from "react-icons/ri";
-import "./ProfileMenu.css";
 import { useSelector } from "react-redux";
 import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
+import "./ProfileMenu.css";
 
 function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
@@ -61,8 +61,8 @@ function ProfileMenu({ closeMenu, userHasShop }) {
           </Link>
         ) : (
           <Link
-            to="/profile/apply"
-            className={isActive("/profile/apply") ? "active" : ""}
+            to="/profile/open-shop"
+            className={isActive("/profile/open-shop") ? "active" : ""}
           >
             <RiShoppingBagLine size={18} /> Open a Shop
           </Link>

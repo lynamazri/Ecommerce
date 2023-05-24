@@ -5,7 +5,7 @@ function MyProfile() {
     firstName: "",
     lastName: "",
     email: "",
-    phoneNumber: "",
+    bankAccountNumber: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -15,7 +15,7 @@ function MyProfile() {
       firstName: "John",
       lastName: "Doe",
       email: "johndoe@example.com",
-      phoneNumber: "1234567890",
+      bankAccountNumber: "1234567890",
     };
 
     // Set the form data with the fetched profile data
@@ -38,7 +38,7 @@ function MyProfile() {
       !formData.firstName ||
       !formData.lastName ||
       !formData.email ||
-      !formData.phoneNumber
+      !formData.bankAccountNumber
     ) {
       setErrorMessage("Please fill in all the required fields.");
       return;
@@ -95,15 +95,15 @@ function MyProfile() {
             />
           </div>
           <div className="input-container">
-            <label htmlFor="phoneNumber">Phone Number</label>
+            <label htmlFor="bankAccountNumber">Bank Account Number</label>
             <input
               type="text"
-              name="phoneNumber"
-              id="phoneNumber"
-              placeholder="Phone Number"
+              name="bankAccountNumber"
+              id="bankAccountNumber"
+              placeholder="Bank Account Number"
               required
               onChange={handleChange}
-              value={formData.phoneNumber}
+              value={formData.bankAccountNumber}
             />
           </div>
         </div>
@@ -121,3 +121,48 @@ function MyProfile() {
 }
 
 export default MyProfile;
+
+/*
+import axios from "axios";
+
+// ...
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+
+  // Collect the updated profile data from the form
+  const updatedProfileData = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phoneNumber: formData.phoneNumber,
+  };
+
+  try {
+    // Make an HTTP request to the API endpoint with the updated profile data
+    const response = await axios.put("/api/profile", updatedProfileData);
+
+    // Handle the response as needed
+    console.log(response);
+    setSuccessMessage("Profile updated successfully");
+    setErrorMessage("");
+  } catch (error) {
+    // Handle errors
+    console.log(error);
+    setErrorMessage("An error occurred while updating the profile");
+    setSuccessMessage("");
+  }
+};
+
+
+<input
+  type="text"
+  name="firstName"
+  id="firstName"
+  placeholder="First Name"
+  required
+  onChange={handleChange}
+  value={formData.firstName}
+/>
+
+*/
