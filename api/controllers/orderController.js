@@ -80,7 +80,6 @@ const createOrder = async (req, res) => {
                   res.status(400).send("Cannot find user.");
                 } else {
                   const order = await prisma.Order.create({
-                    state: "Pending.",
                     total: total,
                     payMethod: method,
                     userId: user.userId,
@@ -171,10 +170,40 @@ const cancelOrder = async (req, res) => {
   }
 };
 
+const handleOrder = async (req, res) => {
+  const { order } = req.params;
+  const { state } = req.body;
+
+  const handleOrder = prisma.OrderItems.update({
+    where: {
+      itemId: order,
+    },
+    data: {
+      state: state,
+    },
+  });
+  if (!handleOrder) res.status(400).send("Unable to update order.");
+  else res.status(200);
+};
+
+const refuseOrder = async (req, res) => {
+  const { order } = req.params;
+
+  const refuseOrder = prisma.OrderItems.delete({
+    where: {
+      itemId: order,
+    },
+  });
+  if (!refuseOrder) res.status(400).send("Unable to refuse order.");
+  else res.status(200);
+};
+
 module.exports = {
   createOrderWithOldAddress,
   getStoreOrders,
   getUserOrders,
   createOrder,
   cancelOrder,
+  handleOrder,
+  refuseOrder,
 };
