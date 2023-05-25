@@ -47,18 +47,20 @@ function Product() {
             shadowScale: 0.94,
           }}
         >
-          {items.length > 0 &&
+          {items &&
             items?.map((product) => (
               <div class="swiper-wrapper">
                 <SwiperSlide key={product.productId}>
                   <ProductCard
-                    id={product?.productId}
-                    title={product?.name}
+                    key={product?.productId}
+                    productId={product?.productId}
+                    name={product?.name}
                     price={product?.price}
                     description={product?.description}
-                    category={product?.subCat.name}
-                    image={product?.images[0].url}
+                    subCatName={product?.subCat.name}
+                    imageUrl={product?.images[0].url}
                     rating={product?.reviews.length}
+                    storeName={product?.store.name}
                   />
                 </SwiperSlide>
               </div>

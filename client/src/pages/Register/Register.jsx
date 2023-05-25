@@ -55,7 +55,7 @@ function Register() {
     console.log(formData);
     try {
       const response = await axios.post(
-        "http://localhost:3001/register",
+        "http://localhost:3001/auth/register",
         {
           username: formData.username,
           email: formData.email,
@@ -79,7 +79,7 @@ function Register() {
         }
       );
       console.log(response);
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     } catch (error) {
       console.log(error);
       setErrorMessage(error.response.data);

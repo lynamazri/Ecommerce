@@ -34,11 +34,10 @@ export default function ProductDetails() {
   // });
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/products/store/${params.id}`)
+      .get(`http://localhost:3001/productss/store/${params.id}`)
       .then((res) => {
         console.log(res.data);
         setProduct(res.data);
-        console.log(res.data.images);
         setImages(res.data.images);
         setReviews(res.data.reviews);
       });
