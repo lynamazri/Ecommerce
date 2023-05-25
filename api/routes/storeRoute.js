@@ -8,6 +8,9 @@ const {
   getStores,
   editStore,
   deleteStore,
+  getReviews,
+  getQuestions,
+  answerQuestion,
 } = require("../controllers/storeController");
 
 router.post("/", verification, createStore);
@@ -15,5 +18,8 @@ router.patch("/:id", verifyStore);
 router.get("/", getStores);
 router.patch("/", verification, editStore);
 router.delete("/:id", verification, deleteStore);
+router.get("/reviews/:id", getReviews);
+router.get("/questions/:id", getQuestions);
+router.patch("/:question", answerQuestion);
 
 module.exports = router;

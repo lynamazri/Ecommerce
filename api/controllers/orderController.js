@@ -143,37 +143,31 @@ const createOrder = async (req, res) => {
   }
 };
 
-const createComplaint = async (req, res) => {
-  const { title, type, description } = req.body;
+const cancelOrder = async (req, res) => {
+  const { order } = req.params;
+  const currentdate = new Date();
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const findOrder = prisma.Order.findUnique({
+    where: {
+      orderId: order,
+    },
+  });
 
-          const createComplaint = await prisma.Complaint.create({
-            data: {
-              type: type,
-              userId: user.userId,
-              title: title,
-              description: description,
-            },
-          });
-          if (createComplaint) res.sendStatus(200);
-          else res.status(400).send("Unable to create complaint.");
-        }
-      }
-    );
+  if (!deleteOrder) res.status(400).send("No orders yet.");
+  else {
+    let diff = currentdate.getTime() - findOrder.orderDate.getTime(); //res in milliseconds
+    if (diff > 172800000) {
+      //two days
+      res.status(400).send("Cannot cancel orders older than 2 days.");
+    } else {
+      const deleteOrder = prisma.Order.delete({
+        where: {
+          orderId: order,
+        },
+      });
+      if (!deleteOrder) res.status(400).send("No orders yet.");
+      else res.sendStatus(200);
+    }
   }
 };
 
@@ -182,5 +176,5 @@ module.exports = {
   getStoreOrders,
   getUserOrders,
   createOrder,
-  createComplaint,
+  cancelOrder,
 };

@@ -16,8 +16,8 @@ model Users{
   password  String
   birthDate DateTime @db.Date
   gender String
-  credit Int?
-  bankAccount String?
+  credit Int @default(0)
+  bankAccount String? @unique
 adresses Address[]
   registrationDate DateTime  @default(now())
   refreshToken String?
@@ -84,8 +84,8 @@ model Product{
   verified Boolean @default(false)
   dateAdded DateTime  @default(now())
   ordered OrderItems[]
-   discount   Discount @relation(fields: [discountId], references: [discountId])
-  discountId Int
+   discount   Discount? @relation(fields: [discountId], references: [discountId])
+  discountId Int?
 }
 
 
@@ -180,10 +180,10 @@ model OrderItems {
   product       Product        @relation(fields: [productId], references: [productId])
   optionId       Int
   option         ProductOptions        @relation(fields: [optionId], references: [optionId])
-  order        Order       @relation(fields: [orderId], references: [orderId])
+  order        Order       @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
   orderId      String
   storeId     String
-  store       Store        @relation(fields: [storeId], references: [storeId])
+  store       Store        @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
 }
 
 model Discount {
@@ -212,6 +212,7 @@ model Complaint {
   date DateTime @default(now())
   userId String
   user   Users @relation(fields: [userId], references: [userId])
+  handled Boolean @default(false)
 }
 
 model Report {
