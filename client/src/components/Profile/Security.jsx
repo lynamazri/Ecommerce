@@ -40,14 +40,27 @@ function Security() {
     }));
   }
 
+  const validateForm = () => {
+    if (!formData.oldPass || !formData.newPass || !formData.confirmNewPass) {
+      setErrorMessage("Please fill in all the required fields.");
+      setSuccessMessage("");
+      return false;
+    }
+    if (formData.newPass !== formData.confirmNewPass) {
+      setErrorMessage("Passwords do not match.");
+      setSuccessMessage("");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (formData.newPass !== formData.confirmNewPass) {
-      setErrorMessage("Passwords do not match");
+    if (!validateForm()) {
       return;
     }
-
     try {
       const response = await axios.post(
         "http://localhost:3001/profile/edit/changepass",
@@ -149,8 +162,8 @@ function Security() {
         </div>
 
         {/* Error and success messages */}
-        {errorMessage && <p className="error">{errorMessage}</p>}
-        {successMessage && <p className="success">{successMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {successMessage && <p className="success-message">{successMessage}</p>}
 
         {/* Submit button */}
         <div className="input-container">
@@ -160,18 +173,16 @@ function Security() {
         </div>
 
         {/* Two-Factor Authentication */}
-        <div className="input-container tfa-container">
+        {/* <div className="input-container tfa-container">
           <label htmlFor="twoFactorCode">Two-Factor Authentication Code</label>
           <input
             type="text"
             name="twoFactorCode"
             id="twoFactorCode"
             placeholder="Enter your code"
-            // required
             onChange={handleChange}
-            // value={formData.twoFactorCode}
           />
-        </div>
+        </div> */}
       </div>
     </form>
   );

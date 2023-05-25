@@ -10,6 +10,7 @@ function AddressBook() {
   });
   const [editAddressId, setEditAddressId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
 
   useEffect(() => {
     // Assuming you fetch the addresses from the backend and store them in the 'fetchedAddresses' variable
@@ -42,17 +43,40 @@ function AddressBook() {
     }));
   }
 
+  const validateForm = () => {
+    const { address, city, state, zipCode } = newAddress;
+
+    if (!address || !city || !state || !zipCode) {
+      return "Please fill in all the required fields.";
+    }
+
+    if (address.length < 5) {
+      return "Address must be at least 5 characters long.";
+    }
+
+    if (city.length < 3) {
+      return "City must be at least 3 characters long.";
+    }
+
+    if (state.length < 2) {
+      return "State must be at least 2 characters long.";
+    }
+
+    if (!/^\d{5}$/.test(zipCode)) {
+      return "Zip code must be a 5-digit number.";
+    }
+
+    return ""; // Return empty string if the form is valid
+  };
+
   const handleAddAddress = (event) => {
     event.preventDefault();
 
-    // Add your validation logic here
-    if (
-      !newAddress.address ||
-      !newAddress.city ||
-      !newAddress.state ||
-      !newAddress.zipCode
-    ) {
-      setErrorMessage("Please fill in all the required fields.");
+    // Validate the form
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage(validationError);
+      setConfirmationMessage("");
       return;
     }
 
@@ -70,6 +94,7 @@ function AddressBook() {
         })
       );
       setEditAddressId(null);
+      setConfirmationMessage("Address updated successfully.");
     } else {
       // Generate a unique ID for the new address
       const newId =
@@ -83,6 +108,7 @@ function AddressBook() {
 
       // Add the new address to the addresses list
       setAddresses((prevAddresses) => [...prevAddresses, newAddressData]);
+      setConfirmationMessage("Address added successfully.");
     }
 
     // Clear the new address form inputs
@@ -113,6 +139,7 @@ function AddressBook() {
 
       // Set the address ID to be edited
       setEditAddressId(addressId);
+      setConfirmationMessage("");
     }
   };
 
@@ -121,6 +148,7 @@ function AddressBook() {
     setAddresses((prevAddresses) =>
       prevAddresses.filter((address) => address.id !== addressId)
     );
+    setConfirmationMessage("Address deleted successfully.");
   };
 
   return (
@@ -207,7 +235,10 @@ function AddressBook() {
                 value={newAddress.zipCode}
               />
             </div>
-            {errorMessage && <p className="error">{errorMessage}</p>}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {confirmationMessage && (
+              <p className="confirmation-message">{confirmationMessage}</p>
+            )}
             <div className="input-container">
               <button type="submit" onClick={handleAddAddress}>
                 {editAddressId ? "Update Address" : "Add Address"}
@@ -221,62 +252,3 @@ function AddressBook() {
 }
 
 export default AddressBook;
-
-/*
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-
-function AddressBook() {
-  const [addresses, setAddresses] = useState([]);
-
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await axios.get("/api/addresses");
-        setAddresses(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchAddresses();
-  }, []);
-
-  // Rest of the code...
-}
-
-const handleEditAddress = async (addressId, updatedAddress) => {
-  try {
-    const response = await axios.put(`/api/addresses/${addressId}`, updatedAddress);
-    // Handle the response as needed
-    console.log(response);
-  } catch (error) {
-    // Handle errors
-    console.log(error);
-  }
-};
-
-const handleDeleteAddress = async (addressId) => {
-  try {
-    const response = await axios.delete(`/api/addresses/${addressId}`);
-    // Handle the response as needed
-    console.log(response);
-  } catch (error) {
-    // Handle errors
-    console.log(error);
-  }
-};
-
-
-const handleAddAddress = async (newAddress) => {
-  try {
-    const response = await axios.post("/api/addresses", newAddress);
-    // Handle the response as needed
-    console.log(response);
-  } catch (error) {
-    // Handle errors
-    console.log(error);
-  }
-};
-
-*/

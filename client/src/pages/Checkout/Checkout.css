@@ -148,17 +148,3 @@
     opacity: 1;
   }
 }
-
-.error-message {
-  color: #ff0000;
-  font-size: 12px;
-  margin-top: 5px;
-  animation: fade-in 0.3s ease-in-out;
-}
-
-.success-message {
-  color: #00ff00;
-  font-size: 12px;
-  margin-top: 5px;
-  animation: fade-in 0.3s ease-in-out;
-}

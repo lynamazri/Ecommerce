@@ -8,6 +8,7 @@ function MyProfile() {
     bankAccountNumber: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
 
   useEffect(() => {
     // Assuming you fetch the profile data from the backend and store it in the 'profileData' variable
@@ -30,10 +31,7 @@ function MyProfile() {
     }));
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    // Add your validation logic here
+  const validateForm = () => {
     if (
       !formData.firstName ||
       !formData.lastName ||
@@ -41,13 +39,40 @@ function MyProfile() {
       !formData.bankAccountNumber
     ) {
       setErrorMessage("Please fill in all the required fields.");
-      return;
+      setConfirmationMessage("");
+      return false;
+    }
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setConfirmationMessage("");
+      return false;
     }
 
+    // Validate bank account number format
+    const bankAccountRegex = /^\d{10}$/;
+    if (!bankAccountRegex.test(formData.bankAccountNumber)) {
+      setErrorMessage("Please enter a valid bank account number.");
+      setConfirmationMessage("");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Add your validation logic here
+    if (!validateForm()) {
+      return;
+    }
     // Add your logic here to handle form submission
     // For now, just log the form data
     console.log(formData);
     setErrorMessage("");
+    setConfirmationMessage("Changes saved successfully.");
   };
 
   return (
@@ -108,7 +133,10 @@ function MyProfile() {
           </div>
         </div>
 
-        {errorMessage && <p className="error">{errorMessage}</p>}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
 
         <div className="input-container">
           <button type="submit" value="Submit">
