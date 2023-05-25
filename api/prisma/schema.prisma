@@ -73,14 +73,14 @@ model Product{
   description String @db.VarChar(500)
   price Int
   quantity Int
-  subCat   SubCat @relation(fields: [subCatId], references: [subCatId])
-  subCatId Int
   images           ProductImage[]
   options ProductOptions[]
   reviews Reviews[]
   questions Questions[]
   store   Store @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
   storeId String
+   subCat   SubCat @relation(fields: [subCatId], references: [subCatId], onDelete: Cascade)
+  subCatId Int
   verified Boolean @default(false)
   dateAdded DateTime  @default(now())
   ordered OrderItems[]
@@ -101,7 +101,7 @@ model SubCat {
   name         String @unique
   catId Int
   category   Category @relation(fields: [catId], references: [catId], onDelete: Cascade)
-  products    Product[]
+  products Product[]
 }
 
 

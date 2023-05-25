@@ -109,6 +109,8 @@ const handleComplaint = async (req, res) => {
   else res.sendStatus(200);
 };
 
+//get unverfied stores and products
+
 module.exports = {
   getUsers,
   deleteUser,
