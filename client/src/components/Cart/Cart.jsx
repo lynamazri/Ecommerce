@@ -84,7 +84,7 @@ function Cart({ isCheckoutPage, closeMenu }) {
   const handleClear = () => {
     dispatch(clear(cart));
   };
-
+  console.log(cart.cartItems);
   return (
     <div className="cart-container">
       <div className="cart-header">
@@ -106,7 +106,7 @@ function Cart({ isCheckoutPage, closeMenu }) {
         <div className="full-cart-container">
           <div className="cart-items">
             {cart.cartItems.map((item) => (
-              <CartItem key={item.id} item={item} />
+              <CartItem key={item.productId} item={item} />
             ))}
           </div>
           <div className="lower-cart">
