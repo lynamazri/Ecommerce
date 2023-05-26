@@ -18,5 +18,5 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
-setupListeners(store.dispatch);
 store.dispatch(productsFetch());
+setupListeners(store.dispatch);

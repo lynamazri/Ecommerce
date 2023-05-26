@@ -21,6 +21,10 @@ function Products() {
   const { items, filteredItems, status } = useSelector(
     (state) => state.products
   );
+  console.log(items);
+  console.log(filteredItems);
+  console.log(status);
+
   const numStars = 5; // Number of stars
   const { category } = useParams();
 
@@ -198,7 +202,7 @@ function Products() {
               viewMode === "list" ? "list-view" : ""
             }`}
           >
-            {filteredItems &&
+            {status === "succeeded" &&
               filteredItems.map((product) =>
                 viewMode === "grid" ? (
                   <ProductCard

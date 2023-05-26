@@ -9,15 +9,19 @@ import { add } from "../../redux/Slices/CartSlice";
 
 function Product() {
   const dispatch = useDispatch();
-  const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
+  const { items, filteredItems, status } = useSelector(
+    (state) => state.products
+  );
   console.log(items);
+  console.log(filteredItems);
+  console.log(status);
   const handleAdd = (product) => {
     dispatch(add(product));
   };
 
   return (
     <>
-      {status === "success" ? (
+      {status === "succeeded" ? (
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={20}
