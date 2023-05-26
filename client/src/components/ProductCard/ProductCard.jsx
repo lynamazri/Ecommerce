@@ -5,7 +5,16 @@ import { getStars } from "../../utils";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
 
-function ProductCard({ id, image, title, category, rating, price }) {
+function ProductCard({
+  id,
+  title,
+  price,
+  description,
+  category,
+  image,
+  rating,
+  viewMode,
+}) {
   const dispatch = useDispatch();
   // const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
   const handleAdd = () => {
@@ -13,7 +22,7 @@ function ProductCard({ id, image, title, category, rating, price }) {
   };
 
   return (
-    <div className="product-card">
+    <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
         <img src={image} alt={title} />
         {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
