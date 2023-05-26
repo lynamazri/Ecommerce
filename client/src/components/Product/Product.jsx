@@ -22,24 +22,10 @@ function Product() {
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           spaceBetween={20}
           slidesPerView={4}
-          //           breakpoints: {
-          //   '@0.75': {
-          //     slidesPerView: 2,
-          //     spaceBetween: 20,
-          //   },
-          //   '@1.00': {
-          //     slidesPerView: 3,
-          //     spaceBetween: 40,
-          //   },
-          //   '@1.50': {
-          //     slidesPerView: 4,
-          //     spaceBetween: 50,
-          //   },
-          // }
-          init="false"
+          init={false}
           navigation
           scrollbar={{ draggable: true }}
-          effect={"cube"}
+          effect="cube"
           cubeEffect={{
             shadow: true,
             slideShadows: true,
@@ -47,9 +33,9 @@ function Product() {
             shadowScale: 0.94,
           }}
         >
-          {items &&
-            items?.map((product) => (
-              <div class="swiper-wrapper">
+          <div class="swiper-wrapper">
+            {items &&
+              items?.map((product) => (
                 <SwiperSlide key={product.productId}>
                   <ProductCard
                     key={product?.productId}
@@ -63,13 +49,12 @@ function Product() {
                     storeName={product?.store.name}
                   />
                 </SwiperSlide>
-              </div>
-            ))}
-          {/* <div class="swiper-pagination"></div>
+              ))}
+          </div>
+          <div class="swiper-pagination"></div>
           <div class="swiper-scrollbar"></div>
-
           <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div> */}
+          <div class="swiper-button-next"></div>
         </Swiper>
       ) : status === "loading" ? (
         <div className="loader-container">
@@ -83,3 +68,18 @@ function Product() {
 }
 
 export default Product;
+
+//           breakpoints: {
+//   '@0.75': {
+//     slidesPerView: 2,
+//     spaceBetween: 20,
+//   },
+//   '@1.00': {
+//     slidesPerView: 3,
+//     spaceBetween: 40,
+//   },
+//   '@1.50': {
+//     slidesPerView: 4,
+//     spaceBetween: 50,
+//   },
+// }
