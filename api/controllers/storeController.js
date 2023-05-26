@@ -72,7 +72,11 @@ const verifyStore = async (req, res) => {
 };
 
 const getStores = async (req, res) => {
-  const stores = await prisma.Store.findMany();
+  const stores = await prisma.Store.findMany({
+    where: {
+      approved: true,
+    },
+  });
   if (!stores) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
 };
@@ -102,6 +106,7 @@ const editStore = async (req, res) => {
     const updateStore = await prisma.Store.update({
       where: {
         storeId: id,
+        approved: true,
       },
       data: {
         description: description ? description : curStore.description,
@@ -111,6 +116,8 @@ const editStore = async (req, res) => {
     });
     if (updateStore) {
       res.sendStatus(200);
+    } else {
+      res.status(400).send("Unable to edit store.");
     }
   } catch (error) {
     console.log(error);

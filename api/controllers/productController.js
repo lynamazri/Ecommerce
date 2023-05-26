@@ -1,6 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const cloudinary = require("../config/cloudinary");
+//const cloudinary = require("../config/cloudinary");
+require("dotenv").config();
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
+//
 const { reviewValidation, questionValidation } = require("../validation");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -93,19 +103,7 @@ const getProductByName = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const {
-    name,
-    description,
-    price,
-    subCat,
-    quantity,
-    options,
-    /*   img1,
-    img2,
-    img3,
-    img4,
-    img5, */
-  } = req.body;
+  /* const { name, description, price, subCat, quantity, options } = req.body;
   img1 = req.files?.img1;
   img2 = req.files?.img2;
   img3 = req.files?.img3;
@@ -121,7 +119,7 @@ const createProduct = async (req, res) => {
 
   const findStore = await prisma.store.findFirst({
     where: {
-      name: store,
+      storeId: store,
       approved: true,
     },
   });
@@ -138,77 +136,219 @@ const createProduct = async (req, res) => {
   if (!findSubCat) {
     res.status(400).send("Product sub-category doesn't exist.");
   } else {
-    /*    try {
-      upload1 = await cloudinary.uploader.upload(img1, {
+    try {
+      upload1 = await cloudinary.uploader.upload(img1.tempFilePath, {
         folder: "products",
       });
-      var images = [{ image_url: upload1.url }];
+      var images = [{ url: upload1.url }];
 
       if (img2) {
-        upload2 = await cloudinary.uploader.upload(img2, {
+        upload2 = await cloudinary.uploader.upload(img2.tempFilePath, {
           folder: "products",
         });
-        images.push({ image_url: upload2.url });
+        images.push({ url: upload2.url });
       }
 
       if (img3) {
-        upload3 = await cloudinary.uploader.upload(img3, {
+        upload3 = await cloudinary.uploader.upload(img3.tempFilePath, {
           folder: "products",
         });
-        images.push({ image_url: upload3.url });
+        images.push({ url: upload3.url });
       }
 
       if (img4) {
-        upload4 = await cloudinary.uploader.upload(img4, {
+        upload4 = await cloudinary.uploader.upload(img4.tempFilePath, {
           folder: "products",
         });
-        images.push({ image_url: upload4.url });
+        images.push({ url: upload4.url });
       }
 
       if (img5) {
-        upload5 = await cloudinary.uploader.upload(img5, {
+        upload5 = await cloudinary.uploader.upload(img5.tempFilePath, {
           folder: "products",
         });
-        images.push({ image_url: upload5.url });
+        images.push({ url: upload5.url });
       }
- */
-    const product = await prisma.Product.create({
-      data: {
-        name: name,
-        description: description,
-        price: parseInt(price),
-        subCat: {
-          connect: {
-            subCatId: findSubCat.subCatId,
+
+      const product = await prisma.Product.create({
+        data: {
+          name: name,
+          description: description,
+          price: parseInt(price),
+          subCat: {
+            connect: {
+              subCatId: findSubCat.subCatId,
+            },
+          },
+          quantity: parseInt(quantity),
+          store: {
+            connect: {
+              storeId: findStore.storeId,
+            },
+          },
+          images: {
+            create: Array.from(images),
+          },
+          options: {
+            create: Array.from(options),
           },
         },
-        quantity: parseInt(quantity),
+      });
+
+      if (!product) {
+        res.status(400).send("Unable to create product");
+      } else {
+        res.status(200).json(product);
+      }
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(400);
+    }
+  }
+  */
+
+  const { name, description, price, quantity, subCat, options } = req.body;
+  const { store } = req.params;
+
+  image1 = req.files?.image1;
+  image2 = req.files?.image2;
+  image3 = req.files?.image3;
+  image4 = req.files?.image4;
+
+  const findStore = await prisma.store.findUnique({
+    where: {
+      storeId: store,
+    },
+  });
+
+  if (!findStore) return res.status(400).send("Unable to find store.");
+
+  const findSubCat = await prisma.subCat.findUnique({
+    where: {
+      name: subCat,
+    },
+  });
+
+  if (!findSubCat) return res.status(400).send("Unable to find sub-category.");
+
+  let uploadImage2;
+  let uploadImage3;
+  let uploadImage4;
+  try {
+    const uploadImage1 = await cloudinary.uploader.upload(image1.tempFilePath, {
+      folder: "products",
+    });
+    if (image2) {
+      uploadImage2 = await cloudinary.uploader.upload(image2.tempFilePath, {
+        folder: "products",
+      });
+    }
+    if (image3) {
+      uploadImage3 = await cloudinary.uploader.upload(image3.tempFilePath, {
+        folder: "products",
+      });
+    }
+    if (image4) {
+      uploadImage4 = await cloudinary.uploader.upload(image4.tempFilePath, {
+        folder: "products",
+      });
+    }
+    let images = [{ url: uploadImage1.url }];
+    if (uploadImage2) {
+      images.push({ url: uploadImage2.url });
+    }
+    if (uploadImage3) {
+      images.push({ url: uploadImage3.url });
+    }
+    if (uploadImage4) {
+      images.push({ url: uploadImage4.url });
+    }
+    const product = await prisma.Product.create({
+      data: {
+        name,
+        description,
+        price: parseInt(price),
         store: {
           connect: {
             storeId: findStore.storeId,
           },
         },
-        /* images: {
-            create: Array.from(images),
-          }, */
+        subCat: {
+          connect: {
+            subCatId: findSubCat.subCatId,
+          },
+        },
+        //subCatId: findSubCat.subCatId,
+        quantity: parseInt(quantity),
+        images: {
+          create: Array.from(images),
+        },
         options: {
           create: Array.from(options),
         },
       },
     });
-
-    if (!product) {
-      res.status(400).send("Unable to create product");
-    } else {
+    if (product) {
       res.status(200).json(product);
     }
-    /* } catch (error) {
-      console.log(error);
-      res.sendStatus(400);
-    } */
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(400);
   }
 };
 
+const updateProduct = async (req, res) => {
+  const { name, price, quantity, description, options } = req.body;
+  const { id } = req.params;
+
+  const curProduct = await prisma.Product.findUnique({
+    where: {
+      productId: id,
+    },
+  });
+
+  if (!curProduct) res.status(400).send("Unable to find product.");
+  else {
+    if (!options) {
+      const updateProduct = await prisma.Product.update({
+        where: {
+          productId: id,
+        },
+        data: {
+          name: name ? name : curProduct.name,
+          description: description ? description : curProduct.description,
+          price: price ? price : curProduct.price,
+          quantity: quantity ? quantity : curProduct.quantity,
+        },
+      });
+      if (!updateProduct) {
+        res.status(400).send("Unable to update product.");
+      } else {
+        res.status(200).json(updateProduct);
+      }
+    } else {
+      const updateProduct = await prisma.Product.update({
+        where: {
+          productId: id,
+        },
+        data: {
+          name: name ? name : curProduct.name,
+          description: description ? description : curProduct.description,
+          price: price ? price : curProduct.price,
+          quantity: quantity ? quantity : curProduct.quantity,
+          options: {
+            create: Array.from(options),
+          },
+        },
+      });
+      if (!updateProduct) {
+        res.status(400).send("Unable to update product.");
+      } else {
+        res.status(200).json(updateProduct);
+      }
+    }
+  }
+};
 const createReview = async (req, res) => {
   const { error } = reviewValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -382,4 +522,5 @@ module.exports = {
   deleteProduct,
   verifyProduct,
   createReport,
+  updateProduct,
 };

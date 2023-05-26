@@ -20,7 +20,7 @@ const cartSlice = createSlice({
     add(state = initialState, action) {
       //find a way to make it so add to cart works with quantity too as in add a quantity to cart, u can add something to the state for example
       const curItem = state.cartItems.find(
-        (item) => item.id === action.payload.id
+        (item) => item.productId === action.payload.productId
       );
       if (curItem) {
         curItem.quantity += 1;
@@ -47,11 +47,11 @@ const cartSlice = createSlice({
     },
     remove(state = initialState, action) {
       state.cartItems.map((item) => {
-        if (item.id === action.payload.id) {
+        if (item.productId === action.payload.productId) {
           //keeping only the items we didn't remove and mapping them into a new array
           const newItems = state.cartItems.filter(
             //to filter the items that dont have the id that we clicked on
-            (item) => item.id !== action.payload.id
+            (item) => item.productId !== action.payload.productId
           );
           state.totAmount -= action.payload.price * action.payload.quantity;
           state.cartItems = newItems;
@@ -94,7 +94,7 @@ const cartSlice = createSlice({
     increase(state = initialState, action) {
       const curItem = state.cartItems.findIndex(
         //curItems is an index not an object
-        (item) => item.id === action.payload.id
+        (item) => item.productId === action.payload.productId
       );
 
       state.cartItems[curItem].quantity += 1;
@@ -105,7 +105,7 @@ const cartSlice = createSlice({
 
     decrease(state = initialState, action) {
       const curItem = state.cartItems.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.productId === action.payload.productId
       );
       if (state.cartItems[curItem].quantity > 1) {
         state.cartItems[curItem].quantity -= 1;
