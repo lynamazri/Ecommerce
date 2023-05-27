@@ -26,6 +26,7 @@ const getProducts = async (req, res) => {
       images: true,
       options: true,
       reviews: true,
+      discount: true,
     },
   });
   if (!products) res.status(400).send("No products found.");

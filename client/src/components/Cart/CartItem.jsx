@@ -27,13 +27,13 @@ const CartItem = ({ item }) => {
   return (
     <div className="item-card" key={item.productId}>
       <div className="upper-card">
-        <img src={item.imageUrl} alt={item.name} />
+        <img src={item.images[0].url} alt={item.name} />
         <div className="item-info">
-          <Link to={`/product/${item.subCatName}/${item.productId}`}>
+          <Link to={`/product/${item.subCat.name}/${item.productId}`}>
             <h3>{item.name}</h3>
           </Link>
 
-          <h4>store: {item.storeName}</h4>
+          <h4>store: {item.store.name}</h4>
           <span className="rating">{getStars(3.6, 12)}</span>
         </div>
       </div>

@@ -51,7 +51,20 @@ const productsSlice = createSlice({
       })
       .addCase(productsFetch.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.items = action.payload;
+        state.items = action.payload.map((item) => {
+          const Count = item.reviews.length;
+          let Avg = 0;
+          if (item.reviews.length > 0) {
+            for (let i = 0; i < item.reviews.length; i++) {
+              Avg += item.reviews[i].stars / item.reviews.length;
+            }
+          }
+          return {
+            ...item,
+            reviewsCount: Count,
+            reviewsAvg: Avg,
+          };
+        });
         state.filteredItems = action.payload;
         state.error = null;
       })

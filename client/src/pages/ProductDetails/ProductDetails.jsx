@@ -12,6 +12,7 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
+import { getStars } from "../../utils";
 
 import "./ProductDetails.css";
 import axios from "axios";
@@ -61,22 +62,6 @@ export default function ProductDetails() {
       setPcsCount((prevPcsCount) => prevPcsCount - 1);
     }
   };
-  function generateRatingStars(rate) {
-    const stars = [];
-
-    const floorRating = Math.floor(rate);
-    for (let i = 0; i < floorRating; i++) {
-      stars.push(<FaStar key={i} />);
-    }
-    if (rate - floorRating >= 0.5) {
-      stars.push(<FaStarHalfAlt key={floorRating} />);
-    }
-    const remaining = 5 - stars.length;
-    for (let i = 0; i < remaining; i++) {
-      stars.push(<FaRegStar key={i + floorRating} />);
-    }
-    return stars;
-  }
   return (
     <>
       <UserNavbar />
@@ -100,7 +85,7 @@ export default function ProductDetails() {
                 <h3>{product?.name}</h3>
                 <div className="reviewStars">
                   <div className="starsContainer">
-                    {generateRatingStars(reviews.length)}
+                    {getStars(reviews.length)}
                   </div>
                   <small>({reviews?.length} customer reviews)</small>
                 </div>

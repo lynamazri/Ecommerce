@@ -9,16 +9,13 @@ import { add } from "../../redux/Slices/CartSlice";
 
 function Product() {
   const dispatch = useDispatch();
-  const { items, filteredItems, status } = useSelector(
+  const { items, filteredItems, status, error } = useSelector(
     (state) => state.products
   );
-  console.log(items);
-  console.log(filteredItems);
-  console.log(status);
   const handleAdd = (product) => {
     dispatch(add(product));
   };
-
+  console.log(items);
   return (
     <>
       {status === "succeeded" ? (
@@ -45,17 +42,17 @@ function Product() {
                 </SwiperSlide>
               ))}
           </div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-scrollbar"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
+          <div className="swiper-pagination"></div>
+          <div className="swiper-scrollbar"></div>
+          <div className="swiper-button-prev"></div>
+          <div className="swiper-button-next"></div>
         </Swiper>
       ) : status === "loading" ? (
         <div className="loader-container">
           <RingLoader color="#1f2c4c" />
         </div>
       ) : (
-        <p>Error.</p>
+        <p>{error}</p>
       )}
     </>
   );
