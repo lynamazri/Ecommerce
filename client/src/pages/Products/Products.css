@@ -73,7 +73,7 @@
 /* .sub-categories-filter {
 } */
 
-.products-page > div > div > div > .body {
+.products-page > div > div > .rating-filter > .body {
   display: flex;
   flex-direction: column-reverse;
   gap: 0.5em;
@@ -106,14 +106,10 @@
   gap: 5px;
 }
 
-.price-filter > .body {
-  display: flex;
-  flex-direction: column-reverse;
-}
 .price-filter > .body > .inputs > input {
   height: 35px;
   width: 47%;
-  margin: 0.5em 0em;
+  margin-bottom: 1em;
   padding: 0.5em;
   display: flex;
   align-items: center;

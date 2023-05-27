@@ -41,17 +41,7 @@ function Product() {
             {items &&
               items?.map((product) => (
                 <SwiperSlide key={product.productId}>
-                  <ProductCard
-                    key={product?.productId}
-                    productId={product?.productId}
-                    name={product?.name}
-                    price={product?.price}
-                    description={product?.description}
-                    subCatName={product?.subCat.name}
-                    imageUrl={product?.images[0].url}
-                    rating={product?.reviews.length}
-                    storeName={product?.store.name}
-                  />
+                  <ProductCard key={product?.productId} product={product} />
                 </SwiperSlide>
               ))}
           </div>

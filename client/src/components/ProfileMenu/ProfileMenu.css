@@ -69,7 +69,14 @@
   background-color: #ebebeb;
   font-weight: 600;
 }
-
+a.active:focus {
+  border: none;
+  outline: none;
+}
+a.active {
+  border: none;
+  outline: none;
+}
 .pm-footer {
   border-top: 1px solid #e5e5e5;
   padding-top: 0.5em;

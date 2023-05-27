@@ -205,27 +205,9 @@ function Products() {
             {status === "succeeded" &&
               filteredItems.map((product) =>
                 viewMode === "grid" ? (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    description={product.description}
-                    category={product.category}
-                    image={product.image}
-                    rating={product.rating}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ) : (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    title={product.title}
-                    price={product.price}
-                    description={product.description}
-                    category={product.category}
-                    image={product.image}
-                    rating={product.rating}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 )
               )}
           </div>
