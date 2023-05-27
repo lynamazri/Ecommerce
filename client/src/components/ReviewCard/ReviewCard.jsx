@@ -38,11 +38,7 @@ export default function ReviewCard(props) {
         </div>
         <small className="review-date">{props.date}</small>
       </div>
-      <p className="review-comment">
-        Hi everyone, we have been working hard with the team bringing a new
-        articles. It has passed a few months till we released it in case of
-        traveling and shooting, hopefully you’ll love it.
-      </p>
+      <p className="review-comment">{props.content}</p>
     </div>
   );
 }

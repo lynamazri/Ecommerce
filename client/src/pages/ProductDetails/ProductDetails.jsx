@@ -181,7 +181,7 @@ export default function ProductDetails() {
                     setDetails("reviews");
                   }}
                 >
-                  Reviews <span className="countLabel">18</span>
+                  Reviews <span className="countLabel">{reviews.length}</span>
                 </button>
                 <button
                   className={`${
@@ -249,42 +249,16 @@ export default function ProductDetails() {
 
                     <button className="comment-button">Send a comment</button>
                   </div>
-                  <ReviewCard
-                    author="NapSTER"
-                    role="Admin"
-                    rating={3.5}
-                    date="22. 4. 2023"
-                  />
-                  <ReviewCard
-                    author="Cha3ban"
-                    role="Admin"
-                    rating={4.5}
-                    date="25. 4. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
+
+                  {reviews.map((review) => (
+                    <ReviewCard
+                      author={review.userId}
+                      role="Customer"
+                      rating={review.stars}
+                      date={review.posted.slice(0, 10)}
+                      content={review.content}
+                    />
+                  ))}
                 </motion.div>
               )}
               {details === "questions" && (

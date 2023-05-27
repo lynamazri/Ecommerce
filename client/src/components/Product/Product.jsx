@@ -15,7 +15,7 @@ function Product() {
   const handleAdd = (product) => {
     dispatch(add(product));
   };
-  console.log(items);
+
   return (
     <>
       {status === "succeeded" ? (
