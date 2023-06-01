@@ -70,6 +70,8 @@ const getProductById = async (req, res) => {
       subCat: true,
       options: true,
       reviews: true,
+      discount: true,
+
     },
   });
 
