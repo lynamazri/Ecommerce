@@ -6,6 +6,8 @@ const credentials = require("./credentials");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const products = require("./data/products");
+
+//route consts
 const helpRoute = require("./routes/helpRoute");
 const authRoute = require("./routes/authRoute");
 const storeRoute = require("./routes/storeRoute");
@@ -14,7 +16,9 @@ const profileRoute = require("./routes/profileRoute");
 const addressRoute = require("./routes/addressRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const adminRoute = require("./routes/adminRoute");
+const discountRoute = require("./routes/discountRoute");
 
+//app
 const app = express();
 
 //middleware
@@ -34,6 +38,7 @@ app.use("/category", categoryRoute);
 app.use("/profile", profileRoute);
 app.use("/productss", productRoute);
 app.use("/admin", adminRoute);
+app.use("/discount", discountRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
