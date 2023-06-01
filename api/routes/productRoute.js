@@ -17,9 +17,11 @@ const {
   verifyProduct,
   createReport,
   updateProduct,
+  searchProducts,
 } = require("../controllers/productController");
 
 router.get("/", getProducts);
+router.get("/search", searchProducts);
 router.get("/:store", getProductsFromStore);
 router.get("/store/:id", getProductById);
 router.get("/allProducts/:name", getProductByName);
