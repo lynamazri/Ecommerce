@@ -28,6 +28,8 @@ questions Questions[]
 orders Order[]
 complaints Complaint[]
 reports Report[]
+wishlist WishList?
+status Boolean @default(false)
 }
 
 
@@ -78,6 +80,7 @@ model Product{
   options ProductOptions[]
   reviews Reviews[]
   questions Questions[]
+  wishlists WishList[]
   store   Store @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
   storeId String
    subCat   SubCat @relation(fields: [subCatId], references: [subCatId], onDelete: Cascade)
@@ -227,4 +230,12 @@ model Report {
   user   Users @relation(fields: [userId], references: [userId])
   reviewId Int
   review   Reviews @relation(fields: [reviewId], references: [reviewId])
+}
+
+model WishList {
+  wishlistId  String        @id @default(uuid())
+  userId String @unique
+  user   Users @relation(fields: [userId], references: [userId])
+  products Product[]
+
 }
