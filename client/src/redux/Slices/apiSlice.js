@@ -12,6 +12,7 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
+  tags: ["Products"]
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -47,5 +48,24 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getProducts: builder.query({
+      query: () => `/productss`,
+      providesTags: ["Products"],
+    }),
+    getProduct: builder.query({
+      query: (id) => `/productss/store/${id}`,
+      providesTags: [],
+
+
+    })   // sendFriendRequest: builder.mutation({
+    // 	query: (data) => ({
+    // 		url: "sendFriendRequest",
+    // 		method: "POST",
+    // 		body: data,
+    // 	}),
+    // 	invalidatesTags: ["Products"],
+    // }),
+  }),
 });
+export const { useGetProductsQuery, useGetProductQuery } = apiSlice;

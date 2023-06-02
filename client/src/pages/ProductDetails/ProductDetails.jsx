@@ -12,7 +12,8 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
-import { getStars } from "../../utils";
+import { getStars, calculateAvg } from "../../utils";
+import { useGetProductQuery } from "../../redux/Slices/apiSlice";
 
 import "./ProductDetails.css";
 import axios from "axios";
@@ -25,25 +26,19 @@ export default function ProductDetails() {
   const [product, setProduct] = useState({});
   const [images, setImages] = useState([]);
   const [reviews, setReviews] = useState([]);
-  // const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
-  // console.log(items);
   const params = useParams();
-  // items.forEach((element) => {
-  //   if (element.id == params.id) {
-  //     product = element;
-  //   }
-  // });
+  const { data, isLoading, error } = useGetProductQuery(params.id);
+  const processedData = {
+    ...data,
+    reviewsCount: data?.reviews.length,
+    reviewsAvg: data && calculateAvg(data.reviews),
+  };
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/productss/store/${params.id}`)
-      .then((res) => {
-        console.log(res.data);
-        setProduct(res.data);
-        setImages(res.data.images);
-        setReviews(res.data.reviews);
-      });
-  }, []);
-
+    data && setProduct(processedData);
+    data && setImages(processedData.images);
+    data && setReviews(processedData.reviews);
+    data && console.log(product);
+  }, [data]);
   const dispatch = useDispatch();
   const handleAdd = () => {
     dispatch(add(product));
@@ -74,7 +69,12 @@ export default function ProductDetails() {
               <div className="photo">
                 {images[0]?.url && <img src={images[0]?.url} />}
                 <div className="countLabelContainer">
-                  <span className="countLabel">- 36 %</span>
+                  {product.discount?.percentage &&
+                  product.discount?.percentage !== 0 ? (
+                    <span className="countLabel">
+                      - {product.discount.percentage} %
+                    </span>
+                  ) : null}
                   <span className="countLabel">Free shipping</span>
                 </div>
               </div>
@@ -83,12 +83,16 @@ export default function ProductDetails() {
             <section className="info">
               <div className="title">
                 <h3>{product?.name}</h3>
-                <div className="reviewStars">
-                  <div className="starsContainer">
-                    {getStars(reviews.length)}
+                {product.reviewsCount !== 0 ? (
+                  <div className="reviewStars">
+                    <div className="starsContainer">
+                      {product?.reviewsAvg && getStars(product.reviewsAvg, 14)}
+                    </div>
+                    <small>({product.reviewsCount} customer reviews)</small>
                   </div>
-                  <small>({reviews?.length} customer reviews)</small>
-                </div>
+                ) : (
+                  <div>No review posted yet</div>
+                )}
               </div>
               <div className="description">
                 <p>{product?.description}</p>
@@ -129,13 +133,29 @@ export default function ProductDetails() {
               </div>
               <div className="addToCart">
                 <div className="price">
-                  {/* {props.isOnSale ? ( */}
                   <>
-                    <p>DZD {product?.price}</p>
-                    <small className="old-price">DZD {product?.price}</small>
+                    <div className="price">
+                      <>
+                        {product.discount &&
+                        product.discount.percentage !== 0 ? (
+                          <p>
+                            DZD{" "}
+                            {product.price -
+                              (product.price * product.discount.percentage) /
+                                100}
+                          </p>
+                        ) : (
+                          <p>DZD {product.price}</p>
+                        )}
+                        {product.discount &&
+                          product.discount.percentage !== 0 && (
+                            <small className="old-price">
+                              DZD {product.price}
+                            </small>
+                          )}
+                      </>
+                    </div>
                   </>
-                  {/* ) : null} */}
-                  {/* <span>DZD{props.price}</span> */}
                 </div>
 
                 <div className="buttons">
@@ -181,7 +201,10 @@ export default function ProductDetails() {
                     setDetails("reviews");
                   }}
                 >
-                  Reviews <span className="countLabel">{reviews.length}</span>
+                  Reviews{" "}
+                  {product.reviewsCount !== 0 && (
+                    <span className="countLabel">{product.reviewsCount}</span>
+                  )}
                 </button>
                 <button
                   className={`${
