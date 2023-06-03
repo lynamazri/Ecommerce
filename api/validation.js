@@ -36,6 +36,7 @@ const changePassValidation = (data) => {
 const applyStoreValidation = (data) => {
   const schema = Joi.object({
     email: Joi.string().required().email(),
+    mainCat: Joi.any(),
     name: Joi.string().min(4).max(30).required(),
     description: Joi.string().min(6).max(380),
     phone: Joi.number().integer().positive().min(21000000).max(799999999),

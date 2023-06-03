@@ -198,6 +198,19 @@ const refuseOrder = async (req, res) => {
   else res.status(200);
 };
 
+const returnItem = async (req, res) => {
+  const { order } = req.params;
+
+  const returnItem = prisma.OrderItems.update({
+    where: {
+      itemId: order,
+    },
+    data: {
+      state: "Returned",
+    },
+  });
+};
+
 module.exports = {
   createOrderWithOldAddress,
   getStoreOrders,
@@ -206,4 +219,5 @@ module.exports = {
   cancelOrder,
   handleOrder,
   refuseOrder,
+  returnItem,
 };

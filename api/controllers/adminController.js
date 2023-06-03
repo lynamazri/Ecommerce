@@ -109,6 +109,16 @@ const handleComplaint = async (req, res) => {
   else res.sendStatus(200);
 };
 
+const getPendingStores = async (req, res) => {
+  const stores = await prisma.Store.findMany({
+    where: {
+      approved: false,
+    },
+  });
+  if (!stores) res.status(400).send("No pending stores available.");
+  else res.status(200).json(stores);
+};
+
 //get unverfied stores and products
 
 module.exports = {
@@ -119,4 +129,5 @@ module.exports = {
   addCredit,
   setCredit,
   handleComplaint,
+  getPendingStores,
 };

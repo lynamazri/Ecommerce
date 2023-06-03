@@ -9,9 +9,11 @@ const {
   addCredit,
   setCredit,
   handleComplaint,
+  getPendingStores,
 } = require("../controllers/adminController");
 
 router.get("/", getUsers);
+router.get("/stores", getPendingStores);
 router.delete("/:id", deleteUser);
 router.get("/users", getUserByUsername);
 router.get("/complaints", getComplaints);
