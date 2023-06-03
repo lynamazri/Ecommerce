@@ -71,7 +71,6 @@ const getProductById = async (req, res) => {
       options: true,
       reviews: true,
       discount: true,
-
     },
   });
 
@@ -320,8 +319,8 @@ const updateProduct = async (req, res) => {
         data: {
           name: name ? name : curProduct.name,
           description: description ? description : curProduct.description,
-          price: price ? price : curProduct.price,
-          quantity: quantity ? quantity : curProduct.quantity,
+          price: price ? parseInt(price) : curProduct.price,
+          quantity: quantity ? parseInt(quantity) : curProduct.quantity,
         },
       });
       if (!updateProduct) {
