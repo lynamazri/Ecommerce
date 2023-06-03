@@ -11,8 +11,10 @@
 }
 
 .products-swiper,
-.testimonials-swiper {
+.testimonials-swiper,
+.stores-swiper {
   width: 100%;
+  padding-bottom: 2em;
 }
 
 .swiper-pagination {
