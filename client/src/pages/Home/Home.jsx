@@ -101,8 +101,7 @@ function Home() {
           </section>
 
           <section className="testimonials-container">
-            <h3>Our customers says</h3>
-
+            <h3>Our Customers Reviews</h3>
             <Swiperr sectionType="testimonials" data={testimonialsData} />
           </section>
         </div>
