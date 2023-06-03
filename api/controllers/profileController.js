@@ -135,8 +135,36 @@ const createComplaint = async (req, res) => {
   }
 };
 
+const createWish = async (req, res) => {
+  const token = req.cookies.jwt;
+  console.log(token);
+  if (!token) {
+    return res.sendStatus(401);
+  } else {
+    jwt.verify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) console.log(err.message);
+        else {
+          const user = await prisma.Users.findUnique({
+            where: { username: decoded.username },
+          });
+
+          const createWish = await prisma.WishList.create({
+            userId: user.userId,
+          });
+          if (createComplaint) res.sendStatus(200);
+          else res.status(400).send("Unable to create complaint.");
+        }
+      }
+    );
+  }
+};
+
 module.exports = {
   updateProfile,
   updatePassword,
   createComplaint,
+  createWish,
 };

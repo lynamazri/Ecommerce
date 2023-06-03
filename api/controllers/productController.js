@@ -582,6 +582,32 @@ const searchProducts = async (req, res) => {
   }
 };
 
+const addProductWish = async (req, res) => {
+  const { user, product } = req.params;
+
+  const checkWishlist = await prisma.WishList.findUnique({
+    where: {
+      userId: user,
+    },
+  });
+
+  if (!checkWishlist) res.status(400).send("Please create a wishlist first");
+  else {
+    const addWish = await prisma.WishList.update({
+      where: {
+        userId: user,
+      },
+      products: {
+        connect: {
+          productId: product,
+        },
+      },
+    });
+    if (addWish) res.sendStatus(200);
+    else res.status(400).send("Unable to add product to wishlist.");
+  }
+};
+
 module.exports = {
   getProducts,
   getProductsFromStore,
@@ -597,4 +623,5 @@ module.exports = {
   createReport,
   updateProduct,
   searchProducts,
+  addProductWish,
 };
