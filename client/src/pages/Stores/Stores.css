@@ -1,0 +1,103 @@
+.stores-page {
+  display: flex;
+  flex-direction: column;
+  padding: 1em 3em;
+}
+
+.left-container > div > h3 {
+  padding-bottom: 1em;
+  font-weight: 600;
+}
+
+.stores-page > .header {
+  padding: 1em 0em 2em 0em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stores-page > .header > .view {
+  display: flex;
+  gap: 18px;
+}
+
+.stores-page > .header > .view > span {
+  display: flex;
+  gap: 3px;
+  font-family: "Open Sans";
+  font-size: 15px;
+  color: #151515;
+  cursor: pointer;
+}
+
+.view span.active {
+  font-weight: bold;
+  color: var(--primaryColor);
+}
+
+.view span.active svg {
+  margin-right: 3px;
+  font-size: 16px;
+}
+
+.stores-page > .body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.stores-page > .body > .left-container {
+  width: 28%;
+  height: 100%;
+  padding-right: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+  align-items: flex-start;
+}
+
+.shops-categories-filter {
+  width: 100%;
+}
+
+.shops-categories-filter > .body > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.shops-categories-filter > .body > div > span {
+  height: max-content;
+  font-weight: 600;
+  font-size: 12px;
+  color: #1f2c4c;
+  padding: 0.2em 0.5em;
+  background: #d7e2ee;
+  border-radius: 12px;
+}
+
+.shops-categories-filter > .body > div > li {
+  padding-bottom: 0.5em;
+  font-family: "Open Sans";
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.shops-categories-filter > .body > label {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+.stores-page > .body > .right-container {
+  width: 72%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.stores-page > .body > .list-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

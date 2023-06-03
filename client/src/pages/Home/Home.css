@@ -160,9 +160,15 @@
   padding-bottom: 2em;
 }
 .product-container > div > a {
+  display: flex;
+  align-items: center;
   color: #191919;
   font-weight: 600;
   font-size: 18px;
+}
+
+.product-container > div > a:hover {
+  color: #1f2c4c;
 }
 
 .testimonials-container > h3 {

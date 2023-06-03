@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Products from "./pages/Products/Products";
+import Stores from "./pages/Stores/Stores";
 import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound/NotFound";
 import Help from "./pages/Help/Help";
@@ -106,6 +107,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
         <Route path="/products/:category" element={<Products />} />
+        <Route path="/Shops" element={<Stores />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
         <Route path="/profile" element={<Profile />}>
