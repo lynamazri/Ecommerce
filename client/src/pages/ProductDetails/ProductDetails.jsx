@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { add } from "../../redux/Slices/CartSlice";
+import { getStars, calculateAvg } from "../../utils";
+import { useGetProductQuery } from "../../redux/Slices/apiSlice";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import Swiperr from "../../components/Swiper/Swiper";
 import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
-import { useParams } from "react-router-dom";
-import { add } from "../../redux/Slices/CartSlice";
-
 import "./ProductDetails.css";
-import axios from "axios";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
@@ -24,25 +23,19 @@ export default function ProductDetails() {
   const [product, setProduct] = useState({});
   const [images, setImages] = useState([]);
   const [reviews, setReviews] = useState([]);
-  // const { items } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
-  // console.log(items);
   const params = useParams();
-  // items.forEach((element) => {
-  //   if (element.id == params.id) {
-  //     product = element;
-  //   }
-  // });
+  const { data } = useGetProductQuery(params.id);
+  const processedData = {
+    ...data,
+    reviewsCount: data?.reviews.length,
+    reviewsAvg: data && calculateAvg(data.reviews),
+  };
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/productss/store/${params.id}`)
-      .then((res) => {
-        console.log(res.data);
-        setProduct(res.data);
-        setImages(res.data.images);
-        setReviews(res.data.reviews);
-      });
-  }, []);
-
+    data && setProduct(processedData);
+    data && setImages(processedData.images);
+    data && setReviews(processedData.reviews);
+    data && console.log(product);
+  }, [data]);
   const dispatch = useDispatch();
   const handleAdd = () => {
     dispatch(add(product));
@@ -61,22 +54,6 @@ export default function ProductDetails() {
       setPcsCount((prevPcsCount) => prevPcsCount - 1);
     }
   };
-  function generateRatingStars(rate) {
-    const stars = [];
-
-    const floorRating = Math.floor(rate);
-    for (let i = 0; i < floorRating; i++) {
-      stars.push(<FaStar key={i} />);
-    }
-    if (rate - floorRating >= 0.5) {
-      stars.push(<FaStarHalfAlt key={floorRating} />);
-    }
-    const remaining = 5 - stars.length;
-    for (let i = 0; i < remaining; i++) {
-      stars.push(<FaRegStar key={i + floorRating} />);
-    }
-    return stars;
-  }
   return (
     <>
       <Navbar />
@@ -89,7 +66,12 @@ export default function ProductDetails() {
               <div className="photo">
                 {images[0]?.url && <img src={images[0]?.url} />}
                 <div className="countLabelContainer">
-                  <span className="countLabel">- 36 %</span>
+                  {product.discount?.percentage &&
+                  product.discount?.percentage !== 0 ? (
+                    <span className="countLabel">
+                      - {product.discount.percentage} %
+                    </span>
+                  ) : null}
                   <span className="countLabel">Free shipping</span>
                 </div>
               </div>
@@ -98,12 +80,16 @@ export default function ProductDetails() {
             <section className="info">
               <div className="title">
                 <h3>{product?.name}</h3>
-                <div className="reviewStars">
-                  <div className="starsContainer">
-                    {generateRatingStars(reviews.length)}
+                {product.reviewsCount !== 0 ? (
+                  <div className="reviewStars">
+                    <div className="starsContainer">
+                      {product?.reviewsAvg && getStars(product.reviewsAvg, 14)}
+                    </div>
+                    <small>({product.reviewsCount} customer reviews)</small>
                   </div>
-                  <small>({reviews?.length} customer reviews)</small>
-                </div>
+                ) : (
+                  <div>No review posted yet</div>
+                )}
               </div>
               <div className="description">
                 <p>{product?.description}</p>
@@ -144,13 +130,29 @@ export default function ProductDetails() {
               </div>
               <div className="addToCart">
                 <div className="price">
-                  {/* {props.isOnSale ? ( */}
                   <>
-                    <p>DZD {product?.price}</p>
-                    <small className="old-price">DZD {product?.price}</small>
+                    <div className="price">
+                      <>
+                        {product.discount &&
+                        product.discount.percentage !== 0 ? (
+                          <p>
+                            DZD{" "}
+                            {product.price -
+                              (product.price * product.discount.percentage) /
+                                100}
+                          </p>
+                        ) : (
+                          <p>DZD {product.price}</p>
+                        )}
+                        {product.discount &&
+                          product.discount.percentage !== 0 && (
+                            <small className="old-price">
+                              DZD {product.price}
+                            </small>
+                          )}
+                      </>
+                    </div>
                   </>
-                  {/* ) : null} */}
-                  {/* <span>DZD{props.price}</span> */}
                 </div>
 
                 <div className="buttons">
@@ -196,7 +198,10 @@ export default function ProductDetails() {
                     setDetails("reviews");
                   }}
                 >
-                  Reviews <span className="countLabel">18</span>
+                  Reviews{" "}
+                  {product.reviewsCount !== 0 && (
+                    <span className="countLabel">{product.reviewsCount}</span>
+                  )}
                 </button>
                 <button
                   className={`${
@@ -264,42 +269,16 @@ export default function ProductDetails() {
 
                     <button className="comment-button">Send a comment</button>
                   </div>
-                  <ReviewCard
-                    author="NapSTER"
-                    role="Admin"
-                    rating={3.5}
-                    date="22. 4. 2023"
-                  />
-                  <ReviewCard
-                    author="Cha3ban"
-                    role="Admin"
-                    rating={4.5}
-                    date="25. 4. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
-                  <ReviewCard
-                    author="Wahid"
-                    role="Customer"
-                    rating={1.5}
-                    date="12. 5. 2023"
-                  />
+
+                  {reviews.map((review) => (
+                    <ReviewCard
+                      author={review.userId}
+                      role="Customer"
+                      rating={review.stars}
+                      date={review.posted.slice(0, 10)}
+                      content={review.content}
+                    />
+                  ))}
                 </motion.div>
               )}
               {details === "questions" && (

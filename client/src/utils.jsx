@@ -28,4 +28,12 @@ function getStars(rate, size) {
   return stars;
 }
 
-export { getStars };
+function calculateAvg(revs) {
+  let result = 0;
+  for (let i = 0; i < revs.length; i++) {
+    result += revs[i].stars / revs.length;
+  }
+  return result;
+}
+
+export { getStars, calculateAvg };

@@ -17,29 +17,38 @@ function ProductCard({ product, viewMode }) {
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
-        <img src={product.imageUrl} alt={product.name} />
-        {/* {product.isOnSale ? <span>${product.promo}%</span> : null} */}
-        <span>-10%</span>
+        <img src={product.images[0].url} alt={product.name} />
+        {product.discount.percentage !== 0 && (
+          <span>-{product.discount.percentage}%</span>
+        )}
       </div>
       <div className="product-description">
         <Link
-          to={`/product/${product.subCatName}/${product.productId}`}
+          to={`/product/${product.subCat.name}/${product.productId}`}
           className="product-title"
         >
           {product.name}
         </Link>
-        <span>{product.subCatName}</span>
-        <div>{getStars(product.rating, 14)}</div>
+        <span>{product.subCat.name}</span>
+        <div>{getStars(product.reviewsAvg, 14)}</div>
       </div>
       <div className="product-pay">
         <div className="product-price">
           {/* {isOnSale ? ( */}
           <>
-            <span>DZD{product.price}</span>
-            <span className="old-price">DZD 2100</span>
+            {product.discount.percentage !== 0 ? (
+              <span>
+                DZD{" "}
+                {product.price -
+                  (product.price * product.discount.percentage) / 100}
+              </span>
+            ) : (
+              <span>DZD {product.price}</span>
+            )}
+            {product.discount.percentage !== 0 && (
+              <span className="old-price">DZD {product.price}</span>
+            )}
           </>
-          {/* ) : null} */}
-          {/* <span>DZD{price}</span> */}
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
         {viewMode === "list" && (

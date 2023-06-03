@@ -12,6 +12,7 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
+  tags: ["Products"]
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -47,5 +48,31 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  endpoints: (builder) => ({}),
+  endpoints: (builder) => ({
+    getProducts: builder.query({
+      query: () => `/productss`,
+      providesTags: ["Products"],
+    }),
+    getProduct: builder.query({
+      query: (id) => `/productss/store/${id}`,
+      providesTags: [],
+
+    }),
+    likePost: builder.mutation({
+      query: (data) => ({
+        url: "/likePost",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["UserLikes"]
+    }),
+    patchProfile: builder.mutation({
+      query: ({ newUsername, firstName, lastName, bankAccount }) => ({
+        url: '/profile',
+        method: 'PATCH',
+        body: { newUsername, firstName, lastName, bankAccount },
+      }),
+    })
+  })
 });
+export const { useGetProductsQuery, useGetProductQuery, useLikePostMutation, usePatchProfileMutation } = apiSlice;

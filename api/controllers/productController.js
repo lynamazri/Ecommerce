@@ -26,6 +26,7 @@ const getProducts = async (req, res) => {
       images: true,
       options: true,
       reviews: true,
+      discount: true,
     },
   });
   if (!products) res.status(400).send("No products found.");
@@ -69,6 +70,8 @@ const getProductById = async (req, res) => {
       subCat: true,
       options: true,
       reviews: true,
+      discount: true,
+
     },
   });
 
@@ -509,6 +512,77 @@ const createReport = async (req, res) => {
   }
 };
 
+const searchProducts = async (req, res) => {
+  const { fsearch, category } = req.body;
+
+  var string = fsearch;
+  string = string.split(" ");
+  //string = string.join(" | ");
+  string = string.map((i) => "+" + i + "*");
+  string = string.join(" ");
+  //const search = fsearch + "*";
+
+  //console.log(search, fsearch);
+
+  console.log(string);
+
+  if (category) {
+    const findSubCat = await prisma.subCat.findUnique({
+      where: {
+        name: category,
+      },
+    });
+
+    if (!findSubCat)
+      return res.status(400).send("Unable to find sub-category.");
+
+    const products = await prisma.Product.findMany({
+      where: {
+        verified: true,
+        subCatId: findSubCat.subCatId,
+        name: {
+          search: string,
+        },
+        description: {
+          search: string,
+        },
+      },
+      include: {
+        store: true,
+        subCat: true,
+        images: true,
+        options: true,
+        reviews: true,
+        discount: true,
+      },
+    });
+    if (products.length == 0) res.status(400).send("No products found.");
+    else res.status(200).json(products);
+  } else {
+    const products = await prisma.Product.findMany({
+      where: {
+        verified: true,
+        name: {
+          search: string,
+        },
+        description: {
+          search: string,
+        },
+      },
+      include: {
+        store: true,
+        subCat: true,
+        images: true,
+        options: true,
+        reviews: true,
+        discount: true,
+      },
+    });
+    if (products.length == 0) res.status(400).send("No products found.");
+    else res.status(200).json(products);
+  }
+};
+
 module.exports = {
   getProducts,
   getProductsFromStore,
@@ -523,4 +597,5 @@ module.exports = {
   verifyProduct,
   createReport,
   updateProduct,
+  searchProducts,
 };

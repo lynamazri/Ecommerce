@@ -13,7 +13,10 @@ import "./Swiper.css";
 function Swiperr({ sectionType, data }) {
   const dispatch = useDispatch();
   const { stores, storesStatus } = useSelector((state) => state.stores);
-  const { items, productsStatus } = useSelector((state) => state.products);
+  const { items, productsStatus, error } = useSelector(
+    (state) => state.products
+  );
+
   // const wishlists = data.filter((item) => item.type === "wishlist");
 
   console.log(items);
@@ -74,7 +77,7 @@ function Swiperr({ sectionType, data }) {
           <RingLoader color="#1f2c4c" />
         </div>
       ) : isError ? (
-        <p>Error.</p>
+        <p>{error}</p>
       ) : (
         <Swiper
           modules={[Navigation, Pagination, A11y]}
