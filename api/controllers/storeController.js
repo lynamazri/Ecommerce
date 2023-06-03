@@ -9,48 +9,61 @@ const createStore = async (req, res) => {
   const { error } = applyStoreValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { name, description, email, phone } = req.body;
+  const { name, description, email, phone, subCat } = req.body;
+  const findSubCat = await prisma.subCat.findUnique({
+    where: {
+      name: subCat,
+    },
+  });
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  if (!findSubCat) return res.status(400).send("Unable to find sub-category.");
+  else {
+    const token = req.cookies.jwt;
+    console.log(token);
+    if (!token) {
+      return res.sendStatus(401);
+    } else {
+      jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN_SECRET,
+        async (err, decoded) => {
+          if (err) console.log(err.message);
+          else {
+            const user = await prisma.Users.findUnique({
+              where: { username: decoded.username },
+            });
 
-          const store = await prisma.Store.create({
-            data: {
-              name: name,
-              description: description,
-              email: email,
-              phone: parseInt(phone),
-              //update this shit
-              owners: {
-                create: [
-                  {
-                    user: {
-                      connect: {
-                        userId: user.userId,
+            const store = await prisma.Store.create({
+              data: {
+                name: name,
+                description: description,
+                email: email,
+                mainCat: {
+                  connect: {
+                    subCatId: subCat,
+                  },
+                },
+                phone: parseInt(phone),
+                //update this shit
+                owners: {
+                  create: [
+                    {
+                      user: {
+                        connect: {
+                          userId: user.userId,
+                        },
                       },
                     },
-                  },
-                ],
+                  ],
+                },
               },
-            },
-          });
+            });
 
-          res.sendStatus(200);
+            res.sendStatus(200);
+          }
         }
-      }
-    );
+      );
+    }
   }
 };
 

@@ -57,6 +57,8 @@ model Store {
   approved    Boolean      @default(false)
   orders      OrderItems[]
   discounts   Discount[]
+  mainCat SubCat @relation(fields: [subCatId], references: [subCatId])
+  subCatId Int
 }
 
 // model UserStore{
@@ -105,6 +107,7 @@ model SubCat {
   catId    Int
   category Category  @relation(fields: [catId], references: [catId], onDelete: Cascade)
   products Product[]
+  stores Store[]
 }
 
 model ProductImage {
