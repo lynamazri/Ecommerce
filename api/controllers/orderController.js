@@ -120,7 +120,6 @@ const createOrder = async (req, res) => {
               res.status(400).send("Cannot find user.");
             } else {
               const order = await prisma.Order.create({
-                state: "Pending.",
                 total: total,
                 payMethod: method,
                 userId: user.userId,

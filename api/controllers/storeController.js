@@ -3,6 +3,8 @@ const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+const cloudinary = require("cloudinary").v2;
+
 const { applyStoreValidation } = require("../validation");
 
 const createStore = async (req, res) => {
@@ -81,7 +83,7 @@ const verifyStore = async (req, res) => {
   });
 
   if (store) res.sendStatus(200);
-  else res.status(400).send("Unable to verify product.");
+  else res.status(400).send("Unable to verify store.");
 };
 
 const getStores = async (req, res) => {
@@ -89,8 +91,12 @@ const getStores = async (req, res) => {
     where: {
       approved: true,
     },
+    include: {
+      banner,
+      discounts,
+    },
   });
-  if (!stores) res.status(400).send("No stores available.");
+  if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
 };
 

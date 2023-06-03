@@ -69,7 +69,9 @@ const getProductById = async (req, res) => {
       store: true,
       subCat: true,
       options: true,
-      reviews: true,
+      reviews: {
+        user: true,
+      },
       discount: true,
     },
   });
