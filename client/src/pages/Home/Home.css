@@ -153,11 +153,11 @@
   padding: 3.5em 0em 0em 0em;
 }
 
-.product-container > div {
+.product-container > .header {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 0em 2em 1.5em 0em;
+  padding-bottom: 2em;
 }
 .product-container > div > a {
   color: #191919;

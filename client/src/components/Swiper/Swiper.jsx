@@ -29,7 +29,7 @@ function Swiperr({ sectionType, data }) {
   }, [dispatch]);
 
   const renderItems = () => {
-    if (sectionType === "store") {
+    if (sectionType === "stores") {
       return stores?.map((store) => (
         <SwiperSlide key={store.storeId}>
           <StoreCard key={store.storeId} store={store} />
@@ -65,7 +65,7 @@ function Swiperr({ sectionType, data }) {
     return null;
   };
 
-  const slidesPerView = sectionType === "store" ? 3 : 4;
+  const slidesPerView = sectionType === "stores" ? 3 : 4;
 
   const isLoading = storesStatus === "loading" || productsStatus === "loading";
   const isError = storesStatus === "failed" || productsStatus === "failed";

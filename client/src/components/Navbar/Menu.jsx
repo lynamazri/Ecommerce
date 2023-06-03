@@ -16,11 +16,21 @@ export const categories = [
 const Menu = () => {
   return (
     <ul className="menu-list">
-      {categories.map((category, index) => (
-        <li key={index}>
-          <Link to={`/products/${category.name}`}>{category.name}</Link>
-        </li>
-      ))}
+      {categories.map((category, index) => {
+        if (category.name === "Shops") {
+          return (
+            <li key={index}>
+              <Link to={`/${category.name}`}>{category.name}</Link>
+            </li>
+          );
+        } else {
+          return (
+            <li key={index}>
+              <Link to={`/products/${category.name}`}>{category.name}</Link>
+            </li>
+          );
+        }
+      })}
     </ul>
   );
 };

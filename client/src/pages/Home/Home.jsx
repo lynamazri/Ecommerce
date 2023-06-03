@@ -81,17 +81,17 @@ function Home() {
                   </li>
                 ))}
               </ul>
-              <Link className="sectionLeftButton" to={`/products/Shops`}>
+              <Link className="sectionLeftButton" to={`/Shops`}>
                 More Shops
               </Link>
             </div>
             <div className="store-wrapper">
-              {/* <Swiperr sectionType="store" /> */}
+              <Swiperr sectionType="stores" />
             </div>
           </section>
 
           <section className="product-container">
-            <div>
+            <div className="header">
               <h3>Best Selling Products</h3>
               <Link to={`/products/All Categories`}>
                 More Products <MdKeyboardArrowRight />

@@ -17,7 +17,7 @@ function ProductCard({ product, viewMode }) {
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
-        <img src={product.images[0].url} alt={product.name} />
+        <img src={product.imageUrl} alt={product.name} />
         {product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
         )}
