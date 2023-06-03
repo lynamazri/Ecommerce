@@ -85,18 +85,3 @@ export const { productsFetchSuccess, productsFetchError, updateFilteredItems } =
 export const setSortingCriteria = createAction("products/setSortingCriteria");
 
 export default productsSlice.reducer;
-
-// extraReducers: {
-//   //decrepated, use builder callback later
-//   [productsFetch.pending]: (state) => {
-//     state.status = "loading";
-//   },
-//   [productsFetch.fulfilled]: (state, action) => {
-//     state.status = "success";
-//     state.items = action.payload;
-//   },
-//   [productsFetch.rejected]: (state, action) => {
-//     state.status = "failure";
-//     state.error = action.payload;
-//   },
-// },

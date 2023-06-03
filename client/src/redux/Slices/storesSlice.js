@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   stores: [],
+  filteredStores: [],
   status: "idle",
   error: null,
 };
@@ -22,7 +23,11 @@ export const fetchStoresData = createAsyncThunk(
 const storesSlice = createSlice({
   name: "stores",
   initialState,
-  reducers: {},
+  reducers: {
+    updateFilteredStores: (state, action) => {
+      state.filteredStores = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchStoresData.pending, (state) => {
@@ -31,6 +36,7 @@ const storesSlice = createSlice({
       .addCase(fetchStoresData.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.stores = action.payload;
+        state.filteredStores = action.payload; // Initialize filteredStores with all stores
       })
       .addCase(fetchStoresData.rejected, (state, action) => {
         state.status = "failed";
@@ -38,5 +44,7 @@ const storesSlice = createSlice({
       });
   },
 });
+
+export const { updateFilteredStores } = storesSlice.actions;
 
 export default storesSlice.reducer;
