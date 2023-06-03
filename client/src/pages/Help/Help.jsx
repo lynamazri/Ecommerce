@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 import { AiOutlineShoppingCart, AiOutlineQuestionCircle } from "react-icons/ai";
 import { BiPurchaseTag } from "react-icons/bi";
 import { BsPerson, BsTruck } from "react-icons/bs";
@@ -11,7 +11,7 @@ import HelpArticle from "./HelpArticle";
 function Help() {
   return (
     <>
-      <UserNavbar />
+      <Navbar />
       <h1>What can we help you with today?</h1>
       <main className="help-container">
         <div className="help-card">

@@ -1,12 +1,14 @@
 import React from "react";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
+import Footer from "../../components/Footer/Footer";
 
 function Wishlist() {
   return (
     <div>
-      <UserNavbar />
+      <Navbar />
       <Path />
+      <Footer />
     </div>
   );
 }

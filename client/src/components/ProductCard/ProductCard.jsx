@@ -6,17 +6,12 @@ import { Link } from "react-router-dom";
 import "./ProductCard.css";
 
 function ProductCard({ product, viewMode }) {
-  // const dispatch = useDispatch();
-  // const { items, status } = useSelector((state) => state.products); //9adra nbedelha tweli b RTK query
-  // const handleAdd = () => {
-  //   dispatch(
-  //     add({ productId, imageUrl, name, subCatName, rating, price, storeName })
-  //   );
-  // };
-
   const dispatch = useDispatch();
   const handleAddToCart = () => {
     dispatch(add(product));
+  };
+  const handleAddToWishlist = () => {
+    // Add logic to handle adding to wishlist
   };
 
   return (
@@ -47,6 +42,11 @@ function ProductCard({ product, viewMode }) {
           {/* <span>DZD{price}</span> */}
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
+        {viewMode === "list" && (
+          <button className="wishlist-button" onClick={handleAddToWishlist}>
+            Add To Wishlist
+          </button>
+        )}
       </div>
     </div>
   );

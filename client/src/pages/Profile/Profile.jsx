@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import "./Profile.css";
 import { Outlet } from "react-router-dom";
@@ -12,7 +12,7 @@ function Profile() {
 
   return (
     <>
-      <UserNavbar />
+      <Navbar />
       <Path />
       <div className="profile-page">
         <div className="left-container">

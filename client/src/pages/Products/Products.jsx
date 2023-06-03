@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { BsGrid, BsViewList } from "react-icons/bs";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Footer from "../../components/Footer/Footer";
-import { categories } from "../../components/UserNavbar/Menu";
+import { categories } from "../../components/Navbar/Menu";
 import { getStars } from "../../utils";
 import {
   productsFetch,
@@ -65,7 +65,12 @@ function Products() {
   };
 
   const handleRatingSelect = (selectedRating) => {
-    setSelectedRating(selectedRating);
+    if (selectedRating === selectedRating) {
+      setSelectedRating(null);
+    } else {
+      setSelectedRating(selectedRating);
+    }
+
     let filteredItems = items.filter((item) => item.rating === selectedRating);
     dispatch(updateFilteredItems(filteredItems));
   };
@@ -91,6 +96,36 @@ function Products() {
     setMinPrice("");
     setMaxPrice("");
     dispatch(updateFilteredItems(items));
+    // Reset the price filter and display products without price filter
+    // let updatedItems = [...items];
+    // if (selectedCategory) {
+    //   updatedItems = updatedItems.filter((item) =>
+    //     item.category.includes(selectedCategory)
+    //   );
+    // }
+    // if (selectedRating) {
+    //   updatedItems = updatedItems.filter(
+    //     (item) => item.rating === selectedRating
+    //   );
+    // }
+
+    // // Apply sorting based on the current sorting criteria
+    // if (sortingCriteria === "price") {
+    //   updatedItems.sort((a, b) => a.price - b.price);
+    // } else if (sortingCriteria === "rating") {
+    //   updatedItems.sort((a, b) => b.rating - a.rating);
+    // } else if (sortingCriteria === "date") {
+    //   updatedItems.sort(
+    //     (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+    //   );
+    // } else if (sortingCriteria === "discount") {
+    //   updatedItems.sort((a, b) => b.discount - a.discount);
+    // } else if (sortingCriteria === "availability") {
+    //   updatedItems.sort((a, b) =>
+    //     a.available === b.available ? 0 : a.available ? -1 : 1
+    //   );
+    // }
+    // dispatch(updateFilteredItems(updatedItems));
   };
 
   const toggleViewMode = (mode) => {
@@ -104,17 +139,24 @@ function Products() {
 
   return (
     <div>
-      <UserNavbar />
+      <Navbar />
       <Path />
       <div className="products-page">
         <div className="header">
           <div className="upper">
             <h2>{category}</h2>
             <div className="view">
-              <span onClick={() => toggleViewMode("grid")}>
+              <span
+                className={`view-mode ${viewMode === "grid" ? "active" : ""}`}
+                onClick={() => toggleViewMode("grid")}
+              >
                 <BsGrid /> Grid view
               </span>
-              <span onClick={() => toggleViewMode("list")}>
+              <span
+                className={`view-mode ${viewMode === "list" ? "active" : ""}`}
+                onClick={() => toggleViewMode("list")}
+              >
+                {" "}
                 <BsViewList /> List view
               </span>
             </div>
@@ -165,6 +207,7 @@ function Products() {
                         checked={selectedRating === rating}
                         onChange={() => handleRatingSelect(rating)}
                       />
+
                       {getStars(rating, 15)}
                     </label>
                   );
@@ -203,13 +246,13 @@ function Products() {
             }`}
           >
             {status === "succeeded" &&
-              filteredItems.map((product) =>
-                viewMode === "grid" ? (
-                  <ProductCard key={product.id} product={product} />
-                ) : (
-                  <ProductCard key={product.id} product={product} />
-                )
-              )}
+              filteredItems.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  viewMode={viewMode}
+                />
+              ))}
           </div>
         </div>
       </div>

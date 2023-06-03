@@ -301,11 +301,6 @@ small {
   transform: translateY(13%);
 }
 
-.productWrapper {
-  width: 100%;
-  margin-top: 0.75em;
-}
-
 .reviews-container {
   max-height: 56em;
   overflow-y: scroll;

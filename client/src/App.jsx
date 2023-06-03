@@ -15,7 +15,7 @@ import Compare from "./pages/Compare/Compare";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import RequireAuth from "./pages/Login/RequireAuth";
 
-import UserNavbar from "./components/UserNavbar/UserNavbar";
+import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import MyProfile from "./components/Profile/MyProfile";
 import AddressBook from "./components/Profile/AddressBook";
@@ -30,7 +30,7 @@ import PersistLogin from "./pages/Login/PersistLogin";
 const Layout = () => {
   return (
     <>
-      <UserNavbar />
+      <Navbar />
       <Outlet />
       <Footer />
     </>

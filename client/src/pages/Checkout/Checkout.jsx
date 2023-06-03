@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import Cart from "../../components/Cart/Cart";
 import Footer from "../../components/Footer/Footer";
@@ -105,7 +105,7 @@ function Checkout() {
 
   return (
     <div>
-      <UserNavbar />
+      <Navbar />
       <Path />
       <div className="checkout-page">
         <form className="left-container" onSubmit={handleCheckout}>
