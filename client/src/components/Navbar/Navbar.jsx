@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import CartIcon from "./CartIcon";
 import Search from "./Search";
-import Cart from "../../components/Cart/Cart";
-import ProfileMenu from "../../components/ProfileMenu/ProfileMenu";
+import Cart from "../Cart/Cart";
+import ProfileMenu from "../ProfileMenu/ProfileMenu";
 import { useSelector } from "react-redux";
 import { RiUserLine } from "react-icons/ri";
 
 import "./Navbar.css";
 
-function UserNavbar(props) {
+function Navbar(props) {
   const { cartItems } = useSelector((state) => state.cart);
   const [isCartOpen, setCartOpen] = useState(false);
   const [isProfileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -111,4 +111,4 @@ function UserNavbar(props) {
   );
 }
 
-export default UserNavbar;
+export default Navbar;

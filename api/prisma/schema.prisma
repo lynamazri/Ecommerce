@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-   previewFeatures = ["fullTextSearch", "fullTextIndex"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -8,56 +8,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users{
-  userId String @id @default(uuid())
-   username        String @unique      
-  firstName      String
-  lastName      String
-  email     String    @unique
-  password  String
-  birthDate DateTime @db.Date
-  gender String
-  credit Int @default(0)
-  bankAccount String? @unique
-adresses Address[]
-  registrationDate DateTime  @default(now())
-  refreshToken String?
-store Store?
-reviews Reviews[]
-questions Questions[]
-orders Order[]
-complaints Complaint[]
-reports Report[]
-wishlist WishList?
-status Boolean @default(false)
+model Users {
+  userId           String      @id @default(uuid())
+  username         String      @unique
+  firstName        String
+  lastName         String
+  email            String      @unique
+  password         String
+  birthDate        DateTime    @db.Date
+  gender           String
+  credit           Int         @default(0)
+  bankAccount      String?     @unique
+  adresses         Address[]
+  registrationDate DateTime    @default(now())
+  refreshToken     String?
+  store            Store?
+  reviews          Reviews[]
+  questions        Questions[]
+  orders           Order[]
+  complaints       Complaint[]
+  reports          Report[]
+  wishlist         WishList?
+  status           Boolean     @default(false)
 }
 
-
-model Address{
-  id       String  @id @default(uuid())
-  user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+model Address {
+  id     String  @id @default(uuid())
+  user   Users   @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId String
   street String
-  city String
-  state String
-  zip Int
+  city   String
+  state  String
+  zip    Int
   orders Order[]
 }
 
-model Store{
-  storeId String @id @default(uuid())
-name String
-description String
-phone Int
-email String @unique
-openingDate DateTime  @default(now())
-user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  userId String  @unique 
-banner StoreImage[]
-products Product[]
-approved Boolean @default(false)
-orders OrderItems[]
-discounts Discount[]
+model Store {
+  storeId     String       @id @default(uuid())
+  name        String
+  description String
+  phone       Int
+  email       String       @unique
+  openingDate DateTime     @default(now())
+  user        Users        @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId      String       @unique
+  banner      StoreImage[]
+  products    Product[]
+  approved    Boolean      @default(false)
+  orders      OrderItems[]
+  discounts   Discount[]
 }
 
 // model UserStore{
@@ -69,69 +68,65 @@ discounts Discount[]
 
 // }
 
-
-model Product{
-  productId String @id @default(uuid())
-  name String
-  description String @db.VarChar(500)
-  price Int
-  quantity Int
-  images           ProductImage[]
-  options ProductOptions[]
-  reviews Reviews[]
-  questions Questions[]
-  wishlists WishList[]
-  store   Store @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
-  storeId String
-   subCat   SubCat @relation(fields: [subCatId], references: [subCatId], onDelete: Cascade)
-  subCatId Int
-  verified Boolean @default(false)
-  dateAdded DateTime  @default(now())
-  ordered OrderItems[]
-   discount   Discount? @relation(fields: [discountId], references: [discountId])
-  discountId Int?
+model Product {
+  productId   String           @id @default(uuid())
+  name        String
+  description String           @db.VarChar(500)
+  price       Int
+  quantity    Int
+  images      ProductImage[]
+  options     ProductOptions[]
+  reviews     Reviews[]
+  questions   Questions[]
+  wishlists   WishList[]
+  store       Store            @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
+  storeId     String
+  subCat      SubCat           @relation(fields: [subCatId], references: [subCatId], onDelete: Cascade)
+  subCatId    Int
+  verified    Boolean          @default(false)
+  dateAdded   DateTime         @default(now())
+  ordered     OrderItems[]
+  discount    Discount?        @relation(fields: [discountId], references: [discountId])
+  discountId  Int?
 
   @@fulltext([name, description])
 }
 
-
 model Category {
-  catId             Int              @id @default(autoincrement())
-  name            String @unique
-  description    String @db.VarChar(500)
-  subCats SubCat[]
+  catId       Int      @id @default(autoincrement())
+  name        String   @unique
+  description String   @db.VarChar(500)
+  subCats     SubCat[]
 }
 
 model SubCat {
-  subCatId          Int       @id @default(autoincrement())
-  name         String @unique
-  catId Int
-  category   Category @relation(fields: [catId], references: [catId], onDelete: Cascade)
+  subCatId Int       @id @default(autoincrement())
+  name     String    @unique
+  catId    Int
+  category Category  @relation(fields: [catId], references: [catId], onDelete: Cascade)
   products Product[]
 }
 
-
 model ProductImage {
-  prodImgId        Int     @id @default(autoincrement())
-  url String @db.VarChar(500)
+  prodImgId Int     @id @default(autoincrement())
+  url       String  @db.VarChar(500)
   product   Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
   productId String
 }
 
-
 model StoreImage {
-  storeImgId        Int     @id @default(autoincrement())
-  url String @db.VarChar(500)
-  store   Store @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
-  storeId String
+  storeImgId Int    @id @default(autoincrement())
+  url        String @db.VarChar(500)
+  store      Store  @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
+  storeId    String
 }
 
 model ProductOptions {
-  optionId Int @id @default(autoincrement())
-  option String
-  product   Product @relation(fields: [productId], references: [productId])
+  optionId  Int          @id @default(autoincrement())
+  option    String
+  product   Product      @relation(fields: [productId], references: [productId])
   productId String
-  ordered OrderItems[]
+  ordered   OrderItems[]
   // OptionValue   OptionValue     @relation(fields: [valueId], references: [valueId])
   //valueId Int
 }
@@ -143,99 +138,96 @@ model ProductOptions {
 // }
 
 model Reviews {
-  reviewId Int @id @default(autoincrement())
-  posted DateTime @default(now())
-  stars Int 
-  content String @db.VarChar(500)
-  userId String
-  user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  reviewId  Int      @id @default(autoincrement())
+  posted    DateTime @default(now())
+  stars     Int
+  content   String   @db.VarChar(500)
+  userId    String
+  user      Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
   productId String
-  product   Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
-  reports Report[]
+  product   Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  reports   Report[]
 }
 
 model Questions {
-   questionId Int @id @default(autoincrement())
-  posted DateTime @default(now()) 
-  content String @db.VarChar(500)
-  answer String? @db.VarChar(500)
-  userId String
-  user   Users @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  productId String
-  product   Product @relation(fields: [productId], references: [productId], onDelete: Cascade)
+  questionId Int      @id @default(autoincrement())
+  posted     DateTime @default(now())
+  content    String   @db.VarChar(500)
+  answer     String?  @db.VarChar(500)
+  userId     String
+  user       Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  productId  String
+  product    Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
 }
 
 model Order {
-  orderId                String               @id @default(uuid())
-  
-  total              Int
-  payMethod  String
-  orderDate              DateTime           @default(now())
-  userId     String
-  user       Users        @relation(fields: [userId], references: [userId])
-   addressId     String
-  address       Address        @relation(fields: [addressId], references: [id])
-  items OrderItems[]
+  orderId String @id @default(uuid())
 
+  total     Int
+  payMethod String
+  orderDate DateTime     @default(now())
+  userId    String
+  user      Users        @relation(fields: [userId], references: [userId])
+  addressId String
+  address   Address      @relation(fields: [addressId], references: [id])
+  items     OrderItems[]
 }
 
 model OrderItems {
-  itemId Int      @id @default(autoincrement())
-  quantity Int
-  state            String @default("Pending")
-  productId     String
-  product       Product        @relation(fields: [productId], references: [productId])
-  optionId       Int
-  option         ProductOptions        @relation(fields: [optionId], references: [optionId])
-  order        Order       @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
-  orderId      String
-  storeId     String
-  store       Store        @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
+  itemId    Int            @id @default(autoincrement())
+  quantity  Int
+  state     String         @default("Pending")
+  productId String
+  product   Product        @relation(fields: [productId], references: [productId])
+  optionId  Int
+  option    ProductOptions @relation(fields: [optionId], references: [optionId])
+  order     Order          @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
+  orderId   String
+  storeId   String
+  store     Store          @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
 }
 
 model Discount {
-  discountId         Int      @id @default(autoincrement())
-  name String
+  discountId Int       @id @default(autoincrement())
+  name       String
   percentage Int
-  dateStart DateTime @default(now())
-  dataEnd   DateTime
-  products Product[]
-  storeId     String
-  store       Store        @relation(fields: [storeId], references: [storeId])
+  dateStart  DateTime  @default(now())
+  dataEnd    DateTime
+  products   Product[]
+  storeId    String
+  store      Store     @relation(fields: [storeId], references: [storeId])
 }
 
 model Coupons {
-  code String @id
-  dateStart DateTime @default(now())
-  dataEnd   DateTime
+  code       String   @id
+  dateStart  DateTime @default(now())
+  dataEnd    DateTime
   percentage Int
 }
 
-
 model Complaint {
-  complaintId            Int         @id @default(autoincrement())
-  title          String
-  description   String @db.VarChar(500)
-  date DateTime @default(now())
-  userId String
-  user   Users @relation(fields: [userId], references: [userId])
-  handled Boolean @default(false)
+  complaintId Int      @id @default(autoincrement())
+  title       String
+  description String   @db.VarChar(500)
+  date        DateTime @default(now())
+  userId      String
+  user        Users    @relation(fields: [userId], references: [userId])
+  handled     Boolean  @default(false)
 }
 
 model Report {
-  reportId Int         @id @default(autoincrement())
-  type String
-  date DateTime @default(now())
-  userId String
-  user   Users @relation(fields: [userId], references: [userId])
+  reportId Int      @id @default(autoincrement())
+  type     String
+  date     DateTime @default(now())
+  userId   String
+  user     Users    @relation(fields: [userId], references: [userId])
   reviewId Int
-  review   Reviews @relation(fields: [reviewId], references: [reviewId])
+  review   Reviews  @relation(fields: [reviewId], references: [reviewId])
 }
 
 model WishList {
-  wishlistId  String        @id @default(uuid())
-  userId String @unique
-  user   Users @relation(fields: [userId], references: [userId])
-  products Product[]
-
+  wishlistId String    @id @default(uuid())
+  userId     String    @unique
+  user       Users     @relation(fields: [userId], references: [userId])
+  products   Product[]
 }

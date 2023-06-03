@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { usePatchProfileMutation } from "../../redux/Slices/apiSlice";
 
 function MyProfile() {
+  const [patchProfile, { isLoading, error }] = usePatchProfileMutation();
+
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  console.log(user);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -13,10 +20,10 @@ function MyProfile() {
   useEffect(() => {
     // Assuming you fetch the profile data from the backend and store it in the 'profileData' variable
     const profileData = {
-      firstName: "John",
-      lastName: "Doe",
-      email: "johndoe@example.com",
-      bankAccountNumber: "1234567890",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      bankAccountNumber: user.bankAccount,
     };
 
     // Set the form data with the fetched profile data
@@ -68,11 +75,24 @@ function MyProfile() {
     if (!validateForm()) {
       return;
     }
+    patchProfile({
+      newUsername: formData.firstName,
+      firstName: formData.lastName,
+      lastName: "bzbouz",
+      bankAccount: formData.bankAccountNumber,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setConfirmationMessage("Changes saved successfully.");
+      })
+      .catch(() => {
+        // Handle error
+        setErrorMessage(error.message);
+      });
+
     // Add your logic here to handle form submission
     // For now, just log the form data
-    console.log(formData);
-    setErrorMessage("");
-    setConfirmationMessage("Changes saved successfully.");
   };
 
   return (

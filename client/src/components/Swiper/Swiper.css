@@ -1,0 +1,54 @@
+.product-swiper {
+  /* Add your custom styles here */
+}
+
+.swiper-wrapper {
+  /* Add your custom styles here */
+}
+
+.swiper-slide {
+  /* Add your custom styles here */
+}
+
+.products-swiper,
+.testimonials-swiper {
+  width: 100%;
+}
+
+.swiper-pagination {
+  /* Add your custom styles here */
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.swiper-pagination-bullet {
+  /* Add your custom styles here */
+  width: 10px;
+  height: 10px;
+  background-color: #d7e2ee; /* Use accent color */
+  border-radius: 50%;
+  opacity: 0.5;
+  margin: 0 5px;
+  transition: opacity 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  /* Add your custom styles here */
+  opacity: 1;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  /* Add your custom styles here */
+  color: #1f2c4c; /* Use primary color */
+  font-size: 24px; /* Increase the font size */
+  font-weight: bold; /* Apply bold font weight */
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  /* Add your custom styles here */
+  font-size: 24px; /* Increase the font size */
+  font-weight: bold; /* Apply bold font weight */
+}

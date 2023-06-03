@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowRight } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { TbListDetails } from "react-icons/tb";
-import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import Path from "../../components/Path/Path";
-import Product from "../../components/Product/Product";
-import Footer from "../../components/Footer/Footer";
-import ReviewCard from "../../components/ReviewCard/ReviewCard";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 import { getStars, calculateAvg } from "../../utils";
 import { useGetProductQuery } from "../../redux/Slices/apiSlice";
-
+import Navbar from "../../components/Navbar/Navbar";
+import Path from "../../components/Path/Path";
+import Swiperr from "../../components/Swiper/Swiper";
+import Footer from "../../components/Footer/Footer";
+import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import "./ProductDetails.css";
-import axios from "axios";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
@@ -27,7 +24,7 @@ export default function ProductDetails() {
   const [images, setImages] = useState([]);
   const [reviews, setReviews] = useState([]);
   const params = useParams();
-  const { data, isLoading, error } = useGetProductQuery(params.id);
+  const { data } = useGetProductQuery(params.id);
   const processedData = {
     ...data,
     reviewsCount: data?.reviews.length,
@@ -59,7 +56,7 @@ export default function ProductDetails() {
   };
   return (
     <>
-      <UserNavbar />
+      <Navbar />
       <main>
         <Path />
 
@@ -309,7 +306,7 @@ export default function ProductDetails() {
               </h3>
             </div>
             <div className="productWrapper"></div>
-            <Product />
+            <Swiperr sectionType="products" />
           </div>
         </div>
       </main>

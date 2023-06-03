@@ -57,15 +57,22 @@ export const apiSlice = createApi({
       query: (id) => `/productss/store/${id}`,
       providesTags: [],
 
-
-    })   // sendFriendRequest: builder.mutation({
-    // 	query: (data) => ({
-    // 		url: "sendFriendRequest",
-    // 		method: "POST",
-    // 		body: data,
-    // 	}),
-    // 	invalidatesTags: ["Products"],
-    // }),
-  }),
+    }),
+    likePost: builder.mutation({
+      query: (data) => ({
+        url: "/likePost",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["UserLikes"]
+    }),
+    patchProfile: builder.mutation({
+      query: ({ newUsername, firstName, lastName, bankAccount }) => ({
+        url: '/profile',
+        method: 'PATCH',
+        body: { newUsername, firstName, lastName, bankAccount },
+      }),
+    })
+  })
 });
-export const { useGetProductsQuery, useGetProductQuery } = apiSlice;
+export const { useGetProductsQuery, useGetProductQuery, useLikePostMutation, usePatchProfileMutation } = apiSlice;

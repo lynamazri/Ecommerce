@@ -1,11 +1,11 @@
 import React from "react";
 import "./NotFound.css";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
+import Navbar from "../../components/Navbar/Navbar";
 
 function NotFound() {
   return (
     <>
-      <UserNavbar />
+      <Navbar />
       <div className="not-found">
         <h2>404</h2>
         <p>Page not found.</p>

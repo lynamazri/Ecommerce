@@ -1,31 +1,59 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
-import Product from "../../components/Product/Product";
-import UserNavbar from "../../components/UserNavbar/UserNavbar";
-import { categories } from "../../components/UserNavbar/Menu";
-
+import Swiperr from "../../components/Swiper/Swiper";
+import Navbar from "../../components/Navbar/Navbar";
+import { categories } from "../../components/Navbar/Menu";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
 
 function Home() {
+  const testimonialsData = [
+    {
+      id: 1,
+      name: "John Doe",
+      description:
+        "“I love shopping at your store. The products are amazing and the customer service is top-notch!“",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      description:
+        "“I've had a great experience with your website. The ordering process was smooth and the delivery was fast.“",
+    },
+    {
+      id: 3,
+      name: "David Johnson",
+      description:
+        "“Your products are of excellent quality. I'm a satisfied customer and will definitely shop again.“",
+    },
+    {
+      id: 1,
+      name: "John Doe",
+      description:
+        "“I love shopping at your store. The products are amazing and the customer service is top-notch!“",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      description:
+        "“I've had a great experience with your website. The ordering process was smooth and the delivery was fast.“",
+    },
+    {
+      id: 3,
+      name: "David Johnson",
+      description:
+        "“Your products are of excellent quality. I'm a satisfied customer and will definitely shop again.“",
+    },
+  ];
+
   return (
     <div>
-      <UserNavbar />
+      <Navbar />
       <main>
         <div className="container">
           <section className="sectionFlex">
-            <div className="sectionLeft">
-              <h3>Category menu</h3>
-              <ul className="sectionLeftItems">
-                {categories.slice(0, 4).map((category, index) => (
-                  <li key={index}>
-                    <Link to={category.link}>{category.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              <a className="sectionLeftButton">more categories</a>
-            </div>
             <div className="adsWrapper">
               <div className="ads">
                 <div>
@@ -45,35 +73,37 @@ function Home() {
           </section>
           <section className="sectionFlex">
             <div className="sectionLeft">
-              <h3>Best selling products</h3>
+              <h3>Best Selling Shops</h3>
               <ul className="sectionLeftItems">
-                {categories.slice(0, 4).map((category, index) => (
+                {categories.slice(1, 5).map((category, index) => (
                   <li key={index}>
                     <Link to={category.link}>{category.name}</Link>
                   </li>
                 ))}
               </ul>
-              <a className="sectionLeftButton">more Products</a>
+              <Link className="sectionLeftButton" to={`/products/Shops`}>
+                More Shops
+              </Link>
             </div>
-            <div className="productWrapper">
-              <Product />
+            <div className="store-wrapper">
+              {/* <Swiperr sectionType="store" /> */}
             </div>
           </section>
-          <section className="sectionFlex">
-            <div className="sectionLeft">
-              <h3>Best from Shops</h3>
-              <ul className="sectionLeftItems">
-                {categories.slice(0, 4).map((category, index) => (
-                  <li key={index}>
-                    <Link to={category.link}>{category.name}</Link>
-                  </li>
-                ))}
-              </ul>
-              <a className="sectionLeftButton">more Products</a>
+
+          <section className="product-container">
+            <div>
+              <h3>Best Selling Products</h3>
+              <Link to={`/products/All Categories`}>
+                More Products <MdKeyboardArrowRight />
+              </Link>
             </div>
-            <div className="productWrapper">
-              <Product />
-            </div>
+            <Swiperr sectionType="products" />
+          </section>
+
+          <section className="testimonials-container">
+            <h3>Our customers says</h3>
+
+            <Swiperr sectionType="testimonials" data={testimonialsData} />
           </section>
         </div>
       </main>
