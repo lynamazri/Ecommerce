@@ -23,7 +23,7 @@ function Swiperr({ sectionType, data }) {
   // console.log(productsStatus);
   // console.log(stores);
   // console.log(storesStatus);
-  console.log(wishlistItems);
+  // console.log(wishlistItems);
 
   useEffect(() => {
     dispatch(fetchStoresData());
