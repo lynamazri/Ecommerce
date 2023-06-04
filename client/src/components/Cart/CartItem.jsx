@@ -27,7 +27,11 @@ const CartItem = ({ item }) => {
   return (
     <div className="item-card" key={item.productId}>
       <div className="upper-card">
-        <img src={item.images[0].url} alt={item.name} />
+        {item.images.length > 0 ? (
+          <img src={item.images[0].url} alt={item.name} />
+        ) : (
+          <img alt={item.name} />
+        )}
         <div className="item-info">
           <Link to={`/product/${item.subCat.name}/${item.productId}`}>
             <h3>{item.name}</h3>
