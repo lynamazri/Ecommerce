@@ -65,8 +65,8 @@ export const apiSlice = createApi({
       }),
     }),
     createReview: builder.mutation({
-      query: ({ content, stars }) => ({
-        url: '/productss/:product/review',
+      query: ({ content, stars, productId }) => ({
+        url: `/productss/${productId}/review`,
         method: 'POST',
         body: { content, stars },
       }),

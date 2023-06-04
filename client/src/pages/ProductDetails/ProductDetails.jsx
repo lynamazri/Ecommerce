@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { FaStar, FaRegStar } from "react-icons/fa";
 import { TbListDetails } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -26,6 +27,8 @@ export default function ProductDetails() {
   const [reviews, setReviews] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [rating, setRating] = useState(null);
+  const [hover, setHover] = useState(null);
   const params = useParams();
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -33,7 +36,7 @@ export default function ProductDetails() {
   const [createReview] = useCreateReviewMutation();
   const [reviewComment, setReviewComment] = useState({
     content: "",
-    stars: "4",
+    stars: rating,
     userId: user.userId,
     productId: params.id,
   });
@@ -76,12 +79,13 @@ export default function ProductDetails() {
     }));
   }
 
-  function handleSubmit() {
+  function handleSubmit(event) {
     event.preventDefault();
 
     createReview({
       content: reviewComment.content,
       stars: reviewComment.stars,
+      productId: reviewComment.productId,
     })
       .unwrap()
       .then(() => {
@@ -309,7 +313,40 @@ export default function ProductDetails() {
                         cols="50"
                       ></textarea>
                     </div>
+                    <div className="star-rating-container">
+                      {[...Array(5)].map((star, i) => {
+                        const ratingValue = i + 1;
 
+                        return (
+                          <label onChange={handleChange}>
+                            <input
+                              type="radio"
+                              className="starRadioInput"
+                              name="stars"
+                              value={ratingValue}
+                              onClick={() => setRating(ratingValue)}
+                            />
+                            {ratingValue <= (hover || rating) ? (
+                              <FaStar
+                                className="star"
+                                color="#fdbc15"
+                                size={20}
+                                onMouseEnter={() => setHover(ratingValue)}
+                                onMouseLeave={() => setHover(null)}
+                              />
+                            ) : (
+                              <FaRegStar
+                                className="star"
+                                color="#fdbc15"
+                                size={20}
+                                onMouseEnter={() => setHover(ratingValue)}
+                                onMouseLeave={() => setHover(null)}
+                              />
+                            )}
+                          </label>
+                        );
+                      })}
+                    </div>
                     <button className="comment-button">Send a comment</button>
                   </form>
 
