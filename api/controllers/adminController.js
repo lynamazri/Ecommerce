@@ -1,5 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+require("dotenv").config();
+const bcrypt = require("bcryptjs");
 
 const getUsers = async (req, res) => {
   const users = await prisma.Users.findMany({
@@ -119,6 +121,44 @@ const getPendingStores = async (req, res) => {
   else res.status(200).json(stores);
 };
 
+const addAdmin = async (req, res) => {
+  const { email, username, firstName, lastName } = req.body;
+
+  const emailExist = await prisma.Admin.findUnique({
+    where: { email: req.body.email },
+  });
+  if (emailExist) return res.status(400).send("Email has already been used.");
+
+  const usernameExist = await prisma.Admin.findUnique({
+    where: { username: req.body.username },
+  });
+  if (usernameExist) return res.status(400).send("Username is already taken.");
+
+  //hashing passwords
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+  //adding user to db
+  try {
+    const admin = await prisma.Admin.create({
+      data: {
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+
+        password: hashPassword,
+      },
+    });
+
+    console.log(admin);
+    res.send(200);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+};
+
 //get unverfied stores and products
 
 module.exports = {
@@ -130,4 +170,5 @@ module.exports = {
   setCredit,
   handleComplaint,
   getPendingStores,
+  addAdmin,
 };

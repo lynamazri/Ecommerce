@@ -151,7 +151,7 @@ const logout = async (req, res) => {
     return res.sendStatus(204);
   }
 
-  const updateUser = await prisma.Users.updateMany({
+  const updateUser = await prisma.Users.update({
     where: { refreshToken: refreshToken },
     data: {
       refreshToken: "",
