@@ -12,7 +12,7 @@ const {
 } = require("../controllers/profileController");
 
 router.patch("/password", verification, updatePassword);
-router.patch("/", verification, updateProfile);
+router.patch("/:userId", verification, updateProfile);
 router.post("/", verification, createComplaint);
 router.post("/wishlist", verification, createWish);
 router.get("/:user/wishlist", verification, getWishlist);
