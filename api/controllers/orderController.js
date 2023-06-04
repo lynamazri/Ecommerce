@@ -48,7 +48,8 @@ const getUserOrders = async (req, res) => {
 };
 
 const createOrder = async (req, res) => {
-  const { total, method, cart, address, coupon } = req.body;
+  const { total, method, cart, address, coupon, street, city, state, zip } =
+    req.body;
   const currentdate = new Date();
   const token = req.cookies.jwt;
   if (coupon) {
@@ -85,8 +86,18 @@ const createOrder = async (req, res) => {
                     userId: user.userId,
                     coupon: coupon,
                     address: {
-                      connect: {
-                        id: address,
+                      connectOrCreate: {
+                        where: {
+                          id: address,
+                        },
+                        create: [
+                          {
+                            street: street,
+                            city: city,
+                            state: state,
+                            zip: parseInt(zip),
+                          },
+                        ],
                       },
                     },
                     items: {
@@ -125,8 +136,18 @@ const createOrder = async (req, res) => {
                 userId: user.userId,
                 coupon: coupon,
                 address: {
-                  connect: {
-                    id: address,
+                  connectOrCreate: {
+                    where: {
+                      id: address,
+                    },
+                    create: [
+                      {
+                        street: street,
+                        city: city,
+                        state: state,
+                        zip: parseInt(zip),
+                      },
+                    ],
                   },
                 },
                 items: {
