@@ -6,7 +6,7 @@ const initialState = {
   filteredItems: [],
   status: "idle",
   error: null,
-  sortingCriteria: "", // New field for sorting criteria
+  sortingCriteria: "",
 };
 
 export const productsFetch = createAsyncThunk(

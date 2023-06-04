@@ -12,7 +12,7 @@ function Wishlist() {
       <div className="wishlist-page">
         <section className="product-container">
           <h3>My Wishlist</h3>
-          <Swiperr sectionType="products" />
+          <Swiperr sectionType="wishlist" />
         </section>
       </div>
       <Footer />

@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
+import { wishlistFetch } from "../../redux/Slices/wishlistSlice";
 import RingLoader from "react-spinners/RingLoader";
 import ProductCard from "../ProductCard/ProductCard";
 import StoreCard from "../StoreCard/StoreCard";
@@ -16,16 +17,17 @@ function Swiperr({ sectionType, data }) {
   const { items, productsStatus, error } = useSelector(
     (state) => state.products
   );
+  const wishlistItems = useSelector((state) => state.wishlist.items);
 
-  // const wishlists = data.filter((item) => item.type === "wishlist");
-
-  console.log(items);
-  console.log(productsStatus);
-  console.log(stores);
-  console.log(storesStatus);
+  // console.log(items);
+  // console.log(productsStatus);
+  // console.log(stores);
+  // console.log(storesStatus);
+  console.log(wishlistItems);
 
   useEffect(() => {
     dispatch(fetchStoresData());
+    dispatch(wishlistFetch());
   }, [dispatch]);
 
   const renderItems = () => {
@@ -50,18 +52,14 @@ function Swiperr({ sectionType, data }) {
           </div>
         </SwiperSlide>
       ));
+    } else if (sectionType === "wishlist") {
+      return wishlistItems?.map((product) => (
+        <SwiperSlide key={product.productId}>
+          <ProductCard key={product.productId} product={product} />
+        </SwiperSlide>
+      ));
     }
-    // } else if (sectionType === "wishlist") {
-    //   return wishlists.map((wishlist) => (
-    //     <SwiperSlide key={wishlist.productId}>
-    //       <ProductCard
-    //         key={wishlist?.productId}
-    //         product={wishlist}
-    //         viewMode="list"
-    //       />
-    //     </SwiperSlide>
-    //   ));
-    // }
+
     return null;
   };
 

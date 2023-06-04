@@ -1,26 +1,38 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../../redux/Slices/CartSlice";
+import { addProductToWishlist } from "../../redux/Slices/wishlistSlice";
 import { getStars } from "../../utils";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
-
 function ProductCard({ product, viewMode }) {
   const dispatch = useDispatch();
   const handleAddToCart = () => {
     dispatch(add(product));
   };
+
+  const auth = useSelector((state) => state.auth);
+  const user = "43bf6b6f7d98"; // Replace with the actual user ID
+  const products = "product5"; // Replace with the actual product ID
+
   const handleAddToWishlist = () => {
-    // Add logic to handle adding to wishlist
+    // dispatch(
+    //   addProductToWishlist({ user: auth.user.id, product: product.id })
+    // ).catch((error) => {
+    //   console.error("Error adding product to wishlist:", error);
+    // });
+    dispatch(addProductToWishlist({ user, products })).catch((error) => {
+      console.error("Error adding product to wishlist:", error);
+    });
   };
 
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
         <img src={product.imageUrl} alt={product.name} />
-        {product.discount.percentage !== 0 && (
+        {/* {product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
-        )}
+        )} */}
       </div>
       <div className="product-description">
         <Link
@@ -36,7 +48,7 @@ function ProductCard({ product, viewMode }) {
         <div className="product-price">
           {/* {isOnSale ? ( */}
           <>
-            {product.discount.percentage !== 0 ? (
+            {/* {product.discount.percentage !== 0 ? (
               <span>
                 DZD{" "}
                 {product.price -
@@ -47,7 +59,7 @@ function ProductCard({ product, viewMode }) {
             )}
             {product.discount.percentage !== 0 && (
               <span className="old-price">DZD {product.price}</span>
-            )}
+            )} */}
           </>
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
