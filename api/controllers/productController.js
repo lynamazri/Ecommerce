@@ -355,7 +355,7 @@ const createReview = async (req, res) => {
   const { error } = reviewValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { content, stars } = req.body;
+  const { content, stars, productId } = req.body;
   const { product } = req.params;
 
   const token = req.cookies.jwt;

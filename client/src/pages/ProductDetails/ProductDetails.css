@@ -381,3 +381,12 @@ p .features p {
 .comment-button:hover {
   background-color: #3b82f6;
 }
+
+.starRadioInput {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}
