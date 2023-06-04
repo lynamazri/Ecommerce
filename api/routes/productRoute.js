@@ -19,6 +19,7 @@ const {
   updateProduct,
   addProductWish,
   searchProducts,
+  deleteProductWish,
 } = require("../controllers/productController");
 
 router.get("/", getProducts);
@@ -36,5 +37,6 @@ router.delete("/:id", deleteProduct);
 router.patch("/:id", updateProduct);
 router.patch("/:id", verifyProduct);
 router.patch("/:user/:product", addProductWish);
+router.patch("/delete/:user/:product", deleteProductWish);
 
 module.exports = router;

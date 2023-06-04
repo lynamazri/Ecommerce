@@ -152,9 +152,15 @@ const createWish = async (req, res) => {
           });
 
           const createWish = await prisma.WishList.create({
-            userId: user.userId,
+            data: {
+              user: {
+                connect: {
+                  userId: user.userId,
+                },
+              },
+            },
           });
-          if (createComplaint) res.sendStatus(200);
+          if (createWish) res.sendStatus(200);
           else res.status(400).send("Unable to create complaint.");
         }
       }
@@ -162,9 +168,27 @@ const createWish = async (req, res) => {
   }
 };
 
+const getWishlist = async (req, res) => {
+  const { user } = req.params;
+
+  console.log(user);
+
+  const wishes = await prisma.Wishlist.findUnique({
+    where: {
+      userId: user,
+    },
+    include: {
+      products: true,
+    },
+  });
+  if (!wishes) res.status(400).send("Unable to find wishlist.");
+  else res.status(200).json(wishes);
+};
+
 module.exports = {
   updateProfile,
   updatePassword,
   createComplaint,
   createWish,
+  getWishlist,
 };

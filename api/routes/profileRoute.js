@@ -8,11 +8,13 @@ const {
   updatePassword,
   createComplaint,
   createWish,
+  getWishlist,
 } = require("../controllers/profileController");
 
 router.patch("/password", verification, updatePassword);
 router.patch("/", verification, updateProfile);
 router.post("/", verification, createComplaint);
 router.post("/wishlist", verification, createWish);
+router.get("/:user/wishlist", verification, getWishlist);
 
 module.exports = router;
