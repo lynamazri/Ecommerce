@@ -21,7 +21,7 @@ model Users {
   bankAccount      String?     @unique
   adresses         Address[]
   registrationDate DateTime    @default(now())
-  refreshToken     String?
+  refreshToken     String? @unique
   store            Store?
   reviews          Reviews[]
   questions        Questions[]
@@ -31,6 +31,19 @@ model Users {
   wishlist         WishList?
   status           Boolean     @default(false)
 }
+
+
+model Admin {
+
+adminId String  @id @default(uuid())
+username         String      @unique
+  firstName        String
+  lastName         String
+ email            String      @unique
+  password         String
+  refreshToken     String? @unique
+}
+
 
 model Address {
   id     String  @id @default(uuid())

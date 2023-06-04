@@ -72,12 +72,15 @@ function MyProfile() {
     if (!validateForm()) {
       return;
     }
-    patchProfile({
-      newUsername: formData.firstName,
-      firstName: formData.lastName,
-      lastName: "bzbouz",
-      bankAccount: formData.bankAccountNumber,
-    })
+    patchProfile(
+      {
+        newUsername: formData.firstName,
+        firstName: formData.lastName,
+        lastName: "bzbouz",
+        bankAccount: formData.bankAccountNumber,
+      },
+      user.userId
+    )
       .unwrap() // Extract the response data
       .then(() => {
         // Handle successful update
