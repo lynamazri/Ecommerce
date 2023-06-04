@@ -122,7 +122,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-basis: 50%;
   height: 3em;
   width: 100%;
   padding: 0.3em 0.9em;
@@ -147,6 +146,7 @@
 .product-pay > .wishlist-button {
   color: #191919;
   background-color: #f5f5f5;
+  gap: 5px;
 }
 
 .product-pay > .wishlist-button:hover {

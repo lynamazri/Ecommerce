@@ -106,31 +106,27 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />}>
+          <Route path="/profile/my-profile" element={<MyProfile />} />
+          <Route path="/profile/address-book" element={<AddressBook />} />
+          <Route path="/profile/payment-method" element={<PaymentMethod />} />
+          <Route path="/profile/orderhistory" element={<OrderHistory />} />
+          <Route path="/profile/security" element={<Security />} />
+          <Route path="/profile/language" element={<Language />} />
+          <Route path="/profile/open-shop" element={<OpenShop />} />
+        </Route>
         <Route path="/Shop/:id" element={<Shop />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
         <Route path="/products/:category" element={<Products />} />
         <Route path="/Shops" element={<Shops />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/compare" element={<Compare />} />
+        <Route path="/welcome" element={<Welcome />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/
         <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}>
-            <Route path="/profile" element={<Profile />}>
-              <Route path="/profile/my-profile" element={<MyProfile />} />
-              <Route path="/profile/address-book" element={<AddressBook />} />
-              <Route
-                path="/profile/payment-method"
-                element={<PaymentMethod />}
-              />
-              <Route path="/profile/orderhistory" element={<OrderHistory />} />
-              <Route path="/profile/security" element={<Security />} />
-              <Route path="/profile/language" element={<Language />} />
-              <Route path="/profile/open-shop" element={<OpenShop />} />
-            </Route>
-            <Route path="/wishlist" element={<Wishlist />} />
-            <Route path="/compare" element={<Compare />} />
-            <Route path="/welcome" element={<Welcome />} />
-          </Route>
+          <Route element={<RequireAuth />}></Route>
         </Route>
       </Routes>
     </div>

@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { Navigation, Pagination, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/bundle";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
 import { wishlistFetch } from "../../redux/Slices/wishlistSlice";
+import { getWishlistData } from "../../redux/Slices/wishlistSlice";
+import { Navigation, Pagination, A11y } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css/bundle";
 import RingLoader from "react-spinners/RingLoader";
 import ProductCard from "../ProductCard/ProductCard";
 import StoreCard from "../ShopCard/ShopCard";
@@ -13,22 +14,22 @@ import "./Swiper.css";
 
 function Swiperr({ sectionType, data }) {
   const dispatch = useDispatch();
+
   const { stores, storesStatus } = useSelector((state) => state.stores);
   const { items, productsStatus, error } = useSelector(
     (state) => state.products
   );
+  // const wishlistItems = useSelector((state) => state.wishlist.items);
+  const userId = useSelector((state) => state.auth.user?.userId);
   const wishlistItems = useSelector((state) => state.wishlist.items);
-
-  // console.log(items);
-  // console.log(productsStatus);
-  // console.log(stores);
-  // console.log(storesStatus);
-  // console.log(wishlistItems);
 
   useEffect(() => {
     dispatch(fetchStoresData());
-    dispatch(wishlistFetch());
-  }, [dispatch]);
+    dispatch(getWishlistData({ userId }));
+  }, [dispatch, userId]);
+
+  console.log("wishlistItems", wishlistItems);
+
   const renderItems = () => {
     if (sectionType === "stores") {
       return stores?.map((store) => (
