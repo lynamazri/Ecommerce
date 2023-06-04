@@ -33,14 +33,40 @@ const productsSlice = createSlice({
     productsFetchSuccess: (state, action) => {
       state.status = "succeeded";
       state.items = action.payload;
-      state.filteredItems = action.payload; // Initialize filteredItems with all items
+      state.filteredItems = action.payload.map((item) => {
+        const Count = item.reviews.length;
+        let Avg = 0;
+        if (item.reviews.length > 0) {
+          for (let i = 0; i < item.reviews.length; i++) {
+            Avg += item.reviews[i].stars / item.reviews.length;
+          }
+        }
+        return {
+          ...item,
+          reviewsCount: Count,
+          reviewsAvg: Avg,
+        };
+      }); // Initialize filteredItems with all items
     },
     productsFetchError: (state, action) => {
       state.status = "failed";
       state.error = action.payload;
     },
     updateFilteredItems: (state, action) => {
-      state.filteredItems = action.payload;
+      state.filteredItems = action.payload.map((item) => {
+        const Count = item.reviews.length;
+        let Avg = 0;
+        if (item.reviews.length > 0) {
+          for (let i = 0; i < item.reviews.length; i++) {
+            Avg += item.reviews[i].stars / item.reviews.length;
+          }
+        }
+        return {
+          ...item,
+          reviewsCount: Count,
+          reviewsAvg: Avg,
+        };
+      });
       state.sortingCriteria = ""; // Clear the sorting criteria when filtered
     },
   },
@@ -65,7 +91,20 @@ const productsSlice = createSlice({
             reviewsAvg: Avg,
           };
         });
-        state.filteredItems = action.payload;
+        state.filteredItems = action.payload.map((item) => {
+          const Count = item.reviews.length;
+          let Avg = 0;
+          if (item.reviews.length > 0) {
+            for (let i = 0; i < item.reviews.length; i++) {
+              Avg += item.reviews[i].stars / item.reviews.length;
+            }
+          }
+          return {
+            ...item,
+            reviewsCount: Count,
+            reviewsAvg: Avg,
+          };
+        });
         state.error = null;
       })
       .addCase(productsFetch.rejected, (state, action) => {

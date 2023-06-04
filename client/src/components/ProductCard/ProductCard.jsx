@@ -27,7 +27,6 @@ function ProductCard({ product, viewMode }) {
       console.error("Error adding product to wishlist:", error);
     });
   };
-  console.log(product);
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">

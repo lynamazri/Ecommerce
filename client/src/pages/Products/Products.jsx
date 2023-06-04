@@ -21,9 +21,6 @@ function Products() {
   const { items, filteredItems, status } = useSelector(
     (state) => state.products
   );
-  console.log(items);
-  console.log(filteredItems);
-  console.log(status);
 
   const numStars = 5; // Number of stars
   const { category } = useParams();
