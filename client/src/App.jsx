@@ -6,8 +6,9 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import Checkout from "./pages/Checkout/Checkout";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Shop from "./pages/Shop/Shop";
 import Products from "./pages/Products/Products";
-import Stores from "./pages/Stores/Stores";
+import Shops from "./pages/Shops/Shops";
 import Profile from "./pages/Profile/Profile";
 import NotFound from "./pages/NotFound/NotFound";
 import Help from "./pages/Help/Help";
@@ -105,26 +106,31 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/Shop/:id" element={<Shop />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
         <Route path="/products/:category" element={<Products />} />
-        <Route path="/Shops" element={<Stores />} />
+        <Route path="/Shops" element={<Shops />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/not-found" element={<NotFound />} />
-        <Route path="/profile" element={<Profile />}>
-          <Route path="/profile/my-profile" element={<MyProfile />} />
-          <Route path="/profile/address-book" element={<AddressBook />} />
-          <Route path="/profile/payment-method" element={<PaymentMethod />} />
-          <Route path="/profile/orderhistory" element={<OrderHistory />} />
-          <Route path="/profile/security" element={<Security />} />
-          <Route path="/profile/language" element={<Language />} />
-          <Route path="/profile/open-shop" element={<OpenShop />} />
-        </Route>
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/compare" element={<Compare />} />
-        <Route path="/welcome" element={<Welcome />} />
         /*priv*/
         <Route element={<PersistLogin />}>
-          <Route element={<RequireAuth />}></Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/profile" element={<Profile />}>
+              <Route path="/profile/my-profile" element={<MyProfile />} />
+              <Route path="/profile/address-book" element={<AddressBook />} />
+              <Route
+                path="/profile/payment-method"
+                element={<PaymentMethod />}
+              />
+              <Route path="/profile/orderhistory" element={<OrderHistory />} />
+              <Route path="/profile/security" element={<Security />} />
+              <Route path="/profile/language" element={<Language />} />
+              <Route path="/profile/open-shop" element={<OpenShop />} />
+            </Route>
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/compare" element={<Compare />} />
+            <Route path="/welcome" element={<Welcome />} />
+          </Route>
         </Route>
       </Routes>
     </div>

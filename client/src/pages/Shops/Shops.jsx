@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { BsGrid, BsViewList } from "react-icons/bs";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
-import StoreCard from "../../components/StoreCard/StoreCard";
+import StoreCard from "../../components/ShopCard/ShopCard";
 import Footer from "../../components/Footer/Footer";
 import { categories } from "../../components/Navbar/Menu";
 import {
@@ -12,9 +12,9 @@ import {
   updateFilteredStores,
 } from "../../redux/Slices/storesSlice";
 
-import "./Stores.css";
+import "./Shops.css";
 
-function Stores() {
+function Shops() {
   const dispatch = useDispatch();
   const { stores, filteredStores, status } = useSelector(
     (state) => state.stores
@@ -48,7 +48,7 @@ function Stores() {
     <div>
       <Navbar />
       <Path />
-      <div className="stores-page">
+      <div className="shops-page">
         <div className="header">
           <h2>Shops</h2>
           <div className="view">
@@ -107,4 +107,4 @@ function Stores() {
   );
 }
 
-export default Stores;
+export default Shops;

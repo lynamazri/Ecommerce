@@ -7,7 +7,7 @@ import { fetchStoresData } from "../../redux/Slices/storesSlice";
 import { wishlistFetch } from "../../redux/Slices/wishlistSlice";
 import RingLoader from "react-spinners/RingLoader";
 import ProductCard from "../ProductCard/ProductCard";
-import StoreCard from "../StoreCard/StoreCard";
+import StoreCard from "../ShopCard/ShopCard";
 
 import "./Swiper.css";
 

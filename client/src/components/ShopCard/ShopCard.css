@@ -1,4 +1,4 @@
-.store-card {
+.shop-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -13,7 +13,7 @@
   overflow: hidden;
 }
 
-.list-view > .store-card {
+.list-view > .shop-card {
   display: flex;
   flex-direction: row;
   height: 200px;
@@ -21,7 +21,7 @@
   padding: 0em;
 }
 
-.store-image {
+.shop-image {
   width: 100%;
   height: 50%;
   border-radius: 12px;
@@ -29,23 +29,23 @@
   background-color: #0e1529;
 }
 
-.list-view > .store-card > .store-image {
+.list-view > .shop-card > .shop-image {
   width: 30%;
   height: 100%;
 }
 
-.store-image img {
+.shop-image img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   transition: transform 0.3s ease;
 }
 
-.store-image img:hover {
+.shop-image img:hover {
   transform: scale(1.05);
 }
 
-.store-description {
+.shop-description {
   width: 100%;
   height: 20%;
   flex-grow: 1;
@@ -55,13 +55,13 @@
   gap: 7px;
 }
 
-.list-view > .store-card > .store-description {
+.list-view > .shop-card > .shop-description {
   width: 45%;
   height: 100%;
   padding: 1.5em 0.5em;
 }
 
-.store-title {
+.shop-title {
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
@@ -71,19 +71,19 @@
   color: #1f2c4c;
 }
 
-.store-title:hover {
+.shop-title:hover {
   background-color: #f2f2f2;
   transition: background-color 0.3s ease-in-out;
 }
 
-.store-description span {
+.shop-description span {
   padding: 0.5em 0em;
   font-family: "Open Sans";
   font-size: 14px;
   line-height: 16px;
 }
 
-.list-view > .store-card > .store-pay {
+.list-view > .shop-card > .shop-pay {
   width: 25%;
   height: 100%;
   padding: 1.5em 1.5em 1.5em 0.5em;
@@ -91,28 +91,27 @@
   align-items: flex-start;
 }
 
-.list-view > .store-card > .store-pay > button {
+.list-view > .shop-card > .shop-pay > button {
   flex-basis: auto;
 }
 
-.list-view > .store-card > .store-pay > .store-footer {
+.list-view > .shop-card > .shop-pay > .shop-footer {
   margin-bottom: 1.5em;
 }
 
-.store-footer {
+.shop-footer {
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.store-footer > a {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-basis: 50%;
+}
+
+.shop-footer > a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 3em;
-  width: 100%;
+  width: 70%;
   padding: 0.3em 0.9em;
   font-weight: 700;
   font-size: 11px;
@@ -125,11 +124,11 @@
   cursor: pointer;
 }
 
-.store-footer > a:hover {
+.shop-footer > a:hover {
   background-color: #15203b;
 }
 
-.store-footer > a:active {
+.shop-footer > a:active {
   background-color: #0e1529;
 }
 

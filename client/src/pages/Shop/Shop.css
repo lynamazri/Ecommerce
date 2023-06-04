@@ -1,0 +1,11 @@
+.shop-page {
+  padding: 1em 3em;
+}
+
+.shop-page > .product-container {
+  padding-top: 2.5em;
+}
+
+.shop-page > .product-container > .header {
+  padding-bottom: 1em;
+}

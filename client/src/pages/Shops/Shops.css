@@ -1,4 +1,4 @@
-.stores-page {
+.shops-page {
   display: flex;
   flex-direction: column;
   padding: 1em 3em;
@@ -9,7 +9,7 @@
   font-weight: 600;
 }
 
-.stores-page > .header {
+.shops-page > .header {
   padding: 1em 0em 2em 0em;
   margin-bottom: 1em;
   display: flex;
@@ -17,12 +17,12 @@
   align-items: center;
 }
 
-.stores-page > .header > .view {
+.shops-page > .header > .view {
   display: flex;
   gap: 18px;
 }
 
-.stores-page > .header > .view > span {
+.shops-page > .header > .view > span {
   display: flex;
   gap: 3px;
   font-family: "Open Sans";
@@ -41,13 +41,13 @@
   font-size: 16px;
 }
 
-.stores-page > .body {
+.shops-page > .body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.stores-page > .body > .left-container {
+.shops-page > .body > .left-container {
   width: 28%;
   height: 100%;
   padding-right: 1.5em;
@@ -89,14 +89,14 @@
   gap: 5px;
 }
 
-.stores-page > .body > .right-container {
+.shops-page > .body > .right-container {
   width: 72%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
-.stores-page > .body > .list-view {
+.shops-page > .body > .list-view {
   display: flex;
   flex-direction: column;
   gap: 20px;
