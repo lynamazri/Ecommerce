@@ -82,8 +82,10 @@ const updateProfile = async (req, res) => {
       },
     });
 
-    if (updateProfile) res.sendStatus(200);
-    else res.status(400).send("Error updating profile.");
+    if (updateProfile) {
+      res.json({ message: "success" });
+    }
+    else { res.status(400).send("Error updating profile."); }
   }
 };
 

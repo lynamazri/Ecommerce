@@ -58,8 +58,8 @@ export const apiSlice = createApi({
       providesTags: [],
     }),
     patchProfile: builder.mutation({
-      query: ({ newUsername, firstName, lastName, bankAccount }, userId) => ({
-        url: `/profile/${userId}`,
+      query: ({ newUsername, firstName, lastName, bankAccount, user }) => ({
+        url: `/profile/${user}`,
         method: 'PATCH',
         body: { newUsername, firstName, lastName, bankAccount },
       }),

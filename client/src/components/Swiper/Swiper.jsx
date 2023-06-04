@@ -29,7 +29,6 @@ function Swiperr({ sectionType, data }) {
     dispatch(fetchStoresData());
     dispatch(wishlistFetch());
   }, [dispatch]);
-
   const renderItems = () => {
     if (sectionType === "stores") {
       return stores?.map((store) => (

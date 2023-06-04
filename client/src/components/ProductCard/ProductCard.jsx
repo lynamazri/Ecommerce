@@ -14,7 +14,7 @@ function ProductCard({ product, viewMode }) {
     ? JSON.parse(localStorage.getItem("user"))
     : null;
   const auth = useSelector((state) => state.auth);
-  const userId = user.userId; // Replace with the actual user ID
+  const userId = "645956d9-c63d-48a5-a92e-7af523f1ede3"; // Replace with the actual user ID
   const products = product.productId; // Replace with the actual product ID
 
   const handleAddToWishlist = () => {
@@ -27,11 +27,13 @@ function ProductCard({ product, viewMode }) {
       console.error("Error adding product to wishlist:", error);
     });
   };
-
+  console.log(product);
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
-        <img src={product.images[0].url} alt={product.name} />
+        {product.images.length > 0 && (
+          <img src={product.images[0].url} alt={product.name} />
+        )}
         {product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
         )}
