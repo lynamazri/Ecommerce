@@ -56,15 +56,6 @@ export const apiSlice = createApi({
     getProduct: builder.query({
       query: (id) => `/productss/store/${id}`,
       providesTags: [],
-
-    }),
-    likePost: builder.mutation({
-      query: (data) => ({
-        url: "/likePost",
-        method: "POST",
-        body: data,
-      }),
-      invalidatesTags: ["UserLikes"]
     }),
     patchProfile: builder.mutation({
       query: ({ newUsername, firstName, lastName, bankAccount }) => ({
@@ -72,7 +63,14 @@ export const apiSlice = createApi({
         method: 'PATCH',
         body: { newUsername, firstName, lastName, bankAccount },
       }),
-    })
+    }),
+    createReview: builder.mutation({
+      query: ({ content, stars }) => ({
+        url: '/productss/:product/review',
+        method: 'POST',
+        body: { content, stars },
+      }),
+    }),
   })
 });
-export const { useGetProductsQuery, useGetProductQuery, useLikePostMutation, usePatchProfileMutation } = apiSlice;
+export const { useGetProductsQuery, useGetProductQuery, usePatchProfileMutation, useCreateReviewMutation } = apiSlice;

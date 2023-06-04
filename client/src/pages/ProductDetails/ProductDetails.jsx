@@ -14,6 +14,7 @@ import Swiperr from "../../components/Swiper/Swiper";
 import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import "./ProductDetails.css";
+import { useCreateReviewMutation } from "../../redux/Slices/apiSlice";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
@@ -23,7 +24,19 @@ export default function ProductDetails() {
   const [product, setProduct] = useState({});
   const [images, setImages] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const params = useParams();
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const [createReview] = useCreateReviewMutation();
+  const [reviewComment, setReviewComment] = useState({
+    content: "",
+    stars: "4",
+    userId: user.userId,
+    productId: params.id,
+  });
   const { data } = useGetProductQuery(params.id);
   const processedData = {
     ...data,
@@ -54,6 +67,31 @@ export default function ProductDetails() {
       setPcsCount((prevPcsCount) => prevPcsCount - 1);
     }
   };
+
+  function handleChange() {
+    const { name, value } = event.target;
+    setReviewComment((prevReviewComment) => ({
+      ...prevReviewComment,
+      [name]: value,
+    }));
+  }
+
+  function handleSubmit() {
+    event.preventDefault();
+
+    createReview({
+      content: reviewComment.content,
+      stars: reviewComment.stars,
+    })
+      .unwrap()
+      .then(() => {
+        setConfirmationMessage("Comment posted.");
+      })
+      .catch(() => {
+        setErrorMessage("Error.");
+      });
+  }
+  console.log(reviewComment);
   return (
     <>
       <Navbar />
@@ -253,22 +291,27 @@ export default function ProductDetails() {
                     duration: 0.1,
                   }}
                 >
-                  <div className="comment-form-container">
+                  <form
+                    className="comment-form-container"
+                    onSubmit={handleSubmit}
+                  >
                     <h3>Leave a comment</h3>
                     <div className="textarea-container">
                       <label htmlFor="comment">Comment</label>
                       <textarea
-                        id="comment"
-                        className="comment-input"
-                        name="comment"
+                        id="content"
+                        className="content-input"
+                        value={reviewComment.content}
+                        name="content"
                         placeholder="Space for your comment"
+                        onChange={handleChange}
                         rows="4"
                         cols="50"
                       ></textarea>
                     </div>
 
                     <button className="comment-button">Send a comment</button>
-                  </div>
+                  </form>
 
                   {reviews.map((review) => (
                     <ReviewCard

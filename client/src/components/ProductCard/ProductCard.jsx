@@ -10,10 +10,12 @@ function ProductCard({ product, viewMode }) {
   const handleAddToCart = () => {
     dispatch(add(product));
   };
-
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   const auth = useSelector((state) => state.auth);
-  const user = "43bf6b6f7d98"; // Replace with the actual user ID
-  const products = "product5"; // Replace with the actual product ID
+  const userId = user.userId; // Replace with the actual user ID
+  const products = product.productId; // Replace with the actual product ID
 
   const handleAddToWishlist = () => {
     // dispatch(
@@ -21,7 +23,7 @@ function ProductCard({ product, viewMode }) {
     // ).catch((error) => {
     //   console.error("Error adding product to wishlist:", error);
     // });
-    dispatch(addProductToWishlist({ user, products })).catch((error) => {
+    dispatch(addProductToWishlist({ userId, products })).catch((error) => {
       console.error("Error adding product to wishlist:", error);
     });
   };
@@ -29,7 +31,7 @@ function ProductCard({ product, viewMode }) {
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
-        <img src={product.imageUrl} alt={product.name} />
+        <img src={product.images[0].url} alt={product.name} />
         {/* {product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
         )} */}

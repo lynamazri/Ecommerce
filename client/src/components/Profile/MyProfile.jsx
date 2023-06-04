@@ -7,7 +7,6 @@ function MyProfile() {
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
-  console.log(user);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -68,9 +67,7 @@ function MyProfile() {
     return true;
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
+  const handleSubmit = () => {
     // Add your validation logic here
     if (!validateForm()) {
       return;
@@ -85,10 +82,12 @@ function MyProfile() {
       .then(() => {
         // Handle successful update
         setConfirmationMessage("Changes saved successfully.");
+        console.log(confirmationMessage);
       })
       .catch(() => {
         // Handle error
-        setErrorMessage(error.message);
+        setErrorMessage("Error");
+        console.log(errorMessage);
       });
 
     // Add your logic here to handle form submission
