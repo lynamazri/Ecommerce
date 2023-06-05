@@ -1,9 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
-
 const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
 
 const { applyStoreValidation } = require("../validation");
 
@@ -22,7 +25,7 @@ const createStore = async (req, res) => {
         folder: "banners",
       });
     }
-
+    console.log(upload);
     const findCat = await prisma.Category.findUnique({
       where: {
         name: category,
@@ -46,16 +49,11 @@ const createStore = async (req, res) => {
             create: [{ url: upload.url }],
           },
           phone: parseInt(phone),
-          owners: {
-            create: [
-              {
-                user: {
-                  connect: {
-                    userId: user.userId,
-                  },
-                },
-              },
-            ],
+
+          user: {
+            connect: {
+              userId: user,
+            },
           },
         },
       });
@@ -101,7 +99,7 @@ const editStore = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const { id } = req.params;
-  const { description, phone } = req.body;
+  const { description, phone, workingHours } = req.body;
   const img = req.files?.banner;
   let upload;
 
@@ -125,6 +123,7 @@ const editStore = async (req, res) => {
       },
       data: {
         description: description ? description : curStore.description,
+        workingHours: workingHours ? workingHours : curStore.workingHours,
         phone: phone ? phone : curStore.phone,
         banner: upload ? upload.url : curStore.banner,
       },

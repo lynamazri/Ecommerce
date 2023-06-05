@@ -42,6 +42,7 @@ const applyStoreValidation = (data) => {
     phone: Joi.number().integer().positive().min(21000000).max(799999999),
     owners: Joi.any(),
     workingHours: Joi.string(),
+    category: Joi.any(),
   });
   return schema.validate(data);
 };
