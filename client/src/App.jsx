@@ -27,6 +27,9 @@ import OrderHistory from "./components/Profile/OrderHistory";
 import OpenShop from "./components/Profile/OpenShop";
 import Security from "./components/Profile/Security";
 import Language from "./components/Profile/Language";
+import Products from "./components/Dashboard/Products";
+import Statistics from "./components/Dashboard/Statistics";
+import Settings from "./components/Dashboard/Settings";
 import Welcome from "./pages/Home/Welcome";
 import PersistLogin from "./pages/Login/PersistLogin";
 
@@ -123,7 +126,11 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/compare" element={<Compare />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/dashboard/products" element={<Products />} />
+          <Route path="/dashboard/statistics" element={<Statistics />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
+        </Route>
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/

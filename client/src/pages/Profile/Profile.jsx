@@ -2,12 +2,11 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
-import "./Profile.css";
 import { Outlet } from "react-router-dom";
+import "./Profile.css";
 
 function Profile() {
   const location = useLocation();
-
   const isActive = (pathname) => location.pathname === pathname;
 
   return (
