@@ -1,6 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const {
@@ -11,50 +10,27 @@ const {
 const updatePassword = async (req, res) => {
   const { error } = changePassValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
-
+  const { user } = req.params;
   const { curPassword, newPassword } = req.body;
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const pass = await bcrypt.compare(curPassword, user.password);
 
-          if (!user) {
-            res.status(400).send("Cannot find user.");
-          } else {
-            const pass = await bcrypt.compare(curPassword, user.password);
+  if (!pass) return res.status(400).send("Wrong password.");
 
-            if (!pass) return res.status(400).send("Wrong password.");
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(newPassword, salt);
 
-            const salt = await bcrypt.genSalt(10);
-            const hashPassword = await bcrypt.hash(newPassword, salt);
-
-            const updateUser = await prisma.Users.update({
-              where: {
-                username: decoded.username,
-              },
-              data: {
-                password: hashPassword,
-              },
-            });
-            if (updateUser) {
-              res.sendStatus(200);
-            } else res.status(400).send("Error updating password.");
-          }
-        }
-      }
-    );
-  }
+  const updateUser = await prisma.Users.update({
+    where: {
+      userId: user,
+    },
+    data: {
+      password: hashPassword,
+    },
+  });
+  if (updateUser) {
+    res.sendStatus(200);
+  } else res.status(400).send("Error updating password.");
 };
 
 const updateProfile = async (req, res) => {
@@ -63,97 +39,64 @@ const updateProfile = async (req, res) => {
 
   const { newUsername, firstName, lastName, bankAccount } = req.body;
 
-  const { userId } = req.params;
+  const { user } = req.params;
 
-  const user = await prisma.Users.findUnique({
-    where: { userId: userId },
+  const curUser = await prisma.Users.findUnique({
+    where: { userId: user },
   });
-  if (!user) res.status(400).send("Unable to find user.");
+  if (!curUser) return res.status(400).send("Unable to find user.");
   else {
     const updateProfile = await prisma.Users.update({
       where: {
-        userId: user.userId,
+        userId: user,
       },
       data: {
-        firstName: firstName ? firstName : user.firstName,
-        lastName: lastName ? lastName : user.lastName,
-        bankAccount: bankAccount ? bankAccount : user.bankAccount,
-        username: newUsername ? newUsername : user.username,
+        firstName: firstName ? firstName : curUser.firstName,
+        lastName: lastName ? lastName : curUser.lastName,
+        bankAccount: bankAccount ? bankAccount : curUser.bankAccount,
+        username: newUsername ? newUsername : curUser.username,
       },
     });
 
     if (updateProfile) {
       res.json({ message: "success" });
+    } else {
+      res.status(400).send("Error updating profile.");
     }
-    else { res.status(400).send("Error updating profile."); }
   }
 };
 
 const createComplaint = async (req, res) => {
   const { title, type, description } = req.body;
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const { user } = req.params;
 
-          const createComplaint = await prisma.Complaint.create({
-            data: {
-              type: type,
-              userId: user.userId,
-              title: title,
-              description: description,
-            },
-          });
-          if (createComplaint) res.sendStatus(200);
-          else res.status(400).send("Unable to create complaint.");
-        }
-      }
-    );
-  }
+  const createComplaint = await prisma.Complaint.create({
+    data: {
+      type: type,
+      userId: user,
+      title: title,
+      description: description,
+    },
+  });
+  if (createComplaint) res.sendStatus(200);
+  else res.status(400).send("Unable to create complaint.");
 };
 
 const createWish = async (req, res) => {
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const { user } = req.params;
 
-          const createWish = await prisma.WishList.create({
-            data: {
-              user: {
-                connect: {
-                  userId: user.userId,
-                },
-              },
-            },
-          });
-          if (createWish) res.sendStatus(200);
-          else res.status(400).send("Unable to create complaint.");
-        }
-      }
-    );
-  }
+  const createWish = await prisma.WishList.create({
+    data: {
+      user: {
+        connect: {
+          userId: user,
+        },
+      },
+    },
+  });
+  if (createWish) res.sendStatus(200);
+  else res.status(400).send("Unable to create wishlist.");
 };
 
 const getWishlist = async (req, res) => {
