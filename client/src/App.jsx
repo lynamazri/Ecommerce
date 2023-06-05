@@ -4,12 +4,13 @@ import { Route, Router, Routes } from "react-router-dom";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
-import Checkout from "./pages/Checkout/Checkout";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
 import Products from "./pages/Products/Products";
 import Shops from "./pages/Shops/Shops";
 import Profile from "./pages/Profile/Profile";
+import Checkout from "./pages/Checkout/Checkout";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import NotFound from "./pages/NotFound/NotFound";
 import Help from "./pages/Help/Help";
 import HelpArticle from "./pages/Help/HelpArticle";
@@ -122,6 +123,7 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/compare" element={<Compare />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/not-found" element={<NotFound />} />
         /*priv*/
