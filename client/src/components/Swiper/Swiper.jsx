@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
-import { getWishlistData } from "../../redux/Slices/wishlistSlice";
+import { wishlistFetch } from "../../redux/Slices/wishlistSlice";
 import { Navigation, Pagination, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css/bundle";
@@ -14,20 +14,39 @@ import "./Swiper.css";
 function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   const dispatch = useDispatch();
 
-  const { stores, storesStatus } = useSelector((state) => state.stores);
-  const { items, productsStatus, error } = useSelector(
-    (state) => state.products
-  );
-  // const wishlistItems = useSelector((state) => state.wishlist.items);
+  const {
+    stores,
+    status: storesStatus,
+    error: storeError,
+  } = useSelector((state) => state.stores);
+  const {
+    items,
+    status: productsStatus,
+    error: productError,
+  } = useSelector((state) => state.products);
+  const {
+    wishlistItems,
+    status: wishlistStatus,
+    error: wishError,
+  } = useSelector((state) => state.wishlist);
+
   const userId = useSelector((state) => state.auth.user?.userId);
-  const wishlistItems = useSelector((state) => state.wishlist.items);
 
   useEffect(() => {
     dispatch(fetchStoresData());
-    dispatch(getWishlistData({ userId }));
+    if (userId) {
+      dispatch(wishlistFetch(userId));
+    }
   }, [dispatch, userId]);
 
-  console.log("wishlistItems", wishlistItems);
+  // console.log(
+  //   "wishlistItems Status Error",
+  //   wishlistItems,
+  //   wishlistStatus,
+  //   wishError
+  // );
+  // console.log("productItems Status Error", items, productsStatus, error);
+  // console.log("stores Status ", stores, storesStatus);
 
   const renderItems = () => {
     if (sectionType === "stores") {
@@ -79,9 +98,37 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
 
   const slidesPerView = sectionType === "stores" ? 3 : 4;
 
-  const isLoading = storesStatus === "loading" || productsStatus === "loading";
-  const isError = storesStatus === "failed" || productsStatus === "failed";
+  const renderErrorMessage = () => {
+    if (sectionType === "stores") {
+      return storeError;
+    } else if (sectionType === "products") {
+      return productError;
+    } else if (sectionType === "wishlist") {
+      return wishError;
+    }
 
+    return null;
+  };
+
+  const isLoading = (() => {
+    if (sectionType === "stores") {
+      return storesStatus === "loading";
+    } else if (sectionType === "products") {
+      return productsStatus === "loading";
+    } else if (sectionType === "wishlist") {
+      return wishlistStatus === "loading";
+    }
+  })();
+
+  const isError = (() => {
+    if (sectionType === "stores") {
+      return storesStatus === "failed";
+    } else if (sectionType === "products") {
+      return productsStatus === "failed";
+    } else if (sectionType === "wishlist") {
+      return wishlistStatus === "failed";
+    }
+  })();
   return (
     <>
       {isLoading ? (
@@ -89,7 +136,7 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           <RingLoader color="#1f2c4c" />
         </div>
       ) : isError ? (
-        <p>{error}</p>
+        <p>{renderErrorMessage()}</p>
       ) : (
         <Swiper
           modules={[Navigation, Pagination, A11y]}

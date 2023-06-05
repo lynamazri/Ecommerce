@@ -588,6 +588,7 @@ const addProductWish = async (req, res) => {
   const checkWishlist = await prisma.WishList.findUnique({
     where: {
       userId: user,
+      userId: req.user.userId, // Assuming you have the authenticated user's ID stored in req.user.userId
     },
   });
 
@@ -616,6 +617,7 @@ const deleteProductWish = async (req, res) => {
   const checkWishlist = await prisma.WishList.findUnique({
     where: {
       userId: user,
+      userId: req.user.userId, // Assuming you have the authenticated user's ID stored in req.user.userId
     },
   });
 
@@ -634,7 +636,7 @@ const deleteProductWish = async (req, res) => {
       },
     });
     if (deleteWish) res.sendStatus(200);
-    else res.status(400).send("Unable to add product to wishlist.");
+    else res.status(400).send("Unable to remove product from wishlist.");
   }
 };
 
