@@ -11,14 +11,14 @@ const {
   deleteDiscount,
 } = require("../controllers/discountController");
 
-router.get("/coupons", getCoupons);
-router.delete("/coupons/:id", deleteCoupon);
-router.post("/coupons", createCoupon);
+router.get("/coupons", getCoupons); //tested, works
+router.delete("/coupons/:id", deleteCoupon); //tested, works
+router.post("/coupons", createCoupon); //tested, works
+router.post("/store/:store", createDiscount); //tested, works
+router.delete("/:id", deleteDiscount); //tested, works
+router.post("/:store/products/:productId", addDiscountToProduct); //tested, works
+router.get("/:store", getDiscounts); //tested, works
 
-router.post("/", createDiscount);
-router.delete("/:id", deleteDiscount);
-router.get("/:store/:id", addDiscountToProduct);
-
-router.get("/:store", getDiscounts);
+//removeDiscountFromProduct
 
 module.exports = router;

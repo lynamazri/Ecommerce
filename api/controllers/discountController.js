@@ -3,12 +3,19 @@ const { connect } = require("../routes/authRoute");
 const prisma = new PrismaClient();
 
 const createDiscount = async (req, res) => {
-  const { percentage, end } = req.body;
+  const { percentage, end, name } = req.body;
+  const { store } = req.params;
 
   const discount = await prisma.Discount.create({
     data: {
       percentage: percentage,
-      dateEnd: new Date(end),
+      dataEnd: new Date(end),
+      name: name,
+      store: {
+        connect: {
+          storeId: store,
+        },
+      },
     },
   });
   if (discount) res.sendStatus(200);
@@ -16,7 +23,7 @@ const createDiscount = async (req, res) => {
 };
 
 const addDiscountToProduct = async (req, res) => {
-  const { id, store } = req.params;
+  const { productId, store } = req.params;
   const { discount } = req.body;
 
   const findDiscount = await prisma.Discount.findFirst({
@@ -31,7 +38,7 @@ const addDiscountToProduct = async (req, res) => {
   } else {
     const addDiscount = await prisma.Product.update({
       where: {
-        productId: id,
+        productId: productId,
       },
       data: {
         discount: {
@@ -52,8 +59,8 @@ const createCoupon = async (req, res) => {
   const coupon = await prisma.Coupons.create({
     data: {
       code: code,
-      percentage: percentage,
-      dateEnd: new Date(end),
+      percentage: parseInt(percentage),
+      dataEnd: new Date(end),
     },
   });
   if (coupon) res.sendStatus(200);
@@ -95,7 +102,7 @@ const deleteDiscount = async (req, res) => {
 
   const deleteDiscount = await prisma.Discount.delete({
     where: {
-      discountId: id,
+      discountId: parseInt(id),
     },
   });
   if (deleteDiscount) res.sendStatus(200);
