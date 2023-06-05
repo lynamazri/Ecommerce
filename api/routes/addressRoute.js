@@ -8,10 +8,10 @@ const {
   updateAddress,
 } = require("../controllers/addressController");
 
-router.get("/all/:user", getAddresses);
+router.get("/all/:user", getAddresses); //tested, works
 
-router.post("/", createAddress);
+router.post("/:user", createAddress); //tested, works
 
-router.delete("/:id", deleteAddress);
-router.delete("/:id", updateAddress);
+router.delete("/:id", deleteAddress); //tested, works
+router.patch("/:id", updateAddress); //tested, works
 module.exports = router;

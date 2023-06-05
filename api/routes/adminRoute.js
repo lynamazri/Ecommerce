@@ -13,14 +13,14 @@ const {
   addAdmin,
 } = require("../controllers/adminController");
 
-router.get("/", getUsers);
-router.get("/stores", getPendingStores);
-router.delete("/:id", deleteUser);
-router.get("/users", getUserByUsername);
-router.get("/complaints", getComplaints);
-router.patch("/complaints/:complaint", handleComplaint);
-router.patch("/credit/add", addCredit);
-router.patch("/credit/set", setCredit);
-router.post("/", addAdmin);
+router.get("/", getUsers); //tested, works
+router.get("/stores", getPendingStores); //tested, works
+router.delete("/:id", deleteUser); //tested, works
+router.get("/users", getUserByUsername); //tested, works
+router.get("/complaints", getComplaints); //tested, works
+router.patch("/complaints/:id", handleComplaint); //tested, works
+router.patch("/credit/add", addCredit); //tested, works
+router.patch("/credit/set", setCredit); //tested, works
+router.post("/", addAdmin); //tested, works
 
 module.exports = router;

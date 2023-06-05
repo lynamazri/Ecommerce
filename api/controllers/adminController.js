@@ -33,13 +33,14 @@ const deleteUser = async (req, res) => {
 
 const getUserByUsername = async (req, res) => {
   const { username } = req.body;
+  console.log(username);
   const user = await prisma.Users.findUnique({
     where: {
       username: username,
     },
   });
   if (!user) res.status(400).send("Unable to find user.");
-  else res.sendStatus(200);
+  else res.status(200).json(user);
 };
 
 const getComplaints = async (req, res) => {
@@ -51,25 +52,29 @@ const getComplaints = async (req, res) => {
 const addCredit = async (req, res) => {
   const { amount, bankAccount } = req.body;
 
-  const user = prisma.Users.findUnique({
+  const user = await prisma.Users.findUnique({
     where: {
       bankAccount: bankAccount,
     },
   });
 
+  const newBalance = user.credit + parseInt(amount);
+  console.log(newBalance);
+
   if (!user) res.status(400).send("Unable to find user.");
   else {
-    const deposit = prisma.Users.update({
+    const addCredit = await prisma.Users.update({
       where: {
-        userId: user.userId,
+        bankAccount: bankAccount,
       },
       data: {
-        credit: user.credit + amount,
+        credit: newBalance,
       },
     });
+
+    if (addCredit) res.sendStatus(200);
+    else res.status(400).send("Unable to add credit.");
   }
-  if (!deposit) res.status(400).send("Unable to deposit credit.");
-  else res.sendStatus(200);
 };
 
 const setCredit = async (req, res) => {
@@ -83,32 +88,35 @@ const setCredit = async (req, res) => {
 
   if (!user) res.status(400).send("Unable to find user.");
   else {
-    const deposit = prisma.Users.update({
+    const setCredit = await prisma.Users.update({
       where: {
-        userId: user.userId,
+        bankAccount: bankAccount,
       },
       data: {
-        credit: amount,
+        credit: parseInt(amount),
       },
     });
+
+    if (setCredit) res.sendStatus(200);
+    else res.status(400).send("Unable to set credit.");
   }
-  if (!deposit) res.status(400).send("Unable to deposit credit.");
-  else res.sendStatus(200);
 };
 
 const handleComplaint = async (req, res) => {
-  const { complaint } = req.params;
+  const { id } = req.params;
 
-  const handleComplaint = prisma.Complaint.update({
+  const complaint = await prisma.Complaint.update({
     where: {
-      complaintId: complaint,
+      complaintId: parseInt(id),
     },
+
     data: {
       handled: true,
     },
   });
-  if (!handleComplaint) res.status(400).send("Unable to handle complaint.");
-  else res.sendStatus(200);
+
+  if (complaint) res.sendStatus(200);
+  else res.status(400).send("Unable to confirm.");
 };
 
 const getPendingStores = async (req, res) => {
@@ -117,26 +125,26 @@ const getPendingStores = async (req, res) => {
       approved: false,
     },
   });
-  if (!stores) res.status(400).send("No pending stores available.");
+  if (stores.length === 0) res.status(400).send("No pending stores available.");
   else res.status(200).json(stores);
 };
 
 const addAdmin = async (req, res) => {
-  const { email, username, firstName, lastName } = req.body;
+  const { email, username, firstName, lastName, password } = req.body;
 
   const emailExist = await prisma.Admin.findUnique({
-    where: { email: req.body.email },
+    where: { email: email },
   });
   if (emailExist) return res.status(400).send("Email has already been used.");
 
   const usernameExist = await prisma.Admin.findUnique({
-    where: { username: req.body.username },
+    where: { username: username },
   });
   if (usernameExist) return res.status(400).send("Username is already taken.");
 
   //hashing passwords
   const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(req.body.password, salt);
+  const hashPassword = await bcrypt.hash(password, salt);
 
   //adding user to db
   try {
@@ -152,7 +160,7 @@ const addAdmin = async (req, res) => {
     });
 
     console.log(admin);
-    res.send(200);
+    res.status(200);
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
