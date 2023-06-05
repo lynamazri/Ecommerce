@@ -15,7 +15,7 @@ const {
 
 router.post("/:user", verification, createStore);
 router.patch("/:id", verifyStore);
-router.get("/", getStores);
+router.get("/", getStores); //tested, works
 router.patch("/", verification, editStore);
 router.delete("/:id", verification, deleteStore);
 router.get("/reviews/:id", getReviews);

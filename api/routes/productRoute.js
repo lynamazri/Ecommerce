@@ -22,7 +22,7 @@ const {
   deleteProductWish,
 } = require("../controllers/productController");
 
-router.get("/", getProducts);
+router.get("/", getProducts); //tested, works
 router.get("/search", searchProducts);
 router.get("/:store", getProductsFromStore);
 router.get("/store/:id", getProductById);
