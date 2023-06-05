@@ -13,7 +13,13 @@ const updatePassword = async (req, res) => {
   const { user } = req.params;
   const { curPassword, newPassword } = req.body;
 
-  const pass = await bcrypt.compare(curPassword, user.password);
+  const curUser = await prisma.Users.findUnique({
+    where: {
+      userId: user,
+    },
+  });
+
+  const pass = await bcrypt.compare(curPassword, curUser.password);
 
   if (!pass) return res.status(400).send("Wrong password.");
 
@@ -67,13 +73,12 @@ const updateProfile = async (req, res) => {
 };
 
 const createComplaint = async (req, res) => {
-  const { title, type, description } = req.body;
+  const { title, description } = req.body;
 
   const { user } = req.params;
 
   const createComplaint = await prisma.Complaint.create({
     data: {
-      type: type,
       userId: user,
       title: title,
       description: description,
@@ -102,16 +107,12 @@ const createWish = async (req, res) => {
 const getWishlist = async (req, res) => {
   const { user } = req.params;
 
-  console.log(user);
-
-  const wishes = await prisma.Wishlist.findUnique({
+  const wishes = await prisma.WishList.findUnique({
     where: {
       userId: user,
     },
-    include: {
-      products: true,
-    },
   });
+
   if (!wishes) res.status(400).send("Unable to find wishlist.");
   else res.status(200).json(wishes);
 };

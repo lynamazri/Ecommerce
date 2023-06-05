@@ -11,10 +11,10 @@ const {
   getWishlist,
 } = require("../controllers/profileController");
 
-router.patch("/password/:user", verification, updatePassword);
-router.patch("/:user", verification, updateProfile);
-router.post("/:user", verification, createComplaint);
-router.post("/:user/wishlist", verification, createWish);
-router.get("/:user/wishlist", verification, getWishlist);
+router.patch("/password/:user", verification, updatePassword); //tested, works
+router.patch("/:user", verification, updateProfile); //tested, works
+router.post("/:user", verification, createComplaint); //tested, works
+router.post("/:user/wishlist", verification, createWish); //tested, works
+router.get("/:user/wishlist", verification, getWishlist); //tested, works
 
 module.exports = router;
