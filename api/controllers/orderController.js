@@ -15,43 +15,22 @@ const getStoreOrders = async (req, res) => {
 };
 
 const getUserOrders = async (req, res) => {
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const { user } = req.params;
 
-          if (!user) {
-            res.status(400).send("Cannot find user.");
-          } else {
-            const orders = prisma.Order.findMany({
-              where: {
-                userId: user.userId,
-              },
-            });
-            if (!orders) res.status(400).send("No orders yet.");
-            else res.status(200).json(orders);
-          }
-        }
-      }
-    );
-  }
+  const orders = prisma.Order.findMany({
+    where: {
+      userId: user,
+    },
+  });
+  if (!orders) res.status(400).send("No orders yet.");
+  else res.status(200).json(orders);
 };
 
 const createOrder = async (req, res) => {
   const { total, method, cart, address, coupon, street, city, state, zip } =
     req.body;
   const currentdate = new Date();
-  const token = req.cookies.jwt;
+  const { user } = req.params;
   if (coupon) {
     const checkCoupon = await prisma.Coupon.findUnique({
       where: {
@@ -64,101 +43,67 @@ const createOrder = async (req, res) => {
       if (currentdate > checkCoupon.endDate) {
         res.status(400).send("Expired coupon.");
       } else {
-        if (!token) {
-          return res.sendStatus(401);
+        if (!user) {
+          res.status(400).send("Cannot find user.");
         } else {
-          jwt.verify(
-            token,
-            process.env.REFRESH_TOKEN_SECRET,
-            async (err, decoded) => {
-              if (err) console.log(err.message);
-              else {
-                const user = await prisma.Users.findUnique({
-                  where: { username: decoded.username },
-                });
-
-                if (!user) {
-                  res.status(400).send("Cannot find user.");
-                } else {
-                  const order = await prisma.Order.create({
-                    total: total,
-                    payMethod: method,
-                    userId: user.userId,
-                    coupon: coupon,
-                    address: {
-                      connectOrCreate: {
-                        where: {
-                          id: address,
-                        },
-                        create: [
-                          {
-                            street: street,
-                            city: city,
-                            state: state,
-                            zip: parseInt(zip),
-                          },
-                        ],
-                      },
-                    },
-                    items: {
-                      create: {
-                        cart,
-                      },
-                    },
-                  });
-                }
-              }
-            }
-          );
+          const order = await prisma.Order.create({
+            total: total,
+            payMethod: method,
+            userId: user,
+            coupon: coupon,
+            address: {
+              connectOrCreate: {
+                where: {
+                  id: address,
+                },
+                create: [
+                  {
+                    street: street,
+                    city: city,
+                    state: state,
+                    zip: parseInt(zip),
+                  },
+                ],
+              },
+            },
+            items: {
+              create: {
+                cart,
+              },
+            },
+          });
+          if (order) res.status(200).json(order);
+          else res.status(400).send("Unable to complete order");
         }
       }
     }
   } else {
-    if (!token) {
-      return res.sendStatus(401);
-    } else {
-      jwt.verify(
-        token,
-        process.env.REFRESH_TOKEN_SECRET,
-        async (err, decoded) => {
-          if (err) console.log(err.message);
-          else {
-            const user = await prisma.Users.findUnique({
-              where: { username: decoded.username },
-            });
-
-            if (!user) {
-              res.status(400).send("Cannot find user.");
-            } else {
-              const order = await prisma.Order.create({
-                total: total,
-                payMethod: method,
-                userId: user.userId,
-                coupon: coupon,
-                address: {
-                  connectOrCreate: {
-                    where: {
-                      id: address,
-                    },
-                    create: [
-                      {
-                        street: street,
-                        city: city,
-                        state: state,
-                        zip: parseInt(zip),
-                      },
-                    ],
-                  },
-                },
-                items: {
-                  create: cart,
-                },
-              });
-            }
-          }
-        }
-      );
-    }
+    const order = await prisma.Order.create({
+      total: total,
+      payMethod: method,
+      userId: user,
+      coupon: coupon,
+      address: {
+        connectOrCreate: {
+          where: {
+            id: address,
+          },
+          create: [
+            {
+              street: street,
+              city: city,
+              state: state,
+              zip: parseInt(zip),
+            },
+          ],
+        },
+      },
+      items: {
+        create: cart,
+      },
+    });
+    if (order) res.status(200).json(order);
+    else res.status(400).send("Unable to complete order");
   }
 };
 
@@ -229,10 +174,11 @@ const returnItem = async (req, res) => {
       state: "Returned",
     },
   });
+  if (!returnItem) res.status(400).send("Unable to return item.");
+  else res.status(200);
 };
 
 module.exports = {
-  createOrderWithOldAddress,
   getStoreOrders,
   getUserOrders,
   createOrder,

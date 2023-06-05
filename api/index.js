@@ -17,6 +17,7 @@ const addressRoute = require("./routes/addressRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const adminRoute = require("./routes/adminRoute");
 const discountRoute = require("./routes/discountRoute");
+const orderRoute = require("./routes/orderRoute");
 
 //app
 const app = express();
@@ -39,6 +40,7 @@ app.use("/profile", profileRoute);
 app.use("/productss", productRoute);
 app.use("/admin", adminRoute);
 app.use("/discount", discountRoute);
+app.use("/order", orderRoute);
 
 app.get("/", (req, res) => {
   const { q } = req.query;
