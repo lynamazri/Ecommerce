@@ -25,7 +25,7 @@ export const wishlistFetch = createAsyncThunk(
         }
       );
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Failed to fetch wishlist items.");
       }
 
@@ -131,24 +131,42 @@ const wishlistSlice = createSlice({
         state.error = action.payload;
         state.items = [];
       })
+      .addCase(createWishlist.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(createWishlist.fulfilled, (state) => {
+        state.status = "succeeded";
         state.items = [];
+        state.error = null;
       })
       .addCase(createWishlist.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(addProductToWishlist.pending, (state) => {
+        state.status = "loading";
       })
       .addCase(addProductToWishlist.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items.push(action.payload);
+        state.error = null;
       })
       .addCase(addProductToWishlist.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       })
+      .addCase(deleteProductFromWishlist.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(deleteProductFromWishlist.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.items = state.items.filter(
           (product) => product !== action.payload
         );
+        state.error = null;
       })
       .addCase(deleteProductFromWishlist.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       });
   },

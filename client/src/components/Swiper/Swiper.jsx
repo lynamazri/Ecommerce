@@ -14,11 +14,15 @@ import "./Swiper.css";
 function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   const dispatch = useDispatch();
 
-  const { stores, status: storesStatus } = useSelector((state) => state.stores);
+  const {
+    stores,
+    status: storesStatus,
+    error: storeError,
+  } = useSelector((state) => state.stores);
   const {
     items,
     status: productsStatus,
-    error,
+    error: productError,
   } = useSelector((state) => state.products);
   const {
     wishlistItems,
@@ -94,10 +98,37 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
 
   const slidesPerView = sectionType === "stores" ? 3 : 4;
 
-  const isLoading = storesStatus === "loading" || productsStatus === "loading";
+  const renderErrorMessage = () => {
+    if (sectionType === "stores") {
+      return storeError;
+    } else if (sectionType === "products") {
+      return productError;
+    } else if (sectionType === "wishlist") {
+      return wishError;
+    }
 
-  const isError = storesStatus === "failed" || productsStatus === "failed";
+    return null;
+  };
 
+  const isLoading = (() => {
+    if (sectionType === "stores") {
+      return storesStatus === "loading";
+    } else if (sectionType === "products") {
+      return productsStatus === "loading";
+    } else if (sectionType === "wishlist") {
+      return wishlistStatus === "loading";
+    }
+  })();
+
+  const isError = (() => {
+    if (sectionType === "stores") {
+      return storesStatus === "failed";
+    } else if (sectionType === "products") {
+      return productsStatus === "failed";
+    } else if (sectionType === "wishlist") {
+      return wishlistStatus === "failed";
+    }
+  })();
   return (
     <>
       {isLoading ? (
@@ -105,7 +136,7 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           <RingLoader color="#1f2c4c" />
         </div>
       ) : isError ? (
-        <p>{error}</p>
+        <p>{renderErrorMessage()}</p>
       ) : (
         <Swiper
           modules={[Navigation, Pagination, A11y]}
