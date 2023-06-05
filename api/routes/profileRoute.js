@@ -15,6 +15,6 @@ router.patch("/password", verification, updatePassword);
 router.patch("/:userId", verification, updateProfile);
 router.post("/", verification, createComplaint);
 router.post("/wishlist", verification, createWish);
-router.get("/:user/wishlist", verification, getWishlist);
+router.get("/:userId/wishlist", verification, getWishlist);
 
 module.exports = router;

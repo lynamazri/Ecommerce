@@ -16,8 +16,8 @@ export const wishlistFetch = createAsyncThunk(
         throw new Error("Authentication token not found.");
       }
 
-      const response = await fetch(
-        "http://localhost:3001/api/controllers/profileController/:user/wishlist",
+      const response = await axios.get(
+        `http://localhost:3001/profile/${userId}/wishlist`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ export const wishlistFetch = createAsyncThunk(
         throw new Error("Failed to fetch wishlist items.");
       }
 
-      const wishlistItems = await response.json();
+      const wishlistItems = response.data;
       return wishlistItems;
     } catch (error) {
       return rejectWithValue("There was an error during wishlist fetching");
@@ -39,11 +39,10 @@ export const wishlistFetch = createAsyncThunk(
 
 export const createWishlist = createAsyncThunk(
   "wishlist/createWishlist",
-  async (userId, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/api/controllers/profileController/createWish`,
-        { userId }
+        "http://localhost:3001/profile/wishlist"
       );
       if (response.status === 200) {
         return true;
@@ -61,7 +60,7 @@ export const addProductToWishlist = createAsyncThunk(
   async ({ userId, productId }, { rejectWithValue, dispatch }) => {
     try {
       const wishlistResponse = await axios.get(
-        `http://localhost:3001/api/controllers/profileController/getWishlist/${userId}`
+        `http://localhost:3001/profile/${userId}/wishlist`
       );
       if (wishlistResponse.status === 200) {
         const wishlist = wishlistResponse.data;
@@ -72,8 +71,8 @@ export const addProductToWishlist = createAsyncThunk(
         }
 
         // Add product to the wishlist
-        const response = await axios.post(
-          `http://localhost:3001/api/controllers/productController/addProductWish/${userId}/${productId}`
+        const response = await axios.patch(
+          `http://localhost:3001/profile/${userId}/${productId}`
         );
         if (response.status === 200) {
           return productId;
@@ -95,8 +94,8 @@ export const deleteProductFromWishlist = createAsyncThunk(
   "wishlist/deleteProductFromWishlist",
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/api/controllers/productController/deleteProductWish/${userId}/${productId}`
+      const response = await axios.patch(
+        `http://localhost:3001/profile/delete/${userId}/${productId}`
       );
       if (response.status === 200) {
         return productId;
@@ -107,24 +106,6 @@ export const deleteProductFromWishlist = createAsyncThunk(
       return rejectWithValue(
         "There was an error deleting the product from the wishlist."
       );
-    }
-  }
-);
-
-export const getWishlistData = createAsyncThunk(
-  "wishlist/getWishlistData",
-  async ({ userId }, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(
-        `http://localhost:3001/api/controllers/profileController/getWishlist/${userId}`
-      );
-      if (response.status === 200) {
-        return response.data;
-      } else {
-        throw new Error("Unable to fetch wishlist data.");
-      }
-    } catch (error) {
-      return rejectWithValue("There was an error fetching the wishlist data.");
     }
   }
 );
@@ -169,18 +150,8 @@ const wishlistSlice = createSlice({
       })
       .addCase(deleteProductFromWishlist.rejected, (state, action) => {
         state.error = action.payload;
-      })
-      .addCase(getWishlistData.fulfilled, (state, action) => {
-        state.items = action.payload.products;
-      })
-      .addCase(getWishlistData.rejected, (state, action) => {
-        state.error = action.payload;
       });
   },
 });
-
-// Export the additional actions
-export const { wishlistAdd, wishlistRemove, wishlistClear } =
-  wishlistSlice.actions;
 
 export default wishlistSlice.reducer;

@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../../redux/Slices/CartSlice";
 import {
   addProductToWishlist,
   deleteProductFromWishlist,
+  wishlistFetch,
 } from "../../redux/Slices/wishlistSlice";
 import { getStars } from "../../utils";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -18,11 +19,34 @@ function ProductCard({ product, viewMode }) {
 
   const userId = useSelector((state) => state.auth.user?.userId);
   const productId = product.productId;
-  const wishlistItems = useSelector((state) => state.wishlist.items);
+  // const wishlistItems = useSelector((state) => state.wishlist.items);
+  const {
+    wishlistItems,
+    status: wishlistStatus,
+    error: wishError,
+  } = useSelector((state) => state.wishlist);
 
-  console.log(productId, userId, "productId, userId");
+  useEffect(() => {
+    dispatch(wishlistFetch());
+  }, [dispatch]);
 
-  const isProductInWishlist = wishlistItems.includes(productId);
+  const isProductInWishlist =
+    wishlistItems && wishlistItems.includes(productId);
+
+  console.log(
+    productId,
+    userId,
+    wishlistItems,
+    wishError,
+    isProductInWishlist,
+    "productId, userId, wishlistItems, wisherror, isProductInWishlist"
+  );
+  // console.log(
+  //   "wishlistItems Status Error",
+  //   wishlistItems,
+  //   wishlistStatus,
+  //   wishError
+  // );
 
   const handleAddToWishlist = () => {
     if (isProductInWishlist) {
