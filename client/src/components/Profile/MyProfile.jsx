@@ -67,20 +67,19 @@ function MyProfile() {
     return true;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     // Add your validation logic here
+    e.preventDefault();
     if (!validateForm()) {
       return;
     }
-    patchProfile(
-      {
-        newUsername: formData.firstName,
-        firstName: formData.lastName,
-        lastName: "bzbouz",
-        bankAccount: formData.bankAccountNumber,
-      },
-      user.userId
-    )
+    patchProfile({
+      user: user.userId,
+      newUsername: "bzbouz",
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      bankAccount: formData.bankAccountNumber,
+    })
       .unwrap() // Extract the response data
       .then(() => {
         // Handle successful update
