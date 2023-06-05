@@ -5,34 +5,16 @@ require("dotenv").config();
 const { addressValidation } = require("../validation");
 
 const getAddresses = async (req, res) => {
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const { user } = req.params;
 
-          const getAddress = await prisma.Address.findMany({
-            where: {
-              userId: {
-                equals: user.userId,
-              },
-            },
-          });
+  const getAddress = await prisma.Address.findMany({
+    where: {
+      userId: user,
+    },
+  });
 
-          res.status(200).json(getAddress);
-        }
-      }
-    );
-  }
+  if (getAddress) res.status(200).json(getAddress);
+  else res.status(400).send("Unable to get addresses.");
 };
 
 const createAddress = async (req, res) => {
@@ -41,36 +23,20 @@ const createAddress = async (req, res) => {
 
   const { street, city, state, zip } = req.body;
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
+  const { user } = req.params;
 
-          const addAddress = await prisma.Address.create({
-            data: {
-              userId: user.userId,
-              street: street,
-              city: city,
-              state: state,
-              zip: parseInt(zip),
-            },
-          });
+  const addAddress = await prisma.Address.create({
+    data: {
+      userId: user,
+      street: street,
+      city: city,
+      state: state,
+      zip: parseInt(zip),
+    },
+  });
 
-          res.sendStatus(200);
-        }
-      }
-    );
-  }
+  if (addAddress) res.sendStatus(200);
+  else res.status(400).send("Unable to create address.");
 };
 
 const deleteAddress = async (req, res) => {
