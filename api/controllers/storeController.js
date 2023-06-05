@@ -8,7 +8,10 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-const { applyStoreValidation } = require("../validation");
+const {
+  applyStoreValidation,
+  storeUpdateValidation,
+} = require("../validation");
 
 const createStore = async (req, res) => {
   const { error } = applyStoreValidation(req.body);
@@ -46,7 +49,7 @@ const createStore = async (req, res) => {
             },
           },
           banner: {
-            create: [{ url: upload.url }],
+            create: { url: upload.url },
           },
           phone: parseInt(phone),
 
@@ -89,49 +92,67 @@ const getStores = async (req, res) => {
     where: {
       approved: true,
     },
+    include: {
+      banner,
+    },
   });
   if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
 };
 
 const editStore = async (req, res) => {
-  const { error } = categoryValidationOnUpdate(req.body);
+  const { error } = storeUpdateValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const { id } = req.params;
   const { description, phone, workingHours } = req.body;
-  const img = req.files?.banner;
-  let upload;
 
-  const curStore = await prisma.Store.findUnique({
+  const curStore = await prisma.Store.findFirst({
+    where: {
+      storeId: id,
+      approved: true,
+    },
+  });
+
+  const updateStore = await prisma.Store.update({
     where: {
       storeId: id,
     },
+    data: {
+      description: description ? description : curStore.description,
+      workingHours: workingHours ? workingHours : curStore.workingHours,
+      phone: phone ? phone : curStore.phone,
+    },
   });
+  if (updateStore) {
+    res.status(200).json(updateStore);
+  } else {
+    res.status(400).send("Unable to edit store.");
+  }
+};
+
+const editBanner = async (req, res) => {
+  const { store } = req.params;
+  const img = req.files?.banner;
+  let upload;
 
   try {
     if (img) {
       upload = await cloudinary.uploader.upload(img.tempFilePath, {
         folder: "banners",
       });
-    }
 
-    const updateStore = await prisma.Store.update({
-      where: {
-        storeId: id,
-        approved: true,
-      },
-      data: {
-        description: description ? description : curStore.description,
-        workingHours: workingHours ? workingHours : curStore.workingHours,
-        phone: phone ? phone : curStore.phone,
-        banner: upload ? upload.url : curStore.banner,
-      },
-    });
-    if (updateStore) {
-      res.sendStatus(200);
-    } else {
-      res.status(400).send("Unable to edit store.");
+      const newBanner = await prisma.StoreImage.update({
+        where: {
+          storeId: store,
+        },
+        data: {
+          url: upload.url,
+        },
+      });
+
+      if (newBanner) res.sendStatus(200);
+      else res.status(400).send("Unable to update banner.");
     }
   } catch (error) {
     console.log(error);
@@ -215,4 +236,5 @@ module.exports = {
   getReviews,
   getQuestions,
   answerQuestion,
+  editBanner,
 };

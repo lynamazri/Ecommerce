@@ -66,7 +66,7 @@ model Store {
   openingDate DateTime     @default(now())
   user        Users        @relation(fields: [userId], references: [userId], onDelete: Cascade)
   userId      String       @unique
-  banner      StoreImage[]
+  banner      StoreImage?
   products    Product[]
   approved    Boolean      @default(false)
   orders      OrderItems[]
@@ -136,8 +136,8 @@ model ProductImage {
 model StoreImage {
   storeImgId Int    @id @default(autoincrement())
   url        String @db.VarChar(500)
-  store      Store  @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
-  storeId    String
+  store      Store  @relation(fields: [storeId], references: [storeId])
+  storeId    String @unique
 }
 
 model ProductOptions {

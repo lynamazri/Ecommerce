@@ -113,6 +113,16 @@ const questionValidation = (data) => {
   });
   return schema.validate(data);
 };
+
+const storeUpdateValidation = (data) => {
+  const schema = Joi.object({
+    description: Joi.string().min(20).max(500),
+    workingHours: Joi.string(),
+    phone: Joi.number().integer().positive().min(21000000).max(799999999),
+  });
+  return schema.validate(data);
+};
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.changePassValidation = changePassValidation;
@@ -125,3 +135,4 @@ module.exports.categoryValidationOnUpdate = categoryValidationOnUpdate;
 module.exports.subCatValidationOnUpdate = subCatValidationOnUpdate;
 module.exports.reviewValidation = reviewValidation;
 module.exports.questionValidation = questionValidation;
+module.exports.storeUpdateValidation = storeUpdateValidation;
