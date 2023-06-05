@@ -13,7 +13,7 @@ const {
   answerQuestion,
 } = require("../controllers/storeController");
 
-router.post("/", verification, createStore);
+router.post("/:user", verification, createStore);
 router.patch("/:id", verifyStore);
 router.get("/", getStores);
 router.patch("/", verification, editStore);

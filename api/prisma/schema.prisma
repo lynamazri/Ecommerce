@@ -54,6 +54,7 @@ model Address {
   state  String
   zip    Int
   orders Order[]
+
 }
 
 model Store {
@@ -70,8 +71,9 @@ model Store {
   approved    Boolean      @default(false)
   orders      OrderItems[]
   discounts   Discount[]
-  mainCat SubCat @relation(fields: [subCatId], references: [subCatId])
-  subCatId Int
+  mainCat Category @relation(fields: [catId], references: [catId])
+  catId Int
+workingHours String? 
 }
 
 // model UserStore{
@@ -112,6 +114,7 @@ model Category {
   name        String   @unique
   description String   @db.VarChar(500)
   subCats     SubCat[]
+    stores Store[]
 }
 
 model SubCat {
@@ -120,7 +123,7 @@ model SubCat {
   catId    Int
   category Category  @relation(fields: [catId], references: [catId], onDelete: Cascade)
   products Product[]
-  stores Store[]
+
 }
 
 model ProductImage {

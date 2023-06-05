@@ -11,61 +11,61 @@ const createStore = async (req, res) => {
   const { error } = applyStoreValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { name, description, email, phone, subCat } = req.body;
-  const findSubCat = await prisma.subCat.findUnique({
-    where: {
-      name: subCat,
-    },
-  });
+  const { name, description, email, phone, category, workingHours } = req.body;
+  const { user } = req.params;
+  const img = req.files?.banner;
+  let upload;
 
-  if (!findSubCat) return res.status(400).send("Unable to find sub-category.");
-  else {
-    const token = req.cookies.jwt;
-    console.log(token);
-    if (!token) {
-      return res.sendStatus(401);
-    } else {
-      jwt.verify(
-        token,
-        process.env.REFRESH_TOKEN_SECRET,
-        async (err, decoded) => {
-          if (err) console.log(err.message);
-          else {
-            const user = await prisma.Users.findUnique({
-              where: { username: decoded.username },
-            });
+  try {
+    if (img) {
+      upload = await cloudinary.uploader.upload(img.tempFilePath, {
+        folder: "banners",
+      });
+    }
 
-            const store = await prisma.Store.create({
-              data: {
-                name: name,
-                description: description,
-                email: email,
-                mainCat: {
+    const findCat = await prisma.Category.findUnique({
+      where: {
+        name: category,
+      },
+    });
+
+    if (!findCat) return res.status(400).send("Unable to find category.");
+    else {
+      const store = await prisma.Store.create({
+        data: {
+          name: name,
+          description: description,
+          email: email,
+          workingHours: workingHours,
+          mainCat: {
+            connect: {
+              catId: findCat.catId,
+            },
+          },
+          banner: {
+            create: [{ url: upload.url }],
+          },
+          phone: parseInt(phone),
+          owners: {
+            create: [
+              {
+                user: {
                   connect: {
-                    subCatId: subCat,
+                    userId: user.userId,
                   },
                 },
-                phone: parseInt(phone),
-                //update this shit
-                owners: {
-                  create: [
-                    {
-                      user: {
-                        connect: {
-                          userId: user.userId,
-                        },
-                      },
-                    },
-                  ],
-                },
               },
-            });
+            ],
+          },
+        },
+      });
 
-            res.sendStatus(200);
-          }
-        }
-      );
+      if (store) res.status(200).json(store);
+      else res.status(400).send("Unable to create store.");
     }
+  } catch (error) {
+    console.log(error);
+    res.status(400).json(error);
   }
 };
 
