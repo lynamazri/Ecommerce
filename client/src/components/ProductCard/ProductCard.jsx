@@ -19,9 +19,8 @@ function ProductCard({ product, viewMode }) {
 
   const userId = useSelector((state) => state.auth.user?.userId);
   const productId = product.productId;
-  // const wishlistItems = useSelector((state) => state.wishlist.items);
   const {
-    wishlistItems,
+    items: wishlistItems,
     status: wishlistStatus,
     error: wishError,
   } = useSelector((state) => state.wishlist);
@@ -30,8 +29,7 @@ function ProductCard({ product, viewMode }) {
     dispatch(wishlistFetch());
   }, [dispatch]);
 
-  const isProductInWishlist =
-    wishlistItems && wishlistItems.includes(productId);
+  const isProductInWishlist = wishlistItems.includes(productId);
 
   console.log(
     productId,

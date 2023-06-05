@@ -15,17 +15,17 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   const dispatch = useDispatch();
 
   const {
-    stores,
-    status: storesStatus,
-    error: storeError,
-  } = useSelector((state) => state.stores);
-  const {
     items,
     status: productsStatus,
     error: productError,
   } = useSelector((state) => state.products);
   const {
-    wishlistItems,
+    stores,
+    status: storesStatus,
+    error: storeError,
+  } = useSelector((state) => state.stores);
+  const {
+    items: wishlistItems,
     status: wishlistStatus,
     error: wishError,
   } = useSelector((state) => state.wishlist);
@@ -39,14 +39,19 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     }
   }, [dispatch, userId]);
 
-  // console.log(
-  //   "wishlistItems Status Error",
-  //   wishlistItems,
-  //   wishlistStatus,
-  //   wishError
-  // );
-  // console.log("productItems Status Error", items, productsStatus, error);
-  // console.log("stores Status ", stores, storesStatus);
+  console.log(
+    "productItems Status productError",
+    items,
+    productsStatus,
+    productError
+  );
+  console.log("stores Status storeError", stores, storesStatus, storeError);
+  console.log(
+    "wishlistItems Status Error",
+    wishlistItems,
+    wishlistStatus,
+    wishError
+  );
 
   const renderItems = () => {
     if (sectionType === "stores") {
