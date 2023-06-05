@@ -9,17 +9,16 @@ const {
   createSubCat,
   deleteSubCat,
   updateSubCat,
+  getSubCatgory,
 } = require("../controllers/categoryController");
 
-router.get("/", getCatgory);
-
-router.post("/", createCatgory);
-router.post("/sub-category", createSubCat);
-
-router.delete("/:id", deleteCatgory);
-router.delete("/sub-category/:id", deleteSubCat);
-
-router.patch("/:id", updateCatgory);
-router.patch("/sub-category/:id", updateSubCat);
+router.get("/", getCatgory); //tested, works
+router.get("/category", getSubCatgory); //tested, works
+router.post("/", createCatgory); //tested, works
+router.post("/sub-category", createSubCat); //tested, works
+router.delete("/:id", deleteCatgory); //tested, works
+router.delete("/sub-category/:id", deleteSubCat); //tested, works
+router.patch("/:id", updateCatgory); //tested, works
+router.patch("/sub-category/:id", updateSubCat); //tested, works
 
 module.exports = router;

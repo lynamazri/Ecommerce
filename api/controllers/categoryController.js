@@ -18,6 +18,13 @@ const getCatgory = async (req, res) => {
   else res.status(200).json(categories);
 };
 
+const getSubCatgory = async (req, res) => {
+  const categories = await prisma.SubCat.findMany();
+  if (categories.length === 0)
+    res.status(400).json({ message: "No sub-categories yet." });
+  else res.status(200).json(categories);
+};
+
 const createCatgory = async (req, res) => {
   const { error } = categoryValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -169,4 +176,5 @@ module.exports = {
   updateCatgory,
   deleteSubCat,
   updateSubCat,
+  getSubCatgory,
 };
