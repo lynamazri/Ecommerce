@@ -115,7 +115,7 @@ function App() {
           <Route path="/profile/language" element={<Language />} />
           <Route path="/profile/open-shop" element={<OpenShop />} />
         </Route>
-        <Route path="/Shop/:id" element={<Shop />} />
+        <Route path="/Shop/:storeId" element={<Shop />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
         <Route path="/products/:category" element={<Products />} />
         <Route path="/Shops" element={<Shops />} />

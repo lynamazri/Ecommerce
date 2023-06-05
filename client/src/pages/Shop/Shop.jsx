@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import Navbar from "../../components/Navbar/Navbar";
@@ -8,29 +9,69 @@ import Swiperr from "../../components/Swiper/Swiper";
 import Footer from "../../components/Footer/Footer";
 import "./Shop.css";
 
+import { fetchStoresData } from "../../redux/Slices/storesSlice";
+
 function Shop() {
+  const dispatch = useDispatch();
+  const { storeId } = useParams();
+  const stores = useSelector((state) => state.stores.stores);
+  const shop = stores.find((store) => store.storeId === storeId);
+
+  useEffect(() => {
+    dispatch(fetchStoresData());
+  }, [dispatch]);
+
   return (
     <div>
       <Navbar />
       <Path />
       <div className="shop-page">
-        <section className="product-container">
-          <div className="header">
-            <h3>Our Products</h3>
+        <div className="upper">
+          <div className="banner">
+            <img alt={shop.name} />
           </div>
-
-          <Swiperr sectionType="products" />
-        </section>
-
-        <section className="product-container">
-          <div className="header">
-            <h3>Similar Shops</h3>
-            <Link to={`/Shops`}>
-              More Shops <MdKeyboardArrowRight />
-            </Link>
+          <div className="info">
+            <h2>{shop.name}</h2>
+            <p>{shop.description}</p>
+            <div className="information">
+              <ul className="detail">
+                <li>Main Category:</li>
+                <li>Working Hours:</li>
+                <li>Store Address:</li>
+                <li>Phone Number:</li>
+                <li>Email:</li>
+              </ul>
+              <ul className="detail-value">
+                <li>{shop.subCatId}</li>
+                <li>{shop.email}</li>
+                <li>{shop.subCatId}</li>
+                <li>{shop.phone}</li>
+                <li>{shop.email}</li>
+              </ul>
+            </div>
           </div>
-          <Swiperr sectionType="stores" />
-        </section>
+        </div>
+        <div className="lower">
+          <section className="product-container">
+            <div className="header">
+              <h3>Our Products</h3>
+            </div>
+            <Swiperr sectionType="products" storeId={storeId} />
+          </section>
+          <section className="product-container">
+            <div className="header">
+              <h3>Similar Shops</h3>
+              <Link to={`/Shops`}>
+                More Shops <MdKeyboardArrowRight />
+              </Link>
+            </div>
+            <Swiperr
+              sectionType="stores"
+              category={shop?.subCatId}
+              currentShopId={storeId}
+            />
+          </section>
+        </div>
       </div>
 
       <Footer />

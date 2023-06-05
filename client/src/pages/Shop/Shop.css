@@ -2,10 +2,60 @@
   padding: 1em 3em;
 }
 
-.shop-page > .product-container {
+.shop-page > .upper {
+  display: flex;
+  justify-content: space-between;
+  gap: 2em;
+  padding-bottom: 1em;
+}
+
+.shop-page > .upper > .banner {
+  width: 45%;
+  height: 400px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shop-page > .upper > .info > h2 {
+  font-weight: 600;
+  font-size: 32px;
+  color: #151515;
+}
+
+.shop-page > .upper > .info > p {
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 17px;
+  color: #151515;
+}
+
+.shop-page > .upper > .info > div {
+  display: flex;
+  gap: 1em;
+}
+
+.shop-page > .upper > .info > div > .detail {
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 14px;
+  color: #a9a9a9;
+}
+
+.shop-page > .upper > .info > div > .detail-value {
+  font-family: "Open Sans";
+  font-weight: 400;
+  font-size: 14px;
+
+  color: #151515;
+}
+
+.shop-page > .lower > .product-container {
   padding-top: 2.5em;
 }
 
-.shop-page > .product-container > .header {
+.shop-page > .lower > .product-container > .header {
   padding-bottom: 1em;
 }

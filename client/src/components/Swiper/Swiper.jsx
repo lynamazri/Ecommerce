@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
-import { wishlistFetch } from "../../redux/Slices/wishlistSlice";
 import { getWishlistData } from "../../redux/Slices/wishlistSlice";
 import { Navigation, Pagination, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -12,7 +11,7 @@ import StoreCard from "../ShopCard/ShopCard";
 
 import "./Swiper.css";
 
-function Swiperr({ sectionType, data }) {
+function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   const dispatch = useDispatch();
 
   const { stores, storesStatus } = useSelector((state) => state.stores);
@@ -32,13 +31,28 @@ function Swiperr({ sectionType, data }) {
 
   const renderItems = () => {
     if (sectionType === "stores") {
-      return stores?.map((store) => (
+      let filteredShops = stores;
+      if (category) {
+        filteredShops = stores.filter(
+          (store) =>
+            store.subCatId === category && store.storeId !== currentShopId
+        );
+      }
+
+      return filteredShops.map((store) => (
         <SwiperSlide key={store.storeId}>
           <StoreCard key={store.storeId} store={store} />
         </SwiperSlide>
       ));
     } else if (sectionType === "products") {
-      return items?.map((product) => (
+      let filteredProducts = items;
+      if (storeId) {
+        filteredProducts = items.filter(
+          (product) => product.storeId === storeId
+        );
+      }
+
+      return filteredProducts.map((product) => (
         <SwiperSlide key={product.productId}>
           <ProductCard key={product.productId} product={product} />
         </SwiperSlide>
