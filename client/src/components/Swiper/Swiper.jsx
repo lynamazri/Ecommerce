@@ -39,19 +39,9 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     }
   }, [dispatch, userId]);
 
-  console.log(
-    "productItems Status productError",
-    items,
-    productsStatus,
-    productError
-  );
-  console.log("stores Status storeError", stores, storesStatus, storeError);
-  console.log(
-    "wishlistItems Status Error",
-    wishlistItems,
-    wishlistStatus,
-    wishError
-  );
+  console.log("productItems ", items, productsStatus, productError);
+  console.log("stores ", stores, storesStatus, storeError);
+  console.log("wishlistItems ", wishlistItems, wishlistStatus, wishError);
 
   const renderItems = () => {
     if (sectionType === "stores") {
@@ -62,7 +52,6 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
             store.subCatId === category && store.storeId !== currentShopId
         );
       }
-
       return filteredShops.map((store) => (
         <SwiperSlide key={store.storeId}>
           <StoreCard key={store.storeId} store={store} />
@@ -75,8 +64,13 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           (product) => product.storeId === storeId
         );
       }
-
       return filteredProducts.map((product) => (
+        <SwiperSlide key={product.productId}>
+          <ProductCard key={product.productId} product={product} />
+        </SwiperSlide>
+      ));
+    } else if (sectionType === "wishlist") {
+      return wishlistItems?.map((product) => (
         <SwiperSlide key={product.productId}>
           <ProductCard key={product.productId} product={product} />
         </SwiperSlide>
@@ -90,14 +84,7 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           </div>
         </SwiperSlide>
       ));
-    } else if (sectionType === "wishlist") {
-      return wishlistItems?.map((product) => (
-        <SwiperSlide key={product.productId}>
-          <ProductCard key={product.productId} product={product} />
-        </SwiperSlide>
-      ));
     }
-
     return null;
   };
 
@@ -134,6 +121,7 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
       return wishlistStatus === "failed";
     }
   })();
+
   return (
     <>
       {isLoading ? (
