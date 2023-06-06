@@ -12,10 +12,12 @@ const {
   getQuestions,
   answerQuestion,
   editBanner,
+  getStoreBanner,
 } = require("../controllers/storeController");
 
 router.patch("/:id", verifyStore); //tested, works
 router.get("/", getStores); //tested, works
+router.get("/banner/:store", getStoreBanner); //tested, works
 router.patch("/edit/:store", verification, editStore); //tested, works
 router.get("/reviews/:id", getReviews); //tested, works
 router.get("/questions/:id", getQuestions); //tested, works

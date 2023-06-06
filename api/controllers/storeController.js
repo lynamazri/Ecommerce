@@ -225,6 +225,21 @@ const answerQuestion = async (req, res) => {
   }
 };
 
+const getStoreBanner = async (req, res) => {
+  const { store } = req.params;
+
+  const banner = await prisma.StoreImage.findUnique({
+    where: {
+      storeId: store,
+    },
+  });
+  if (!banner) {
+    res.status(400).send("Unable to find store banner.");
+  } else {
+    res.status(200).json(banner);
+  }
+};
+
 module.exports = {
   createStore,
   verifyStore,
@@ -235,4 +250,5 @@ module.exports = {
   getQuestions,
   answerQuestion,
   editBanner,
+  getStoreBanner,
 };

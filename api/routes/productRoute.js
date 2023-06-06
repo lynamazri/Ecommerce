@@ -20,6 +20,8 @@ const {
   addProductWish,
   searchProducts,
   deleteProductWish,
+  deleteProductImage,
+  addProductImage,
 } = require("../controllers/productController");
 
 router.get("/", getProducts); //tested, works
@@ -38,5 +40,7 @@ router.delete("/:id", deleteProduct); //tested, works
 router.patch("/:id", updateProduct); //tested, works
 router.post("/:store", createProduct); //tested, works
 router.delete("/:user/product/:product", deleteProductWish); //tested, works
+router.delete("/product/images/:imgId", deleteProductImage); //tested, works
+router.post("/:product/images", addProductImage); //tested, works
 
 module.exports = router;

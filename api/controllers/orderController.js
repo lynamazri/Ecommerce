@@ -31,79 +31,123 @@ const createOrder = async (req, res) => {
     req.body;
   const currentdate = new Date();
   const { user } = req.params;
-  if (coupon) {
-    const checkCoupon = await prisma.Coupon.findUnique({
-      where: {
-        code: coupon,
+
+  if (street && zip && city && state) {
+    const addAddress = await prisma.Address.create({
+      data: {
+        userId: user,
+        street: street,
+        city: city,
+        state: state,
+        zip: parseInt(zip),
       },
     });
-    if (!checkCoupon) {
-      res.status(400).send("Invalid coupon.");
-    } else {
-      if (currentdate > checkCoupon.endDate) {
-        res.status(400).send("Expired coupon.");
+
+    if (!addAddress) return res.status(400).send("Unable to add new address.");
+
+    if (coupon) {
+      const checkCoupon = await prisma.Coupon.findUnique({
+        where: {
+          code: coupon,
+        },
+      });
+      if (!checkCoupon) {
+        res.status(400).send("Invalid coupon.");
       } else {
-        if (!user) {
-          res.status(400).send("Cannot find user.");
+        if (currentdate > checkCoupon.endDate) {
+          res.status(400).send("Expired coupon.");
         } else {
-          const order = await prisma.Order.create({
-            total: parseInt(total),
-            payMethod: method,
-            userId: user,
-            coupon: coupon,
-            address: {
-              connectOrCreate: {
-                where: {
-                  id: address,
-                },
-                create: [
-                  {
-                    street: street,
-                    city: city,
-                    state: state,
-                    zip: parseInt(zip),
+          if (!user) {
+            res.status(400).send("Cannot find user.");
+          } else {
+            const order = await prisma.Order.create({
+              data: {
+                total: parseInt(total),
+                payMethod: method,
+                userId: user,
+                coupon: coupon,
+                addressId: addAddress.id,
+                items: {
+                  create: {
+                    cart,
                   },
-                ],
+                },
               },
-            },
-            items: {
-              create: {
-                cart,
-              },
-            },
-          });
-          if (order) res.status(200).json(order);
-          else res.status(400).send("Unable to complete order");
+            });
+            if (order) res.status(200).json(order);
+            else res.status(400).send("Unable to complete order");
+          }
         }
       }
+    } else {
+      const order = await prisma.Order.create({
+        data: {
+          total: parseInt(total),
+          payMethod: method,
+          userId: user,
+          coupon: coupon,
+          addressId: addAddress.id,
+
+          items: {
+            create: cart,
+          },
+        },
+      });
+      if (order) res.status(200).json(order);
+      else res.status(400).send("Unable to complete order");
     }
   } else {
-    const order = await prisma.Order.create({
-      total: total,
-      payMethod: method,
-      userId: user,
-      coupon: coupon,
-      address: {
-        connectOrCreate: {
-          where: {
-            id: address,
-          },
-          create: [
-            {
-              street: street,
-              city: city,
-              state: state,
-              zip: parseInt(zip),
-            },
-          ],
+    if (coupon) {
+      const checkCoupon = await prisma.Coupon.findUnique({
+        where: {
+          code: coupon,
         },
-      },
-      items: {
-        create: cart,
-      },
-    });
-    if (order) res.status(200).json(order);
-    else res.status(400).send("Unable to complete order");
+      });
+      if (!checkCoupon) {
+        res.status(400).send("Invalid coupon.");
+      } else {
+        if (currentdate > checkCoupon.endDate) {
+          res.status(400).send("Expired coupon.");
+        } else {
+          if (!user) {
+            res.status(400).send("Cannot find user.");
+          } else {
+            const order = await prisma.Order.create({
+              data: {
+                total: parseInt(total),
+                payMethod: method,
+                userId: user,
+                coupon: coupon,
+                addressId: address,
+                items: {
+                  create: {
+                    cart,
+                  },
+                },
+              },
+            });
+            if (order) res.status(200).json(order);
+            else res.status(400).send("Unable to complete order");
+          }
+        }
+      }
+    } else {
+      const order = await prisma.Order.create({
+        data: {
+          total: parseInt(total),
+          payMethod: method,
+          userId: user,
+          coupon: coupon,
+          addressId: address,
+
+          items: {
+            create: cart,
+          },
+        },
+      });
+      if (order) res.status(200).json(order);
+      else res.status(400).send("Unable to complete order");
+    }
   }
 };
 
@@ -117,7 +161,7 @@ const cancelOrder = async (req, res) => {
     },
   });
 
-  if (!deleteOrder) res.status(400).send("No orders yet.");
+  if (!findOrder) res.status(400).send("No orders yet.");
   else {
     let diff = currentdate.getTime() - findOrder.orderDate.getTime(); //res in milliseconds
     if (diff > 172800000) {
@@ -138,17 +182,16 @@ const cancelOrder = async (req, res) => {
 const handleOrder = async (req, res) => {
   const { order } = req.params;
   const { state } = req.body;
-
-  const handleOrder = prisma.OrderItems.update({
+  const updateUser = await prisma.OrderItems.update({
     where: {
-      itemId: order,
+      itemId: parseInt(order),
     },
     data: {
       state: state,
     },
   });
-  if (!handleOrder) res.status(400).send("Unable to update order.");
-  else res.status(200);
+  if (!updateUser) res.status(400).send("Unable to update status of order.");
+  else res.sendStatus(200);
 };
 
 const refuseOrder = async (req, res) => {

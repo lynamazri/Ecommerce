@@ -121,9 +121,26 @@ const getWishlist = async (req, res) => {
   else res.status(200).json(wishes);
 };
 
+const getUsernameFromId = async (req, res) => {
+  const { user } = req.params;
+
+  const username = await prisma.Users.findUnique({
+    where: {
+      userId: user,
+    },
+    select: {
+      username: true,
+    },
+  });
+
+  if (!username) res.status(400).send("Unable to find user.");
+  else res.status(200).json(username);
+};
+
 module.exports = {
   updateProfile,
   updatePassword,
   createComplaint,
   getWishlist,
+  getUsernameFromId,
 };
