@@ -209,21 +209,13 @@ const createProduct = async (req, res) => {
   }
   */
 
-  const { name, description, price, quantity, subCat, options } = req.body;
+  const { name, description, price, quantity, subCat } = req.body;
   const { store } = req.params;
 
-  image1 = req.files?.image1;
-  image2 = req.files?.image2;
-  image3 = req.files?.image3;
-  image4 = req.files?.image4;
-
-  const findStore = await prisma.store.findUnique({
-    where: {
-      storeId: store,
-    },
-  });
-
-  if (!findStore) return res.status(400).send("Unable to find store.");
+  image1 = req.files?.img1;
+  image2 = req.files?.img2;
+  image3 = req.files?.img3;
+  image4 = req.files?.img4;
 
   const findSubCat = await prisma.subCat.findUnique({
     where: {
@@ -265,14 +257,14 @@ const createProduct = async (req, res) => {
     if (uploadImage4) {
       images.push({ url: uploadImage4.url });
     }
-    const product = await prisma.Product.create({
+    /*   const product = await prisma.Product.create({
       data: {
         name,
         description,
         price: parseInt(price),
         store: {
           connect: {
-            storeId: findStore.storeId,
+            storeId: store,
           },
         },
         subCat: {
@@ -289,10 +281,34 @@ const createProduct = async (req, res) => {
           create: Array.from(options),
         },
       },
+    }); */
+
+    const product = await prisma.Product.create({
+      data: {
+        name,
+        description,
+        price: parseInt(price),
+        quantity: parseInt(quantity),
+        store: {
+          connect: {
+            storeId: store,
+          },
+        },
+        subCat: {
+          connect: {
+            subCatId: findSubCat.subCatId,
+          },
+        },
+
+        images: {
+          create: Array.from(images),
+        },
+      },
     });
+
     if (product) {
       res.status(200).json(product);
-    }
+    } else res.status(400).send("Unable to create product.");
   } catch (err) {
     console.log(err);
     res.sendStatus(400);
@@ -300,7 +316,7 @@ const createProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  const { name, price, quantity, description, options } = req.body;
+  const { name, price, quantity, description } = req.body;
   const { id } = req.params;
 
   const curProduct = await prisma.Product.findUnique({
@@ -311,43 +327,21 @@ const updateProduct = async (req, res) => {
 
   if (!curProduct) res.status(400).send("Unable to find product.");
   else {
-    if (!options) {
-      const updateProduct = await prisma.Product.update({
-        where: {
-          productId: id,
-        },
-        data: {
-          name: name ? name : curProduct.name,
-          description: description ? description : curProduct.description,
-          price: price ? parseInt(price) : curProduct.price,
-          quantity: quantity ? parseInt(quantity) : curProduct.quantity,
-        },
-      });
-      if (!updateProduct) {
-        res.status(400).send("Unable to update product.");
-      } else {
-        res.status(200).json(updateProduct);
-      }
+    const updateProduct = await prisma.Product.update({
+      where: {
+        productId: id,
+      },
+      data: {
+        name: name ? name : curProduct.name,
+        description: description ? description : curProduct.description,
+        price: price ? parseInt(price) : curProduct.price,
+        quantity: quantity ? parseInt(quantity) : curProduct.quantity,
+      },
+    });
+    if (!updateProduct) {
+      res.status(400).send("Unable to update product.");
     } else {
-      const updateProduct = await prisma.Product.update({
-        where: {
-          productId: id,
-        },
-        data: {
-          name: name ? name : curProduct.name,
-          description: description ? description : curProduct.description,
-          price: price ? price : curProduct.price,
-          quantity: quantity ? quantity : curProduct.quantity,
-          options: {
-            create: Array.from(options),
-          },
-        },
-      });
-      if (!updateProduct) {
-        res.status(400).send("Unable to update product.");
-      } else {
-        res.status(200).json(updateProduct);
-      }
+      res.status(200).json(updateProduct);
     }
   }
 };
@@ -355,37 +349,37 @@ const createReview = async (req, res) => {
   const { error } = reviewValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { content, stars, productId } = req.body;
-  const { product } = req.params;
+  const { content, stars } = req.body;
+  const { product, user } = req.params;
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
+  /*   const findReview = prisma.Reviews.findUnique({
+    where: {
+      AND: [{ userId: user }, { productId: product }],
+    },
+  });
+
+  if (findReview) return res.status(400).send("Product Already reviewed.");
+ */
+  const createReview = await prisma.Reviews.create({
+    data: {
+      content: content,
+      stars: parseInt(stars),
+      user: {
+        connect: {
+          userId: user,
+        },
+      },
+      product: {
+        connect: {
+          productId: product,
+        },
+      },
+    },
+  });
+  if (!createReview) {
+    res.status(400).send("Unable to review product.");
   } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
-
-          const createReview = await prisma.Reviews.create({
-            data: {
-              content: content,
-              stars: parseInt(stars),
-              userId: user.userId,
-              productId: product,
-            },
-          });
-
-          res.sendStatus(200);
-        }
-      }
-    );
+    res.status(200).json(createReview);
   }
 };
 
@@ -406,36 +400,25 @@ const createQuestion = async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const { content } = req.body;
-  const { product } = req.params;
+  const { product, user } = req.params;
 
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
-
-          const createQuestion = await prisma.Questions.create({
-            data: {
-              content: content,
-              userId: user.userId,
-              productId: product,
-            },
-          });
-
-          res.sendStatus(200);
-        }
-      }
-    );
-  }
+  const createQuestion = await prisma.Questions.create({
+    data: {
+      content: content,
+      user: {
+        connect: {
+          userId: user,
+        },
+      },
+      product: {
+        connect: {
+          productId: product,
+        },
+      },
+    },
+  });
+  if (createQuestion) res.sendStatus(200);
+  else res.status(400).send("Unable to post question.");
 };
 
 const deleteQuestion = async (req, res) => {
@@ -479,36 +462,24 @@ const verifyProduct = async (req, res) => {
 
 const createReport = async (req, res) => {
   const { type } = req.body;
-  const { review } = req.params;
-
-  const token = req.cookies.jwt;
-  console.log(token);
-  if (!token) {
-    return res.sendStatus(401);
-  } else {
-    jwt.verify(
-      token,
-      process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
-        if (err) console.log(err.message);
-        else {
-          const user = await prisma.Users.findUnique({
-            where: { username: decoded.username },
-          });
-
-          const createReport = await prisma.Report.create({
-            data: {
-              type: type,
-              userId: user.userId,
-              reviewId: review,
-            },
-          });
-          if (createReport) res.sendStatus(200);
-          else res.status(400).send("Unable to create report.");
-        }
-      }
-    );
-  }
+  const { review, user } = req.params;
+  const createReport = await prisma.Report.create({
+    data: {
+      type: type,
+      user: {
+        connect: {
+          userId: user,
+        },
+      },
+      review: {
+        connect: {
+          reviewId: parseInt(review),
+        },
+      },
+    },
+  });
+  if (createReport) res.sendStatus(200);
+  else res.status(400).send("Unable to create report.");
 };
 
 const searchProducts = async (req, res) => {
@@ -548,11 +519,7 @@ const searchProducts = async (req, res) => {
       },
       include: {
         store: true,
-        subCat: true,
         images: true,
-        options: true,
-        reviews: true,
-        discount: true,
       },
     });
     if (products.length == 0) res.status(400).send("No products found.");
@@ -570,11 +537,8 @@ const searchProducts = async (req, res) => {
       },
       include: {
         store: true,
-        subCat: true,
+
         images: true,
-        options: true,
-        reviews: true,
-        discount: true,
       },
     });
     if (products.length == 0) res.status(400).send("No products found.");
@@ -585,35 +549,28 @@ const searchProducts = async (req, res) => {
 const addProductWish = async (req, res) => {
   const { user, product } = req.params;
 
-  const checkWishlist = await prisma.WishList.findUnique({
-    where: {
-      userId: user,
-      userId: req.user.userId, // Assuming you have the authenticated user's ID stored in req.user.userId
+  const addWish = await prisma.WishList.create({
+    data: {
+      user: {
+        connect: {
+          userId: user,
+        },
+      },
+      product: {
+        connect: {
+          productId: product,
+        },
+      },
     },
   });
 
-  if (!checkWishlist) res.status(400).send("Please create a wishlist first");
-  else {
-    const addWish = await prisma.WishList.update({
-      where: {
-        userId: user,
-      },
-      data: {
-        products: {
-          connect: {
-            productId: product,
-          },
-        },
-      },
-    });
-    if (addWish) res.sendStatus(200);
-    else res.status(400).send("Unable to add product to wishlist.");
-  }
+  if (addWish) res.sendStatus(200);
+  else res.status(400).send("Unable to add product to wishlist.");
 };
 
 const deleteProductWish = async (req, res) => {
   const { user, product } = req.params;
-
+  /* 
   const checkWishlist = await prisma.WishList.findUnique({
     where: {
       userId: user,
@@ -633,8 +590,24 @@ const deleteProductWish = async (req, res) => {
             productId: product,
           },
         },
+      }, 
+    });*/
+
+  const findWish = await prisma.WishList.findFirst({
+    where: {
+      userId: user,
+      productId: product,
+    },
+  });
+
+  if (!findWish) return res.status(400).send("Unable to find wishlist item.");
+  else {
+    const deleteWish = await prisma.WishList.delete({
+      where: {
+        wishlistId: findWish.wishlistId,
       },
     });
+
     if (deleteWish) res.sendStatus(200);
     else res.status(400).send("Unable to remove product from wishlist.");
   }

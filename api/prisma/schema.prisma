@@ -28,7 +28,7 @@ model Users {
   orders           Order[]
   complaints       Complaint[]
   reports          Report[]
-  wishlist         WishList?
+  wishlist         WishList[]
   status           Boolean     @default(false)
 }
 
@@ -95,7 +95,7 @@ model Product {
   options     ProductOptions[]
   reviews     Reviews[]
   questions   Questions[]
-  wishlists   WishList[]
+  wishlist         WishList[]
   store       Store            @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
   storeId     String
   subCat      SubCat           @relation(fields: [subCatId], references: [subCatId], onDelete: Cascade)
@@ -166,6 +166,7 @@ model Reviews {
   productId String
   product   Product  @relation(fields: [productId], references: [productId], onDelete: Cascade)
   reports   Report[]
+
 }
 
 model Questions {
@@ -239,14 +240,16 @@ model Report {
   type     String
   date     DateTime @default(now())
   userId   String
-  user     Users    @relation(fields: [userId], references: [userId])
+  user     Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
   reviewId Int
-  review   Reviews  @relation(fields: [reviewId], references: [reviewId])
+  review   Reviews  @relation(fields: [reviewId], references: [reviewId], onDelete: Cascade)
 }
 
 model WishList {
   wishlistId String    @id @default(uuid())
-  userId     String    @unique
+  
+  productId     String
+  product       Product     @relation(fields: [productId], references: [productId])
+  userId     String    
   user       Users     @relation(fields: [userId], references: [userId])
-  products   Product[]
 }

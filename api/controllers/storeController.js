@@ -101,24 +101,23 @@ const editStore = async (req, res) => {
   const { error } = storeUpdateValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { id } = req.params;
+  const { store } = req.params;
   const { description, phone, workingHours } = req.body;
 
-  const curStore = await prisma.Store.findFirst({
+  const curStore = await prisma.Store.findUnique({
     where: {
-      storeId: id,
-      approved: true,
+      storeId: store,
     },
   });
 
   const updateStore = await prisma.Store.update({
     where: {
-      storeId: id,
+      storeId: store,
     },
     data: {
       description: description ? description : curStore.description,
       workingHours: workingHours ? workingHours : curStore.workingHours,
-      phone: phone ? phone : curStore.phone,
+      phone: phone ? parseInt(phone) : curStore.phone,
     },
   });
   if (updateStore) {
@@ -177,7 +176,7 @@ const getReviews = async (req, res) => {
       storeId: id,
       verified: true,
     },
-    include: {
+    select: {
       reviews: true,
     },
   });
@@ -196,7 +195,7 @@ const getQuestions = async (req, res) => {
       storeId: id,
       verified: true,
     },
-    include: {
+    select: {
       questions: true,
     },
   });
@@ -208,20 +207,22 @@ const getQuestions = async (req, res) => {
 };
 
 const answerQuestion = async (req, res) => {
-  const { question } = req.params;
+  const { id } = req.params;
   const { answer } = req.body;
 
-  const answerQuestion = prisma.Questions.update({
+  const answerQuestion = await prisma.Questions.update({
     where: {
-      questionId: question,
+      questionId: parseInt(id),
     },
     data: {
       answer: answer,
     },
   });
-
-  if (!answerQuestion) res.status(400).send("Unable to post answer.");
-  else res.sendStatus(200);
+  if (!answerQuestion) {
+    res.status(400).send("Unable to answer question.");
+  } else {
+    res.status(200).json(answerQuestion);
+  }
 };
 
 module.exports = {

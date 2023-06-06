@@ -88,26 +88,23 @@ const createComplaint = async (req, res) => {
   else res.status(400).send("Unable to create complaint.");
 };
 
-const createWish = async (req, res) => {
+/* const getWishlist = async (req, res) => {
   const { user } = req.params;
 
-  const createWish = await prisma.WishList.create({
-    data: {
-      user: {
-        connect: {
-          userId: user,
-        },
-      },
+  const wishes = await prisma.WishList.findUnique({
+    where: {
+      userId: user,
     },
   });
-  if (createWish) res.sendStatus(200);
-  else res.status(400).send("Unable to create wishlist.");
-};
+
+  if (!wishes) res.status(400).send("Unable to find wishlist.");
+  else res.status(200).json(wishes);
+}; */
 
 const getWishlist = async (req, res) => {
   const { user } = req.params;
 
-  const wishes = await prisma.WishList.findUnique({
+  const wishes = await prisma.WishList.findMany({
     where: {
       userId: user,
     },
@@ -121,6 +118,5 @@ module.exports = {
   updateProfile,
   updatePassword,
   createComplaint,
-  createWish,
   getWishlist,
 };
