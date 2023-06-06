@@ -570,28 +570,6 @@ const addProductWish = async (req, res) => {
 
 const deleteProductWish = async (req, res) => {
   const { user, product } = req.params;
-  /* 
-  const checkWishlist = await prisma.WishList.findUnique({
-    where: {
-      userId: user,
-      userId: req.user.userId, // Assuming you have the authenticated user's ID stored in req.user.userId
-    },
-  });
-
-  if (!checkWishlist) res.status(400).send("Please create a wishlist first");
-  else {
-    const deleteWish = await prisma.WishList.update({
-      where: {
-        userId: user,
-      },
-      data: {
-        products: {
-          disconnect: {
-            productId: product,
-          },
-        },
-      }, 
-    });*/
 
   const findWish = await prisma.WishList.findFirst({
     where: {
@@ -613,6 +591,45 @@ const deleteProductWish = async (req, res) => {
   }
 };
 
+const deleteProductImage = async (req, res) => {
+  const { imgId } = req.params;
+
+  const deleteImg = await prisma.ProductImage.delete({
+    where: {
+      prodImgId: parseInt(imgId),
+    },
+  });
+  if (deleteImg) res.sendStatus(200);
+  else res.status(400).send("Unable to remove product image.");
+};
+
+const addProductImage = async (req, res) => {
+  const { product } = req.params;
+
+  const image = req.files?.image;
+  let upload;
+
+  try {
+    if (image) {
+      upload = await cloudinary.uploader.upload(image.tempFilePath, {
+        folder: "products",
+      });
+    }
+
+    const addImg = await prisma.ProductImage.create({
+      data: {
+        productId: product,
+        url: upload.url,
+      },
+    });
+    if (addImg) res.sendStatus(200);
+    else res.status(400).send("Unable to upload product image.");
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Unable to upload file.");
+  }
+};
+
 module.exports = {
   getProducts,
   getProductsFromStore,
@@ -630,4 +647,6 @@ module.exports = {
   searchProducts,
   addProductWish,
   deleteProductWish,
+  deleteProductImage,
+  addProductImage,
 };
