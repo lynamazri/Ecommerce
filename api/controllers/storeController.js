@@ -230,7 +230,7 @@ const getStoreBanner = async (req, res) => {
 
   const banner = await prisma.StoreImage.findUnique({
     where: {
-      storeId: store,
+      storeImgId: parseInt(store),
     },
   });
   if (!banner) {

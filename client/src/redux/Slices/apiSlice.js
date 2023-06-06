@@ -71,6 +71,13 @@ export const apiSlice = createApi({
         body: { content, stars },
       }),
     }),
+    getStoreBanner: builder.query({
+      query: (storeId) => `/store/banner/${storeId}`,
+      providesTags: [],
+    }),
+    getUsername: builder.query({
+      query: (userId) => `/profile/username/${userId}`,
+    }),
   })
 });
-export const { useGetProductsQuery, useGetProductQuery, usePatchProfileMutation, useCreateReviewMutation } = apiSlice;
+export const { useGetProductsQuery, useGetProductQuery, usePatchProfileMutation, useCreateReviewMutation, useGetStoreBannerQuery, useGetUsernameQuery } = apiSlice;

@@ -8,7 +8,7 @@ import Path from "../../components/Path/Path";
 import Swiperr from "../../components/Swiper/Swiper";
 import Footer from "../../components/Footer/Footer";
 import "./Shop.css";
-
+import { useGetStoreBannerQuery } from "../../redux/Slices/apiSlice";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
 
 function Shop() {
@@ -16,11 +16,27 @@ function Shop() {
   const { storeId } = useParams();
   const stores = useSelector((state) => state.stores.stores);
   const shop = stores.find((store) => store.storeId === storeId);
-
+  const {
+    data: storeBanner,
+    isLoading,
+    isError,
+  } = useGetStoreBannerQuery(parseInt(storeId));
   useEffect(() => {
     dispatch(fetchStoresData());
   }, [dispatch]);
 
+  if (!shop) {
+    return <div>Loading...</div>; // or any loading state indicator
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred while fetching store banner.</div>;
+  }
+  console.log(storeBanner);
   return (
     <div>
       <Navbar />
@@ -28,7 +44,7 @@ function Shop() {
       <div className="shop-page">
         <div className="upper">
           <div className="banner">
-            <img alt={shop.name} />
+            {storeBanner && <img src={storeBanner?.url} alt={shop.name} />}
           </div>
           <div className="info">
             <h2>{shop.name}</h2>
@@ -42,9 +58,9 @@ function Shop() {
                 <li>Email:</li>
               </ul>
               <ul className="detail-value">
-                <li>{shop.subCatId}</li>
-                <li>{shop.email}</li>
-                <li>{shop.subCatId}</li>
+                <li>{shop.CatId}</li>
+                <li>{shop.workingHours}</li>
+                <li>{shop.CatId}</li>
                 <li>{shop.phone}</li>
                 <li>{shop.email}</li>
               </ul>
