@@ -1,0 +1,97 @@
+.dashboard-page {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  background-color: #d7e2ee;
+}
+
+.dashboard-page > .menu {
+  width: 20%;
+  height: 100%;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.dashboard-page > .menu > .logo {
+  height: 80px;
+}
+
+.dashboard-page > .menu > .logo > h1 {
+  height: 100%;
+  width: 100%;
+  color: var(--primaryColor);
+}
+
+.dashboard-page > .menu > .menu-items {
+  flex-grow: 1;
+}
+
+.dashboard-page > .menu > .menu-items > li {
+  margin-bottom: 1em;
+}
+
+.dashboard-page > .menu > .menu-items > li > a {
+  display: flex;
+  align-items: center;
+  height: 3em;
+  width: 100%;
+  padding: 0.3em 0.9em;
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--primaryColor);
+  background-color: #f1f5f9;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-page > .menu > .menu-items > li > a:hover {
+  background-color: #15203b;
+}
+
+.dashboard-page > .menu > button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  color: #151515;
+  text-decoration: none;
+  gap: 8px;
+  font-size: 14px;
+  border: none;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.dashboard-page > .menu > button:hover {
+  color: #ff0000;
+}
+
+.dashboard-page > .main {
+  width: 80%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.dashboard-page > .main > .left {
+  width: 73%;
+  height: 100%;
+  padding: 2em;
+
+  background-color: #d7e2ee;
+}
+
+.dashboard-page > .main > .right {
+  width: 27%;
+  height: 100%;
+  padding: 2em;
+
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}

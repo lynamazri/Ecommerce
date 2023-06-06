@@ -27,6 +27,7 @@ import OrderHistory from "./components/Profile/OrderHistory";
 import OpenShop from "./components/Profile/OpenShop";
 import Security from "./components/Profile/Security";
 import Language from "./components/Profile/Language";
+import DashboardContent from "./components/Dashboard/DashboardContent";
 import DashboardProducts from "./components/Dashboard/DashboardProducts";
 import Statistics from "./components/Dashboard/Statistics";
 import Settings from "./components/Dashboard/Settings";
@@ -127,6 +128,7 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/dashboard" element={<Dashboard />}>
+          <Route path="/dashboard" element={<DashboardContent />} />
           <Route path="/dashboard/products" element={<DashboardProducts />} />
           <Route path="/dashboard/statistics" element={<Statistics />} />
           <Route path="/dashboard/settings" element={<Settings />} />

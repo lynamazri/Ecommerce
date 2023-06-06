@@ -31,19 +31,13 @@ function ProductCard({ product, viewMode }) {
 
   const isProductInWishlist = wishlistItems.includes(productId);
 
-  console.log(
-    productId,
-    userId,
-    wishlistItems,
-    wishError,
-    isProductInWishlist,
-    "productId, userId, wishlistItems, wisherror, isProductInWishlist"
-  );
   // console.log(
-  //   "wishlistItems Status Error",
+  //   productId,
+  //   userId,
   //   wishlistItems,
-  //   wishlistStatus,
-  //   wishError
+  //   wishError,
+  //   isProductInWishlist,
+  //   "productId, userId, wishlistItems, wisherror, isProductInWishlist"
   // );
 
   const handleAddToWishlist = () => {
