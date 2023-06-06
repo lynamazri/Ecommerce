@@ -11,25 +11,16 @@ export const wishlistFetch = createAsyncThunk(
   "wishlist/wishlistFetch",
   async (_, { getState, rejectWithValue }) => {
     try {
-      const token = getState().auth.token;
-      console.log(token);
-      if (!token) {
-        throw new Error("Authentication token not found.");
-      }
-
+      const userId = getState().auth.user.userId;
+      console.log(userId);
       const response = await axios.get(
-        `http://localhost:3001/profile/${userId}/wishlist`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `http://localhost:3001/profile/wishlist/${userId}`
       );
 
       if (response.status !== 200) {
         throw new Error("Failed to fetch wishlist items.");
       }
-
+      console.log(response.data);
       const wishlistItems = response.data;
       return wishlistItems;
     } catch (error) {

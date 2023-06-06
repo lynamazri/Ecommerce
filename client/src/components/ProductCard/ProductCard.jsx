@@ -25,11 +25,9 @@ function ProductCard({ product, viewMode }) {
     error: wishError,
   } = useSelector((state) => state.wishlist);
 
-  useEffect(() => {
-    dispatch(wishlistFetch());
-  }, [dispatch]);
+  // console.log(dispatch(wishlistFetch()));
 
-  const isProductInWishlist = wishlistItems.includes(productId);
+  const isProductInWishlist = false;
 
   // console.log(
   //   productId,

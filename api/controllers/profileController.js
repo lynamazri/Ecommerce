@@ -103,10 +103,17 @@ const createComplaint = async (req, res) => {
 
 const getWishlist = async (req, res) => {
   const { user } = req.params;
-
   const wishes = await prisma.WishList.findMany({
     where: {
       userId: user,
+    },
+    include: {
+      products: {
+        include: {
+          images: true,
+          subCat: true,
+        },
+      },
     },
   });
 

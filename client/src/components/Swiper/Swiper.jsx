@@ -31,17 +31,12 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   } = useSelector((state) => state.wishlist);
 
   const userId = useSelector((state) => state.auth.user?.userId);
+  console.log(userId, "userId");
 
   useEffect(() => {
     dispatch(fetchStoresData());
-    if (userId) {
-      dispatch(wishlistFetch(userId));
-    }
-  }, [dispatch, userId]);
-
-  console.log("productItems ", items, productsStatus, productError);
-  console.log("stores ", stores, storesStatus, storeError);
-  console.log("wishlistItems ", wishlistItems, wishlistStatus, wishError);
+    dispatch(wishlistFetch());
+  }, []);
 
   const renderItems = () => {
     if (sectionType === "stores") {
@@ -70,11 +65,18 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
         </SwiperSlide>
       ));
     } else if (sectionType === "wishlist") {
-      return wishlistItems?.map((product) => (
-        <SwiperSlide key={product.productId}>
-          <ProductCard key={product.productId} product={product} />
+      return wishlistItems[0]?.products.map((product) => (
+        <SwiperSlide key={wishlistItems[0]?.wishlistId}>
+          <ProductCard key={product.A} product={product} />
         </SwiperSlide>
       ));
+      // wishlistItems?.forEach((pro) => {
+      //   return pro.products.map((product) => (
+      //     <SwiperSlide key={product.productId}>
+      //       <ProductCard key={product.productId} product={product} />
+      //     </SwiperSlide>
+      //   ));
+      // });
     } else if (sectionType === "testimonials") {
       return data.map((testimonial) => (
         <SwiperSlide key={testimonial.id}>
