@@ -23,20 +23,20 @@ const {
 } = require("../controllers/productController");
 
 router.get("/", getProducts); //tested, works
-router.get("/search", searchProducts);
-router.get("/:store", getProductsFromStore);
-router.get("/store/:id", getProductById);
-router.get("/allProducts/:name", getProductByName);
-router.post("/:store", createProduct);
-router.post("/:product/review", verification, createReview);
-router.post("/:product/:review", verification, createReport);
-router.delete("/review/:id", verification, deleteReview);
-router.post("/:product/question", verification, createQuestion);
-router.delete("/question/:id", verification, deleteQuestion);
-router.delete("/:id", deleteProduct);
-router.patch("/:id", updateProduct);
-router.patch("/:id", verifyProduct);
-router.patch("/:user/:product", addProductWish);
-router.patch("/delete/:user/:product", deleteProductWish);
+router.get("/search", searchProducts); //tested, works
+router.get("/:store", getProductsFromStore); //tested, works
+router.get("/store/:id", getProductById); //tested, works
+router.get("/allProducts/:name", getProductByName); //tested, works
+router.post("/:product/review/:user", verification, createReview); //tested, works, could be improved (can't review twice)
+router.post("/:product/report/:review/user/:user", verification, createReport); //tested, works, could be improved (can't report self)
+router.delete("/review/:id", deleteReview); //tested, works
+router.post("/:product/question/:user", verification, createQuestion); //tested, works
+router.delete("/question/:id", verification, deleteQuestion); //tested, works
+router.patch("/verify/:id", verifyProduct); //tested, works, could be improved (don't verify already verified products)
+router.post("/:user/product/:product", addProductWish); //tested, works
+router.delete("/:id", deleteProduct); //tested, works
+router.patch("/:id", updateProduct); //tested, works
+router.post("/:store", createProduct); //tested, works
+router.delete("/:user/product/:product", deleteProductWish); //tested, works
 
 module.exports = router;

@@ -7,14 +7,13 @@ const {
   updateProfile,
   updatePassword,
   createComplaint,
-  createWish,
   getWishlist,
 } = require("../controllers/profileController");
 
 router.patch("/password/:user", verification, updatePassword); //tested, works
 router.patch("/:user", verification, updateProfile); //tested, works
 router.post("/:user", verification, createComplaint); //tested, works
-router.post("/:user/wishlist", verification, createWish); //tested, works
-router.get("/:user/wishlist", verification, getWishlist); //tested, works
+//router.post("/:user/wishlist", verification, createWish); //deleted
+router.get("/:user/wishlist", getWishlist); //tested, works
 
 module.exports = router;
