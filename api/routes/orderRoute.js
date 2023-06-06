@@ -13,9 +13,9 @@ const {
 
 router.get("/:store", getStoreOrders);
 router.get("/completed/:user", getUserOrders);
-router.post("/checkout/:user", createOrder);
-router.delete("/:order", cancelOrder);
-router.patch("/:order", handleOrder);
+router.post("/checkout/:user", createOrder); //tested, works
+router.delete("/cancel/:order", cancelOrder);
+router.patch("/shop/:order", handleOrder); //tested, works
 router.delete("/refuse/:order", refuseOrder);
 router.patch("/return/:order", returnItem);
 
