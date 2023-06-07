@@ -43,6 +43,8 @@ function Swiperr({
     dispatch(wishlistFetch());
   }, []);
 
+  console.log("wishlistItems", wishlistItems);
+
   const renderItems = () => {
     if (sectionType === "stores") {
       let filteredShops = stores;
@@ -75,9 +77,17 @@ function Swiperr({
         </SwiperSlide>
       ));
     } else if (sectionType === "wishlist") {
-      return wishlistItems[0]?.products.map((product) => (
-        <SwiperSlide key={wishlistItems[0]?.wishlistId}>
-          <ProductCard key={product.A} product={product} />
+      // return wishlistItems?.map((product) => (
+      //   <SwiperSlide key={wishlistItems?.wishlistId}>
+      //     <ProductCard key={wishlistItems?.productID} product={product} />
+      //   </SwiperSlide>
+      // ));
+      return wishlistItems?.map((wishlistItem) => (
+        <SwiperSlide key={wishlistItem.wishlistId}>
+          <ProductCard
+            key={wishlistItem.product.productId}
+            product={wishlistItem.product}
+          />
         </SwiperSlide>
       ));
     } else if (sectionType === "testimonials") {

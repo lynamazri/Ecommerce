@@ -17,11 +17,10 @@ function ProductCard({ product, viewMode }) {
   };
 
   const userId = useSelector((state) => state.auth.user?.userId);
-  const productId = product.productId;
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const isProductInWishlist = wishlistItems.some(
-    (item) => item.productId === productId
+    (item) => item.productId === product.productId
   );
 
   console.log(
@@ -32,17 +31,20 @@ function ProductCard({ product, viewMode }) {
 
   const handleAddToWishlist = () => {
     if (isProductInWishlist) {
-      dispatch(deleteProductFromWishlist({ userId, productId })).catch(
-        (error) => {
-          console.error("Error removing product from wishlist:", error);
-        }
-      );
+      dispatch(
+        deleteProductFromWishlist({ userId, productId: product.productId })
+      ).catch((error) => {
+        console.error("Error removing product from wishlist:", error);
+      });
     } else {
-      dispatch(addProductToWishlist({ userId, productId })).catch((error) => {
+      dispatch(
+        addProductToWishlist({ userId, productId: product.productId })
+      ).catch((error) => {
         console.error("Error adding product to wishlist:", error);
       });
     }
   };
+
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
