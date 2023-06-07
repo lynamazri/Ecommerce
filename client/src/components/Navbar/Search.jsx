@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { RiSearchLine, RiDeleteBack2Line } from "react-icons/ri";
 import "./Navbar.css";
 import axios from "axios";
-
+import { useGetSubCategoriesQuery } from "../../redux/Slices/apiSlice";
 function Search() {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
+  const [showOptions, setShowOptions] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,11 +28,35 @@ function Search() {
       setData([]);
     }
   };
+  const handleOptionsClick = () => {
+    setShowOptions(!showOptions);
+  };
+  const { data: subCategories, isLoading } = useGetSubCategoriesQuery();
+
+  if (isLoading) {
+    return null;
+  }
+  const subCategoryNames = subCategories.map((subcategory) => {
+    return subcategory.name;
+  });
 
   return (
     <>
       <div className="searchBar">
-        <span className="categories">All Categories</span>
+        <div>
+          <span className="categories" onClick={handleOptionsClick}>
+            All Categories
+          </span>
+          {showOptions && (
+            <ul className="subcategories-list-options">
+              {subCategoryNames
+                ? subCategoryNames?.map((subCategoryName) => {
+                    return <li>{subCategoryName}</li>;
+                  })
+                : null}
+            </ul>
+          )}
+        </div>
         <div className="searchInput">
           <input
             type="text"
