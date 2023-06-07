@@ -99,43 +99,6 @@ export default function ProductDetails() {
   }
   console.log(reviewComment);
 
-  const ReviewList = () => {
-    const [usernames, setUsernames] = useState([]);
-
-    useEffect(() => {
-      const fetchUsernames = async () => {
-        const usernamePromises = reviews.map((review) =>
-          useGetUsernameQuery(review.userId).unwrap()
-        );
-
-        const resolvedUsernames = await Promise.all(usernamePromises);
-
-        setUsernames(resolvedUsernames);
-      };
-
-      fetchUsernames();
-    }, [reviews]);
-
-    // if (usernames.length === 0) {
-    //   return null; // or show a loading indicator while fetching usernames
-    // }
-
-    return (
-      <>
-        {reviews.map((review, index) => (
-          <ReviewCard
-            key={index}
-            author={usernames[index]}
-            role="Customer"
-            rating={review.stars}
-            date={review.posted.slice(0, 10)}
-            content={review.content}
-          />
-        ))}
-      </>
-    );
-  };
-
   return (
     <>
       <Navbar />
@@ -390,7 +353,16 @@ export default function ProductDetails() {
                     <button className="comment-button">Send a comment</button>
                   </form>
 
-                  <ReviewList />
+                  {reviews.map((review, index) => (
+                    <ReviewCard
+                      key={index}
+                      author={review.user.username}
+                      role="Customer"
+                      rating={review.stars}
+                      date={review.posted.slice(0, 10)}
+                      content={review.content}
+                    />
+                  ))}
                 </motion.div>
               )}
               {details === "questions" && (

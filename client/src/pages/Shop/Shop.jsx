@@ -10,6 +10,7 @@ import Footer from "../../components/Footer/Footer";
 import "./Shop.css";
 import { useGetStoreBannerQuery } from "../../redux/Slices/apiSlice";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
+import { useGetCategoryQuery } from "../../redux/Slices/apiSlice";
 
 function Shop() {
   const dispatch = useDispatch();
@@ -24,19 +25,21 @@ function Shop() {
   useEffect(() => {
     dispatch(fetchStoresData());
   }, [dispatch]);
-
   if (!shop) {
-    return <div>Loading...</div>; // or any loading state indicator
-  }
-
-  if (isLoading) {
+    return <div>Loading...</div>;
+  } else if (isLoading) {
     return <div>Loading...</div>;
   }
-
   if (isError) {
     return <div>Error occurred while fetching store banner.</div>;
   }
-  console.log(storeBanner);
+  const { data: category, isLoading: categoryIsLoading } = useGetCategoryQuery(
+    shop.catId
+  );
+
+  if (categoryIsLoading) {
+    return null;
+  }
   return (
     <div>
       <Navbar />
@@ -53,12 +56,12 @@ function Shop() {
               <ul className="detail">
                 <li>Main Category:</li>
                 <li>Working Hours:</li>
-                <li>Store Address:</li>
+                {/* <li>Store Address:</li> */}
                 <li>Phone Number:</li>
                 <li>Email:</li>
               </ul>
               <ul className="detail-value">
-                <li>{shop.CatId}</li>
+                <li>{category.name}</li>
                 <li>{shop.workingHours}</li>
                 <li>{shop.CatId}</li>
                 <li>{shop.phone}</li>

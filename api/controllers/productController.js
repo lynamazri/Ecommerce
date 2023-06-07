@@ -25,7 +25,11 @@ const getProducts = async (req, res) => {
       subCat: true,
       images: true,
       options: true,
-      reviews: true,
+      reviews: {
+        include: {
+          user: true,
+        }
+      },
       discount: true,
     },
   });
@@ -69,7 +73,11 @@ const getProductById = async (req, res) => {
       store: true,
       subCat: true,
       options: true,
-      reviews: true,
+      reviews: {
+        include: {
+          user: true,
+        }
+      },
       discount: true,
     },
   });

@@ -81,6 +81,18 @@ export const apiSlice = createApi({
     getSubCategories: builder.query({
       query: () => '/category/category',
     }),
+    getCategory: builder.query({
+      query: (categoryId) => `/category/${categoryId}`
+    })
   })
 });
-export const { useGetProductsQuery, useGetProductQuery, usePatchProfileMutation, useCreateReviewMutation, useGetStoreBannerQuery, useGetUsernameQuery, useGetSubCategoriesQuery } = apiSlice;
+export const {
+  useGetProductsQuery,
+  useGetProductQuery,
+  usePatchProfileMutation,
+  useCreateReviewMutation,
+  useGetStoreBannerQuery,
+  useGetUsernameQuery,
+  useGetSubCategoriesQuery,
+  useGetCategoryQuery,
+} = apiSlice;
