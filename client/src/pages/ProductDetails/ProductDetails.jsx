@@ -143,18 +143,20 @@ export default function ProductDetails() {
                 <div className="information">
                   <div className="detailsTitle">
                     <ul className="detailTitleList">
+                      <li>Store:</li>
                       <li>SKU:</li>
                       <li>Category:</li>
                       <li>Stock:</li>
-                      <li>Store:</li>
                     </ul>
                   </div>
                   <div className="detailsValue">
                     <ul className="detailValueList">
+                      <Link to={`/shop/${product?.store?.storeId}`}>
+                        {product?.store?.name}
+                      </Link>
                       <li>76645</li>
                       <li>{product?.subCat?.name}</li>
                       <li>Stock</li>
-                      <li>{product?.store?.name}</li>
                     </ul>
                   </div>
                 </div>

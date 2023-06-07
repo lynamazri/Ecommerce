@@ -17,6 +17,7 @@ function Shop() {
   const { storeId } = useParams();
   const stores = useSelector((state) => state.stores.stores);
   const shop = stores.find((store) => store.storeId === storeId);
+
   const {
     data: storeBanner,
     isLoading,
@@ -84,8 +85,8 @@ function Shop() {
             </div>
             <Swiperr
               sectionType="stores"
-              category={shop?.subCatId}
-              currentShopId={storeId}
+              storeCat={shop?.catId}
+              currentShopId={shop?.storeId}
             />
           </section>
         </div>
