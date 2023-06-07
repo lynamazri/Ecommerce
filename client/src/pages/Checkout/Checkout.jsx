@@ -16,6 +16,7 @@ function Checkout() {
   const [checkoutError, setCheckoutError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [coupon, setCoupon] = useState("");
 
   const existingAddresses = ["Address 1", "Address 2", "Address 3"];
 
@@ -61,6 +62,10 @@ function Checkout() {
 
   const handleTermsAgreement = (event) => {
     setTermsAgreed(event.target.checked);
+  };
+
+  const handleCouponChange = (event) => {
+    setCoupon(event.target.value);
   };
 
   const handleCheckout = (event) => {
@@ -204,11 +209,17 @@ function Checkout() {
                 />
                 Payment on delivery
               </label>
-              {paymentError && (
-                <p className="error-message" role="alert">
-                  {paymentError}
-                </p>
-              )}
+              <label class="label-checkout" htmlFor="coupon">
+                Enter coupon:
+              </label>
+              <input
+                className="input-checkout"
+                id="coupon"
+                type="text"
+                value={coupon}
+                placeholder="Enter coupon"
+                onChange={handleCouponChange}
+              />
             </div>
           </div>
 

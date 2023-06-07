@@ -178,11 +178,8 @@ function Products() {
               <h3>Sub category menu</h3>
               <ul className="body">
                 {categories.slice(0, 4).map((category, index) => (
-                  <div key={index}>
-                    <li
-                      key={index}
-                      onClick={() => handleCategorySelect(category.name)}
-                    >
+                  <div key={`${category.name}-${index}`}>
+                    <li onClick={() => handleCategorySelect(category.name)}>
                       {category.name}
                     </li>
                     <span>100</span>
