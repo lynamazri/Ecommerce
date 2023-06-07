@@ -50,13 +50,12 @@ function Swiperr({
       let filteredShops = stores;
       if (storeCat) {
         filteredShops = stores.filter(
-          (store) =>
-            store.subCatId === storeCat && store.storeId !== currentShopId
+          (store) => store.catId === storeCat && store.storeId !== currentShopId
         );
       }
       return filteredShops.map((store) => (
         <SwiperSlide key={store.storeId}>
-          <StoreCard key={store.storeId} store={store} />
+          <StoreCard key={`store-${store.storeId}`} store={store} />
         </SwiperSlide>
       ));
     } else if (sectionType === "products") {
@@ -71,21 +70,19 @@ function Swiperr({
           (product) => product.subCatId === prodCat
         );
       }
-      return filteredProducts.map((product) => (
+      return filteredProducts.map((product, index) => (
         <SwiperSlide key={product.productId}>
-          <ProductCard key={product.productId} product={product} />
+          <ProductCard
+            key={`product-${product.productId}-${index}`}
+            product={product}
+          />
         </SwiperSlide>
       ));
     } else if (sectionType === "wishlist") {
-      // return wishlistItems?.map((product) => (
-      //   <SwiperSlide key={wishlistItems?.wishlistId}>
-      //     <ProductCard key={wishlistItems?.productID} product={product} />
-      //   </SwiperSlide>
-      // ));
       return wishlistItems?.map((wishlistItem) => (
         <SwiperSlide key={wishlistItem.wishlistId}>
           <ProductCard
-            key={wishlistItem.product.productId}
+            key={`wishlist-${wishlistItem.wishlistId}`}
             product={wishlistItem.product}
           />
         </SwiperSlide>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../../redux/Slices/CartSlice";
@@ -23,25 +23,28 @@ function ProductCard({ product, viewMode }) {
     (item) => item.productId === product.productId
   );
 
-  console.log(
-    "isProductInWishlist wishlistItems",
-    isProductInWishlist,
-    wishlistItems
-  );
+  const [isProductInWishlistState, setIsProductInWishlistState] =
+    useState(isProductInWishlist);
 
   const handleAddToWishlist = () => {
-    if (isProductInWishlist) {
+    if (isProductInWishlistState) {
       dispatch(
         deleteProductFromWishlist({ userId, productId: product.productId })
-      ).catch((error) => {
-        console.error("Error removing product from wishlist:", error);
-      });
+      )
+        .then(() => {
+          setIsProductInWishlistState(false);
+        })
+        .catch((error) => {
+          console.error("Error removing product from wishlist:", error);
+        });
     } else {
-      dispatch(
-        addProductToWishlist({ userId, productId: product.productId })
-      ).catch((error) => {
-        console.error("Error adding product to wishlist:", error);
-      });
+      dispatch(addProductToWishlist({ userId, productId: product.productId }))
+        .then(() => {
+          setIsProductInWishlistState(true);
+        })
+        .catch((error) => {
+          console.error("Error adding product to wishlist:", error);
+        });
     }
   };
 
@@ -85,7 +88,7 @@ function ProductCard({ product, viewMode }) {
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
         {viewMode === "list" &&
-          (isProductInWishlist ? (
+          (isProductInWishlistState ? (
             <button className="wishlist-button" onClick={handleAddToWishlist}>
               <FaHeart style={{ fontSize: "12px", fontWeight: "bold" }} />{" "}
               Remove from wishlist
