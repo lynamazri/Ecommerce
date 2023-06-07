@@ -18,7 +18,12 @@ function ShopCard({ store, viewMode }) {
       </div>
       <div className="shop-description">
         <h3 className="store-title">{store.name}</h3>
-        <span>{store.description}</span>
+
+        {store.description.length < 107 ? (
+          <span>{store.description}</span>
+        ) : (
+          <span>{store.description.substring(0, 107)} ...</span>
+        )}
       </div>
       <div className="shop-footer">
         <Link to={`/shop/${store.storeId}`}>Shop Details</Link>
