@@ -83,6 +83,18 @@ export const apiSlice = createApi({
     }),
     getCategory: builder.query({
       query: (categoryId) => `/category/${categoryId}`
+    }),
+    getAdresses: builder.query({
+      query: (userId) => `/address/all/${userId}`,
+      providesTags: ["getAddresses"],
+    }),
+    patchAddress: builder.mutation({
+      query: ({ street, city, state, zip, editAddressId }) => ({
+        url: `address/${editAddressId}`,
+        method: 'PATCH',
+        body: { street, city, state, zip },
+      }),
+      invalidatesTags: ["getAddresses"]
     })
   })
 });
@@ -95,4 +107,6 @@ export const {
   useGetUsernameQuery,
   useGetSubCategoriesQuery,
   useGetCategoryQuery,
+  useGetAdressesQuery,
+  usePatchAddressMutation,
 } = apiSlice;
