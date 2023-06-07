@@ -60,7 +60,7 @@ function Products() {
     );
     dispatch(updateFilteredItems(filteredItems));
   };
-
+  console.log(filteredItems);
   const handleRatingSelect = (selectedRating) => {
     if (selectedRating === selectedRating) {
       setSelectedRating(null);
@@ -133,7 +133,7 @@ function Products() {
     // Fetch products data when the component mounts
     dispatch(productsFetch());
   }, [dispatch]);
-
+  console.log(category);
   return (
     <div>
       <Navbar />

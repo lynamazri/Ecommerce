@@ -16,6 +16,7 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import "./ProductDetails.css";
 import { useCreateReviewMutation } from "../../redux/Slices/apiSlice";
+import { useGetUsernameQuery } from "../../redux/Slices/apiSlice";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
@@ -40,18 +41,19 @@ export default function ProductDetails() {
     userId: user.userId,
     productId: params.id,
   });
-  const { data } = useGetProductQuery(params.id);
+  const { data: productData } = useGetProductQuery(params.id);
   const processedData = {
-    ...data,
-    reviewsCount: data?.reviews.length,
-    reviewsAvg: data && calculateAvg(data.reviews),
+    ...productData,
+    reviewsCount: productData?.reviews.length,
+    reviewsAvg: productData && calculateAvg(productData.reviews),
   };
   useEffect(() => {
-    data && setProduct(processedData);
-    data && setImages(processedData.images);
-    data && setReviews(processedData.reviews);
-    data && console.log(product);
-  }, [data]);
+    productData && setProduct(processedData);
+    productData && setImages(processedData.images);
+    productData && setReviews(processedData.reviews);
+    productData && console.log(product);
+  }, [productData]);
+
   const dispatch = useDispatch();
   const handleAdd = () => {
     dispatch(add(product));
@@ -96,6 +98,44 @@ export default function ProductDetails() {
       });
   }
   console.log(reviewComment);
+
+  const ReviewList = () => {
+    const [usernames, setUsernames] = useState([]);
+
+    useEffect(() => {
+      const fetchUsernames = async () => {
+        const usernamePromises = reviews.map((review) =>
+          useGetUsernameQuery(review.userId).unwrap()
+        );
+
+        const resolvedUsernames = await Promise.all(usernamePromises);
+
+        setUsernames(resolvedUsernames);
+      };
+
+      fetchUsernames();
+    }, [reviews]);
+
+    // if (usernames.length === 0) {
+    //   return null; // or show a loading indicator while fetching usernames
+    // }
+
+    return (
+      <>
+        {reviews.map((review, index) => (
+          <ReviewCard
+            key={index}
+            author={usernames[index]}
+            role="Customer"
+            rating={review.stars}
+            date={review.posted.slice(0, 10)}
+            content={review.content}
+          />
+        ))}
+      </>
+    );
+  };
+
   return (
     <>
       <Navbar />
@@ -350,15 +390,7 @@ export default function ProductDetails() {
                     <button className="comment-button">Send a comment</button>
                   </form>
 
-                  {reviews.map((review) => (
-                    <ReviewCard
-                      author={review.userId}
-                      role="Customer"
-                      rating={review.stars}
-                      date={review.posted.slice(0, 10)}
-                      content={review.content}
-                    />
-                  ))}
+                  <ReviewList />
                 </motion.div>
               )}
               {details === "questions" && (
