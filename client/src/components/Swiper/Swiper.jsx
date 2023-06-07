@@ -11,7 +11,15 @@ import StoreCard from "../ShopCard/ShopCard";
 
 import "./Swiper.css";
 
-function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
+function Swiperr({
+  sectionType,
+  data,
+  prodCat,
+  storeCat,
+  currentShopId,
+  storeId,
+  slidesPerView = 4,
+}) {
   const dispatch = useDispatch();
 
   const {
@@ -38,10 +46,10 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
   const renderItems = () => {
     if (sectionType === "stores") {
       let filteredShops = stores;
-      if (category) {
+      if (storeCat) {
         filteredShops = stores.filter(
           (store) =>
-            store.subCatId === category && store.storeId !== currentShopId
+            store.subCatId === storeCat && store.storeId !== currentShopId
         );
       }
       return filteredShops.map((store) => (
@@ -54,6 +62,11 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
       if (storeId) {
         filteredProducts = items.filter(
           (product) => product.storeId === storeId
+        );
+      }
+      if (prodCat) {
+        filteredProducts = items.filter(
+          (product) => product.subCatId === prodCat
         );
       }
       return filteredProducts.map((product) => (
@@ -79,8 +92,6 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     }
     return null;
   };
-
-  const slidesPerView = sectionType === "stores" ? 3 : 4;
 
   const renderErrorMessage = () => {
     if (sectionType === "stores") {

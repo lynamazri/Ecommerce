@@ -53,14 +53,12 @@ function Shop() {
               <ul className="detail">
                 <li>Main Category:</li>
                 <li>Working Hours:</li>
-                <li>Store Address:</li>
                 <li>Phone Number:</li>
                 <li>Email:</li>
               </ul>
               <ul className="detail-value">
                 <li>{shop.CatId}</li>
                 <li>{shop.workingHours}</li>
-                <li>{shop.CatId}</li>
                 <li>{shop.phone}</li>
                 <li>{shop.email}</li>
               </ul>
