@@ -86,7 +86,7 @@ function Home() {
               </Link>
             </div>
             <div className="store-wrapper">
-              <Swiperr sectionType="stores" />
+              <Swiperr sectionType="stores" slidesPerView={3} />
             </div>
           </section>
 
