@@ -30,7 +30,7 @@ import Security from "./components/Profile/Security";
 import Language from "./components/Profile/Language";
 import DashboardContent from "./components/Dashboard/DashboardContent";
 import DashboardProducts from "./components/Dashboard/DashboardProducts";
-import Statistics from "./components/Dashboard/Statistics";
+import Orders from "./components/Dashboard/Orders";
 import Settings from "./components/Dashboard/Settings";
 import Welcome from "./pages/Home/Welcome";
 import PersistLogin from "./pages/Login/PersistLogin";
@@ -131,7 +131,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard" element={<DashboardContent />} />
           <Route path="/dashboard/products" element={<DashboardProducts />} />
-          <Route path="/dashboard/statistics" element={<Statistics />} />
+          <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/settings" element={<Settings />} />
         </Route>
         <Route path="/welcome" element={<Welcome />} />

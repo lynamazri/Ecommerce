@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { add } from "../../redux/Slices/CartSlice";
@@ -17,31 +17,37 @@ function ProductCard({ product, viewMode }) {
   };
 
   const userId = useSelector((state) => state.auth.user?.userId);
-  const productId = product.productId;
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  // const isProductInWishlist = wishlistItems.some((item) =>
-  //   item.products.some((p) => p.productId === productId)
-  // );
 
-  // console.log(
-  //   "isProductInWishlist wishlistItems",
-  //   isProductInWishlist,
-  //   wishlistItems
-  // );
+  const isProductInWishlist = wishlistItems.some(
+    (item) => item.productId === product.productId
+  );
+
+  const [isProductInWishlistState, setIsProductInWishlistState] =
+    useState(isProductInWishlist);
 
   const handleAddToWishlist = () => {
-    if (isProductInWishlist) {
-      dispatch(deleteProductFromWishlist({ userId, productId })).catch(
-        (error) => {
+    if (isProductInWishlistState) {
+      dispatch(
+        deleteProductFromWishlist({ userId, productId: product.productId })
+      )
+        .then(() => {
+          setIsProductInWishlistState(false);
+        })
+        .catch((error) => {
           console.error("Error removing product from wishlist:", error);
-        }
-      );
+        });
     } else {
-      dispatch(addProductToWishlist({ userId, productId })).catch((error) => {
-        console.error("Error adding product to wishlist:", error);
-      });
+      dispatch(addProductToWishlist({ userId, productId: product.productId }))
+        .then(() => {
+          setIsProductInWishlistState(true);
+        })
+        .catch((error) => {
+          console.error("Error adding product to wishlist:", error);
+        });
     }
   };
+
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
       <div className="product-image">
@@ -82,7 +88,7 @@ function ProductCard({ product, viewMode }) {
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
         {viewMode === "list" &&
-          (isProductInWishlist ? (
+          (isProductInWishlistState ? (
             <button className="wishlist-button" onClick={handleAddToWishlist}>
               <FaHeart style={{ fontSize: "12px", fontWeight: "bold" }} />{" "}
               Remove from wishlist

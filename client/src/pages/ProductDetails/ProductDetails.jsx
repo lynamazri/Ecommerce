@@ -5,7 +5,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { TbListDetails } from "react-icons/tb";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { add } from "../../redux/Slices/CartSlice";
 import { getStars, calculateAvg } from "../../utils";
 import { useGetProductQuery } from "../../redux/Slices/apiSlice";
@@ -143,18 +143,20 @@ export default function ProductDetails() {
                 <div className="information">
                   <div className="detailsTitle">
                     <ul className="detailTitleList">
+                      <li>Store:</li>
                       <li>SKU:</li>
                       <li>Category:</li>
                       <li>Stock:</li>
-                      <li>Store:</li>
                     </ul>
                   </div>
                   <div className="detailsValue">
                     <ul className="detailValueList">
+                      <Link to={`/shop/${product?.store?.storeId}`}>
+                        {product?.store?.name}
+                      </Link>
                       <li>76645</li>
                       <li>{product?.subCat?.name}</li>
                       <li>Stock</li>
-                      <li>{product?.store?.name}</li>
                     </ul>
                   </div>
                 </div>
@@ -379,19 +381,15 @@ export default function ProductDetails() {
               )}
             </section>
           </div>
-          <div className="relatedProducts">
-            <div className="h3Container">
+          <section className="product-container">
+            <div className="header">
               <h3>Related products</h3>
-              <h3>
-                More products{" "}
-                <span>
-                  <MdKeyboardArrowRight />
-                </span>
-              </h3>
+              <Link to={`/products/All Categories`}>
+                More products <MdKeyboardArrowRight />
+              </Link>
             </div>
-            <div className="productWrapper"></div>
-            <Swiperr sectionType="products" />
-          </div>
+            <Swiperr sectionType="products" prodCat={product?.subCatId} />
+          </section>
         </div>
       </main>
       <Footer />

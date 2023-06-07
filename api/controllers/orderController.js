@@ -5,24 +5,28 @@ require("dotenv").config();
 
 const getStoreOrders = async (req, res) => {
   const { store } = req.params;
-  const orders = prisma.OrderItems.findMany({
+  const orders = await prisma.OrderItems.findMany({
     where: {
       storeId: store,
     },
   });
-  if (!orders) res.status(400).send("No orders yet.");
+  if (orders.length === 0) res.status(400).send("No orders yet.");
   else res.status(200).json(orders);
 };
 
 const getUserOrders = async (req, res) => {
   const { user } = req.params;
 
-  const orders = prisma.Order.findMany({
+  const orders = await prisma.Order.findMany({
     where: {
       userId: user,
     },
+    include: {
+      items: true,
+    },
   });
-  if (!orders) res.status(400).send("No orders yet.");
+
+  if (orders.length === 0) res.status(400).send("No orders yet.");
   else res.status(200).json(orders);
 };
 
@@ -191,20 +195,21 @@ const cancelOrder = async (req, res) => {
   const { order } = req.params;
   const currentdate = new Date();
 
-  const findOrder = prisma.Order.findUnique({
+  const findOrder = await prisma.Order.findUnique({
     where: {
       orderId: order,
     },
   });
 
-  if (!findOrder) res.status(400).send("No orders yet.");
-  else {
+  if (!findOrder) {
+    return res.status(400).send("No orders yet.");
+  } else {
     let diff = currentdate.getTime() - findOrder.orderDate.getTime(); //res in milliseconds
     if (diff > 172800000) {
       //two days
       res.status(400).send("Cannot cancel orders older than 2 days.");
     } else {
-      const deleteOrder = prisma.Order.delete({
+      const deleteOrder = await prisma.Order.delete({
         where: {
           orderId: order,
         },
@@ -245,9 +250,9 @@ const refuseOrder = async (req, res) => {
 const returnItem = async (req, res) => {
   const { order } = req.params;
 
-  const returnItem = prisma.OrderItems.update({
+  const returnItem = await prisma.OrderItems.update({
     where: {
-      itemId: order,
+      itemId: parseInt(order),
     },
     data: {
       state: "Returned",

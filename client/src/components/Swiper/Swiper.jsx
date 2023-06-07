@@ -11,7 +11,15 @@ import StoreCard from "../ShopCard/ShopCard";
 
 import "./Swiper.css";
 
-function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
+function Swiperr({
+  sectionType,
+  data,
+  prodCat,
+  storeCat,
+  currentShopId,
+  storeId,
+  slidesPerView = 4,
+}) {
   const dispatch = useDispatch();
 
   const {
@@ -35,18 +43,19 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     dispatch(wishlistFetch());
   }, []);
 
+  console.log("wishlistItems", wishlistItems);
+
   const renderItems = () => {
     if (sectionType === "stores") {
       let filteredShops = stores;
-      if (category) {
+      if (storeCat) {
         filteredShops = stores.filter(
-          (store) =>
-            store.subCatId === category && store.storeId !== currentShopId
+          (store) => store.catId === storeCat && store.storeId !== currentShopId
         );
       }
       return filteredShops.map((store) => (
         <SwiperSlide key={store.storeId}>
-          <StoreCard key={store.storeId} store={store} />
+          <StoreCard key={`store-${store.storeId}`} store={store} />
         </SwiperSlide>
       ));
     } else if (sectionType === "products") {
@@ -56,15 +65,26 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           (product) => product.storeId === storeId
         );
       }
-      return filteredProducts.map((product) => (
+      if (prodCat) {
+        filteredProducts = items.filter(
+          (product) => product.subCatId === prodCat
+        );
+      }
+      return filteredProducts.map((product, index) => (
         <SwiperSlide key={product.productId}>
-          <ProductCard key={product.productId} product={product} />
+          <ProductCard
+            key={`product-${product.productId}-${index}`}
+            product={product}
+          />
         </SwiperSlide>
       ));
     } else if (sectionType === "wishlist") {
-      return wishlistItems[0]?.products.map((product) => (
-        <SwiperSlide key={wishlistItems[0]?.wishlistId}>
-          <ProductCard key={product.A} product={product} />
+      return wishlistItems?.map((wishlistItem) => (
+        <SwiperSlide key={wishlistItem.wishlistId}>
+          <ProductCard
+            key={`wishlist-${wishlistItem.wishlistId}`}
+            product={wishlistItem.product}
+          />
         </SwiperSlide>
       ));
     } else if (sectionType === "testimonials") {
@@ -79,8 +99,6 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     }
     return null;
   };
-
-  const slidesPerView = sectionType === "stores" ? 3 : 4;
 
   const renderErrorMessage = () => {
     if (sectionType === "stores") {
