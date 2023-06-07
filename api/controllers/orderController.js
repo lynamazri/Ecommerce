@@ -32,6 +32,35 @@ const createOrder = async (req, res) => {
   const currentdate = new Date();
   const { user } = req.params;
 
+  //check if enough coins
+  if (method === "MagazaCoin") {
+    const curUser = await prisma.Users.findUnique({
+      where: {
+        userId: user,
+      },
+    });
+
+    const newBalance = curUser.credit - total;
+
+    if (newBalance > 0) {
+      const pay = await prisma.Users.update({
+        where: {
+          userId: user,
+        },
+        data: {
+          credit: newBalance,
+        },
+      });
+    } else {
+      return res
+        .status(400)
+        .json(
+          "Insufficient store credit. Please select another payment method."
+        );
+    }
+  }
+
+  //with new address
   if (street && zip && city && state) {
     const addAddress = await prisma.Address.create({
       data: {
@@ -44,48 +73,47 @@ const createOrder = async (req, res) => {
     });
 
     if (!addAddress) return res.status(400).send("Unable to add new address.");
-
+    //new address + coupon
     if (coupon) {
-      const checkCoupon = await prisma.Coupon.findUnique({
+      const checkCoupon = await prisma.Coupons.findUnique({
         where: {
           code: coupon,
         },
       });
+
       if (!checkCoupon) {
-        res.status(400).send("Invalid coupon.");
+        return res.status(400).send("Invalid coupon.");
       } else {
-        if (currentdate > checkCoupon.endDate) {
-          res.status(400).send("Expired coupon.");
-        } else {
-          if (!user) {
-            res.status(400).send("Cannot find user.");
-          } else {
-            const order = await prisma.Order.create({
-              data: {
-                total: parseInt(total),
-                payMethod: method,
-                userId: user,
-                coupon: coupon,
-                addressId: addAddress.id,
-                items: {
-                  create: {
-                    cart,
-                  },
-                },
+        if (currentdate > checkCoupon.dataEnd)
+          return res.status(400).send("Expired coupon.");
+        else {
+          const percentage = checkCoupon.percentage / 100;
+          const newTotal = parseInt(total) - parseInt(total) * percentage;
+          const finalTotal = Math.floor(newTotal);
+          console.log(percentage, total, finalTotal);
+          const order = await prisma.Order.create({
+            data: {
+              total: finalTotal,
+              payMethod: method,
+              userId: user,
+              addressId: addAddress.id,
+
+              items: {
+                create: cart,
               },
-            });
-            if (order) res.status(200).json(order);
-            else res.status(400).send("Unable to complete order");
-          }
+            },
+          });
+          if (order) res.status(200).json(order);
+          else res.status(400).send("Unable to complete order");
         }
       }
     } else {
+      //new address - no coupon
       const order = await prisma.Order.create({
         data: {
           total: parseInt(total),
           payMethod: method,
           userId: user,
-          coupon: coupon,
           addressId: addAddress.id,
 
           items: {
@@ -97,49 +125,57 @@ const createOrder = async (req, res) => {
       else res.status(400).send("Unable to complete order");
     }
   } else {
+    //old address
+
+    const adrs = await prisma.Address.findUnique({
+      where: {
+        id: address,
+      },
+    });
+
+    if (!adrs) return res.status(400).json("Unable to find address.");
+
     if (coupon) {
-      const checkCoupon = await prisma.Coupon.findUnique({
+      //old address + coupon
+      const checkCoupon = await prisma.Coupons.findUnique({
         where: {
           code: coupon,
         },
       });
       if (!checkCoupon) {
-        res.status(400).send("Invalid coupon.");
+        return res.status(400).send("Invalid coupon.");
       } else {
-        if (currentdate > checkCoupon.endDate) {
-          res.status(400).send("Expired coupon.");
-        } else {
-          if (!user) {
-            res.status(400).send("Cannot find user.");
-          } else {
-            const order = await prisma.Order.create({
-              data: {
-                total: parseInt(total),
-                payMethod: method,
-                userId: user,
-                coupon: coupon,
-                addressId: address,
-                items: {
-                  create: {
-                    cart,
-                  },
-                },
+        if (currentdate > checkCoupon.dataEnd)
+          return res.status(400).send("Expired coupon.");
+        else {
+          const percentage = checkCoupon.percentage / 100;
+          const newTotal = parseInt(total) - parseInt(total) * percentage;
+          const finalTotal = Math.floor(newTotal);
+          console.log(percentage, total, finalTotal);
+
+          const order = await prisma.Order.create({
+            data: {
+              total: finalTotal,
+              payMethod: method,
+              userId: user,
+              addressId: address,
+              items: {
+                create: cart,
               },
-            });
-            if (order) res.status(200).json(order);
-            else res.status(400).send("Unable to complete order");
-          }
+            },
+          });
+          if (order) res.status(200).json(order);
+          else res.status(400).send("Unable to complete order");
         }
       }
     } else {
+      //old address - no coupon
       const order = await prisma.Order.create({
         data: {
           total: parseInt(total),
           payMethod: method,
           userId: user,
-          coupon: coupon,
           addressId: address,
-
           items: {
             create: cart,
           },
