@@ -5,7 +5,6 @@ import { add } from "../../redux/Slices/CartSlice";
 import {
   addProductToWishlist,
   deleteProductFromWishlist,
-  wishlistFetch,
 } from "../../redux/Slices/wishlistSlice";
 import { getStars } from "../../utils";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -19,24 +18,16 @@ function ProductCard({ product, viewMode }) {
 
   const userId = useSelector((state) => state.auth.user?.userId);
   const productId = product.productId;
-  const {
-    items: wishlistItems,
-    status: wishlistStatus,
-    error: wishError,
-  } = useSelector((state) => state.wishlist);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const isProductInWishlist = wishlistItems.some((item) =>
+    item.products.some((p) => p.productId === productId)
+  );
 
-  // console.log(dispatch(wishlistFetch()));
-
-  const isProductInWishlist = false;
-
-  // console.log(
-  //   productId,
-  //   userId,
-  //   wishlistItems,
-  //   wishError,
-  //   isProductInWishlist,
-  //   "productId, userId, wishlistItems, wisherror, isProductInWishlist"
-  // );
+  console.log(
+    "isProductInWishlist wishlistItems",
+    isProductInWishlist,
+    wishlistItems
+  );
 
   const handleAddToWishlist = () => {
     if (isProductInWishlist) {
@@ -90,19 +81,18 @@ function ProductCard({ product, viewMode }) {
           </>
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
-        {viewMode === "list" && (
-          // <button className="wishlist-button" onClick={handleAddToWishlist}>
-          //   Add To Wishlist
-          // </button>
-          <button className="wishlist-button" onClick={handleAddToWishlist}>
-            {isProductInWishlist ? (
-              <FaHeart style={{ fontSize: "12px", fontWeight: "bold" }} />
-            ) : (
-              <FaRegHeart style={{ fontSize: "12px", fontWeight: "bold" }} />
-            )}
-            Add To Wishlist
-          </button>
-        )}
+        {viewMode === "list" &&
+          (isProductInWishlist ? (
+            <button className="wishlist-button" onClick={handleAddToWishlist}>
+              <FaHeart style={{ fontSize: "12px", fontWeight: "bold" }} />{" "}
+              Remove from wishlist
+            </button>
+          ) : (
+            <button className="wishlist-button" onClick={handleAddToWishlist}>
+              <FaRegHeart style={{ fontSize: "12px", fontWeight: "bold" }} />{" "}
+              Add to wishlist
+            </button>
+          ))}
       </div>
     </div>
   );

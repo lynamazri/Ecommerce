@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Path from "../../components/Path/Path";
 
 function DashboardContent() {
@@ -17,8 +18,17 @@ function DashboardContent() {
           </div>
           <div className="cards">
             <div className="card">Reviews</div>
-            <div className="card">Orders</div>
+            <div className="card">Total Revenue</div>
+            <div className="card">Average Order Value</div>
             <div className="card">Questions</div>
+          </div>
+          <div className="product-metrics">
+            <h2>Product Metrics</h2>
+            {/* Display key metrics for individual products */}
+          </div>
+          <div className="sales-analytics">
+            <h2>Sales Analytics</h2>
+            {/* Display visual charts and graphs for sales over time, top-selling products, revenue breakdown */}
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ function Wishlist() {
       <Path />
       <div className="wishlist-page">
         <section className="product-container">
-          <h3>My Wishlist</h3>
+          <h3 className="header">My Wishlist</h3>
           <Swiperr sectionType="wishlist" />
         </section>
       </div>

@@ -30,9 +30,6 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
     error: wishError,
   } = useSelector((state) => state.wishlist);
 
-  const userId = useSelector((state) => state.auth.user?.userId);
-  console.log(userId, "userId");
-
   useEffect(() => {
     dispatch(fetchStoresData());
     dispatch(wishlistFetch());
@@ -70,13 +67,6 @@ function Swiperr({ sectionType, data, category, currentShopId, storeId }) {
           <ProductCard key={product.A} product={product} />
         </SwiperSlide>
       ));
-      // wishlistItems?.forEach((pro) => {
-      //   return pro.products.map((product) => (
-      //     <SwiperSlide key={product.productId}>
-      //       <ProductCard key={product.productId} product={product} />
-      //     </SwiperSlide>
-      //   ));
-      // });
     } else if (sectionType === "testimonials") {
       return data.map((testimonial) => (
         <SwiperSlide key={testimonial.id}>

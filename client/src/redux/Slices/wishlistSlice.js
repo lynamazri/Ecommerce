@@ -12,7 +12,6 @@ export const wishlistFetch = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const userId = getState().auth.user.userId;
-      console.log(userId);
       const response = await axios.get(
         `http://localhost:3001/profile/wishlist/${userId}`
       );
@@ -20,66 +19,27 @@ export const wishlistFetch = createAsyncThunk(
       if (response.status !== 200) {
         throw new Error("Failed to fetch wishlist items.");
       }
-      console.log(response.data);
+
       const wishlistItems = response.data;
       return wishlistItems;
     } catch (error) {
-      console.log(error);
       return rejectWithValue("There was an error during wishlist fetching");
-    }
-  }
-);
-
-export const createWishlist = createAsyncThunk(
-  "wishlist/createWishlist",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/profile/wishlist"
-      );
-      if (response.status === 200) {
-        return true;
-      } else {
-        throw new Error("Unable to create new wishlist.");
-      }
-    } catch (error) {
-      return rejectWithValue("There was an error creating a new wishlist.");
     }
   }
 );
 
 export const addProductToWishlist = createAsyncThunk(
   "wishlist/addProductToWishlist",
-  async ({ userId, productId }, { rejectWithValue, dispatch }) => {
-    const token = getState().auth.token;
+  async ({ userId, productId }, { rejectWithValue }) => {
     try {
-      const wishlistResponse = await axios
-        .get(`http://localhost:3001/profile/${userId}/wishlist`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => console.log(response.json()));
+      const response = await axios.post(
+        `http://localhost:3001/productss/${userId}/product/${productId}`
+      );
 
-      if (wishlistResponse.status === 200) {
-        const wishlist = wishlistResponse.data;
-
-        // If user doesn't have a wishlist, create one
-        if (!wishlist) {
-          await dispatch(createWishlist());
-        }
-
-        // Add product to the wishlist
-        const response = await axios.patch(
-          `http://localhost:3001/profile/${userId}/${productId}`
-        );
-        if (response.status === 200) {
-          return productId;
-        } else {
-          throw new Error("Unable to add product to wishlist.");
-        }
+      if (response.status === 200) {
+        return productId;
       } else {
-        throw new Error("Unable to fetch wishlist data.");
+        throw new Error("Unable to add product to wishlist.");
       }
     } catch (error) {
       return rejectWithValue(
@@ -93,8 +53,8 @@ export const deleteProductFromWishlist = createAsyncThunk(
   "wishlist/deleteProductFromWishlist",
   async ({ userId, productId }, { rejectWithValue }) => {
     try {
-      const response = await axios.patch(
-        `http://localhost:3001/profile/delete/${userId}/${productId}`
+      const response = await axios.delete(
+        `http://localhost:3001/productss/${userId}/product/${productId}`
       );
       if (response.status === 200) {
         return productId;
@@ -129,18 +89,6 @@ const wishlistSlice = createSlice({
         state.status = "failed";
         state.error = action.payload;
         state.items = [];
-      })
-      .addCase(createWishlist.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(createWishlist.fulfilled, (state) => {
-        state.status = "succeeded";
-        state.items = [];
-        state.error = null;
-      })
-      .addCase(createWishlist.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
       })
       .addCase(addProductToWishlist.pending, (state) => {
         state.status = "loading";

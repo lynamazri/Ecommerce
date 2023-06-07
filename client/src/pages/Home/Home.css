@@ -145,11 +145,11 @@
 
 .product-container,
 .testimonials-container {
-  /* display: flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1em; */
+  gap: 1em;
   padding: 3.5em 0em 0em 0em;
 }
 
