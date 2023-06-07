@@ -19,9 +19,9 @@ function ProductCard({ product, viewMode }) {
   const userId = useSelector((state) => state.auth.user?.userId);
   const productId = product.productId;
   const wishlistItems = useSelector((state) => state.wishlist.items);
-  const isProductInWishlist = wishlistItems.some((item) =>
-    item.products.some((p) => p.productId === productId)
-  );
+  // const isProductInWishlist = wishlistItems.some((item) =>
+  //   item.products.some((p) => p.productId === productId)
+  // );
 
   // console.log(
   //   "isProductInWishlist wishlistItems",

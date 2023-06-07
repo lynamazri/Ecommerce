@@ -240,21 +240,6 @@ const getStoreBanner = async (req, res) => {
   }
 };
 
-const getCategoryById = async (req, res) => {
-  const { categoryId } = req.params;
-
-  const category = await prisma.Category.findUnique({
-    where: {
-      catId: parseInt(categoryId),
-    },
-  });
-  if (!category) {
-    res.send(400).send("Unable to find category")
-  } else {
-    res.status(200).json(category)
-  }
-}
-
 module.exports = {
   createStore,
   verifyStore,
@@ -266,5 +251,4 @@ module.exports = {
   answerQuestion,
   editBanner,
   getStoreBanner,
-  getCategoryById,
 };

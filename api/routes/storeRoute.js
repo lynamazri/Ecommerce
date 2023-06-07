@@ -13,7 +13,6 @@ const {
   answerQuestion,
   editBanner,
   getStoreBanner,
-  getCategoryById,
 } = require("../controllers/storeController");
 
 router.patch("/:id", verifyStore); //tested, works
@@ -26,6 +25,6 @@ router.patch("/questions/answer/:id", answerQuestion); //tested, works
 router.delete("/:id", verification, deleteStore); //tested, works
 router.post("/open/:user", verification, createStore); //tested, works
 router.patch("/edit/banner/:store", verification, editBanner); //tested, works
-router.get("/:categoryId", verification, getCategoryById)
+
 
 module.exports = router;

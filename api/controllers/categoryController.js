@@ -168,6 +168,21 @@ const updateSubCat = async (req, res) => {
   }
 };
 
+const getCategoryById = async (req, res) => {
+  const { categoryId } = req.params;
+
+  const category = await prisma.Category.findUnique({
+    where: {
+      catId: parseInt(categoryId),
+    },
+  });
+  if (!category) {
+    res.send(400).send("Unable to find category")
+  } else {
+    res.status(200).json(category)
+  }
+}
+
 module.exports = {
   getCatgory,
   createCatgory,
@@ -177,4 +192,5 @@ module.exports = {
   deleteSubCat,
   updateSubCat,
   getSubCatgory,
+  getCategoryById,
 };
