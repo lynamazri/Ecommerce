@@ -108,7 +108,7 @@ const getWishlist = async (req, res) => {
       userId: user,
     },
     include: {
-      products: {
+      product: {
         include: {
           images: true,
           subCat: true,

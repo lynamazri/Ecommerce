@@ -23,11 +23,11 @@ function ProductCard({ product, viewMode }) {
     item.products.some((p) => p.productId === productId)
   );
 
-  console.log(
-    "isProductInWishlist wishlistItems",
-    isProductInWishlist,
-    wishlistItems
-  );
+  // console.log(
+  //   "isProductInWishlist wishlistItems",
+  //   isProductInWishlist,
+  //   wishlistItems
+  // );
 
   const handleAddToWishlist = () => {
     if (isProductInWishlist) {
