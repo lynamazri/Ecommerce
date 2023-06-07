@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GrFormClose } from "react-icons/gr";
 import {
   RiUserLine,
@@ -15,11 +15,18 @@ import "./ProfileMenu.css";
 
 function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [sendLogout, { isLoading }] = useSendLogoutMutation();
   const isActive = (pathname) => {
     return location.pathname === pathname;
   };
   const user = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
   return (
     <div className="profile-menu">
       <div className="pm-header">
