@@ -6,7 +6,6 @@ import Path from "../../components/Path/Path";
 import Cart from "../../components/Cart/Cart";
 import Footer from "../../components/Footer/Footer";
 import "./Checkout.css";
-import { logOut } from "../../redux/Slices/authSlice";
 
 function Checkout() {
   const [displayExistingAddress, setDisplayExistingAddress] = useState(false);
@@ -49,7 +48,6 @@ function Checkout() {
       setZipCode(""),
       setSelectedAddress("");
     setAddressError("");
-    console.log(existingAddresses.length);
   };
 
   const handleAddressSelection = (event) => {
@@ -408,6 +406,7 @@ function Checkout() {
             </div>
           </div>
         </form>
+
         <div className="right-container">
           <Cart isCheckoutPage={true} />
         </div>

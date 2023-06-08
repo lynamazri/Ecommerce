@@ -14,8 +14,8 @@ const {
 } = require("../validation");
 
 const createStore = async (req, res) => {
-  const { error } = applyStoreValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = applyStoreValidation(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
   const { name, description, email, phone, category, workingHours } = req.body;
   const { user } = req.params;
@@ -52,7 +52,6 @@ const createStore = async (req, res) => {
             create: { url: upload.url },
           },
           phone: parseInt(phone),
-
           user: {
             connect: {
               userId: user,

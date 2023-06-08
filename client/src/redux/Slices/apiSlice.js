@@ -147,18 +147,10 @@ export const apiSlice = createApi({
       }),
     }),
     createStore: builder.mutation({
-      query: ({
-        name,
-        description,
-        email,
-        phone,
-        category,
-        workingHours,
-        userId,
-      }) => ({
-        url: `/store/open/${userId}`,
+      query: (fd) => ({
+        url: `/store/open/${fd.get("userId")}`,
         method: "POST",
-        body: { name, description, email, phone, category, workingHours },
+        body: fd,
       }),
     }),
   }),
