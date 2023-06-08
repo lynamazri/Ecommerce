@@ -43,13 +43,18 @@ function Checkout() {
 
   const handleExistingAddress = (event) => {
     setDisplayExistingAddress(event.target.checked);
-    setSelectedAddress("");
+    setStreet(""),
+      setState(""),
+      setCity(""),
+      setZipCode(""),
+      setSelectedAddress("");
     setAddressError("");
     console.log(existingAddresses.length);
   };
 
   const handleAddressSelection = (event) => {
     setSelectedAddress(event.target.value);
+    console.log(selectedAddress);
   };
   const handleStreetChange = (event) => {
     const street = event.target.value;
@@ -162,10 +167,10 @@ function Checkout() {
         cart: "",
         address: selectedAddress,
         coupon: coupon,
-        //street:
-        //city:
-        //state:
-        //zip:
+        street: street,
+        city: city,
+        state: state,
+        zip: zipCode,
         userId: user.userId,
       })
         .unwrap() // Extract the response data
@@ -235,13 +240,13 @@ function Checkout() {
               {(!existingAddresses.length || !displayExistingAddress) && (
                 <>
                   <label className="label-checkout" htmlFor="entered-address">
-                    Enter your address:
+                    Enter your new address
                   </label>
                   <input
                     id="street"
                     className="input-checkout"
                     type="text"
-                    placeholder="Enter your street"
+                    placeholder="Street"
                     value={street}
                     onChange={handleStreetChange}
                   />
@@ -253,7 +258,7 @@ function Checkout() {
                     id="city"
                     className="input-checkout"
                     type="text"
-                    placeholder="Enter your city"
+                    placeholder="City"
                     value={city}
                     onChange={handleCityChange}
                   />
@@ -263,7 +268,7 @@ function Checkout() {
                     id="state"
                     className="input-checkout"
                     type="text"
-                    placeholder="Enter your state"
+                    placeholder="State"
                     value={state}
                     onChange={handleStateChange}
                   />
@@ -273,7 +278,7 @@ function Checkout() {
                     id="zipCode"
                     className="input-checkout"
                     type="text"
-                    placeholder="Enter your ZIP code"
+                    placeholder="ZIP code"
                     value={zipCode}
                     onChange={handleZipCodeChange}
                   />
@@ -356,9 +361,6 @@ function Checkout() {
                 Payment on delivery
               </label>
 
-              <label className="label-checkout" htmlFor="coupon">
-                Enter coupon:
-              </label>
               <input
                 className="input-checkout"
                 id="coupon"
