@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { A11y } from "swiper/core";
+
+import SwiperCore, { Navigation, A11y } from "swiper/core";
 import "swiper/css/bundle";
 
 import {
@@ -83,6 +84,15 @@ function DashboardContent() {
       rating: 4.2,
       price: 25,
     },
+    {
+      id: 4,
+      name: "Product C",
+      views: 120,
+      purchases: 40,
+      reviews: 8,
+      rating: 4.2,
+      price: 25,
+    },
   ];
 
   const salesPerMonthData = {
@@ -90,7 +100,7 @@ function DashboardContent() {
     datasets: [
       {
         label: "Sales per Month",
-        data: [100, 200, 150, 300, 250, 400],
+        data: [100, 200, 300, 100, 1000],
         backgroundColor: "rgba(54, 162, 235, 0.5)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
@@ -99,47 +109,35 @@ function DashboardContent() {
       },
     ],
   };
-
-  const revenuePerMonthData = {
-    labels: ["January", "February", "March", "April", "May", "June"],
-    datasets: [
-      {
-        label: "Revenue per Month",
-        data: [5000, 7000, 6000, 8000, 7500, 9000],
-        backgroundColor: "rgba(75, 192, 192, 0.5)",
-        borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
-        fill: "origin",
-        tension: 0.4,
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: "Sales per Month - Cubic interpolation mode",
       },
-    ],
-  };
-
-  useEffect(() => {
-    // Destroy the previous chart instance when the component unmounts
-    return () => {
-      if (chartInstance) {
-        chartInstance.destroy();
-      }
-    };
-  }, [chartInstance]);
-
-  const renderChart = () => {
-    if (chartInstance) {
-      chartInstance.destroy();
-    }
-
-    const newChartInstance = new Chart(document.getElementById("chartCanvas"), {
-      type: "line",
-      data: salesPerMonthData,
-      options: {
-        // Chart options...
+    },
+    interaction: {
+      intersect: false,
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+        },
       },
-    });
-
-    setChartInstance(newChartInstance);
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: "Value",
+        },
+        suggestedMin: 0,
+      },
+    },
+    cubicInterpolationMode: "monotone",
   };
-
   return (
     <div className="dashboard-content-page">
       <div className="header">
@@ -150,14 +148,19 @@ function DashboardContent() {
         </p>
       </div>
 
-      <h3>Dashboard Overview</h3>
       <div className="main">
+        <h3>Dashboard Overview</h3>
+
         {/* Sales Summary */}
         <div className="top">
           <div className="left">
             <div className="sales-summary">
-              <h3>Sales Summary</h3>
-              <Swiper modules={[A11y]} spaceBetween={15} slidesPerView={3}>
+              <Swiper
+                modules={[Navigation, A11y]}
+                navigation
+                spaceBetween={15}
+                slidesPerView={3}
+              >
                 {Object.entries(salesSummaryData).map(([key, value]) => (
                   <SwiperSlide key={key}>
                     <div className="summary-item">
@@ -170,79 +173,12 @@ function DashboardContent() {
               </Swiper>
             </div>
             <div className="sales-analytics">
-              <h3>Sales Analytics</h3>
               <div className="chart-container">
-                <h4>Sales per Month</h4>
                 <Line
-                  width={400}
+                  width={600}
                   height={300}
                   data={salesPerMonthData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Sales per Month - Cubic interpolation mode",
-                      },
-                    },
-                    interaction: {
-                      intersect: false,
-                    },
-                    scales: {
-                      x: {
-                        display: true,
-                        title: {
-                          display: true,
-                        },
-                      },
-                      y: {
-                        display: true,
-                        title: {
-                          display: true,
-                          text: "Value",
-                        },
-                        suggestedMin: 0,
-                      },
-                    },
-                    cubicInterpolationMode: "monotone",
-                  }}
-                />
-              </div>
-              <div className="chart-container">
-                <h4>Revenue per Month</h4>
-                <Line
-                  width={400}
-                  height={300}
-                  data={revenuePerMonthData}
-                  options={{
-                    responsive: true,
-                    plugins: {
-                      title: {
-                        display: true,
-                        text: "Revenue per Month - Cubic interpolation mode",
-                      },
-                    },
-                    interaction: {
-                      intersect: false,
-                    },
-                    scales: {
-                      x: {
-                        display: true,
-                        title: {
-                          display: true,
-                        },
-                      },
-                      y: {
-                        display: true,
-                        title: {
-                          display: true,
-                          text: "Value",
-                        },
-                        suggestedMin: 0,
-                      },
-                    },
-                    cubicInterpolationMode: "monotone",
-                  }}
+                  options={chartOptions}
                 />
               </div>
             </div>
@@ -275,7 +211,6 @@ function DashboardContent() {
 
         <div className="lower">
           <div className="product-metrics">
-            <h3>Product Metrics</h3>
             <table>
               <thead>
                 <tr>

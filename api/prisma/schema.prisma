@@ -71,7 +71,7 @@ model Store {
   approved    Boolean      @default(false)
   orders      OrderItems[]
   discounts   Discount[]
-  mainCat Category @relation(fields: [catId], references: [catId])
+  mainCat Category @relation(fields: [catId], references: [catId], onDelete: Cascade)
   catId Int
 workingHours String? 
 }
@@ -136,14 +136,14 @@ model ProductImage {
 model StoreImage {
   storeImgId Int    @id @default(autoincrement())
   url        String @db.VarChar(500)
-  store      Store  @relation(fields: [storeId], references: [storeId])
+  store      Store  @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
   storeId    String @unique
 }
 
 model ProductOptions {
   optionId  Int          @id @default(autoincrement())
   option    String
-  product   Product      @relation(fields: [productId], references: [productId])
+  product   Product      @relation(fields: [productId], references: [productId], onDelete: Cascade)
   productId String
   ordered   OrderItems[]
   // OptionValue   OptionValue     @relation(fields: [valueId], references: [valueId])
@@ -182,14 +182,13 @@ model Questions {
 
 model Order {
   orderId String @id @default(uuid())
-
   total     Int
   payMethod String
   orderDate DateTime     @default(now())
   userId    String
-  user      Users        @relation(fields: [userId], references: [userId])
+  user      Users        @relation(fields: [userId], references: [userId], onDelete: Cascade)
   addressId String
-  address   Address      @relation(fields: [addressId], references: [id])
+  address   Address      @relation(fields: [addressId], references: [id], onDelete: Cascade)
   items     OrderItems[]
 }
 
@@ -198,9 +197,9 @@ model OrderItems {
   quantity  Int
   state     String         @default("Pending")
   productId String
-  product   Product        @relation(fields: [productId], references: [productId])
+  product   Product        @relation(fields: [productId], references: [productId], onDelete: Cascade)
   optionId  Int
-  option    ProductOptions @relation(fields: [optionId], references: [optionId])
+  option    ProductOptions @relation(fields: [optionId], references: [optionId], onDelete: Cascade)
   order     Order          @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
   orderId   String
   storeId   String
@@ -215,7 +214,7 @@ model Discount {
   dataEnd    DateTime
   products   Product[]
   storeId    String
-  store      Store     @relation(fields: [storeId], references: [storeId])
+  store      Store     @relation(fields: [storeId], references: [storeId], onDelete: Cascade)
 }
 
 model Coupons {
@@ -231,7 +230,7 @@ model Complaint {
   description String   @db.VarChar(500)
   date        DateTime @default(now())
   userId      String
-  user        Users    @relation(fields: [userId], references: [userId])
+  user        Users    @relation(fields: [userId], references: [userId], onDelete: Cascade)
   handled     Boolean  @default(false)
 }
 
@@ -249,7 +248,7 @@ model WishList {
   wishlistId String    @id @default(uuid())
   
   productId     String
-  product       Product     @relation(fields: [productId], references: [productId])
+  product       Product     @relation(fields: [productId], references: [productId], onDelete: Cascade)
   userId     String    
-  user       Users     @relation(fields: [userId], references: [userId])
+  user       Users     @relation(fields: [userId], references: [userId], onDelete: Cascade)
 }

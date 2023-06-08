@@ -65,20 +65,20 @@ const login = async (req, res) => {
     where: { email: req.body.email },
   });
   if (!user) {
-    const admin = await prisma.Admin.findUnique({
+    const user = await prisma.Admin.findUnique({
       where: {
         email: req.body.email,
       },
     });
 
-    if (!admin)
+    if (!user)
       return res
         .status(400)
         .send(
           "Email or password is incorrect. Please try again or click on 'Forgot password'."
         );
 
-    const pass = await bcrypt.compare(req.body.password, admin.password);
+    const pass = await bcrypt.compare(req.body.password, user.password);
 
     if (!pass)
       return res
@@ -88,14 +88,14 @@ const login = async (req, res) => {
         );
 
     const accessToken = jwt.sign(
-      { username: admin.username },
+      { username: user.username },
       process.env.ACCESS_TOKEN_SECRET,
       {
         expiresIn: "15m",
       }
     );
     const refreshToken = jwt.sign(
-      { username: admin.username },
+      { username: user.username },
       process.env.REFRESH_TOKEN_SECRET,
       {
         expiresIn: "7d",
@@ -114,10 +114,10 @@ const login = async (req, res) => {
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      //secure: true,
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken, admin });
+    res.json({ accessToken, user });
   }
 
   if (user) {
@@ -157,7 +157,7 @@ const login = async (req, res) => {
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      //secure: true,
+      secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     res.json({ accessToken, user }); // already sent in cookie
@@ -235,7 +235,7 @@ const logout = async (req, res) => {
     res.clearCookie("jwt", {
       httpOnly: true,
       sameSite: "None",
-      //secure: true,
+      secure: true,
     });
     return res.sendStatus(204);
   }
@@ -265,7 +265,7 @@ const logout = async (req, res) => {
   res.clearCookie("jwt", {
     httpOnly: true,
     sameSite: "None",
-    //secure: true
+    secure: true,
   });
   res.sendStatus(204);
 };
