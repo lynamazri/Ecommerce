@@ -6,12 +6,11 @@ import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import StoreCard from "../../components/ShopCard/ShopCard";
 import Footer from "../../components/Footer/Footer";
-import { categories } from "../../components/Navbar/Menu";
 import {
   fetchStoresData,
   updateFilteredStores,
 } from "../../redux/Slices/storesSlice";
-
+import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
 import "./Shops.css";
 
 function Shops() {
@@ -19,14 +18,23 @@ function Shops() {
   const { stores, filteredStores, status } = useSelector(
     (state) => state.stores
   );
+  const { data, isLoading, error } = useGetCategoriesQuery();
+  const [categories, setCategories] = useState([]);
+  const { category } = useParams();
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [viewMode, setViewMode] = useState("grid"); // State variable to track the view mode
+  useEffect(() => {
+    dispatch(fetchStoresData());
+  }, [dispatch]);
+  useEffect(() => {
+    if (data) {
+      setCategories(data);
+    }
+  }, [data]);
   console.log(stores);
   console.log(filteredStores);
   console.log(status);
-
-  const { category } = useParams();
-
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [viewMode, setViewMode] = useState("grid"); // State variable to track the view mode
+  console.log(categories);
 
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategory(selectedCategory);
@@ -39,10 +47,6 @@ function Shops() {
   const toggleViewMode = (mode) => {
     setViewMode(mode);
   };
-
-  useEffect(() => {
-    dispatch(fetchStoresData());
-  }, [dispatch]);
 
   return (
     <div>
@@ -72,17 +76,18 @@ function Shops() {
             <div className="shops-categories-filter">
               <h3>Shops category menu</h3>
               <ul className="body">
-                {categories.slice(0, 4).map((category, index) => (
-                  <div key={index}>
-                    <li
-                      key={index}
-                      onClick={() => handleCategorySelect(category.name)}
-                    >
-                      {category.name}
-                    </li>
-                    <span>100</span>
-                  </div>
-                ))}
+                {categories.length > 0 &&
+                  categories.map((category, index) => (
+                    <div key={index}>
+                      <li
+                        key={index}
+                        onClick={() => handleCategorySelect(category.name)}
+                      >
+                        {category.name}
+                      </li>
+                      <span>{}</span>
+                    </div>
+                  ))}
               </ul>
             </div>
           </div>
