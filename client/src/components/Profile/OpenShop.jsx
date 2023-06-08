@@ -1,27 +1,31 @@
 import React, { useState } from "react";
+import { useCreateStoreMutation } from "../../redux/Slices/apiSlice";
 
 function OpenShop() {
+  const [createStore] = useCreateStoreMutation();
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
+  const [selectedOption, setSelectedOption] = useState("");
   const [formData, setFormData] = useState({
-    shopName: "",
+    name: "",
     description: "",
     email: "",
-    phoneNumber: "",
-    address: "",
-    city: "",
-    state: "",
-    zipCode: "",
+    phone: "",
+    category: "",
+    workingHours: "",
     banner: null, // Add a field to store the uploaded file
-    logo: null, // Add a field to store the uploaded file
 
     agreeToTerms: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
+
   const [isShopCreated, setShopCreated] = useState(false);
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
     const fieldValue = type === "checkbox" ? checked : value;
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: fieldValue,
@@ -36,25 +40,61 @@ function OpenShop() {
       [name]: files[0],
     }));
   };
+  const handleBannerChange = (event) => {
+    if (!event.target) {
+      return;
+    }
+
+    const { name, files } = event.target;
+
+    if (!name || !files || files.length === 0) {
+      return;
+    }
+
+    const file = files[0];
+    const fileNameWithoutExtension = file.name.split(".")[0]; // Extract filename without extension
+    const updatedFileName = "banner"; // Set the desired filename without extension
+    const updatedFile = new File([file], updatedFileName, { type: file.type }); // Create a new File object with the updated filename
+    console.log(fileNameWithoutExtension);
+    // Set the selected file in the form data state
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: updatedFile,
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Validate form fields
+    //Validate form fields
     if (!validateForm()) {
       return;
     }
-
-    // Add your logic here to handle shop creation
-    // For now, just log the form data and set the shop created state to true
-    console.log(formData);
-    setErrorMessage("");
-    setShopCreated(true);
+    createStore({
+      name: formData.name,
+      description: formData.description,
+      email: formData.email,
+      phone: formData.phone,
+      category: formData.category,
+      workingHours: formData.workingHours,
+      userId: user.userId,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setShopCreated(true);
+        console.log("succeded");
+      })
+      .catch(() => {
+        // Handle error
+        setErrorMessage("Error");
+        console.log("Eroooooor");
+      });
   };
 
   const validateForm = () => {
     // Shop Name validation: Minimum 2 characters
-    if (formData.shopName.length < 2) {
+    if (formData.name.length < 2) {
       setErrorMessage("Shop Name must be at least 2 characters long.");
       return false;
     }
@@ -74,33 +114,39 @@ function OpenShop() {
 
     // Phone Number validation: 10-digit number
     const phoneNumberRegex = /^\d{10}$/;
-    if (!phoneNumberRegex.test(formData.phoneNumber)) {
+    if (!phoneNumberRegex.test(formData.phone)) {
       setErrorMessage("Please enter a 10-digit phone number.");
       return false;
     }
 
-    // Address validation
-    if (formData.address.trim() === "") {
-      setErrorMessage("Please enter a valid address.");
+    // Category validation
+    if (!formData.category) {
+      setErrorMessage("Please select a category.");
       return false;
     }
 
-    // City validation
-    if (formData.city.trim() === "") {
-      setErrorMessage("Please enter a valid city.");
+    // Working Hours validation
+    const workingHoursRegex =
+      /^(\w+ to \w+) - (\d{1,2}:\d{2}) to (\d{1,2}:\d{2})$/;
+    if (!workingHoursRegex.test(formData.workingHours)) {
+      setErrorMessage(
+        "Working hours should be in the format: 'WeekDay to WeekDay - h:mm to h:mm'."
+      );
       return false;
     }
 
-    // State validation
-    if (formData.state.trim() === "") {
-      setErrorMessage("Please enter a valid state.");
+    // Banner file validation
+    const bannerFile = formData.banner;
+    if (!bannerFile) {
+      setErrorMessage("Please upload a banner image.");
       return false;
     }
-
-    // ZIP Code validation: 5-digit number
-    const zipCodeRegex = /^\d{5}$/;
-    if (!zipCodeRegex.test(formData.zipCode)) {
-      setErrorMessage("Please enter a 5-digit ZIP Code.");
+    if (bannerFile.name !== "banner.png") {
+      setErrorMessage("The uploaded file must be named 'banner'.");
+      return false;
+    }
+    if (!bannerFile.type.startsWith("image/")) {
+      setErrorMessage("The uploaded file must be an image.");
       return false;
     }
 
@@ -109,10 +155,9 @@ function OpenShop() {
       setErrorMessage("Please agree to the terms and conditions.");
       return false;
     }
-
     return true;
   };
-
+  console.log(formData);
   return (
     <div className="right-container">
       <div className="open-shop-page">
@@ -129,11 +174,11 @@ function OpenShop() {
         ) : (
           <form className="shop-form" onSubmit={handleSubmit}>
             <div className="input-container">
-              <label htmlFor="shopName">Shop Name</label>
+              <label htmlFor="name">Shop Name</label>
               <input
                 type="text"
-                name="shopName"
-                id="shopName"
+                name="name"
+                id="name"
                 placeholder="Enter Shop Name"
                 required
                 onChange={handleChange}
@@ -164,63 +209,49 @@ function OpenShop() {
               />
             </div>
             <div className="input-container">
-              <label htmlFor="phoneNumber">Phone Number</label>
+              <label htmlFor="phone">Phone Number</label>
               <input
                 type="text"
-                name="phoneNumber"
-                id="phoneNumber"
+                name="phone"
+                id="phone"
                 placeholder="Enter Phone Number"
                 required
                 onChange={handleChange}
                 value={formData.phoneNumber}
               />
             </div>
+
             <div className="input-container">
-              <label htmlFor="address">Address</label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                placeholder="Enter Address"
+              <label htmlFor="category">Select a Category</label>
+              <select
+                id="category"
+                name="category"
                 required
+                value={formData.category}
                 onChange={handleChange}
-                value={formData.address}
-              />
+              >
+                <option value="">Choose an option</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Clothing and Fashion">
+                  Clothing and Fashion
+                </option>
+                <option value="Health and Beauty">Health and Beauty</option>
+                <option value="Home">Home</option>
+                <option value="Sports">Sports</option>
+                <option value="Books and Media">Books and Media</option>
+                <option value="Toys and Games">Toys and Games</option>
+              </select>
             </div>
             <div className="input-container">
-              <label htmlFor="city">City</label>
+              <label htmlFor="workingHours">Working Hours</label>
               <input
                 type="text"
-                name="city"
-                id="city"
-                placeholder="Enter City"
+                name="workingHours"
+                id="workingHours"
+                placeholder="Enter Your Working Hours"
                 required
                 onChange={handleChange}
-                value={formData.city}
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="state">State</label>
-              <input
-                type="text"
-                name="state"
-                id="state"
-                placeholder="Enter State"
-                required
-                onChange={handleChange}
-                value={formData.state}
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="zipCode">ZIP Code</label>
-              <input
-                type="text"
-                name="zipCode"
-                id="zipCode"
-                placeholder="Enter ZIP Code"
-                required
-                onChange={handleChange}
-                value={formData.zipCode}
+                value={formData.workingHours}
               />
             </div>
             {/* File upload for banner */}
@@ -230,18 +261,6 @@ function OpenShop() {
                 type="file"
                 name="banner"
                 id="banner"
-                accept="image/*"
-                onChange={handleFileChange}
-              />
-            </div>
-
-            {/* File upload for logo */}
-            <div className="input-container">
-              <label htmlFor="logo">Logo</label>
-              <input
-                type="file"
-                name="logo"
-                id="logo"
                 accept="image/*"
                 onChange={handleFileChange}
               />
@@ -262,7 +281,9 @@ function OpenShop() {
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 
             <div className="input-container">
-              <button type="submit">Create Shop</button>
+              <button type="submit" onClick={handleSubmit}>
+                Create Shop
+              </button>
             </div>
           </form>
         )}
