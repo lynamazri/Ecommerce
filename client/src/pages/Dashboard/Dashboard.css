@@ -59,6 +59,7 @@
 .dashboard-page > .menu > button {
   width: 100%;
   color: #fff;
+  background-color: var(--primaryColor);
   border: none;
   cursor: pointer;
 }
@@ -67,7 +68,7 @@
   color: #ff0000;
 }
 
-.dashboard-page > .dashboard-content-page {
+.dashboard-page > .dashboard--page {
   width: 80%;
   height: 100vh;
   padding: 0 2em;
@@ -77,7 +78,7 @@
   flex-direction: column;
 }
 
-.dashboard-page > .dashboard-content-page > .header {
+.dashboard-page > .dashboard--page > .header {
   height: 60px;
   margin-bottom: 4px;
   display: flex;
@@ -85,12 +86,12 @@
   gap: 1em;
 }
 
-.dashboard-page > .dashboard-content-page > .header > h3 {
+.dashboard-page > .dashboard--page > .header > h3 {
   font-size: 20px;
   font-weight: 600;
 }
 
-.dashboard-page > .dashboard-content-page > .header > p {
+.dashboard-page > .dashboard--page > .header > p {
   font-size: 16px;
   margin-top: 4px;
   font-family: "Open Sans";
@@ -233,4 +234,56 @@ canvas {
   padding: 0.2em 0.9em;
   text-align: center;
   font-size: 12px;
+}
+
+.dashboard-orders-page .main h3 {
+  font-size: 1.2em;
+  margin-top: 0.5em;
+}
+
+.dashboard-orders-page .filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.dashboard-orders-page .filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.dashboard-orders-page.dashboard--page .filter label {
+  font-size: 0.9em;
+  font-weight: 500;
+  color: #333333;
+}
+
+.dashboard-orders-page.dashboard--page .filter select {
+  font-size: 0.9em;
+  color: #333333;
+  padding: 0.3em;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+}
+
+.dashboard-orders-page.dashboard--page .order-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 1em;
+}
+
+.dashboard-orders-page.dashboard--page .order-item {
+  background-color: #f2f8fd;
+  padding: 1em;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-orders-page.dashboard--page .order-info p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #333333;
 }
