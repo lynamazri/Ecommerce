@@ -21,6 +21,6 @@ router.delete("/:id", deleteCatgory); //tested, works
 router.delete("/sub-category/:id", deleteSubCat); //tested, works
 router.patch("/:id", updateCatgory); //tested, works
 router.patch("/sub-category/:id", updateSubCat); //tested, works
-router.get("/:categoryId", getCategoryById)
+router.get("/:categoryId", getCategoryById); //tested, works
 
 module.exports = router;
