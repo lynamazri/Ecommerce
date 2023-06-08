@@ -67,7 +67,7 @@ const CartItem = ({ item }) => {
           <div className="item-total-price">
             {/* {item.isOnSale ? ( */}
             <>
-              {/* {item.discount.percentage !== 0 && (
+              {item.discount.percentage !== 0 && (
                 <span>DZD{item.price * item.quantity}</span>
               )}
               <span className="old-price">
@@ -75,7 +75,7 @@ const CartItem = ({ item }) => {
                 {item.discount.percentage === 0
                   ? item.price * item.quantity
                   : item.price / ((100 - item.discount.percentage) / 100)}
-              </span> */}
+              </span>
             </>
             {/* ) : null}
                       <span>DZD{item.price * item.quantity}</span> */}
