@@ -1,6 +1,7 @@
 import { useState } from "react";
 //import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Route, Router, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
