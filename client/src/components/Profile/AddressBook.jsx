@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGetAdressesQuery } from "../../redux/Slices/apiSlice";
 import { usePatchAddressMutation } from "../../redux/Slices/apiSlice";
-
+import { useDeleteAddressMutation } from "../../redux/Slices/apiSlice";
 function AddressBook() {
   const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState({
@@ -19,6 +19,8 @@ function AddressBook() {
   const { data: addressesData, isLoading } = useGetAdressesQuery(user.userId);
   const [patchAddress, { isLoading: patchAddressLoading, error }] =
     usePatchAddressMutation();
+
+  const [deleteAddress] = useDeleteAddressMutation();
 
   useEffect(() => {
     if (confirmationMessage) {
@@ -180,9 +182,11 @@ function AddressBook() {
 
   const handleDeleteAddress = (addressId) => {
     // Remove the address with the specified ID from the addresses list
-    setAddresses((prevAddresses) =>
-      prevAddresses.filter((address) => address.id !== addressId)
-    );
+    // setAddresses((prevAddresses) =>
+    //   prevAddresses.filter((address) => address.id !== addressId)
+    // );
+    deleteAddress(addressId);
+
     setConfirmationMessage("Address deleted successfully.");
   };
   console.log(editAddressId);

@@ -90,12 +90,19 @@ export const apiSlice = createApi({
     }),
     patchAddress: builder.mutation({
       query: ({ street, city, state, zip, editAddressId }) => ({
-        url: `address/${editAddressId}`,
+        url: `/address/${editAddressId}`,
         method: 'PATCH',
         body: { street, city, state, zip },
       }),
       invalidatesTags: ["getAddresses"]
-    })
+    }),
+    deleteAddress: builder.mutation({
+      query: (addressId) => ({
+        url: `/address/${addressId}`, // Endpoint URL with the `addressId` parameter
+        method: 'DELETE',
+      }),
+      invalidatesTags: ["getAddresses"]
+    }),
   })
 });
 export const {
@@ -109,4 +116,5 @@ export const {
   useGetCategoryQuery,
   useGetAdressesQuery,
   usePatchAddressMutation,
+  useDeleteAddressMutation,
 } = apiSlice;

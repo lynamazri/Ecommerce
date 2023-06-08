@@ -77,8 +77,8 @@ const updateAddress = async (req, res) => {
     });
 
     if (updateAddress) {
-      res.json({ message: "success" });
-    } else res.status(400).send("Error updating address.");
+      res.json({ message: "Changed Successfully" });
+    } else res.json({ message: "Error updating address." });
   }
 };
 
