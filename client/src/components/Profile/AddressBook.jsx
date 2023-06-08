@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useGetAdressesQuery } from "../../redux/Slices/apiSlice";
 import { usePatchAddressMutation } from "../../redux/Slices/apiSlice";
 import { useDeleteAddressMutation } from "../../redux/Slices/apiSlice";
+import { useAddAddressMutation } from "../../redux/Slices/apiSlice";
 function AddressBook() {
   const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState({
@@ -21,6 +22,7 @@ function AddressBook() {
     usePatchAddressMutation();
 
   const [deleteAddress] = useDeleteAddressMutation();
+  const [addAddress] = useAddAddressMutation();
 
   useEffect(() => {
     if (confirmationMessage) {
@@ -35,7 +37,6 @@ function AddressBook() {
   useEffect(() => {
     if (addressesData) {
       setAddresses(addressesData);
-      console.log(addressesData);
     }
   }, [addressesData]);
 
@@ -79,7 +80,7 @@ function AddressBook() {
     if (validationError) {
       setErrorMessage(validationError);
       setConfirmationMessage("");
-      return console.log(editAddressId);
+      return;
     }
     patchAddress({
       street: newAddress.street,
@@ -99,7 +100,6 @@ function AddressBook() {
           zip: "",
         });
         setEditAddressId(null);
-        invalidate;
       })
       .catch(() => {
         // Handle error
@@ -116,48 +116,71 @@ function AddressBook() {
       setConfirmationMessage("");
       return;
     }
+    addAddress({
+      street: newAddress.street,
+      city: newAddress.city,
+      state: newAddress.state,
+      zip: newAddress.zip,
+      userId: user.userId,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setConfirmationMessage("Address added successfully");
+        setNewAddress({
+          street: "",
+          city: "",
+          state: "",
+          zip: "",
+        });
+        setEditAddressId(null);
+      })
+      .catch(() => {
+        // Handle error
+        setErrorMessage("Error");
+      });
 
-    if (editAddressId) {
-      // Editing existing address
-      setAddresses((prevAddresses) =>
-        prevAddresses.map((address) => {
-          if (address.id === editAddressId) {
-            return {
-              id: address.id,
-              ...newAddress,
-            };
-          }
-          return address;
-        })
-      );
-      setEditAddressId(null);
-      setConfirmationMessage("Address updated successfully.");
-    } else {
-      // Generate a unique ID for the new address
-      const newId =
-        addresses.length > 0 ? addresses[addresses.length - 1].id + 1 : 1;
+    // if (editAddressId) {
+    //   // Editing existing address
+    //   setAddresses((prevAddresses) =>
+    //     prevAddresses.map((address) => {
+    //       if (address.id === editAddressId) {
+    //         return {
+    //           id: address.id,
+    //           ...newAddress,
+    //         };
+    //       }
+    //       return address;
+    //     })
+    //   );
+    //   setEditAddressId(null);
+    //   setConfirmationMessage("Address updated successfully.");
+    // } else {
+    //   // Generate a unique ID for the new address
+    //   const newId =
+    //     addresses.length > 0 ? addresses[addresses.length - 1].id + 1 : 1;
 
-      // Create a new address object with the entered data and the generated ID
-      const newAddressData = {
-        id: newId,
-        ...newAddress,
-      };
+    //   // Create a new address object with the entered data and the generated ID
+    //   const newAddressData = {
+    //     id: newId,
+    //     ...newAddress,
+    //   };
 
-      // Add the new address to the addresses list
-      setAddresses((prevAddresses) => [...prevAddresses, newAddressData]);
-      setConfirmationMessage("Address added successfully.");
-    }
+    //   // Add the new address to the addresses list
+    //   setAddresses((prevAddresses) => [...prevAddresses, newAddressData]);
+    //   setConfirmationMessage("Address added successfully.");
+    // }
 
-    // Clear the new address form inputs
-    setNewAddress({
-      street: "",
-      city: "",
-      state: "",
-      zip: "",
-    });
+    // // Clear the new address form inputs
+    // setNewAddress({
+    //   street: "",
+    //   city: "",
+    //   state: "",
+    //   zip: "",
+    // });
 
-    // Clear the error message
-    setErrorMessage("");
+    // // Clear the error message
+    // setErrorMessage("");
   };
 
   const handleEditAddress = (event, addressId) => {
@@ -189,7 +212,6 @@ function AddressBook() {
 
     setConfirmationMessage("Address deleted successfully.");
   };
-  console.log(editAddressId);
   return (
     <form className="right-container">
       {isLoading ? (

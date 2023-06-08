@@ -33,7 +33,7 @@ const createAddress = async (req, res) => {
     },
   });
 
-  if (addAddress) res.sendStatus(200);
+  if (addAddress) res.json({ message: "Changed Successfully" });
   else res.status(400).send("Unable to create address.");
 };
 

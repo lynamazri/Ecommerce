@@ -103,6 +103,21 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getAddresses"]
     }),
+    addAddress: builder.mutation({
+      query: ({ street, city, state, zip, userId }) => ({
+        url: `/address/${userId}`,
+        method: 'POST',
+        body: { street, city, state, zip },
+      }),
+      invalidatesTags: ["getAddresses"]
+    }),
+    patchPassword: builder.mutation({
+      query: ({ curPassword, newPassword, userId }) => ({
+        url: `/profile/password/${userId}`,
+        method: 'PATCH',
+        body: { curPassword, newPassword },
+      }),
+    }),
   })
 });
 export const {
@@ -117,4 +132,6 @@ export const {
   useGetAdressesQuery,
   usePatchAddressMutation,
   useDeleteAddressMutation,
+  useAddAddressMutation,
+  usePatchPasswordMutation
 } = apiSlice;
