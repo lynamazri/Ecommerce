@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useCreateOrderMutation } from "../../redux/Slices/apiSlice";
+import { useGetAdressesQuery } from "../../redux/Slices/apiSlice";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import Cart from "../../components/Cart/Cart";
 import Footer from "../../components/Footer/Footer";
 import "./Checkout.css";
+import { logOut } from "../../redux/Slices/authSlice";
 
 function Checkout() {
   const [displayExistingAddress, setDisplayExistingAddress] = useState(false);
@@ -17,17 +20,30 @@ function Checkout() {
   const [successMessage, setSuccessMessage] = useState("");
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [coupon, setCoupon] = useState("");
+  const [createOrder] = useCreateOrderMutation();
+  const [existingAddresses, setAddresses] = useState([]);
 
-  const existingAddresses = ["Address 1", "Address 2", "Address 3"];
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const { data: addressesData, isLoading } = useGetAdressesQuery(user.userId);
+
+  useEffect(() => {
+    if (addressesData) {
+      setAddresses(addressesData);
+    }
+  }, [addressesData]);
 
   const handleExistingAddress = (event) => {
     setDisplayExistingAddress(event.target.checked);
     setSelectedAddress("");
     setAddressError("");
+    console.log(existingAddresses.length);
   };
 
   const handleAddressSelection = (event) => {
     setSelectedAddress(event.target.value);
+    console.log(selectedAddress);
   };
 
   const handleEnteredAddress = (event) => {
@@ -75,8 +91,33 @@ function Checkout() {
       setCheckoutError("Please complete all required fields.");
       return;
     } else {
-      setSuccessMessage("Your order has been placed successfully!");
-      setCheckoutError("");
+      createOrder({
+        total: 1000,
+        method: paymentMethod,
+        cart: "",
+        address: selectedAddress,
+        coupon: coupon,
+        //street:
+        //city:
+        //state:
+        //zip:
+        userId: user.userId,
+      })
+        .unwrap() // Extract the response data
+        .then(() => {
+          // Handle successful update
+          setSuccessMessage("Your order has been placed successfully!");
+
+          setFormData({
+            selectedAddress: "",
+            coupon: "",
+            method: "",
+          });
+        })
+        .catch(() => {
+          // Handle error
+          setCheckoutError("Error");
+        });
     }
 
     // Simulating order placement with a timeout
@@ -118,16 +159,13 @@ function Checkout() {
             <div className="header">
               <h3>Shipping Address</h3>
               <div className="lower-part">
-                <p>Please enter your billing info</p>
+                <p>Please choose a shipping address</p>
                 <p>Step 1 of 3</p>
               </div>
             </div>
             <div className="body">
               {(!existingAddresses.length || !displayExistingAddress) && (
                 <>
-                  <label className="label-checkout" htmlFor="entered-address">
-                    Enter your address:
-                  </label>
                   <input
                     id="entered-address"
                     className="input-checkout"
@@ -155,15 +193,20 @@ function Checkout() {
                   {displayExistingAddress && (
                     <div role="group" aria-labelledby="existing-address">
                       {existingAddresses.map((address) => (
-                        <label className="label-checkout" key={address}>
+                        <label className="label-checkout" key={address.id}>
                           <input
                             type="radio"
                             name="selected-address"
-                            value={address}
-                            checked={selectedAddress === address}
+                            value={address.id}
+                            checked={selectedAddress === address.id}
                             onChange={handleAddressSelection}
                           />
-                          {address}
+                          <label>
+                            <span>{address.street} </span>
+                            <span>{address.city} </span>
+                            <span>{address.state} </span>
+                            <span>{address.zip}</span>
+                          </label>
                         </label>
                       ))}
                       {addressError && (
@@ -184,7 +227,7 @@ function Checkout() {
             <div className="header">
               <h3>Payment method</h3>
               <div className="lower-part">
-                <p>Please enter your payment method</p>
+                <p>Please choose a payment method.</p>
                 <p>Step 2 of 3</p>
               </div>
             </div>
@@ -209,15 +252,13 @@ function Checkout() {
                 />
                 Payment on delivery
               </label>
-              <label class="label-checkout" htmlFor="coupon">
-                Enter coupon:
-              </label>
+
               <input
                 className="input-checkout"
                 id="coupon"
                 type="text"
                 value={coupon}
-                placeholder="Enter coupon"
+                placeholder="Enter Coupon"
                 onChange={handleCouponChange}
               />
             </div>
@@ -259,7 +300,6 @@ function Checkout() {
             </div>
           </div>
         </form>
-
         <div className="right-container">
           <Cart isCheckoutPage={true} />
         </div>

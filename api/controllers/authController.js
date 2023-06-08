@@ -174,15 +174,15 @@ const refresh = async (req, res) => {
     where: { refreshToken: refreshToken },
   });
   if (!user) {
-    const admin = await prisma.Admin.findUnique({
+    const user = await prisma.Admin.findUnique({
       where: { refreshToken: refreshToken },
     });
-    console.log(admin);
+    console.log(user);
     jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
       (err, decoded) => {
-        if (err || admin.username !== decoded.username)
+        if (err || user.username !== decoded.username)
           return res.sendStatus(403);
         const accessToken = jwt.sign(
           { username: decoded.username },
@@ -193,7 +193,7 @@ const refresh = async (req, res) => {
       }
     );
 
-    if (!admin) {
+    if (!user) {
       return res.sendStatus(403);
     }
   }

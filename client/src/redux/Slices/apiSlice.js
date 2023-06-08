@@ -12,7 +12,7 @@ const baseQuery = fetchBaseQuery({
     }
     return headers;
   },
-  tags: ["Products"]
+  tags: ["Products"],
 });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
@@ -60,14 +60,14 @@ export const apiSlice = createApi({
     patchProfile: builder.mutation({
       query: ({ newUsername, firstName, lastName, bankAccount, user }) => ({
         url: `/profile/${user}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: { newUsername, firstName, lastName, bankAccount },
       }),
     }),
     createReview: builder.mutation({
       query: ({ content, stars, productId }) => ({
         url: `/productss/${productId}/review`,
-        method: 'POST',
+        method: "POST",
         body: { content, stars },
       }),
     }),
@@ -79,10 +79,10 @@ export const apiSlice = createApi({
       query: (userId) => `/profile/username/${userId}`,
     }),
     getSubCategories: builder.query({
-      query: () => '/category/category',
+      query: () => "/category/category",
     }),
     getCategory: builder.query({
-      query: (categoryId) => `/category/${categoryId}`
+      query: (categoryId) => `/category/${categoryId}`,
     }),
     getAdresses: builder.query({
       query: (userId) => `/address/all/${userId}`,
@@ -91,34 +91,62 @@ export const apiSlice = createApi({
     patchAddress: builder.mutation({
       query: ({ street, city, state, zip, editAddressId }) => ({
         url: `/address/${editAddressId}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: { street, city, state, zip },
       }),
-      invalidatesTags: ["getAddresses"]
+      invalidatesTags: ["getAddresses"],
     }),
     deleteAddress: builder.mutation({
       query: (addressId) => ({
         url: `/address/${addressId}`, // Endpoint URL with the `addressId` parameter
-        method: 'DELETE',
+        method: "DELETE",
       }),
-      invalidatesTags: ["getAddresses"]
+      invalidatesTags: ["getAddresses"],
     }),
     addAddress: builder.mutation({
       query: ({ street, city, state, zip, userId }) => ({
         url: `/address/${userId}`,
-        method: 'POST',
+        method: "POST",
         body: { street, city, state, zip },
       }),
-      invalidatesTags: ["getAddresses"]
+      invalidatesTags: ["getAddresses"],
     }),
     patchPassword: builder.mutation({
       query: ({ curPassword, newPassword, userId }) => ({
         url: `/profile/password/${userId}`,
-        method: 'PATCH',
+        method: "PATCH",
         body: { curPassword, newPassword },
       }),
     }),
-  })
+    createOrder: builder.mutation({
+      query: ({
+        total,
+        method,
+        cart,
+        address,
+        coupon,
+        street,
+        city,
+        state,
+        zip,
+        userId,
+      }) => ({
+        url: `/order/checkout/${userId}`,
+        method: "POST",
+        body: {
+          total,
+          method,
+          cart,
+          address,
+          coupon,
+          street,
+          city,
+          state,
+          zip,
+        },
+      }),
+    }),
+  }),
 });
 export const {
   useGetProductsQuery,
@@ -133,5 +161,6 @@ export const {
   usePatchAddressMutation,
   useDeleteAddressMutation,
   useAddAddressMutation,
-  usePatchPasswordMutation
+  usePatchPasswordMutation,
+  useCreateOrderMutation,
 } = apiSlice;
