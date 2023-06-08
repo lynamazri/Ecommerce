@@ -7,6 +7,7 @@ function Search() {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
+  const [subCatValue, setSubCatValue] = useState("All Categories");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,22 +41,47 @@ function Search() {
     return subcategory.name;
   });
 
+  const handleOptionClick = (optionValue) => {
+    setSubCatValue(optionValue);
+    setShowOptions(!showOptions);
+  };
+
   return (
     <>
       <div className="searchBar">
-        <div>
-          <span className="categories" onClick={handleOptionsClick}>
-            All Categories
-          </span>
-          {showOptions && (
-            <ul className="subcategories-list-options">
-              {subCategoryNames
-                ? subCategoryNames?.map((subCategoryName) => {
-                    return <li>{subCategoryName}</li>;
-                  })
-                : null}
-            </ul>
-          )}
+        <div
+          className={
+            showOptions ? "categories-constainer categories" : "categories"
+          }
+          onClick={handleOptionsClick}
+        >
+          <span className="categories">{subCatValue}</span>
+          <div
+            className={
+              showOptions
+                ? "subcategories-list-options show"
+                : "subcategories-list-options"
+            }
+          >
+            {showOptions && (
+              <ul className="options-list">
+                {subCategoryNames
+                  ? subCategoryNames?.map((subCategoryName) => {
+                      return (
+                        <>
+                          <li
+                            className="options"
+                            onClick={() => handleOptionClick(subCategoryName)}
+                          >
+                            {subCategoryName}
+                          </li>
+                        </>
+                      );
+                    })
+                  : null}
+              </ul>
+            )}
+          </div>
         </div>
         <div className="searchInput">
           <input
