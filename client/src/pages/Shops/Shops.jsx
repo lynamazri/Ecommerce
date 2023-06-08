@@ -31,10 +31,6 @@ function Shops() {
       setCategories(data);
     }
   }, [data]);
-  console.log(stores);
-  console.log(filteredStores);
-  console.log(status);
-  console.log(categories);
 
   const handleCategorySelect = (selectedCategory) => {
     setSelectedCategory(selectedCategory);
@@ -76,18 +72,27 @@ function Shops() {
             <div className="shops-categories-filter">
               <h3>Shops category menu</h3>
               <ul className="body">
+                <div>
+                  <li>All Categories</li>
+                  <span>100</span>
+                </div>
                 {categories.length > 0 &&
-                  categories.map((category, index) => (
-                    <div key={index}>
-                      <li
-                        key={index}
-                        onClick={() => handleCategorySelect(category.name)}
-                      >
-                        {category.name}
-                      </li>
-                      <span>{}</span>
-                    </div>
-                  ))}
+                  categories.map((category, index) => {
+                    const filteredStores = stores.filter(
+                      (store) => store.catId === category.catId
+                    );
+                    return (
+                      <div key={index}>
+                        <li
+                          key={index}
+                          onClick={() => handleCategorySelect(category.name)}
+                        >
+                          {category.name}
+                        </li>
+                        <span>{filteredStores.length}</span>
+                      </div>
+                    );
+                  })}
               </ul>
             </div>
           </div>
