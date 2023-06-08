@@ -93,6 +93,24 @@ function DashboardContent() {
       rating: 4.2,
       price: 25,
     },
+    {
+      id: 4,
+      name: "Product C",
+      views: 120,
+      purchases: 40,
+      reviews: 8,
+      rating: 4.2,
+      price: 25,
+    },
+    {
+      id: 4,
+      name: "Product C",
+      views: 120,
+      purchases: 40,
+      reviews: 8,
+      rating: 4.2,
+      price: 25,
+    },
   ];
 
   const salesPerMonthData = {
@@ -176,7 +194,7 @@ function DashboardContent() {
               <div className="chart-container">
                 <Line
                   width={600}
-                  height={300}
+                  height={280}
                   data={salesPerMonthData}
                   options={chartOptions}
                 />

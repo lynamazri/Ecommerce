@@ -44,7 +44,7 @@
   color: #a9a9a9;
 }
 
-.checkout-page > div > div > .body {
+.checkout-page > .left-container > div > .body {
   padding-bottom: 1em;
   display: flex;
   flex-direction: column;
