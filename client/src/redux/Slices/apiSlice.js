@@ -146,6 +146,21 @@ export const apiSlice = createApi({
         },
       }),
     }),
+    createStore: builder.mutation({
+      query: ({
+        name,
+        description,
+        email,
+        phone,
+        category,
+        workingHours,
+        userId,
+      }) => ({
+        url: `/store/open/${userId}`,
+        method: "POST",
+        body: { name, description, email, phone, category, workingHours },
+      }),
+    }),
   }),
 });
 export const {
@@ -163,4 +178,5 @@ export const {
   useAddAddressMutation,
   usePatchPasswordMutation,
   useCreateOrderMutation,
+  useCreateStoreMutation,
 } = apiSlice;

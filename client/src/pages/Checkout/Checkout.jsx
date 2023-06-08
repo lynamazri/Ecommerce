@@ -10,9 +10,16 @@ import { logOut } from "../../redux/Slices/authSlice";
 
 function Checkout() {
   const [displayExistingAddress, setDisplayExistingAddress] = useState(false);
-  const [enteredAddress, setEnteredAddress] = useState("");
-  const [addressError, setAddressError] = useState("");
   const [selectedAddress, setSelectedAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [addressError, setAddressError] = useState("");
+  const [streetError, setStreetError] = useState("");
+  const [cityError, setCityError] = useState("");
+  const [stateError, setStateError] = useState("");
+  const [zipCodeError, setZipCodeError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentError, setPaymentError] = useState("");
   const [termsAgreed, setTermsAgreed] = useState(false);
@@ -43,22 +50,80 @@ function Checkout() {
 
   const handleAddressSelection = (event) => {
     setSelectedAddress(event.target.value);
-    console.log(selectedAddress);
+  };
+  const handleStreetChange = (event) => {
+    const street = event.target.value;
+    setStreet(street);
+    validateStreet(street, city, state, zipCode);
   };
 
-  const handleEnteredAddress = (event) => {
-    const address = event.target.value;
-    setEnteredAddress(address);
-    validateAddress(address);
+  const handleCityChange = (event) => {
+    const city = event.target.value;
+    setCity(city);
+    validateCity(city);
   };
 
-  const validateAddress = (address) => {
-    if (address.trim() === "") {
-      setAddressError("Address is required.");
-    } else if (address.trim() === "") {
-      setAddressError("Address is required.");
+  const handleStateChange = (event) => {
+    const state = event.target.value;
+    setState(state);
+    validateState(state);
+  };
+
+  const handleZipCodeChange = (event) => {
+    const zipCode = event.target.value;
+    setZipCode(zipCode);
+    validateZipCode(zipCode);
+  };
+
+  const validateStreet = (street) => {
+    if (street.trim() === "") {
+      setStreetError("Street is required.");
+      return false;
+    } else if (street.length < 5) {
+      setStreetError("Address must be at least 5 characters long.");
+      return false;
     } else {
-      setAddressError("");
+      setStreetError("");
+      return true;
+    }
+  };
+
+  const validateCity = (city) => {
+    if (city.trim() === "") {
+      setCityError("City is required.");
+      return false;
+    } else if (city.length < 3) {
+      setCityError("City must be at least 3 characters long.");
+      return false;
+    } else {
+      setCityError("");
+      return true;
+    }
+  };
+
+  const validateState = (state) => {
+    if (state.trim() === "") {
+      setStateError("State is required.");
+      return false;
+    } else if (state.length < 2) {
+      setStateError("State must be at least 2 characters long.");
+      return false;
+    } else {
+      setStateError("");
+      return true;
+    }
+  };
+
+  const validateZipCode = (zipCode) => {
+    if (zipCode.trim() === "") {
+      setZipCodeError("ZIP Code is required.");
+      return false;
+    } else if (!/^\d{5}$/.test(zipCode)) {
+      setZipCodeError("Zip code must be a 5-digit number.");
+      return false;
+    } else {
+      setZipCodeError("");
+      return true;
     }
   };
 
@@ -140,7 +205,10 @@ function Checkout() {
       );
     } else {
       return (
-        enteredAddress.trim() !== "" &&
+        street.trim() !== "" &&
+        city.trim() !== "" &&
+        state.trim() !== "" &&
+        zipCode.trim() !== "" &&
         paymentMethod !== "" &&
         termsAgreed &&
         !addressError &&
@@ -166,16 +234,51 @@ function Checkout() {
             <div className="body">
               {(!existingAddresses.length || !displayExistingAddress) && (
                 <>
+                  <label className="label-checkout" htmlFor="entered-address">
+                    Enter your address:
+                  </label>
                   <input
-                    id="entered-address"
+                    id="street"
                     className="input-checkout"
                     type="text"
-                    placeholder="Enter your address"
-                    value={enteredAddress}
-                    onChange={handleEnteredAddress}
+                    placeholder="Enter your street"
+                    value={street}
+                    onChange={handleStreetChange}
                   />
-                  {addressError && (
-                    <p className="error-message">{addressError}</p>
+                  {streetError && (
+                    <p className="error-message">{streetError}</p>
+                  )}
+
+                  <input
+                    id="city"
+                    className="input-checkout"
+                    type="text"
+                    placeholder="Enter your city"
+                    value={city}
+                    onChange={handleCityChange}
+                  />
+                  {cityError && <p className="error-message">{cityError}</p>}
+
+                  <input
+                    id="state"
+                    className="input-checkout"
+                    type="text"
+                    placeholder="Enter your state"
+                    value={state}
+                    onChange={handleStateChange}
+                  />
+                  {stateError && <p className="error-message">{stateError}</p>}
+
+                  <input
+                    id="zipCode"
+                    className="input-checkout"
+                    type="text"
+                    placeholder="Enter your ZIP code"
+                    value={zipCode}
+                    onChange={handleZipCodeChange}
+                  />
+                  {zipCodeError && (
+                    <p className="error-message">{zipCodeError}</p>
                   )}
                 </>
               )}
@@ -253,6 +356,9 @@ function Checkout() {
                 Payment on delivery
               </label>
 
+              <label className="label-checkout" htmlFor="coupon">
+                Enter coupon:
+              </label>
               <input
                 className="input-checkout"
                 id="coupon"
