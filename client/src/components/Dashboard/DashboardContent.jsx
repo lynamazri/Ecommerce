@@ -1,12 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "chart.js";
-import { Bar } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import "chartjs-adapter-moment";
-import "chartjs-adapter-date-fns";
-import "chartjs-adapter-luxon";
-import "chartjs-adapter-moment-timezone";
+import { Line } from "react-chartjs-2";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { A11y } from "swiper/core";
@@ -24,8 +18,11 @@ import {
   FaEdit,
 } from "react-icons/fa";
 
+import Chart from "chart.js/auto";
+
 function DashboardContent() {
   const [previousData, setPreviousData] = useState({});
+  const [chartInstance, setChartInstance] = useState(null);
 
   // Simulated data for the current sales summary
   const salesSummaryData = {
@@ -88,15 +85,6 @@ function DashboardContent() {
     },
   ];
 
-  const chartRef = useRef(null);
-
-  useEffect(() => {
-    // Destroy the previous chart instance before rendering a new one
-    if (chartRef.current) {
-      chartRef.current.chartInstance.destroy();
-    }
-  }, []);
-
   const salesPerMonthData = {
     labels: ["January", "February", "March", "April", "May", "June"],
     datasets: [
@@ -106,6 +94,8 @@ function DashboardContent() {
         backgroundColor: "rgba(54, 162, 235, 0.5)",
         borderColor: "rgba(54, 162, 235, 1)",
         borderWidth: 1,
+        fill: "origin",
+        tension: 0.4,
       },
     ],
   };
@@ -119,16 +109,35 @@ function DashboardContent() {
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         borderColor: "rgba(75, 192, 192, 1)",
         borderWidth: 1,
+        fill: "origin",
+        tension: 0.4,
       },
     ],
   };
 
-  const chartOptions = {
-    scales: {
-      y: {
-        beginAtZero: true,
+  useEffect(() => {
+    // Destroy the previous chart instance when the component unmounts
+    return () => {
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+    };
+  }, [chartInstance]);
+
+  const renderChart = () => {
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+
+    const newChartInstance = new Chart(document.getElementById("chartCanvas"), {
+      type: "line",
+      data: salesPerMonthData,
+      options: {
+        // Chart options...
       },
-    },
+    });
+
+    setChartInstance(newChartInstance);
   };
 
   return (
@@ -164,15 +173,80 @@ function DashboardContent() {
               <h3>Sales Analytics</h3>
               <div className="chart-container">
                 <h4>Sales per Month</h4>
-                <Bar ref={chartRef} data={salesPerMonthData} />
+                <Line
+                  width={400}
+                  height={300}
+                  data={salesPerMonthData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: "Sales per Month - Cubic interpolation mode",
+                      },
+                    },
+                    interaction: {
+                      intersect: false,
+                    },
+                    scales: {
+                      x: {
+                        display: true,
+                        title: {
+                          display: true,
+                        },
+                      },
+                      y: {
+                        display: true,
+                        title: {
+                          display: true,
+                          text: "Value",
+                        },
+                        suggestedMin: 0,
+                      },
+                    },
+                    cubicInterpolationMode: "monotone",
+                  }}
+                />
               </div>
               <div className="chart-container">
                 <h4>Revenue per Month</h4>
-                <Bar ref={chartRef} data={revenuePerMonthData} />
+                <Line
+                  width={400}
+                  height={300}
+                  data={revenuePerMonthData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: "Revenue per Month - Cubic interpolation mode",
+                      },
+                    },
+                    interaction: {
+                      intersect: false,
+                    },
+                    scales: {
+                      x: {
+                        display: true,
+                        title: {
+                          display: true,
+                        },
+                      },
+                      y: {
+                        display: true,
+                        title: {
+                          display: true,
+                          text: "Value",
+                        },
+                        suggestedMin: 0,
+                      },
+                    },
+                    cubicInterpolationMode: "monotone",
+                  }}
+                />
               </div>
-            </div>{" "}
+            </div>
           </div>
-
           <div className="right">
             <div className="store-info">
               <img src="path_to_banner_image" alt="Store Banner" />
@@ -192,7 +266,7 @@ function DashboardContent() {
                 </ul>
               </div>
               <Link to="/dashboard/settings">
-                <FaEdit />
+                <FaEdit className="edit-icon" />
                 Edit Store Info
               </Link>
             </div>
@@ -205,20 +279,20 @@ function DashboardContent() {
             <table>
               <thead>
                 <tr>
-                  <th>Product Name</th>
+                  <th id="th1">Product Name</th>
                   <th>Rating</th>
                   <th>Reviews</th>
                   <th>Views</th>
                   <th>Purchases</th>
-                  <th>Income</th>
+                  <th id="th2">Income</th>
                 </tr>
               </thead>
               <tbody>
                 {productMetricsData.map((product) => (
                   <tr key={product.id}>
+                    <td>{product.name}</td>
                     <td>{product.rating}</td>
                     <td>{product.reviews}</td>
-                    <td>{product.name}</td>
                     <td>{product.views}</td>
                     <td>{product.purchases}</td>
                     <td>{product.purchases * product.price}</td>

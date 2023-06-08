@@ -165,14 +165,23 @@
 
 .product-metrics table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+
   margin-top: 10px;
 }
 
-.product-metrics th {
+.product-metrics thead {
+  height: 40px;
   background: #f1f5f9;
   border: 1px solid #eff0f4;
   border-radius: 12px;
+}
+#th1 {
+  border-radius: 12px;
+}
+
+.product-metrics th {
   font-weight: 600;
   font-size: 12px;
   color: #505470;
@@ -180,11 +189,7 @@
 }
 
 .product-metrics td {
-  border: 1px solid #eff0f4;
+  /* border: none; */
   padding: 10px;
   text-align: center;
-}
-
-.product-metrics tr:nth-child(even) {
-  background-color: #f7fafc;
 }
