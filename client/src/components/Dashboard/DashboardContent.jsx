@@ -157,7 +157,7 @@ function DashboardContent() {
     cubicInterpolationMode: "monotone",
   };
   return (
-    <div className="dashboard-content-page">
+    <div className="dashboard-content-page dashboard--page">
       <div className="header">
         <h3>Hello Tassy Omah,</h3>
         <p>

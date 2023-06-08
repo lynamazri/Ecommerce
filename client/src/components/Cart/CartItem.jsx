@@ -43,18 +43,18 @@ const CartItem = ({ item }) => {
       </div>
       <div className="lower-card">
         <div className="list">
-          <Link to="/wishlist" className="wishlist">
+          <button to="/wishlist" className="wishlist">
             <span className="svg">
               <AiOutlineHeart size={11} color="#D1D1D1" />
             </span>
             <h4>Wishlist</h4>
-          </Link>
-          <Link to="/compare" className="compare">
+          </button>
+          <button to="/compare" className="compare">
             <span className="svg">
               <TbListDetails size={11} color="#FF7F50" />
             </span>
             <h4>Compare</h4>
-          </Link>
+          </button>
           <button className="remove-item" onClick={() => handleRemove(item)}>
             <span className="svg">
               <TiDeleteOutline size={11} color="#151515" />

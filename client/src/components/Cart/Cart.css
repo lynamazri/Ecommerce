@@ -142,12 +142,15 @@
   display: flex;
   cursor: pointer;
   margin: 5px 0px;
-}
 
-.remove-item {
   border: none;
   background: none;
 }
+/* 
+.remove-item {
+  border: none;
+  background: none;
+} */
 
 .svg {
   display: flex;
@@ -155,7 +158,8 @@
   padding-right: 3px;
 }
 
-h4 {
+.item-info > h4,
+.list > button > h4 {
   font-family: "Open Sans";
   color: #a9a9a9;
   border: none;

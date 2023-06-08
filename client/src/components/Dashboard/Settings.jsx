@@ -4,18 +4,24 @@ import { Outlet } from "react-router-dom";
 function Settings() {
   // ...
   return (
-    <div>
-      <h2>Settings</h2>
-      <ul className="settings-menu">
-        <li>General</li>
-        <li>Shipping</li>
-        <li>Payment</li>
-        <li>Discount Codes</li>
-        <li>Store Info</li> {/* Add this option */}
-      </ul>
-      <div className="settings-content">
-        <Outlet />
+    <div className="dashboard-settings-page dashboard--page">
+      <div className="header">
+        <h3>Hello Tassy Omah,</h3>
+        <p>
+          Welcome to your dashboard! Stay organized and maximize your
+          productivity.
+        </p>
       </div>
+      <div className="main">
+        <h3>Settings</h3>
+        <div>
+          <h4>General</h4>
+          <h4>Shipping</h4>
+          <h4>Payment</h4>
+          <h4>Discount Codes</h4>
+          <h4>Store Info</h4> {/* Add this option */}
+        </div>
+      </div>{" "}
     </div>
   );
 }
