@@ -8,6 +8,9 @@ function Orders() {
       orderId: "ORD-001",
       date: "2023-05-30",
       status: "Pending",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
     },
     {
       id: 2,
@@ -15,6 +18,9 @@ function Orders() {
       orderId: "ORD-002",
       date: "2023-05-29",
       status: "Processing",
+      productName: "Product 2",
+      quantity: 2,
+      price: 10.99,
     },
     {
       id: 3,
@@ -22,6 +28,9 @@ function Orders() {
       orderId: "ORD-003",
       date: "2023-05-28",
       status: "Shipped",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
     },
     {
       id: 4,
@@ -29,6 +38,9 @@ function Orders() {
       orderId: "ORD-004",
       date: "2023-05-27",
       status: "Completed",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
     },
     {
       id: 5,
@@ -36,21 +48,44 @@ function Orders() {
       orderId: "ORD-005",
       date: "2023-05-26",
       status: "Returned",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
+    },
+    {
+      id: 4,
+      customerName: "Alice Williams",
+      orderId: "ORD-004",
+      date: "2023-05-27",
+      status: "Completed",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
+    },
+    {
+      id: 5,
+      customerName: "Eve Davis",
+      orderId: "ORD-005",
+      date: "2023-05-26",
+      status: "Returned",
+      productName: "Product 1",
+      quantity: 2,
+      price: 10.99,
     },
   ]);
 
   const [filterStatus, setFilterStatus] = useState("");
-  const [filterDateRange, setFilterDateRange] = useState("");
+  const [sortingOption, setSortingOption] = useState("");
 
   const handleStatusFilterChange = (event) => {
     setFilterStatus(event.target.value);
   };
 
-  const handleDateRangeFilterChange = (event) => {
-    setFilterDateRange(event.target.value);
+  const handleSortingOptionChange = (event) => {
+    setSortingOption(event.target.value);
   };
 
-  const filterOrders = () => {
+  const filterAndSortOrders = () => {
     let filteredItems = orderItems;
 
     if (filterStatus) {
@@ -59,22 +94,28 @@ function Orders() {
       );
     }
 
-    if (filterDateRange) {
-      const currentDate = new Date();
-      const dateRange = parseInt(filterDateRange);
-
-      filteredItems = filteredItems.filter((item) => {
-        const orderDate = new Date(item.date);
-        const differenceInDays =
-          (currentDate - orderDate) / (1000 * 60 * 60 * 24);
-        return differenceInDays <= dateRange;
-      });
+    switch (sortingOption) {
+      case "orderIdAsc":
+        filteredItems.sort((a, b) => a.orderId.localeCompare(b.orderId));
+        break;
+      case "orderIdDesc":
+        filteredItems.sort((a, b) => b.orderId.localeCompare(a.orderId));
+        break;
+      case "dateAsc":
+        filteredItems.sort((a, b) => a.date.localeCompare(b.date));
+        break;
+      case "dateDesc":
+        filteredItems.sort((a, b) => b.date.localeCompare(a.date));
+        break;
+      default:
+        // No sorting option selected
+        break;
     }
 
     return filteredItems;
   };
 
-  const filteredItems = filterOrders();
+  const filteredAndSortedItems = filterAndSortOrders();
 
   return (
     <div className="dashboard-orders-page dashboard--page">
@@ -105,31 +146,32 @@ function Orders() {
             </select>
           </div>
           <div className="filter">
-            <label htmlFor="date-range-filter">
-              Filter by Date Range (in days):
-            </label>
+            <label htmlFor="sorting-option">Sort by:</label>
             <select
-              id="date-range-filter"
-              value={filterDateRange}
-              onChange={handleDateRangeFilterChange}
+              id="sorting-option"
+              value={sortingOption}
+              onChange={handleSortingOptionChange}
             >
-              <option value="">All</option>
-              <option value="1">1 day</option>
-              <option value="7">7 days</option>
-              <option value="30">30 days</option>
-              <option value="90">90 days</option>
+              <option value="">None</option>
+              <option value="orderIdAsc">Order ID (Ascending)</option>
+              <option value="orderIdDesc">Order ID (Descending)</option>
+              <option value="dateAsc">Date (Ascending)</option>
+              <option value="dateDesc">Date (Descending)</option>
             </select>
           </div>
         </div>
 
         <div className="order-items">
-          {filteredItems.map((item) => (
+          {filteredAndSortedItems.map((item) => (
             <div key={item.id} className="order-item">
               <div className="order-info">
                 <p>Order ID: {item.orderId}</p>
                 <p>Customer Name: {item.customerName}</p>
                 <p>Order Date: {item.date}</p>
                 <p>Status: {item.status}</p>
+                <p>Product Name: {item.productName}</p>
+                <p>Quantity: {item.quantity}</p>
+                <p>Price: {item.price}</p>
                 <select
                   value={item.status}
                   onChange={(event) => {

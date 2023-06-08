@@ -252,38 +252,41 @@ canvas {
   display: flex;
   align-items: center;
   gap: 0.5em;
+  border-radius: 8px;
 }
 
-.dashboard-orders-page.dashboard--page .filter label {
+.dashboard-orders-page .filter label {
   font-size: 0.9em;
   font-weight: 500;
-  color: #333333;
+  color: #191919;
 }
 
-.dashboard-orders-page.dashboard--page .filter select {
-  font-size: 0.9em;
-  color: #333333;
+.order-info > select {
+  font-size: 11px;
+  font-weight: 500;
+  color: #191919;
   padding: 0.3em;
-  border-radius: 4px;
-  border: 1px solid #cccccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
   cursor: pointer;
 }
 
-.dashboard-orders-page.dashboard--page .order-items {
+.dashboard-orders-page .order-items {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 1em;
 }
 
-.dashboard-orders-page.dashboard--page .order-item {
+.dashboard-orders-page .order-item {
   background-color: #f2f8fd;
   padding: 1em;
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dashboard-orders-page.dashboard--page .order-info p {
+.dashboard-orders-page .order-info p {
   margin: 0;
   font-size: 0.9em;
-  color: #333333;
+  color: #191919;
 }
