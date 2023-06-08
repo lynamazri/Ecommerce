@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { usePatchPasswordMutation } from "../../redux/Slices/apiSlice";
 
 function Security() {
   const [formData, setFormData] = useState({
@@ -20,7 +21,10 @@ function Security() {
     newPass: false,
     confirmNewPass: false,
   });
-
+  const [updatePassword] = usePatchPasswordMutation();
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   function togglePasswordInputType(name) {
     setPassInputType((prevPassInputType) => ({
       ...prevPassInputType,
@@ -54,6 +58,16 @@ function Security() {
 
     return true;
   };
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, errorMessage]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -61,23 +75,25 @@ function Security() {
     if (!validateForm()) {
       return;
     }
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/profile/edit/changepass",
-        {
-          curPassword: formData.oldPass,
-          newPassword: formData.newPass,
-        }
-      );
-      console.log(response);
-      setSuccessMessage("Password updated successfully");
-      setErrorMessage("");
-      // navigate("/", { replace: true });
-    } catch (error) {
-      console.log(error);
-      setErrorMessage(error.response.data);
-      setSuccessMessage("");
-    }
+    updatePassword({
+      curPassword: formData.oldPass,
+      newPassword: formData.newPass,
+      userId: user.userId,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setSuccessMessage("Changes saved successfully.");
+        setFormData({
+          oldPass: "",
+          newPass: "",
+          confirmNewPass: "",
+        });
+      })
+      .catch(() => {
+        // Handle error
+        setErrorMessage("Error");
+      });
   };
 
   return (
@@ -104,7 +120,10 @@ function Security() {
               {formData.oldPass && (
                 <button
                   className="show-password"
-                  onClick={() => togglePasswordInputType("oldPass")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePasswordInputType("oldPass");
+                  }}
                 >
                   {showPass.oldPass ? <AiFillEye /> : <AiFillEyeInvisible />}
                 </button>
@@ -126,7 +145,10 @@ function Security() {
               {formData.newPass && (
                 <button
                   className="show-password"
-                  onClick={() => togglePasswordInputType("newPass")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePasswordInputType("newPass");
+                  }}
                 >
                   {showPass.newPass ? <AiFillEye /> : <AiFillEyeInvisible />}
                 </button>
@@ -148,7 +170,10 @@ function Security() {
               {formData.confirmNewPass && (
                 <button
                   className="show-password"
-                  onClick={() => togglePasswordInputType("confirmNewPass")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePasswordInputType("confirmNewPass");
+                  }}
                 >
                   {showPass.confirmNewPass ? (
                     <AiFillEye />

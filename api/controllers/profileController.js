@@ -35,7 +35,7 @@ const updatePassword = async (req, res) => {
     },
   });
   if (updateUser) {
-    res.sendStatus(200);
+    res.json({ message: "Password Changed Successfully" });
   } else res.status(400).send("Error updating password.");
 };
 
