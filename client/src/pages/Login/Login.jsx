@@ -152,15 +152,13 @@ function Login() {
   }
   return (
     <>
-      <Link to="/">
-        <h1 className="login-logo">magaza</h1>
-      </Link>
-
       <div className="app">
         <div className="heroSection">
           <>
             <h3>Sign in to</h3>
-            <p>magaza</p>
+            <Link to="/">
+              <h1 className="login-logo">magaza</h1>
+            </Link>
           </>
           <span>
             If you don’t have an account register <br />

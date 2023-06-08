@@ -11,7 +11,7 @@
 
 .shop-page > .upper > .banner {
   width: 45%;
-  height: 400px;
+  height: 275px;
   background-color: #f9f9f9;
   border-radius: 12px;
   display: flex;
@@ -32,19 +32,14 @@
   color: #151515;
 }
 
-.shop-page > .upper > .info > div {
-  display: flex;
-  gap: 1em;
-}
-
-.shop-page > .upper > .info > div > .detail {
+.information > .detail {
   font-family: "Open Sans";
   font-weight: 400;
   font-size: 14px;
   color: #a9a9a9;
 }
 
-.shop-page > .upper > .info > div > .detail-value {
+.information > .detail-value {
   font-family: "Open Sans";
   font-weight: 400;
   font-size: 14px;

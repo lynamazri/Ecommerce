@@ -34,10 +34,10 @@ function Dashboard() {
           </li>
           <li>
             <Link
-              to="/dashboard/statistics"
-              className={isActive("/dashboard/statistics") ? "active" : ""}
+              to="/dashboard/orders"
+              className={isActive("/dashboard/orders") ? "active" : ""}
             >
-              Statistics
+              Orders
             </Link>
           </li>
           <li>

@@ -1,39 +1,43 @@
 import React, { useState, useEffect } from "react";
-
+import { useGetAdressesQuery } from "../../redux/Slices/apiSlice";
+import { usePatchAddressMutation } from "../../redux/Slices/apiSlice";
+import { useDeleteAddressMutation } from "../../redux/Slices/apiSlice";
 function AddressBook() {
   const [addresses, setAddresses] = useState([]);
   const [newAddress, setNewAddress] = useState({
-    address: "",
+    street: "",
     city: "",
     state: "",
-    zipCode: "",
+    zip: "",
   });
   const [editAddressId, setEditAddressId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const { data: addressesData, isLoading } = useGetAdressesQuery(user.userId);
+  const [patchAddress, { isLoading: patchAddressLoading, error }] =
+    usePatchAddressMutation();
+
+  const [deleteAddress] = useDeleteAddressMutation();
 
   useEffect(() => {
-    // Assuming you fetch the addresses from the backend and store them in the 'fetchedAddresses' variable
-    const fetchedAddresses = [
-      {
-        id: 1,
-        address: "123 Main St",
-        city: "Cityville",
-        state: "Stateville",
-        zipCode: "12345",
-      },
-      {
-        id: 2,
-        address: "456 Elm St",
-        city: "Townsville",
-        state: "Stateville",
-        zipCode: "67890",
-      },
-    ];
+    if (confirmationMessage) {
+      const timer = setTimeout(() => {
+        setConfirmationMessage("");
+      }, 5000);
 
-    // Set the addresses with the fetched data
-    setAddresses(fetchedAddresses);
-  }, []);
+      return () => clearTimeout(timer);
+    }
+  }, [confirmationMessage]);
+
+  useEffect(() => {
+    if (addressesData) {
+      setAddresses(addressesData);
+      console.log(addressesData);
+    }
+  }, [addressesData]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -44,13 +48,13 @@ function AddressBook() {
   }
 
   const validateForm = () => {
-    const { address, city, state, zipCode } = newAddress;
+    const { street, city, state, zip } = newAddress;
 
-    if (!address || !city || !state || !zipCode) {
+    if (!street || !city || !state || !zip) {
       return "Please fill in all the required fields.";
     }
 
-    if (address.length < 5) {
+    if (street.length < 5) {
       return "Address must be at least 5 characters long.";
     }
 
@@ -62,13 +66,46 @@ function AddressBook() {
       return "State must be at least 2 characters long.";
     }
 
-    if (!/^\d{5}$/.test(zipCode)) {
+    if (!/^\d{5}$/.test(zip)) {
       return "Zip code must be a 5-digit number.";
     }
 
     return ""; // Return empty string if the form is valid
   };
 
+  const handleUpdateAddress = (e) => {
+    e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) {
+      setErrorMessage(validationError);
+      setConfirmationMessage("");
+      return console.log(editAddressId);
+    }
+    patchAddress({
+      street: newAddress.street,
+      city: newAddress.city,
+      state: newAddress.state,
+      zip: newAddress.zip,
+      editAddressId,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setConfirmationMessage("Changes saved successfully.");
+        setNewAddress({
+          street: "",
+          city: "",
+          state: "",
+          zip: "",
+        });
+        setEditAddressId(null);
+        invalidate;
+      })
+      .catch(() => {
+        // Handle error
+        setErrorMessage("Error");
+      });
+  };
   const handleAddAddress = (event) => {
     event.preventDefault();
 
@@ -113,10 +150,10 @@ function AddressBook() {
 
     // Clear the new address form inputs
     setNewAddress({
-      address: "",
+      street: "",
       city: "",
       state: "",
-      zipCode: "",
+      zip: "",
     });
 
     // Clear the error message
@@ -131,10 +168,10 @@ function AddressBook() {
     if (addressToEdit) {
       // Set the new address form inputs with the selected address
       setNewAddress({
-        address: addressToEdit.address,
+        street: addressToEdit.street,
         city: addressToEdit.city,
         state: addressToEdit.state,
-        zipCode: addressToEdit.zipCode,
+        zip: addressToEdit.zip,
       });
 
       // Set the address ID to be edited
@@ -145,108 +182,122 @@ function AddressBook() {
 
   const handleDeleteAddress = (addressId) => {
     // Remove the address with the specified ID from the addresses list
-    setAddresses((prevAddresses) =>
-      prevAddresses.filter((address) => address.id !== addressId)
-    );
+    // setAddresses((prevAddresses) =>
+    //   prevAddresses.filter((address) => address.id !== addressId)
+    // );
+    deleteAddress(addressId);
+
     setConfirmationMessage("Address deleted successfully.");
   };
-
+  console.log(editAddressId);
   return (
     <form className="right-container">
-      <div className="addresses-page">
-        <div className="header">
-          <h3>My Address Book</h3>
-          <p>Organize your addresses. Add, edit, or remove addresses below.</p>
-        </div>
-        <div className="body">
-          <div className="old-addresses">
-            {addresses.map((address) => (
-              <div key={address.id} className="address-item">
-                <div className="inputs">
-                  <p>{address.address}</p>
-                  <p>{address.city}</p>
-                  <p>{address.state}</p>
-                  <p>{address.zipCode}</p>
-                </div>
-                <div className="buttons">
-                  <button
-                    className="edit"
-                    onClick={(event) => handleEditAddress(event, address.id)}
-                  >
-                    Edit
-                  </button>
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        <div className="addresses-page">
+          <div className="header">
+            <h3>My Address Book</h3>
+            <p>
+              Organize your addresses. Add, edit, or remove addresses below.
+            </p>
+          </div>
+          <div className="body">
+            <div className="old-addresses">
+              {addresses.map((address) => (
+                <div key={address.id} className="address-item">
+                  <div className="inputs">
+                    <p>{address.street}</p>
+                    <p>{address.city}</p>
+                    <p>{address.state}</p>
+                    <p>{address.zip}</p>
+                  </div>
+                  <div className="buttons">
+                    <button
+                      className="edit"
+                      onClick={(event) => handleEditAddress(event, address.id)}
+                    >
+                      Edit
+                    </button>
 
-                  <button
-                    className="delete"
-                    onClick={() => handleDeleteAddress(address.id)}
-                  >
-                    Delete
-                  </button>
+                    <button
+                      className="delete"
+                      onClick={() => handleDeleteAddress(address.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
+              ))}
+            </div>
+            <div className="add-addresses">
+              <div className="input-container">
+                <label htmlFor="address">Street</label>
+                <input
+                  type="text"
+                  name="street"
+                  id="street"
+                  placeholder="street"
+                  required
+                  onChange={handleChange}
+                  value={newAddress.street}
+                />
               </div>
-            ))}
-          </div>
-          <div className="add-addresses">
-            <div className="input-container">
-              <label htmlFor="address">Address</label>
-              <input
-                type="text"
-                name="address"
-                id="address"
-                placeholder="Address"
-                required
-                onChange={handleChange}
-                value={newAddress.address}
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="city">City</label>
-              <input
-                type="text"
-                name="city"
-                id="city"
-                placeholder="City"
-                required
-                onChange={handleChange}
-                value={newAddress.city}
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="state">State</label>
-              <input
-                type="text"
-                name="state"
-                id="state"
-                placeholder="State"
-                required
-                onChange={handleChange}
-                value={newAddress.state}
-              />
-            </div>
-            <div className="input-container">
-              <label htmlFor="zipCode">Zip Code</label>
-              <input
-                type="text"
-                name="zipCode"
-                id="zipCode"
-                placeholder="Zip Code"
-                required
-                onChange={handleChange}
-                value={newAddress.zipCode}
-              />
-            </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            {confirmationMessage && (
-              <p className="confirmation-message">{confirmationMessage}</p>
-            )}
-            <div className="input-container">
-              <button type="submit" onClick={handleAddAddress}>
-                {editAddressId ? "Update Address" : "Add Address"}
-              </button>
+              <div className="input-container">
+                <label htmlFor="city">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  id="city"
+                  placeholder="City"
+                  required
+                  onChange={handleChange}
+                  value={newAddress.city}
+                />
+              </div>
+              <div className="input-container">
+                <label htmlFor="state">State</label>
+                <input
+                  type="text"
+                  name="state"
+                  id="state"
+                  placeholder="State"
+                  required
+                  onChange={handleChange}
+                  value={newAddress.state}
+                />
+              </div>
+              <div className="input-container">
+                <label htmlFor="zipCode">Zip Code</label>
+                <input
+                  type="text"
+                  name="zip"
+                  id="zip"
+                  placeholder="Zip Code"
+                  required
+                  onChange={handleChange}
+                  value={newAddress.zip}
+                />
+              </div>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
+              {confirmationMessage && (
+                <p className="confirmation-message">{confirmationMessage}</p>
+              )}
+              <div className="input-container">
+                {editAddressId ? (
+                  <button type="submit" onClick={handleUpdateAddress}>
+                    Update Address
+                  </button>
+                ) : (
+                  <button type="submit" onClick={handleAddAddress}>
+                    Add Address
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </form>
   );
 }

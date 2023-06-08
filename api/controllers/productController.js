@@ -586,16 +586,20 @@ const deleteProductWish = async (req, res) => {
     },
   });
 
-  if (!findWish) return res.status(400).send("Unable to find wishlist item.");
-  else {
+  if (!findWish) {
+    return res.status(400).send("Unable to find wishlist item.");
+  } else {
     const deleteWish = await prisma.WishList.delete({
       where: {
         wishlistId: findWish.wishlistId,
       },
     });
 
-    if (deleteWish) res.sendStatus(200);
-    else res.status(400).send("Unable to remove product from wishlist.");
+    if (deleteWish) {
+      res.sendStatus(200);
+    } else {
+      res.status(400).send("Unable to remove product from wishlist.");
+    }
   }
 };
 
