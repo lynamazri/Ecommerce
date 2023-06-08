@@ -40,45 +40,33 @@ function OpenShop() {
       [name]: files[0],
     }));
   };
-  const handleBannerChange = (event) => {
-    if (!event.target) {
-      return;
-    }
-
-    const { name, files } = event.target;
-
-    if (!name || !files || files.length === 0) {
-      return;
-    }
-
-    const file = files[0];
-    const fileNameWithoutExtension = file.name.split(".")[0]; // Extract filename without extension
-    const updatedFileName = "banner"; // Set the desired filename without extension
-    const updatedFile = new File([file], updatedFileName, { type: file.type }); // Create a new File object with the updated filename
-    console.log(fileNameWithoutExtension);
-    // Set the selected file in the form data state
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: updatedFile,
-    }));
-  };
-
+  console.log(formData);
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    const fd = new FormData();
+    fd.append("banner", formData.banner);
+    fd.append("name", formData.name);
+    fd.append("description", formData.description);
+    fd.append("email", formData.email);
+    fd.append("phone", formData.phone);
+    fd.append("category", formData.category);
+    fd.append("workingHours", formData.workingHours);
+    fd.append("userId", user.userId);
     //Validate form fields
     if (!validateForm()) {
       return;
     }
-    createStore({
-      name: formData.name,
-      description: formData.description,
-      email: formData.email,
-      phone: formData.phone,
-      category: formData.category,
-      workingHours: formData.workingHours,
-      userId: user.userId,
-    })
+    // createStore({
+    //   name: formData.name,
+    //   description: formData.description,
+    //   email: formData.email,
+    //   phone: formData.phone,
+    //   category: formData.category,
+    //   workingHours: formData.workingHours,
+    //   userId: user.userId,
+    //   banner: formData.banner,
+    // })
+    createStore(fd)
       .unwrap() // Extract the response data
       .then(() => {
         // Handle successful update
