@@ -103,6 +103,9 @@ const getStoreFromUser = async (req, res) => {
     where: {
       userId: user,
     },
+    include: {
+      banner: true,
+    },
   });
   console.log("fetching store.");
   if (!store) res.status(400).send("No store available.");
@@ -166,6 +169,7 @@ const editBanner = async (req, res) => {
           url: upload.url,
         },
       });
+      console.log("editing banner");
 
       if (newBanner) res.sendStatus(200);
       else res.status(400).send("Unable to update banner.");

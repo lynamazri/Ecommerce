@@ -48,6 +48,9 @@ function DashboardContent() {
     setPreviousData(salesSummaryData);
   }, []);
 
+  //temporary
+  const mystore = localStorage.setItem("mystore", store.storeId);
+
   // Simulated data for the current sales summary
   const salesSummaryData = {
     totalRevenue: 1000,
@@ -242,7 +245,7 @@ function DashboardContent() {
           </div>
           <div className="right">
             <div className="store-info">
-              <img src="path_to_banner_image" alt="Store Banner" />
+              <img src={storeData.banner.url} alt="Store Banner" />
               <h3>{store.name}</h3>
               <div className="information">
                 <ul className="detail">

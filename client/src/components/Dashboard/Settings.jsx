@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useEditStoreMutation,
   useEditBannerMutation,
+  useGetStoreFromUserQuery,
 } from "../../redux/Slices/apiSlice";
 import { useNavigate } from "react-router-dom";
 
 function Settings() {
   const [errorMessage, setErrorMessage] = useState("");
-  const [discount, setDiscount] = useState("");
+  //const [discount, setDiscount] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const [storeUpdated, setStoreUpdated] = useState(false);
@@ -19,6 +20,9 @@ function Settings() {
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
+
+  let mystore = localStorage.getItem("mystore");
+  console.log(mystore);
 
   const [formData, setFormData] = React.useState({
     name: "",
@@ -134,7 +138,7 @@ function Settings() {
         description: formData.description,
         phone: formData.phone,
         workingHours: formData.workingHours,
-        store: "3c0d9716-c949-42d2-a274-e93f5d0af4a5",
+        store: mystore,
       })
         .unwrap() // Extract the response data
         .then(() => {
@@ -165,7 +169,7 @@ function Settings() {
     if (bannerFile) {
       editBanner({
         banner: bannerFile,
-        store: "3c0d9716-c949-42d2-a274-e93f5d0af4a5",
+        store: storeData.storeId,
       })
         .unwrap()
         .then(() => {
@@ -319,7 +323,7 @@ function Settings() {
               </div>
             </form>
           </div>
-          <div className="discount">
+          {/*  <div className="discount">
             <h4>Discount Codes</h4>
             <div className="create-discount">
               <h5>Create Discount Code</h5>
@@ -339,7 +343,7 @@ function Settings() {
               </div>
             </div>{" "}
             <h5>Manage Discount Codes</h5>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

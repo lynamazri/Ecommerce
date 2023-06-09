@@ -9,9 +9,10 @@ function ProductTable({ onEditProduct }) {
   const [updateProduct, { isLoading: updateProductLoading, error }] =
     useUpdateProductMutation();
 
-  const { data: productData, isLoading } = useGetProductsFromStoreQuery(
-    "3c0d9716-c949-42d2-a274-e93f5d0af4a5"
-  );
+  let mystore = localStorage.getItem("mystore");
+
+  const { data: productData, isLoading } =
+    useGetProductsFromStoreQuery(mystore);
 
   useEffect(() => {
     if (productData) {
@@ -116,7 +117,7 @@ function ProductForm({ product, onSubmit }) {
 
     // Price validation: Must be a positive number
     const parsedPrice = parseInt(price);
-    if (isNaN(parsedPrice) || parsedPrice <= 0) {
+    if (isNaN(parsedPrice) || parsedPrice < 0) {
       setErrorMessage("Price must be a positive number.");
       return false;
     }
