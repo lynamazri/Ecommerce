@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../../redux/Slices/apiSlice";
 import { useGetAdressesQuery } from "../../redux/Slices/apiSlice";
 import Navbar from "../../components/Navbar/Navbar";
@@ -33,6 +34,27 @@ function Checkout() {
     ? JSON.parse(localStorage.getItem("user"))
     : null;
   const { data: addressesData, isLoading } = useGetAdressesQuery(user.userId);
+
+  var total = localStorage.getItem("totalAmount")
+    ? JSON.parse(localStorage.getItem("totalAmount"))
+    : null;
+
+  const cart = useSelector((state) => state.cart);
+  const newCart = [];
+
+  cart.cartItems.map((item) => {
+    let line = {
+      productId: item.productId,
+      quantity: item.quantity,
+      storeId: item.storeId,
+    };
+
+    newCart.push(line);
+
+    console.log(item.productId);
+    console.log(item.quantity);
+    console.log(item.storeId);
+  });
 
   useEffect(() => {
     if (addressesData) {
@@ -160,31 +182,27 @@ function Checkout() {
       return;
     } else {
       createOrder({
-        total: 1000,
+        total: total,
         method: paymentMethod,
-        cart: "",
+        cart: newCart,
         address: selectedAddress,
         coupon: coupon,
         street: street,
         city: city,
         state: state,
         zip: zipCode,
-        userId: user.userId,
+        user: user.userId,
       })
         .unwrap() // Extract the response data
         .then(() => {
           // Handle successful update
           setSuccessMessage("Your order has been placed successfully!");
 
-          setFormData({
-            selectedAddress: "",
-            coupon: "",
-            method: "",
-          });
+          setStreet(""), setState(""), setCity(""), setZipCode("");
         })
-        .catch(() => {
+        .catch((error) => {
           // Handle error
-          setCheckoutError("Error");
+          setCheckoutError("Failed to complete order. Please try again.");
         });
     }
 

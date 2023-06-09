@@ -133,9 +133,9 @@ export const apiSlice = createApi({
         city,
         state,
         zip,
-        userId,
+        user,
       }) => ({
-        url: `/order/checkout/${userId}`,
+        url: `/order/checkout/${user}`,
         method: "POST",
         body: {
           total,
@@ -158,11 +158,52 @@ export const apiSlice = createApi({
       }),
     }),
     getCategories: builder.query({
-      query: () => '/category/',
+      query: () => "/category/",
       providesTags: ["getCategory"],
+    }),
+    getReviews: builder.query({
+      query: (id) => `/store/reviews/${id}`,
+    }),
+    getQuestions: builder.query({
+      query: (id) => `/store/questions/${id}`,
+    }),
+
+    answerQuestion: builder.mutation({
+      query: ({ answer, id }) => ({
+        url: `/store/questions/answer/${id}`,
+        method: "PATCH",
+        body: { answer },
+      }),
+    }),
+    deleteStore: builder.mutation({
+      query: (id) => ({
+        url: `/store/${id}`, // Endpoint URL with the `addressId` parameter
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getStores"],
+    }),
+    verifyStore: builder.mutation({
+      query: ({ id }) => ({
+        url: `/store/${id}`,
+        method: "PATCH",
+      }),
+    }),
+
+    getStores: builder.query({
+      query: () => `/store`,
+      providesTags: ["getStores"],
+    }),
+
+    editStore: builder.mutation({
+      query: ({ description, phone, workingHours, store }) => ({
+        url: `/store/edit/${store}`,
+        method: "PATCH",
+        body: { description, phone, workingHours },
+      }),
     }),
   }),
 });
+
 export const {
   useGetProductsQuery,
   useGetProductQuery,
@@ -180,5 +221,11 @@ export const {
   useCreateOrderMutation,
   useCreateStoreMutation,
   useGetCategoriesQuery,
+  useGetReviewsQuery,
+  useGetQuestionsQuery,
+  useAnswerQuestionMutation,
+  useDeleteStoreMutation,
+  useVerifyStoreMutation,
   useGetStoresQuery,
+  useEditStoreMutation,
 } = apiSlice;
