@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
-import { useGetStoreFromUserQuery } from "../../redux/Slices/apiSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -19,6 +18,7 @@ import {
   FaArrowDown,
   FaEdit,
 } from "react-icons/fa";
+import { useGetStoreFromUserQuery } from "../../redux/Slices/apiSlice";
 
 import Chart from "chart.js/auto";
 
@@ -29,17 +29,24 @@ function DashboardContent() {
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
 
   const { data: storeData, isLoading } = useGetStoreFromUserQuery(user.userId);
-  const [store, setStore] = useState();
+  const [store, setStore] = useState({});
 
   useEffect(() => {
     if (storeData) {
       setStore(storeData);
+      console.log(store);
     }
-  }, [storeData]);
+  }, [storeData, isLoading]);
 
-  console.log(storeData);
+  useEffect(() => {
+    // Update the previous data when the component mounts
+    setPreviousData(salesSummaryData);
+  }, []);
 
   // Simulated data for the current sales summary
   const salesSummaryData = {
@@ -50,18 +57,6 @@ function DashboardContent() {
     reviewsCount: 10,
     questionsCount: 5,
   };
-
-  const [storeName, setStoreName] = useState(storeData.name);
-  const [openingDate, setOpeningDate] = useState(storeData.openingDate);
-  const [mainCategory, setMainCategory] = useState(storeData.catId);
-  const [workingHours, setWorkingHours] = useState(storeData.workingHours);
-  const [phoneNumber, setPhoneNumber] = useState(storeData.phone);
-  const [email, setEmail] = useState(storeData.email);
-
-  useEffect(() => {
-    // Update the previous data when the component mounts
-    setPreviousData(salesSummaryData);
-  }, []);
 
   function getIcon(key, currentValue, previousValue) {
     if (currentValue > previousValue) {
@@ -155,6 +150,10 @@ function DashboardContent() {
     },
     cubicInterpolationMode: "monotone",
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="dashboard-content-page dashboard--page">
       <div className="header">
@@ -205,7 +204,7 @@ function DashboardContent() {
           <div className="right">
             <div className="store-info">
               <img src="path_to_banner_image" alt="Store Banner" />
-              <h3>{storeName}</h3>
+              <h3>{store.name}</h3>
               <div className="information">
                 <ul className="detail">
                   <li>Main Category:</li>
@@ -215,11 +214,11 @@ function DashboardContent() {
                   <li>Opening Date:</li>
                 </ul>
                 <ul className="detail-value">
-                  <li>{mainCategory}</li>
-                  <li>{workingHours}</li>
-                  <li>{phoneNumber}</li>
-                  <li>{email}</li>
-                  <li>{openingDate}</li>
+                  <li>{store.catId}</li>
+                  <li>{store.workingHours}</li>
+                  <li>{store.phone}</li>
+                  <li>{store.email}</li>
+                  <li>{store.openingDate}</li>
                 </ul>
               </div>
               <Link to="/dashboard/settings">
