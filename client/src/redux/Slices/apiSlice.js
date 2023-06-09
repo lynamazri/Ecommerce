@@ -57,6 +57,10 @@ export const apiSlice = createApi({
       query: (id) => `/productss/store/${id}`,
       providesTags: [],
     }),
+    getStores: builder.query({
+      query: () => '/store/',
+      providesTags: ['getStores']
+    }),
     patchProfile: builder.mutation({
       query: ({ newUsername, firstName, lastName, bankAccount, user }) => ({
         url: `/profile/${user}`,
@@ -176,4 +180,5 @@ export const {
   useCreateOrderMutation,
   useCreateStoreMutation,
   useGetCategoriesQuery,
+  useGetStoresQuery,
 } = apiSlice;

@@ -11,33 +11,43 @@ import {
   updateFilteredStores,
 } from "../../redux/Slices/storesSlice";
 import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
+import { useGetStoresQuery } from "../../redux/Slices/apiSlice";
 import "./Shops.css";
 
 function Shops() {
   const dispatch = useDispatch();
-  const { stores, filteredStores, status } = useSelector(
-    (state) => state.stores
-  );
-  const { data, isLoading, error } = useGetCategoriesQuery();
+  // const { stores, status } = useSelector((state) => state.stores);
+  const { data: storesData, isLoading: storesLoading } = useGetStoresQuery();
+  const { data: categoriesData, isLoading, error } = useGetCategoriesQuery();
   const [categories, setCategories] = useState([]);
-  const { category } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [viewMode, setViewMode] = useState("grid"); // State variable to track the view mode
+  const [stores, setStores] = useState([]);
+  const [filteredStores, setFilteredStores] = useState([]);
+  const [showCatName, setShowCatName] = useState(false);
+  const { category } = useParams();
   useEffect(() => {
     dispatch(fetchStoresData());
   }, [dispatch]);
   useEffect(() => {
-    if (data) {
-      setCategories(data);
+    if (categoriesData) {
+      setCategories(categoriesData);
     }
-  }, [data]);
+    if (storesData) {
+      setStores(storesData);
+      setFilteredStores(stores);
+    }
+  }, [categoriesData, storesData]);
 
   const handleCategorySelect = (selectedCategory) => {
-    setSelectedCategory(selectedCategory);
-    let filteredStores = stores.filter((store) =>
-      store.category.includes(selectedCategory)
+    setShowCatName(true);
+    setSelectedCategory(selectedCategory.name);
+    console.log(selectedCategory);
+    setFilteredStores(
+      stores.filter((store) => store.catId === selectedCategory.catId)
     );
-    dispatch(updateFilteredStores(filteredStores));
+    console.log(filteredStores);
+    // dispatch(updateFilteredStores(filteredStores));
   };
 
   const toggleViewMode = (mode) => {
@@ -50,7 +60,7 @@ function Shops() {
       <Path />
       <div className="shops-page">
         <div className="header">
-          <h2>Shops</h2>
+          <h2>{showCatName ? selectedCategory : "Shops"}</h2>
           <div className="view">
             <span
               className={`view-mode ${viewMode === "grid" ? "active" : ""}`}
@@ -72,9 +82,14 @@ function Shops() {
             <div className="shops-categories-filter">
               <h3>Shops category menu</h3>
               <ul className="body">
-                <div>
+                <div
+                  onClick={() => {
+                    setFilteredStores(stores);
+                    setShowCatName(false);
+                  }}
+                >
                   <li>All Categories</li>
-                  <span>100</span>
+                  {stores && <span>{stores.length}</span>}
                 </div>
                 {categories.length > 0 &&
                   categories.map((category, index) => {
@@ -85,7 +100,9 @@ function Shops() {
                       <div key={index}>
                         <li
                           key={index}
-                          onClick={() => handleCategorySelect(category.name)}
+                          onClick={() => {
+                            handleCategorySelect(category);
+                          }}
                         >
                           {category.name}
                         </li>
@@ -101,14 +118,13 @@ function Shops() {
               viewMode === "list" ? "list-view" : ""
             }`}
           >
-            {status === "succeeded" &&
-              filteredStores.map((store) => (
-                <StoreCard
-                  key={store.storeId}
-                  store={store}
-                  viewMode={viewMode}
-                />
-              ))}
+            {filteredStores.map((store) => (
+              <StoreCard
+                key={store.storeId}
+                store={store}
+                viewMode={viewMode}
+              />
+            ))}
           </div>
         </div>
       </div>
