@@ -246,7 +246,7 @@ export const apiSlice = createApi({
 
     getUserOrders: builder.query({
       query: (user) => `/order/completed/${user}`,
-      providesTags: ["getUserOrders"],
+      providesTags: ["getStoreFromUser"],
     }),
   }),
 });

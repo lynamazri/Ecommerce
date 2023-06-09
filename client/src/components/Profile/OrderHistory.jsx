@@ -8,16 +8,15 @@ function OrderHistory() {
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
-  const { data: orderData, isLoading } = useGetUserOrdersQuery(user.userId);
-  console.log(user.userId);
 
+  const { data: orderData, isLoading } = useGetUserOrdersQuery(user.userId);
   const [orders, setOrders] = useState({});
+
   useEffect(() => {
     if (orderData) {
       setOrders(orderData);
     }
   }, [orderData, isLoading]);
-
   console.log(orderData);
 
   const cancelOrder = (orderId) => {
@@ -57,9 +56,7 @@ function OrderHistory() {
       (order) => order.status === filterStatus
     );
   }
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+
   return (
     <div className="right-container">
       <div className="order-history-page">
