@@ -51,7 +51,6 @@ export default function ProductDetails() {
     productData && setProduct(processedData);
     productData && setImages(processedData.images);
     productData && setReviews(processedData.reviews);
-    productData && console.log(product);
   }, [productData]);
 
   const dispatch = useDispatch();
