@@ -91,7 +91,7 @@ function Home() {
               <ul className="sectionLeftItems">
                 {categories.slice(1, 5).map((category, index) => (
                   <li key={index}>
-                    <Link to={category.link}>{category.name}</Link>
+                    <Link to={`/Shops`}>{category.name}</Link>
                   </li>
                 ))}
               </ul>
