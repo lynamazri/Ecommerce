@@ -58,16 +58,6 @@ function DashboardContent() {
     questionsCount: 5,
   };
 
-  function getIcon(key, currentValue, previousValue) {
-    if (currentValue > previousValue) {
-      return <FaArrowUp className="trend-icon positive" />;
-    } else if (currentValue < previousValue) {
-      return <FaArrowDown className="trend-icon negative" />;
-    } else {
-      return null;
-    }
-  }
-
   const productMetricsData = [
     {
       id: 1,
@@ -126,7 +116,7 @@ function DashboardContent() {
     plugins: {
       title: {
         display: true,
-        text: "Sales per Month - Cubic interpolation mode",
+        text: "Sales per Month",
       },
     },
     interaction: {
@@ -179,15 +169,64 @@ function DashboardContent() {
                 spaceBetween={15}
                 slidesPerView={3}
               >
-                {Object.entries(salesSummaryData).map(([key, value]) => (
-                  <SwiperSlide key={key}>
-                    <div className="summary-item">
-                      <h4>{key.charAt(0).toUpperCase() + key.slice(1)}</h4>
-                      <p>{value}</p>
-                      {getIcon(key, value, previousData[key])}
+                <SwiperSlide>
+                  <div className="summary-item">
+                    <div>
+                      <FaDollarSign className="icon" />
+                      <h4>Total Revenue</h4>
                     </div>
-                  </SwiperSlide>
-                ))}
+                    <p>{salesSummaryData.totalRevenue}</p>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <div className="summary-item">
+                    <div>
+                      <FaShoppingCart className="icon" />
+                      <h4>Total Products Sold</h4>
+                    </div>
+                    <p>{salesSummaryData.totalProductsSold}</p>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  {" "}
+                  <div className="summary-item">
+                    <div>
+                      <FaChartLine className="icon" />
+                      <h4>Average Order Value</h4>
+                    </div>
+                    <p>{salesSummaryData.averageOrderValue}</p>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  {" "}
+                  <div className="summary-item">
+                    <div>
+                      <FaUser className="icon" />
+                      <h4>Total Customers</h4>
+                    </div>
+                    <p>{salesSummaryData.totalCustomers}</p>
+                  </div>
+                </SwiperSlide>{" "}
+                <SwiperSlide>
+                  {" "}
+                  <div className="summary-item">
+                    <div>
+                      <FaStar className="icon" />
+                      <h4>Reviews</h4>
+                    </div>
+                    <p>{salesSummaryData.reviewsCount}</p>
+                  </div>
+                </SwiperSlide>
+                <SwiperSlide>
+                  {" "}
+                  <div className="summary-item">
+                    <div>
+                      <FaQuestionCircle className="icon" />
+                      <h4>Questions</h4>
+                    </div>
+                    <p>{salesSummaryData.questionsCount}</p>
+                  </div>
+                </SwiperSlide>{" "}
               </Swiper>
             </div>
             <div className="sales-analytics">
