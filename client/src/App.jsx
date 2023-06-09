@@ -12,6 +12,7 @@ import Shops from "./pages/Shops/Shops";
 import Profile from "./pages/Profile/Profile";
 import Checkout from "./pages/Checkout/Checkout";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import NotFound from "./pages/NotFound/NotFound";
 import Help from "./pages/Help/Help";
 import HelpArticle from "./pages/Help/HelpArticle";
@@ -32,6 +33,14 @@ import DashboardContent from "./components/Dashboard/DashboardContent";
 import DashboardProducts from "./components/Dashboard/DashboardProducts";
 import Orders from "./components/Dashboard/Orders";
 import Settings from "./components/Dashboard/Settings";
+
+import AdminDashCont from "./components/AdminDashboard/AdminDashCont";
+import AdminUsers from "./components/AdminDashboard/AdminUsers";
+import AdminShops from "./components/AdminDashboard/AdminShops";
+import AdminProducts from "./components/AdminDashboard/AdminProducts";
+import AdminsManage from "./components/AdminDashboard/AdminsManage";
+import AdminSettings from "./components/AdminDashboard/AdminSettings";
+
 import Welcome from "./pages/Home/Welcome";
 import PersistLogin from "./pages/Login/PersistLogin";
 
@@ -133,6 +142,14 @@ function App() {
           <Route path="/dashboard/products" element={<DashboardProducts />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/settings" element={<Settings />} />
+        </Route>
+        <Route path="/admin" element={<AdminDashboard />}>
+          <Route path="/admin/dashboard" element={<AdminDashCont />} />
+          <Route path="/admin/users" element={<AdminUsers />} />
+          <Route path="/admin/shops" element={<AdminShops />} />
+          <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/admins" element={<AdminsManage />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>
         <Route path="/welcome" element={<Welcome />} />
         <Route path="/not-found" element={<NotFound />} />
