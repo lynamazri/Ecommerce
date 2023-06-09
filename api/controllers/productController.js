@@ -24,11 +24,10 @@ const getProducts = async (req, res) => {
       store: true,
       subCat: true,
       images: true,
-      options: true,
       reviews: {
         include: {
           user: true,
-        }
+        },
       },
       discount: true,
     },
@@ -48,7 +47,6 @@ const getProductsFromStore = async (req, res) => {
     include: {
       images: true,
       subCat: true,
-      options: true,
     },
   });
   if (!productsInStore) {
@@ -72,11 +70,11 @@ const getProductById = async (req, res) => {
       images: true,
       store: true,
       subCat: true,
-      options: true,
+
       reviews: {
         include: {
           user: true,
-        }
+        },
       },
       discount: true,
     },
@@ -101,7 +99,6 @@ const getProductByName = async (req, res) => {
       images: true,
       store: true,
       subCat: true,
-      options: true,
     },
   });
 
@@ -113,7 +110,7 @@ const getProductByName = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  /* const { name, description, price, subCat, quantity, options } = req.body;
+  /* const { name, description, price, subCat, quantity } = req.body;
   img1 = req.files?.img1;
   img2 = req.files?.img2;
   img3 = req.files?.img3;
@@ -199,9 +196,7 @@ const createProduct = async (req, res) => {
           images: {
             create: Array.from(images),
           },
-          options: {
-            create: Array.from(options),
-          },
+
         },
       });
 
@@ -285,9 +280,7 @@ const createProduct = async (req, res) => {
         images: {
           create: Array.from(images),
         },
-        options: {
-          create: Array.from(options),
-        },
+
       },
     }); */
 

@@ -92,7 +92,7 @@ model Product {
   price       Int
   quantity    Int
   images      ProductImage[]
-  options     ProductOptions[]
+  
   reviews     Reviews[]
   questions   Questions[]
   wishlist         WishList[]
@@ -140,21 +140,8 @@ model StoreImage {
   storeId    String @unique
 }
 
-model ProductOptions {
-  optionId  Int          @id @default(autoincrement())
-  option    String
-  product   Product      @relation(fields: [productId], references: [productId], onDelete: Cascade)
-  productId String
-  ordered   OrderItems[]
-  // OptionValue   OptionValue     @relation(fields: [valueId], references: [valueId])
-  //valueId Int
-}
 
-// model OptionValue {
-//   valueId        Int       @id @default(autoincrement())
-//   value      String
-//   options ProductOptions[]
-// }
+
 
 model Reviews {
   reviewId  Int      @id @default(autoincrement())
@@ -198,8 +185,7 @@ model OrderItems {
   state     String         @default("Pending")
   productId String
   product   Product        @relation(fields: [productId], references: [productId], onDelete: Cascade)
-  optionId  Int
-  option    ProductOptions @relation(fields: [optionId], references: [optionId], onDelete: Cascade)
+ 
   order     Order          @relation(fields: [orderId], references: [orderId], onDelete: Cascade)
   orderId   String
   storeId   String
