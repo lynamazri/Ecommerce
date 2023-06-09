@@ -95,6 +95,7 @@ const createOrder = async (req, res) => {
           const newTotal = parseInt(total) - parseInt(total) * percentage;
           const finalTotal = Math.floor(newTotal);
           console.log(percentage, total, finalTotal);
+          console.log("inside new address");
           const order = await prisma.Order.create({
             data: {
               total: finalTotal,
@@ -156,6 +157,7 @@ const createOrder = async (req, res) => {
           const newTotal = parseInt(total) - parseInt(total) * percentage;
           const finalTotal = Math.floor(newTotal);
           console.log(percentage, total, finalTotal);
+          console.log("inside old address");
 
           const order = await prisma.Order.create({
             data: {

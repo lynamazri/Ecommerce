@@ -6,13 +6,13 @@ import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import Footer from "../../components/Footer/Footer";
-import { categories } from "../../components/Navbar/Menu";
 import { getStars } from "../../utils";
 import {
   productsFetch,
   updateFilteredItems,
   setSortingCriteria,
 } from "../../redux/Slices/productsSlice";
+import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
 
 import "./Products.css";
 
@@ -21,7 +21,15 @@ function Products() {
   const { items, filteredItems, status } = useSelector(
     (state) => state.products
   );
+  const [categories, setCategories] = useState([]);
+  const { data, isLoading, error } = useGetCategoriesQuery();
 
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+  useEffect(() => {
+    setCategories(data);
+  }, [data]);
   const numStars = 5; // Number of stars
   const { category } = useParams();
 
