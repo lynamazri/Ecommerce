@@ -23,6 +23,11 @@
   margin-bottom: 1em;
 }
 
+.shipping-info > .body {
+  display: flex;
+  flex-direction: column;
+}
+
 .checkout-page > .left-container > div > .header {
   display: flex;
   flex-direction: column;

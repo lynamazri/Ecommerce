@@ -13,15 +13,15 @@ import "./ProductCard.css";
 function ProductCard({ product, viewMode }) {
   const dispatch = useDispatch();
   let processedProduct = {};
-  if (product.discount.percentage !== 0) {
-    processedProduct = {
-      ...product,
-      price:
-        product.price - (product.price * product.discount.percentage) / 100,
-    };
-  } else {
-    processedProduct = { ...product };
-  }
+  // if (product.discount.percentage !== 0) {
+  //   processedProduct = {
+  //     ...product,
+  //     price:
+  //       product.price - (product.price * product.discount.percentage) / 100,
+  //   };
+  // } else {
+  //   processedProduct = { ...product };
+  // }
   const handleAddToCart = () => {
     dispatch(add(processedProduct));
   };
@@ -63,9 +63,9 @@ function ProductCard({ product, viewMode }) {
         {product.images.length > 0 && (
           <img src={product.images[0].url} alt={product.name} />
         )}
-        {product.discount.percentage !== 0 && (
+        {/* {product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
-        )}
+        )} */}
       </div>
       <div className="product-description">
         <Link
@@ -80,7 +80,7 @@ function ProductCard({ product, viewMode }) {
       <div className="product-pay">
         <div className="product-price">
           <>
-            {product.discount.percentage !== 0 ? (
+            {/* {product.discount.percentage !== 0 ? (
               <span>
                 DZD{" "}
                 {product.price -
@@ -91,7 +91,7 @@ function ProductCard({ product, viewMode }) {
             )}
             {product.discount.percentage !== 0 && (
               <span className="old-price">DZD {product.price}</span>
-            )}
+            )} */}
           </>
         </div>
         <button onClick={handleAddToCart}>Add To Cart</button>
