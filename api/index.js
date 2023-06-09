@@ -42,23 +42,6 @@ app.use("/admin", adminRoute);
 app.use("/discount", discountRoute);
 app.use("/order", orderRoute);
 
-app.get("/", (req, res) => {
-  const { q } = req.query;
-
-  const keys = ["title", "description"];
-
-  const search = (data) => {
-    return data.filter((item) =>
-      keys.some((key) => item[key].toLowerCase().includes(q))
-    );
-  };
-  q ? res.json(search(products).slice(0, 10)) : res.json(products.slice(0, 10));
-});
-
-app.get("/products", (req, res) => {
-  res.send(products);
-});
-
 //port
 const ourPort = 3001;
 const port = process.env.PORT || ourPort;

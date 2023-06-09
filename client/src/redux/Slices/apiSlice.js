@@ -77,7 +77,6 @@ export const apiSlice = createApi({
     }),
     getStoreBanner: builder.query({
       query: (storeId) => `/store/banner/${storeId}`,
-      providesTags: [],
     }),
     getUsername: builder.query({
       query: (userId) => `/profile/username/${userId}`,
