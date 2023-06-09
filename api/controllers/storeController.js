@@ -105,6 +105,7 @@ const getStoreFromUser = async (req, res) => {
     },
     include: {
       banner: true,
+      mainCat: true,
     },
   });
   console.log("fetching store.");
