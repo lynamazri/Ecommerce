@@ -249,6 +249,10 @@ function ProductForm({ product, onSubmit }) {
 }
 
 function DashboardProducts() {
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editedProduct, setEditedProduct] = useState(null);
 
@@ -273,7 +277,9 @@ function DashboardProducts() {
   return (
     <div className="dashboard-products-page dashboard--page">
       <div className="header">
-        <h3>Hello Tassy Omah,</h3>
+        <h3>
+          Hello, {user.firstName} {user.lastName}
+        </h3>
         <p>
           Welcome to your dashboard! Stay organized and maximize your
           productivity.

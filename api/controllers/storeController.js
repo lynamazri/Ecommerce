@@ -96,33 +96,54 @@ const getStores = async (req, res) => {
   else res.status(200).json(stores);
 };
 
+const getStoreFromUser = async (req, res) => {
+  const { user } = req.params;
+
+  const store = await prisma.Store.findUnique({
+    where: {
+      userId: user,
+    },
+  });
+  console.log("fetching store.");
+  if (!store) res.status(400).send("No store available.");
+  else res.status(200).json(store);
+};
+
 const editStore = async (req, res) => {
-  const { error } = storeUpdateValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  //const { error } = storeUpdateValidation(req.body);
+  //if (error) return res.status(400).send(error.details[0].message);
 
   const { store } = req.params;
-  const { description, phone, workingHours } = req.body;
+  const { name, description, phone, workingHours, email } = req.body;
+
+  console.log(store);
 
   const curStore = await prisma.Store.findUnique({
     where: {
       storeId: store,
     },
   });
+  console.log(curStore);
 
-  const updateStore = await prisma.Store.update({
-    where: {
-      storeId: store,
-    },
-    data: {
-      description: description ? description : curStore.description,
-      workingHours: workingHours ? workingHours : curStore.workingHours,
-      phone: phone ? parseInt(phone) : curStore.phone,
-    },
-  });
-  if (updateStore) {
-    res.status(200).json(updateStore);
-  } else {
-    res.status(400).send("Unable to edit store.");
+  if (!curStore) return res.status(400).send("Unable to find store.");
+  else {
+    const updateStore = await prisma.Store.update({
+      where: {
+        storeId: store,
+      },
+      data: {
+        name: name ? name : curStore.name,
+        email: email ? email : curStore.email,
+        description: description ? description : curStore.description,
+        workingHours: workingHours ? workingHours : curStore.workingHours,
+        phone: phone ? parseInt(phone) : curStore.phone,
+      },
+    });
+    if (updateStore) {
+      res.status(200).json(updateStore);
+    } else {
+      res.status(400).send("Unable to edit store.");
+    }
   }
 };
 
@@ -250,4 +271,5 @@ module.exports = {
   answerQuestion,
   editBanner,
   getStoreBanner,
+  getStoreFromUser,
 };

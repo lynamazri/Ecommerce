@@ -1,61 +1,88 @@
 import React, { useState } from "react";
+import {
+  useEditStoreMutation,
+  useEditBannerMutation,
+} from "../../redux/Slices/apiSlice";
+import { useNavigate } from "react-router-dom";
 
 function Settings() {
   const [errorMessage, setErrorMessage] = useState("");
   const [discount, setDiscount] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+  const [storeUpdated, setStoreUpdated] = useState(false);
+  const [editStore, { isLoading: editStoreLoading, error }] =
+    useEditStoreMutation();
+  const [editBanner, { isLoading: editBannerLoading, error2 }] =
+    useEditBannerMutation();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setErrorMessage(""); // Clear previous error message
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
 
-    const isValid = validateForm();
+  const [formData, setFormData] = React.useState({
+    name: "",
+    description: "",
+    email: "",
+    phoneNumber: "",
+    workingHours: "",
+    banner: null,
+    agreeToTerms: false,
+  });
 
-    if (isValid) {
-      try {
-        // Perform update shop logic using the updateShop mutation and formData
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
-    }
-  };
+  function handleChange(event) {
+    const { name, value, type, checked } = event.target;
+    setFormData((prevFormData) => {
+      return {
+        ...prevFormData,
+        [name]: type === "checkbox" ? checked : value,
+      };
+    });
+
+    console.log(formData);
+  }
 
   const validateForm = () => {
     // Shop Name validation: Minimum 2 characters
-    if (formData.name.length < 2) {
+
+    if (formData.name && formData.name.length < 2) {
       setErrorMessage("Shop Name must be at least 2 characters long.");
       return false;
     }
 
     // Description validation: Maximum 500 characters
-    if (formData.description.length > 500) {
+    if (formData.description && formData.description.length > 500) {
       setErrorMessage("Description must be less than 500 characters.");
       return false;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    if (formData.email && !emailRegex.test(formData.email)) {
       setErrorMessage("Please enter a valid email address.");
       return false;
     }
 
     // Phone Number validation: 10-digit number
     const phoneNumberRegex = /^\d{10}$/;
-    if (!phoneNumberRegex.test(formData.phone)) {
+    if (formData.phone && !phoneNumberRegex.test(formData.phone)) {
       setErrorMessage("Please enter a 10-digit phone number.");
       return false;
     }
 
     // Category validation
-    if (!formData.category) {
+    /*   if (!formData.category) {
       setErrorMessage("Please select a category.");
       return false;
-    }
+    } */
 
     // Working Hours validation
     const workingHoursRegex =
       /^(\w+ to \w+) - (\d{1,2}:\d{2}) to (\d{1,2}:\d{2})$/;
-    if (!workingHoursRegex.test(formData.workingHours)) {
+    if (
+      formData.workingHours &&
+      !workingHoursRegex.test(formData.workingHours)
+    ) {
       setErrorMessage(
         "Working hours should be in the format: 'WeekDay to WeekDay - h:mm to h:mm'."
       );
@@ -64,15 +91,15 @@ function Settings() {
 
     // Banner file validation
     const bannerFile = formData.banner;
-    if (!bannerFile) {
+    /*  if (!bannerFile) {
       setErrorMessage("Please upload a banner image.");
       return false;
-    }
+    } */
     // if (bannerFile.name !== "banner.png") {
     //   setErrorMessage("The uploaded file must be named 'banner'.");
     //   return false;
     // }
-    if (!bannerFile.type.startsWith("image/")) {
+    if (bannerFile && !bannerFile.type.startsWith("image/")) {
       setErrorMessage("The uploaded file must be an image.");
       return false;
     }
@@ -85,13 +112,95 @@ function Settings() {
 
     return true;
   };
+
+  const handleFileChange = (event) => {
+    const { name, files } = event.target;
+    // Set the selected file in the form data state
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: files[0],
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    //setErrorMessage(""); // Clear previous error message
+    const isValid = validateForm();
+
+    if (isValid) {
+      editStore({
+        name: formData.name,
+        email: formData.email,
+        description: formData.description,
+        phone: formData.phone,
+        workingHours: formData.workingHours,
+        store: "3c0d9716-c949-42d2-a274-e93f5d0af4a5",
+      })
+        .unwrap() // Extract the response data
+        .then(() => {
+          // Handle successful update
+          setSuccessMessage("Your store has been updated successfully!");
+          setErrorMessage("");
+          setFormData({
+            name: "",
+            description: "",
+            email: "",
+            phoneNumber: "",
+            workingHours: "",
+            banner: null,
+          });
+
+          setStoreUpdated(true);
+          setTimeout(() => {
+            setStoreUpdated(false);
+            navigate("/dashboard");
+          }, 1200);
+        })
+        .catch((error) => {
+          // Handle error
+          setErrorMessage("Failed to update. Please try again.");
+        });
+    }
+
+    if (bannerFile) {
+      editBanner({
+        banner: bannerFile,
+        store: "3c0d9716-c949-42d2-a274-e93f5d0af4a5",
+      })
+        .unwrap()
+        .then(() => {
+          setSuccessMessage("Your store has been updated successfully!");
+          setErrorMessage("");
+          setFormData({
+            name: "",
+            description: "",
+            email: "",
+            phoneNumber: "",
+            workingHours: "",
+            banner: null,
+          });
+          setStoreUpdated(true);
+          setTimeout(() => {
+            setStoreUpdated(false);
+            navigate("/dashboard");
+          }, 1200);
+        })
+        .catch((error) => {
+          // Handle error
+          setErrorMessage("Failed to update. Please try again.");
+        });
+    }
+  };
+
   return (
     <div className="dashboard-settings-page dashboard--page">
       <div className="header">
-        <h3>Hello Tassy Omah,</h3>
+        <h3>
+          Hello, {user.firstName} {user.lastName}
+        </h3>
         <p>
-          Welcome to your dashboard! Stay organized and maximize your
-          productivity.
+          Edit your store information to help your customers know more about
+          your shop.
         </p>
       </div>
       <div className="main">
@@ -107,9 +216,8 @@ function Settings() {
                   name="name"
                   id="name"
                   placeholder="Enter Shop Name"
-                  required
-                  // onChange={handleChange}
-                  // value={formData.shopName}
+                  onChange={handleChange}
+                  value={formData.name}
                 />
               </div>
               <div className="input-container">
@@ -118,9 +226,8 @@ function Settings() {
                   name="description"
                   id="description"
                   placeholder="Enter Shop Description"
-                  required
-                  // onChange={handleChange}
-                  // value={formData.description}
+                  onChange={handleChange}
+                  value={formData.description}
                 ></textarea>
               </div>
               <div className="input-container">
@@ -130,9 +237,8 @@ function Settings() {
                   name="email"
                   id="email"
                   placeholder="Enter Email"
-                  required
-                  // onChange={handleChange}
-                  // value={formData.email}
+                  onChange={handleChange}
+                  value={formData.email}
                 />
               </div>
               <div className="input-container">
@@ -142,13 +248,12 @@ function Settings() {
                   name="phone"
                   id="phone"
                   placeholder="Enter Phone Number"
-                  required
-                  // onChange={handleChange}
-                  // value={formData.phoneNumber}
+                  onChange={handleChange}
+                  value={formData.phone}
                 />
               </div>
 
-              <div className="input-container">
+              {/*   <div className="input-container">
                 <label htmlFor="category">Select a Category</label>
                 <select
                   id="category"
@@ -168,7 +273,7 @@ function Settings() {
                   <option value="Books and Media">Books and Media</option>
                   <option value="Toys and Games">Toys and Games</option>
                 </select>
-              </div>
+              </div> */}
               <div className="input-container">
                 <label htmlFor="workingHours">Working Hours</label>
                 <input
@@ -176,9 +281,8 @@ function Settings() {
                   name="workingHours"
                   id="workingHours"
                   placeholder="Enter Your Working Hours"
-                  required
-                  // onChange={handleChange}
-                  // value={formData.workingHours}
+                  onChange={handleChange}
+                  value={formData.workingHours}
                 />
               </div>
               {/* File upload for banner */}
@@ -189,7 +293,7 @@ function Settings() {
                   name="banner"
                   id="banner"
                   accept="image/*"
-                  // onChange={handleFileChange}
+                  onChange={handleFileChange}
                 />
               </div>
               <div className="input-container">
@@ -198,17 +302,20 @@ function Settings() {
                     type="checkbox"
                     name="agreeToTerms"
                     required
-                    // onChange={handleChange}
-                    // checked={formData.agreeToTerms}
+                    onChange={handleChange}
+                    checked={formData.agreeToTerms}
                   />
                   I agree to the terms and conditions
                 </label>
               </div>
 
               {errorMessage && <p className="error-message">{errorMessage}</p>}
+              {successMessage && (
+                <p className="error-message">{successMessage}</p>
+              )}
 
               <div className="input-container">
-                <button type="submit">Create Shop</button>
+                <button type="submit">Update Shop</button>
               </div>
             </form>
           </div>
@@ -228,7 +335,7 @@ function Settings() {
                 />
               </div>
               <div className="input-container">
-                <button type="submit">Submit Discount</button>
+                <button type="submit">Create Discount</button>
               </div>
             </div>{" "}
             <h5>Manage Discount Codes</h5>

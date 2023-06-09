@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
 function Orders() {
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
   const [orderItems, setOrderItems] = useState([
     {
       id: 1,
@@ -120,7 +124,9 @@ function Orders() {
   return (
     <div className="dashboard-orders-page dashboard--page">
       <div className="header">
-        <h3>Hello Tassy Omah,</h3>
+        <h3>
+          Hello, {user.firstName} {user.lastName}
+        </h3>
         <p>
           Welcome to your dashboard! Stay organized and maximize your
           productivity.

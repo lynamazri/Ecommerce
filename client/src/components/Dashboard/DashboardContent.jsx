@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
+import { useGetStoreFromUserQuery } from "../../redux/Slices/apiSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -25,6 +26,21 @@ function DashboardContent() {
   const [previousData, setPreviousData] = useState({});
   const [chartInstance, setChartInstance] = useState(null);
 
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
+  const { data: storeData, isLoading } = useGetStoreFromUserQuery(user.userId);
+  const [store, setStore] = useState();
+
+  useEffect(() => {
+    if (storeData) {
+      setStore(storeData);
+    }
+  }, [storeData]);
+
+  console.log(storeData);
+
   // Simulated data for the current sales summary
   const salesSummaryData = {
     totalRevenue: 1000,
@@ -35,11 +51,12 @@ function DashboardContent() {
     questionsCount: 5,
   };
 
-  const [storeName, setStoreName] = useState("My Store");
-  const [mainCategory, setMainCategory] = useState("Electronics");
-  const [workingHours, setWorkingHours] = useState("9 AM - 6 PM");
-  const [phoneNumber, setPhoneNumber] = useState("xxx-xxx-xxxx");
-  const [email, setEmail] = useState("example@store.com");
+  const [storeName, setStoreName] = useState(storeData.name);
+  const [openingDate, setOpeningDate] = useState(storeData.openingDate);
+  const [mainCategory, setMainCategory] = useState(storeData.catId);
+  const [workingHours, setWorkingHours] = useState(storeData.workingHours);
+  const [phoneNumber, setPhoneNumber] = useState(storeData.phone);
+  const [email, setEmail] = useState(storeData.email);
 
   useEffect(() => {
     // Update the previous data when the component mounts
@@ -141,7 +158,9 @@ function DashboardContent() {
   return (
     <div className="dashboard-content-page dashboard--page">
       <div className="header">
-        <h3>Hello Tassy Omah,</h3>
+        <h3>
+          Hello, {user.firstName} {user.lastName}
+        </h3>
         <p>
           Welcome to your dashboard! Stay organized and maximize your
           productivity.
@@ -193,12 +212,14 @@ function DashboardContent() {
                   <li>Working Hours:</li>
                   <li>Phone Number:</li>
                   <li>Email:</li>
+                  <li>Opening Date:</li>
                 </ul>
                 <ul className="detail-value">
                   <li>{mainCategory}</li>
                   <li>{workingHours}</li>
                   <li>{phoneNumber}</li>
                   <li>{email}</li>
+                  <li>{openingDate}</li>
                 </ul>
               </div>
               <Link to="/dashboard/settings">
