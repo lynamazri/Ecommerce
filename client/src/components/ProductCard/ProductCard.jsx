@@ -94,7 +94,14 @@ function ProductCard({ product, viewMode }) {
             )}
           </>
         </div>
-        <button onClick={handleAddToCart}>Add To Cart</button>
+
+        {product.quantity > 0 ? (
+          <button onClick={handleAddToCart}>Add To Cart</button>
+        ) : (
+          <div className="addToCartButtonDesactivated">
+            <button>Out of Stock</button>
+          </div>
+        )}
         {viewMode === "list" &&
           (isProductInWishlistState ? (
             <button className="wishlist-button" onClick={handleAddToWishlist}>

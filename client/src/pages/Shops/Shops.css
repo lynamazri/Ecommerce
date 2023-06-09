@@ -64,6 +64,7 @@
 .shops-categories-filter > .body > div {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .shops-categories-filter > .body > div > span {

@@ -172,6 +172,17 @@
   text-decoration: line-through;
 }
 
+.addToCartButtonDesactivated button {
+  padding: 0.4em 0.85em;
+  border-radius: 8px;
+  border: 1px solid #d1d1d1;
+  font-size: 1em;
+  font-weight: 700;
+  color: #1f2c4c;
+  background-color: grey;
+  transition: all 0.3s ease-in-out;
+}
+
 /* a:focus,
 button:focus {
   outline: none;
