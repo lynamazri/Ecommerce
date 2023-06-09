@@ -47,6 +47,7 @@ const getProductsFromStore = async (req, res) => {
     include: {
       images: true,
       subCat: true,
+      discount: true,
     },
   });
   if (!productsInStore) {

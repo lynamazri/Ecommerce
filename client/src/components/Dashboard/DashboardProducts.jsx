@@ -1,63 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  useGetProductsFromStoreQuery,
+  useUpdateProductMutation,
+} from "../../redux/Slices/apiSlice";
 
 function ProductTable({ onEditProduct }) {
-  const products = [
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    {
-      id: 1,
-      name: "Product 1",
-      price: 10.99,
-      category: "Category 1",
-      quantity: 5,
-      discount: 0,
-      isVerified: true,
-    },
-    // Other products
-  ];
+  const [products, setProducts] = useState([]);
+  const [updateProduct, { isLoading: updateProductLoading, error }] =
+    useUpdateProductMutation();
+
+  const { data: productData, isLoading } = useGetProductsFromStoreQuery(
+    "3c0d9716-c949-42d2-a274-e93f5d0af4a5"
+  );
+
+  useEffect(() => {
+    if (productData) {
+      setProducts(productData);
+    }
+  }, [productData]);
+
+  console.log(products);
 
   return (
     <div className="product-table">
@@ -76,14 +38,16 @@ function ProductTable({ onEditProduct }) {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.id}</td>
+            <tr key={product.productId}>
+              <td>{product.productId}</td>
               <td>{product.name}</td>
               <td>{product.price}</td>
-              <td>{product.category}</td>
+              <td>{product.subCat.name}</td>
               <td>{product.quantity}</td>
-              <td>{product.discount}</td>
-              <td>{product.isVerified ? "Yes" : "No"}</td>
+              <td>
+                {product.discount ? product.discount.percentage + "%" : "None"}
+              </td>
+              <td>{product.verified ? "Yes" : "No"}</td>
               <td>
                 <button
                   className="product-table-edit"
@@ -151,7 +115,7 @@ function ProductForm({ product, onSubmit }) {
     }
 
     // Price validation: Must be a positive number
-    const parsedPrice = parseFloat(price);
+    const parsedPrice = parseInt(price);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
       setErrorMessage("Price must be a positive number.");
       return false;

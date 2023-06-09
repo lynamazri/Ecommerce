@@ -220,11 +220,24 @@ export const apiSlice = createApi({
       providesTags: ["getStoreOrders"],
     }),
 
+    getProductsFromStore: builder.query({
+      query: (store) => `/productss/${store}`,
+      providesTags: ["getStoreProducts"],
+    }),
+
     handleOrder: builder.mutation({
       query: ({ order, state }) => ({
         url: `/order/shop/${order}`,
         method: "PATCH",
         body: { state },
+      }),
+    }),
+
+    updateProduct: builder.mutation({
+      query: ({ name, price, quantity, description, id }) => ({
+        url: `/productss/${id}`,
+        method: "PATCH",
+        body: { name, price, quantity, description },
       }),
     }),
   }),
@@ -258,4 +271,6 @@ export const {
   useEditBannerMutation,
   useGetStoreOrdersQuery,
   useHandleOrderMutation,
+  useGetProductsFromStoreQuery,
+  useUpdateProductMutation,
 } = apiSlice;
