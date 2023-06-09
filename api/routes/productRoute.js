@@ -25,7 +25,7 @@ const {
 } = require("../controllers/productController");
 
 router.get("/", getProducts); //tested, works
-router.get("/search", searchProducts); //tested, works
+router.get("/search/:fsearch/category/:category", searchProducts);  //tested, works
 router.get("/:store", getProductsFromStore); //tested, works
 router.get("/store/:id", getProductById); //tested, works
 router.get("/allProducts/:name", getProductByName); //tested, works

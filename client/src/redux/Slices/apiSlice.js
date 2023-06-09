@@ -69,8 +69,8 @@ export const apiSlice = createApi({
       }),
     }),
     createReview: builder.mutation({
-      query: ({ content, stars, productId }) => ({
-        url: `/productss/${productId}/review`,
+      query: ({ content, stars, productId, userId }) => ({
+        url: `/productss/${productId}/review/${userId}`,
         method: "POST",
         body: { content, stars },
       }),
@@ -239,6 +239,9 @@ export const apiSlice = createApi({
         body: { name, price, quantity, description },
       }),
     }),
+    searchProduct: builder.query({
+      query: ({ fsearch, category }) => `productss/search/${fsearch}/category/${category}`,
+    }),
   }),
 });
 
@@ -272,4 +275,5 @@ export const {
   useHandleOrderMutation,
   useGetProductsFromStoreQuery,
   useUpdateProductMutation,
+  useSearchProductQuery,
 } = apiSlice;

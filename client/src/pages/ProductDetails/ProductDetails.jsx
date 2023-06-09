@@ -87,6 +87,7 @@ export default function ProductDetails() {
       content: reviewComment.content,
       stars: reviewComment.stars,
       productId: reviewComment.productId,
+      userId: reviewComment.userId,
     })
       .unwrap()
       .then(() => {

@@ -9,30 +9,34 @@ function Search() {
   const [showOptions, setShowOptions] = useState(false);
   const [subCatValue, setSubCatValue] = useState("All Categories");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(`http://localhost:3001?q=${query}`);
-      setData(res.data);
-    };
-    if (query.length > 2) fetchData();
-  }, [query]);
+  const [input, setInput] = useState("");
+  const [productSearched, setProductSearched] = useState("");
+  const { data: subCategories, isLoading } = useGetSubCategoriesQuery();
 
-  const clearInput = () => {
-    setData([]);
-    setQuery("");
+  const fetchData = (value) => {
+    axios
+      .get(
+        `http://localhost:3001/productss/search?fsearch=${value}&category=${categoryVlue}`
+      )
+      // .get(`http://localhost:3001/productss/allProducts/${value}`)
+      .then((response) => {
+        // Handle the response data
+        console.log(response.data);
+        setProductSearched(response.data);
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during the request
+        console.error(error);
+      });
+  };
+  const handleChange = (value) => {
+    setInput(value);
+    fetchData(value);
   };
 
-  const handleFilter = (event) => {
-    const searchWord = event.target.value.toLowerCase();
-    setQuery(searchWord);
-    if (searchWord === "") {
-      setData([]);
-    }
-  };
   const handleOptionsClick = () => {
     setShowOptions(!showOptions);
   };
-  const { data: subCategories, isLoading } = useGetSubCategoriesQuery();
 
   if (isLoading) {
     return null;
