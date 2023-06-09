@@ -129,10 +129,10 @@ function OpenShop() {
       setErrorMessage("Please upload a banner image.");
       return false;
     }
-    if (bannerFile.name !== "banner.png") {
-      setErrorMessage("The uploaded file must be named 'banner'.");
-      return false;
-    }
+    // if (bannerFile.name !== "banner.png") {
+    //   setErrorMessage("The uploaded file must be named 'banner'.");
+    //   return false;
+    // }
     if (!bannerFile.type.startsWith("image/")) {
       setErrorMessage("The uploaded file must be an image.");
       return false;

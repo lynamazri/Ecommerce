@@ -87,6 +87,7 @@
   color: #a9a9a9;
 }
 
+.create-discount > .input-container,
 .shop-form > .input-container,
 .add-addresses > .input-container,
 .my-profile-inputs > .input-container,
@@ -101,6 +102,7 @@
   font-size: 14px;
 }
 
+.create-discount > .input-container > input,
 .shop-form > .input-container > textarea,
 .shop-form > .input-container > select,
 .shop-form > .input-container > input,
@@ -152,6 +154,7 @@ input {
   background-color: #ebf1f6;
 }
 
+.create-discount > .input-container > button,
 .shop-form > .input-container > button,
 .add-addresses > .input-container > button,
 .profile-page > .right-container > div > .input-container > button {
@@ -173,12 +176,14 @@ input {
   cursor: pointer;
 }
 
+.create-discount > .input-container > button:hover,
 .shop-form > .input-container > button:hover,
 .add-addresses > .input-container > button:hover,
 .profile-page > .right-container > div > .input-container > button:hover {
   background-color: #15203b;
 }
 
+.create-discount > .input-container > button:active,
 .shop-form > .input-container > button:active,
 .add-addresses > .input-container > button:active,
 .profile-page > .right-container > div > .input-container > button:active {
