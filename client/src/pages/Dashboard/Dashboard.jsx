@@ -11,7 +11,6 @@ function Dashboard() {
     <div className="dashboard-page">
       <div className="menu">
         <Link to="/" className="logo">
-          <img src="" />
           <h1>magaza</h1>
         </Link>
 
