@@ -1,29 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useGetUserOrdersQuery } from "../../redux/Slices/apiSlice";
 
 function OrderHistory() {
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      status: "Pending",
-      date: "2023-05-20",
-      products: [
-        { id: 1, name: "Product 1", price: 10 },
-        { id: 2, name: "Product 2", price: 15 },
-      ],
-    },
-    {
-      id: 2,
-      status: "Delivered",
-      date: "2023-05-18",
-      products: [
-        { id: 3, name: "Product 3", price: 20 },
-        { id: 4, name: "Product 4", price: 25 },
-      ],
-    },
-  ]);
-
   const [sortCriteria, setSortCriteria] = useState(null);
   const [filterStatus, setFilterStatus] = useState(null);
+
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const { data: orderData, isLoading } = useGetUserOrdersQuery(user.userId);
+  console.log(user.userId);
+
+  const [orders, setOrders] = useState({});
+  useEffect(() => {
+    if (orderData) {
+      setOrders(orderData);
+    }
+  }, [orderData, isLoading]);
+
+  console.log(orderData);
 
   const cancelOrder = (orderId) => {
     const confirmed = window.confirm(
@@ -62,7 +57,9 @@ function OrderHistory() {
       (order) => order.status === filterStatus
     );
   }
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="right-container">
       <div className="order-history-page">
