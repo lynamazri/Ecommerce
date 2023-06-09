@@ -71,6 +71,7 @@ function ProductForm({ product, onSubmit }) {
   );
   const [category, setCategory] = useState(product ? product.category : "");
   const [price, setPrice] = useState(product ? product.price : "");
+  const [discount, setDiscount] = useState(product ? product.discount : 0);
   const [quantity, setQuantity] = useState(product ? product.quantity : "");
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -88,6 +89,7 @@ function ProductForm({ product, onSubmit }) {
       description,
       category,
       price,
+      discount,
       quantity,
     };
     onSubmit(formData);
@@ -116,6 +118,13 @@ function ProductForm({ product, onSubmit }) {
     const parsedPrice = parseInt(price);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
       setErrorMessage("Price must be a positive number.");
+      return false;
+    }
+
+    // Discount validation: Must be a number between 0 and 100
+    const parsedDiscount = parseFloat(discount);
+    if (isNaN(parsedDiscount) || parsedDiscount < 0 || parsedDiscount > 100) {
+      setErrorMessage("Discount must be a number between 0 and 100.");
       return false;
     }
 
@@ -191,12 +200,25 @@ function ProductForm({ product, onSubmit }) {
         />
       </div>
       <div className="input-container">
+        <label htmlFor="discount">Discount:</label>
+        <input
+          type="number"
+          id="discount"
+          name="discount"
+          min="0"
+          max="100"
+          placeholder="Enter product discount"
+          value={discount}
+          onChange={(e) => setDiscount(e.target.value)}
+        />
+      </div>
+      <div className="input-container">
         <label htmlFor="quantity">Quantity:</label>
         <input
           type="number"
           id="quantity"
           name="quantity"
-          min="0" // Restrict input to non-negative numbers
+          min="0"
           placeholder="Enter product quantity"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
@@ -244,10 +266,7 @@ function DashboardProducts() {
         <h3>
           Hello, {user.firstName} {user.lastName}
         </h3>
-        <p>
-          Welcome to your dashboard! Stay organized and maximize your
-          productivity.
-        </p>
+        <p>View and edit your products.</p>
       </div>
       <div className="main">
         {isFormVisible ? (
