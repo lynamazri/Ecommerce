@@ -24,6 +24,7 @@ const CartItem = ({ item }) => {
   const toogleHandler = () => {
     setShowHandler((prevShowHandler) => !prevShowHandler);
   };
+
   return (
     <div className="item-card" key={item.productId}>
       <div className="upper-card">
@@ -62,23 +63,23 @@ const CartItem = ({ item }) => {
             <h4>Remove</h4>
           </button>
         </div>
-        {/* <span className="item-price">DZD{item.price}</span> */}
         <div className="item-pay">
           <div className="item-total-price">
-            {/* {item.isOnSale ? ( */}
-            <>
-              {/* {item.discount.percentage !== 0 && (
-                <span>DZD{item.price * item.quantity}</span>
-              )}
-              <span className="old-price">
-                DZD
-                {item.discount.percentage === 0
-                  ? item.price * item.quantity
-                  : item.price / ((100 - item.discount.percentage) / 100)}
-              </span> */}
-            </>
-            {/* ) : null}
-                      <span>DZD{item.price * item.quantity}</span> */}
+            {item.discount && item.discount.percentage !== 0 ? (
+              <>
+                <span>
+                  DZD
+                  {item.price * item.quantity -
+                    (item.price * item.quantity * item.discount.percentage) /
+                      100}
+                </span>
+                <span className="old-price">
+                  DZD {item.price * item.quantity}
+                </span>
+              </>
+            ) : (
+              <span>DZD {item.price * item.quantity}</span>
+            )}
           </div>
 
           <div className="item-quantity">

@@ -236,7 +236,7 @@ function DashboardContent() {
               <div className="chart-container">
                 <Line
                   width={600}
-                  height={300}
+                  height={270}
                   data={salesPerMonthData}
                   options={chartOptions}
                 />
@@ -249,18 +249,16 @@ function DashboardContent() {
               <h3>{store.name}</h3>
               <div className="information">
                 <ul className="detail">
-                  <li>Main Category:</li>
+                  <li>Category:</li>
                   <li>Working Hours:</li>
-                  <li>Phone Number:</li>
+                  <li>Phone :</li>
                   <li>Email:</li>
-                  <li>Opening Date:</li>
                 </ul>
                 <ul className="detail-value">
                   <li>{store.catId}</li>
                   <li>{store.workingHours}</li>
                   <li>{store.phone}</li>
                   <li>{store.email}</li>
-                  <li>{store.openingDate}</li>
                 </ul>
               </div>
               <Link to="/dashboard/settings">

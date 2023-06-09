@@ -13,7 +13,7 @@ import "./ProductCard.css";
 function ProductCard({ product, viewMode }) {
   const dispatch = useDispatch();
   let processedProduct = {};
-  if (product.discount.percentage !== 0) {
+  if (product.discount && product.discount.percentage !== 0) {
     processedProduct = {
       ...product,
       price:
@@ -63,7 +63,7 @@ function ProductCard({ product, viewMode }) {
         {product.images.length > 0 && (
           <img src={product.images[0].url} alt={product.name} />
         )}
-        {product.discount.percentage !== 0 && (
+        {product.discount && product.discount.percentage !== 0 && (
           <span>-{product.discount.percentage}%</span>
         )}
       </div>
@@ -80,17 +80,17 @@ function ProductCard({ product, viewMode }) {
       <div className="product-pay">
         <div className="product-price">
           <>
-            {product.discount.percentage !== 0 ? (
-              <span>
-                DZD{" "}
-                {product.price -
-                  (product.price * product.discount.percentage) / 100}
-              </span>
+            {product.discount && product.discount.percentage !== 0 ? (
+              <>
+                <span>
+                  DZD{" "}
+                  {product.price -
+                    (product.price * product.discount.percentage) / 100}
+                </span>
+                <span className="old-price">DZD {product.price}</span>
+              </>
             ) : (
               <span>DZD {product.price}</span>
-            )}
-            {product.discount.percentage !== 0 && (
-              <span className="old-price">DZD {product.price}</span>
             )}
           </>
         </div>
