@@ -485,8 +485,7 @@ const createReport = async (req, res) => {
 };
 
 const searchProducts = async (req, res) => {
-  const { fsearch, category } = req.body;
-
+  const { fsearch, category } = req.params;
   var string = fsearch;
   string = string.split(" ");
   //string = string.join(" | ");

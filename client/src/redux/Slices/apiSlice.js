@@ -239,6 +239,9 @@ export const apiSlice = createApi({
         body: { name, price, quantity, description },
       }),
     }),
+    searchProduct: builder.query({
+      query: ({ fsearch, category }) => `productss/search/${fsearch}/category/${category}`,
+    }),
   }),
 });
 
@@ -272,4 +275,5 @@ export const {
   useHandleOrderMutation,
   useGetProductsFromStoreQuery,
   useUpdateProductMutation,
+  useSearchProductQuery,
 } = apiSlice;
