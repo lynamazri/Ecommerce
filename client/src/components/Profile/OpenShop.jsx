@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCreateStoreMutation } from "../../redux/Slices/apiSlice";
+import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
 
 function OpenShop() {
+  const { data: categoriesData, isLoading, error } = useGetCategoriesQuery();
   const [createStore] = useCreateStoreMutation();
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
@@ -20,8 +22,13 @@ function OpenShop() {
     agreeToTerms: false,
   });
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [categories, setCategories] = useState([]);
   const [isShopCreated, setShopCreated] = useState(false);
+  useEffect(() => {
+    if (categoriesData) {
+      setCategories(categoriesData);
+    }
+  }, [categoriesData]);
 
   function handleChange(event) {
     const { name, value, type, checked } = event.target;
@@ -219,15 +226,10 @@ function OpenShop() {
                 onChange={handleChange}
               >
                 <option value="">Choose an option</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Clothing and Fashion">
-                  Clothing and Fashion
-                </option>
-                <option value="Health and Beauty">Health and Beauty</option>
-                <option value="Home">Home</option>
-                <option value="Sports">Sports</option>
-                <option value="Books and Media">Books and Media</option>
-                <option value="Toys and Games">Toys and Games</option>
+                {categories.length > 0 &&
+                  categories.map((category) => (
+                    <option value="Electronics">{category.name}</option>
+                  ))}
               </select>
             </div>
             <div className="input-container">

@@ -117,7 +117,6 @@ export default function ProductDetails() {
                       - {product.discount.percentage} %
                     </span>
                   ) : null}
-                  <span className="countLabel">Free shipping</span>
                 </div>
               </div>
               <div>{/* <img className="photo" src={product.image} /> */}</div>
@@ -156,7 +155,11 @@ export default function ProductDetails() {
                       </Link>
                       <li>76645</li>
                       <li>{product?.subCat?.name}</li>
-                      <li>Stock</li>
+                      {product.quantity > 0 ? (
+                        <li>In Stock</li>
+                      ) : (
+                        <li color="red">Out of Stock</li>
+                      )}
                     </ul>
                   </div>
                 </div>
@@ -203,9 +206,15 @@ export default function ProductDetails() {
                 </div>
 
                 <div className="buttons">
-                  <div className="addToCartButton">
-                    <button onClick={() => handleAdd()}>+ Add To Cart</button>
-                  </div>
+                  {product.quantity > 0 ? (
+                    <div className="addToCartButton">
+                      <button onClick={() => handleAdd()}>+ Add To Cart</button>
+                    </div>
+                  ) : (
+                    <div className="addToCartButtonDesactivated">
+                      <button>Out of Stock</button>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="wishCompareContainer">
