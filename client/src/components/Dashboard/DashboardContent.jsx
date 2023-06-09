@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
+import { useGetCategoryQuery } from "../../redux/Slices/apiSlice";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -29,9 +30,6 @@ function DashboardContent() {
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
-  var user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null;
 
   const { data: storeData, isLoading } = useGetStoreFromUserQuery(user.userId);
   const [store, setStore] = useState({});
@@ -39,7 +37,6 @@ function DashboardContent() {
   useEffect(() => {
     if (storeData) {
       setStore(storeData);
-      console.log(store);
     }
   }, [storeData, isLoading]);
 
@@ -255,7 +252,7 @@ function DashboardContent() {
                   <li>Email:</li>
                 </ul>
                 <ul className="detail-value">
-                  <li>{store.catId}</li>
+                  {store.mainCat && <li>{store.mainCat.name}</li>}
                   <li>{store.workingHours}</li>
                   <li>{store.phone}</li>
                   <li>{store.email}</li>
