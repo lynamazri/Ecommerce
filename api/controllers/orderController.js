@@ -9,7 +9,16 @@ const getStoreOrders = async (req, res) => {
     where: {
       storeId: store,
     },
+    include: {
+      order: {
+        include: {
+          user: true,
+        },
+      },
+      product: true,
+    },
   });
+  console.log("fetching store orders");
   if (orders.length === 0) res.status(400).send("No orders yet.");
   else res.status(200).json(orders);
 };

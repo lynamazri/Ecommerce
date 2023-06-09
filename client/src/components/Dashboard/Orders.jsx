@@ -1,88 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useGetStoreOrdersQuery } from "../../redux/Slices/apiSlice";
 
 function Orders() {
+  const [orderItems, setOrderItems] = useState([]);
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
 
-  const [orderItems, setOrderItems] = useState([
-    {
-      id: 1,
-      customerName: "John Doe",
-      orderId: "ORD-001",
-      date: "2023-05-30",
-      status: "Pending",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 2,
-      customerName: "Jane Smith",
-      orderId: "ORD-002",
-      date: "2023-05-29",
-      status: "Processing",
-      productName: "Product 2",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 3,
-      customerName: "Bob Johnson",
-      orderId: "ORD-003",
-      date: "2023-05-28",
-      status: "Shipped",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 4,
-      customerName: "Alice Williams",
-      orderId: "ORD-004",
-      date: "2023-05-27",
-      status: "Completed",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 5,
-      customerName: "Eve Davis",
-      orderId: "ORD-005",
-      date: "2023-05-26",
-      status: "Returned",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 4,
-      customerName: "Alice Williams",
-      orderId: "ORD-004",
-      date: "2023-05-27",
-      status: "Completed",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-    {
-      id: 5,
-      customerName: "Eve Davis",
-      orderId: "ORD-005",
-      date: "2023-05-26",
-      status: "Returned",
-      productName: "Product 1",
-      quantity: 2,
-      price: 10.99,
-    },
-  ]);
+  const { data: orderData, isLoading } = useGetStoreOrdersQuery(
+    "3c0d9716-c949-42d2-a274-e93f5d0af4a5"
+  );
 
-  const [filterStatus, setFilterStatus] = useState("");
+  useEffect(() => {
+    if (orderData) {
+      setOrderItems(orderData);
+    }
+  }, [orderData]);
+
+  console.log(orderItems);
+
+  const [filterstate, setFilterstate] = useState("");
   const [sortingOption, setSortingOption] = useState("");
 
-  const handleStatusFilterChange = (event) => {
-    setFilterStatus(event.target.value);
+  const handlestateFilterChange = (event) => {
+    setFilterstate(event.target.value);
   };
 
   const handleSortingOptionChange = (event) => {
@@ -92,9 +33,9 @@ function Orders() {
   const filterAndSortOrders = () => {
     let filteredItems = orderItems;
 
-    if (filterStatus) {
+    if (filterstate) {
       filteredItems = filteredItems.filter(
-        (item) => item.status === filterStatus
+        (item) => item.state === filterstate
       );
     }
 
@@ -106,10 +47,14 @@ function Orders() {
         filteredItems.sort((a, b) => b.orderId.localeCompare(a.orderId));
         break;
       case "dateAsc":
-        filteredItems.sort((a, b) => a.date.localeCompare(b.date));
+        filteredItems.sort((a, b) =>
+          a.order.orderDate.localeCompare(b.order.orderDate)
+        );
         break;
       case "dateDesc":
-        filteredItems.sort((a, b) => b.date.localeCompare(a.date));
+        filteredItems.sort((a, b) =>
+          b.order.orderDate.localeCompare(a.order.orderDate)
+        );
         break;
       default:
         // No sorting option selected
@@ -127,21 +72,18 @@ function Orders() {
         <h3>
           Hello, {user.firstName} {user.lastName}
         </h3>
-        <p>
-          Welcome to your dashboard! Stay organized and maximize your
-          productivity.
-        </p>
+        <p>View and handle your customer's orders.</p>
       </div>
       <div className="main">
         <h3>Order items</h3>
 
         <div className="filters">
           <div className="filter">
-            <label htmlFor="status-filter">Filter by Status:</label>
+            <label htmlFor="state-filter">Filter by state:</label>
             <select
-              id="status-filter"
-              value={filterStatus}
-              onChange={handleStatusFilterChange}
+              id="state-filter"
+              value={filterstate}
+              onChange={handlestateFilterChange}
             >
               <option value="">All</option>
               <option value="Pending">Pending</option>
@@ -171,19 +113,22 @@ function Orders() {
           {filteredAndSortedItems.map((item) => (
             <div key={item.id} className="order-item">
               <div className="order-info">
-                <p>Order ID: {item.orderId}</p>
-                <p>Customer Name: {item.customerName}</p>
-                <p>Order Date: {item.date}</p>
-                <p>Status: {item.status}</p>
-                <p>Product Name: {item.productName}</p>
+                <p>Order ID: {item.itemId}</p>
+                <p>
+                  Customer Name: {item.order.user.firstName}{" "}
+                  {item.order.user.lastName}
+                </p>
+                <p>Order Date: {item.order.orderDate.slice(0, 10)}</p>
+                <p>state: {item.state}</p>
+                <p>Product Name: {item.product.name}</p>
                 <p>Quantity: {item.quantity}</p>
-                <p>Price: {item.price}</p>
+
                 <select
-                  value={item.status}
+                  value={item.state}
                   onChange={(event) => {
                     const updatedItems = orderItems.map((order) => {
                       if (order.id === item.id) {
-                        return { ...order, status: event.target.value };
+                        return { ...order, state: event.target.value };
                       }
                       return order;
                     });
