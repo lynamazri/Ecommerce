@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import Swiperr from "../../components/Swiper/Swiper";
 import Navbar from "../../components/Navbar/Navbar";
-import { categories } from "../../components/Navbar/Menu";
 import Footer from "../../components/Footer/Footer";
 import "./Home.css";
+import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
 
 function Home() {
   const testimonialsData = [
@@ -47,6 +47,20 @@ function Home() {
         "“Your products are of excellent quality. I'm a satisfied customer and will definitely shop again.“",
     },
   ];
+
+  const [categories, setCategories] = useState([]);
+  const { data, isLoading, error } = useGetCategoriesQuery();
+
+  useEffect(() => {
+    if (isLoading) {
+      return; // Wait until data is loaded
+    }
+    setCategories(data);
+  }, [data, isLoading]);
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <div>

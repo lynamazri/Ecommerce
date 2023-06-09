@@ -153,6 +153,10 @@ export const apiSlice = createApi({
         body: fd,
       }),
     }),
+    getCategories: builder.query({
+      query: () => "/category/",
+      providesTags: ["getCategory"],
+    }),
     getReviews: builder.query({
       query: (id) => `/store/reviews/${id}`,
     }),
@@ -212,6 +216,7 @@ export const {
   usePatchPasswordMutation,
   useCreateOrderMutation,
   useCreateStoreMutation,
+  useGetCategoriesQuery,
   useGetReviewsQuery,
   useGetQuestionsQuery,
   useAnswerQuestionMutation,

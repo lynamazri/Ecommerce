@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Menu.css";
+import { useGetCategoriesQuery } from "../../redux/Slices/apiSlice";
 
-export const categories = [
+export const categorie = [
   { name: "Shops" },
   { name: "Electronics" },
   { name: "Clothing and Fashion" },
@@ -14,22 +15,25 @@ export const categories = [
 ];
 
 const Menu = () => {
+  const [categories, setCategories] = useState([]);
+  const { data, isLoading, error } = useGetCategoriesQuery();
+
+  useEffect(() => {
+    if (data) {
+      setCategories(data);
+    }
+  }, [data]);
   return (
     <ul className="menu-list">
+      <li>
+        <Link to={`/Shops`}>Shops</Link>
+      </li>
       {categories.map((category, index) => {
-        if (category.name === "Shops") {
-          return (
-            <li key={index}>
-              <Link to={`/${category.name}`}>{category.name}</Link>
-            </li>
-          );
-        } else {
-          return (
-            <li key={index}>
-              <Link to={`/products/${category.name}`}>{category.name}</Link>
-            </li>
-          );
-        }
+        return (
+          <li key={index}>
+            <Link to={`/products/${category.name}`}>{category.name}</Link>
+          </li>
+        );
       })}
     </ul>
   );
