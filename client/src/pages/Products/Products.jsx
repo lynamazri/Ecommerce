@@ -214,12 +214,14 @@ function Products() {
                 <div className="inputs">
                   <input
                     type="number"
+                    min="0"
                     placeholder="Min Price"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
                   />
                   <input
                     type="number"
+                    min="0"
                     placeholder="Max Price"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
