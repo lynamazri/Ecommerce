@@ -10,7 +10,7 @@ function OrderHistory() {
     : null;
 
   const { data: orderData, isLoading } = useGetUserOrdersQuery(user.userId);
-  const [orders, setOrders] = useState({});
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     if (orderData) {
@@ -102,25 +102,27 @@ function OrderHistory() {
             <p>No orders match the selected criteria.</p>
           ) : (
             <div className="order-cards">
-              {sortedOrders.map((order) => (
-                <div key={order.id} className="order-card">
-                  <h3>Order #{order.id}</h3>
-                  <p>Date: {order.date}</p>
-                  <p>Status: {order.status}</p>
-                  <ul>
-                    {order.products.map((product) => (
-                      <li key={product.id}>
-                        {product.name} - {product.price}
-                      </li>
-                    ))}
-                  </ul>
-                  {order.status === "Pending" && (
-                    <button onClick={() => cancelOrder(order.id)}>
-                      Cancel Order
-                    </button>
-                  )}
-                </div>
-              ))}
+              {sortedOrders &&
+                sortedOrders.map((order) => (
+                  <div key={order.id} className="order-card">
+                    <h3>Order #{order.id}</h3>
+                    <p>Date: {order.date}</p>
+                    <p>Status: {order.status}</p>
+                    <ul>
+                      {order.products &&
+                        order.products.map((product) => (
+                          <li key={product.id}>
+                            {product.name} - {product.price}
+                          </li>
+                        ))}
+                    </ul>
+                    {order.status === "Pending" && (
+                      <button onClick={() => cancelOrder(order.id)}>
+                        Cancel Order
+                      </button>
+                    )}
+                  </div>
+                ))}
             </div>
           )}
         </div>
