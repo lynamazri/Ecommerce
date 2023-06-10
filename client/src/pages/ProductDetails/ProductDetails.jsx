@@ -16,7 +16,6 @@ import Footer from "../../components/Footer/Footer";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import "./ProductDetails.css";
 import { useCreateReviewMutation } from "../../redux/Slices/apiSlice";
-import { useGetUsernameQuery } from "../../redux/Slices/apiSlice";
 
 export default function ProductDetails() {
   const [wishListIcon, setWishListIcon] = useState(false);
@@ -98,7 +97,7 @@ export default function ProductDetails() {
         setErrorMessage("Failed to post review. Please try again.");
       });
   }
-  console.log(reviewComment);
+  console.log(images.length);
 
   return (
     <>
@@ -120,7 +119,16 @@ export default function ProductDetails() {
                   ) : null}
                 </div>
               </div>
-              <div>{/* <img className="photo" src={product.image} /> */}</div>
+
+              <div className="secondary-photo-container">
+                {images.length > 1
+                  ? images.slice(1).map((image) => (
+                      <div className="secondary-photo">
+                        <img src={image.url} />
+                      </div>
+                    ))
+                  : null}
+              </div>
             </section>
             <section className="info">
               <div className="title">

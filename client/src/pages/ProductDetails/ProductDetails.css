@@ -24,17 +24,29 @@
   color: black;
 }
 
-.photos {
+.photos,
+.secondary-photo {
   width: 45%;
 }
-
+.secondary-photo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: auto;
+  height: 150px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0px 0px 10px 0px #a9a9a9;
+  -webkit-box-shadow: 0px 0px 10px 0px #a9a9a9;
+  -moz-box-shadow: 0px 0px 10px 0px #a9a9a9;
+}
 .photo {
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   width: 100%;
-  height: auto;
   height: 400px;
   border-radius: 12px;
   margin-bottom: 10px;
@@ -43,7 +55,8 @@
   -moz-box-shadow: 0px 0px 10px 0px #a9a9a9;
 }
 
-.photo img {
+.photo img,
+.secondary-photo img {
   width: 50%;
   max-width: 40%;
   /* position: absolute;
@@ -51,6 +64,12 @@
   left: 50%;
   transform: translateX(-50%);
   transform: translateY(-50%); */
+}
+
+.secondary-photo-container {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
 }
 
 .photo .countLabel {
