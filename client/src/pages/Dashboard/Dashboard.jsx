@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Outlet } from "react-router-dom";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -48,7 +49,10 @@ function Dashboard() {
             </Link>
           </li>
         </ul>
-        <button>Log out</button>
+        <Link to={`/`} className="exit">
+          <RiLogoutBoxLine size={18} />
+          Exit
+        </Link>
       </div>
       <Outlet />
     </div>

@@ -8,7 +8,7 @@
 
 .dashboard-page > .menu {
   width: 20%;
-  height: 100%;
+  height: 100vh;
   padding-left: 2em;
   display: flex;
   flex-direction: column;
@@ -57,16 +57,20 @@
   color: var(--primaryColor);
 }
 
-.dashboard-page > .menu > button {
-  width: 100%;
+.dashboard-page > .menu > .exit {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
   color: #fff;
   background-color: var(--primaryColor);
   border: none;
   cursor: pointer;
-  margin-top: 20em;
+  position: absolute;
+  top: 590px;
+  left: 42px;
 }
 
-.dashboard-page > .menu > button:hover {
+.dashboard-page > .menu > .exit:hover {
   color: #ff0000;
 }
 

@@ -43,8 +43,6 @@ function Swiperr({
     dispatch(wishlistFetch());
   }, []);
 
-  console.log("wishlistItems", wishlistItems);
-
   const renderItems = () => {
     if (sectionType === "stores") {
       let filteredShops = stores;

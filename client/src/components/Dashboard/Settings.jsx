@@ -323,27 +323,6 @@ function Settings() {
               </div>
             </form>
           </div>
-          {/*  <div className="discount">
-            <h4>Discount Codes</h4>
-            <div className="create-discount">
-              <h5>Create Discount Code</h5>
-              <div className="input-container">
-                <label htmlFor="discount">Discount</label>
-                <input
-                  type="text"
-                  name="discount"
-                  id="discount"
-                  placeholder="Enter Discount"
-                  value={discount}
-                  onChange={(event) => setDiscount(event.target.value)}
-                />
-              </div>
-              <div className="input-container">
-                <button type="submit">Create Discount</button>
-              </div>
-            </div>{" "}
-            <h5>Manage Discount Codes</h5>
-          </div> */}
         </div>
       </div>
     </div>
