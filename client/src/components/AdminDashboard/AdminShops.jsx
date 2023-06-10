@@ -1,45 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete, AiOutlineCheckSquare } from "react-icons/ai";
+import { useGetAllStoresQuery } from "../../redux/Slices/apiSlice";
 
 function AdminShops() {
   // Initial shops
-  const initialShops = [
-    {
-      id: 1,
-      name: "Shop 1",
-      category: "Category 1",
-      email: "shop1@example.com",
-      phone: "1234567890",
-      ownerName: "Owner 1",
-      status: "Approved",
-    },
-    {
-      id: 2,
-      name: "Shop 2",
-      category: "Category 2",
-      email: "shop2@example.com",
-      phone: "9876543210",
-      ownerName: "Owner 2",
-      status: "Pending",
-    },
-    // Add more shop objects as needed
-  ];
+  const [shops, setShops] = useState([]);
+  const { data: storesData, isLoading } = useGetAllStoresQuery();
 
-  const [shops, setShops] = useState(initialShops);
+  useEffect(() => {
+    if (storesData) {
+      setShops(storesData);
+    }
+  }, [storesData]);
+
+  console.log(shops);
+
+  // const [shops, setShops] = useState(initialShops);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
   // Function to handle shop deletion
   const handleDeleteShop = (shopId) => {
-    setShops((prevShops) => prevShops.filter((shop) => shop.id !== shopId));
+    setShops((prevShops) =>
+      prevShops.filter((shop) => shop.storeId !== shopId)
+    );
   };
 
   // Function to handle shop approval
   const handleApproveShop = (shopId) => {
     setShops((prevShops) =>
       prevShops.map((shop) =>
-        shop.id === shopId ? { ...shop, status: "Approved" } : shop
+        shop.storeId === shopId ? { ...shop, status: "Approved" } : shop
       )
     );
   };
@@ -48,7 +40,7 @@ function AdminShops() {
   const filteredShops = shops.filter((shop) => {
     const matchesSearchTerm =
       shop.name && shop.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = filterStatus === "" || shop.status === filterStatus;
+    const matchesStatus = filterStatus === "" || shop.approved === filterStatus;
     return matchesSearchTerm && matchesStatus;
   });
 
@@ -56,7 +48,7 @@ function AdminShops() {
     <div className="admin-shops-page admin--page dashboard--page">
       <div className="header">
         <h3>Hello, Admin </h3>
-        <p>View shop information and manage shop accounts.</p>
+        <p>View shop information and manage their states.</p>
       </div>
       <div className="main">
         <div className="upper">
@@ -88,6 +80,7 @@ function AdminShops() {
               <th>Category</th>
               <th>Email</th>
               <th>Phone</th>
+              <th>Opening Date</th>
               <th>Owner's Name</th>
               <th>Status</th>
               <th>Action</th>
@@ -95,18 +88,21 @@ function AdminShops() {
           </thead>
           <tbody>
             {filteredShops.map((shop) => (
-              <tr key={shop.id}>
+              <tr key={shop.storeId}>
                 <td>{shop.name}</td>
-                <td>{shop.category}</td>
+                <td>{shop.mainCat.name}</td>
                 <td>{shop.email}</td>
-                <td>{shop.phone}</td>
-                <td>{shop.ownerName}</td>
-                <td>{shop.status}</td>
+                <td>0{shop.phone}</td>
+                <td>{shop.openingDate.slice(0, 10)}</td>
+                <td>
+                  {shop.user.firstName} {shop.user.lastName}
+                </td>
+                <td>{shop.approved ? "Approved" : "Pending"}</td>
                 <td id="action">
-                  {shop.status === "Pending" && (
+                  {shop.approved === false && (
                     <button
                       className="icon-button"
-                      onClick={() => handleApproveShop(shop.id)}
+                      onClick={() => handleApproveShop(shop.storeId)}
                     >
                       <AiOutlineCheckSquare size={18} />
                     </button>
@@ -114,7 +110,7 @@ function AdminShops() {
 
                   <button
                     className="icon-button"
-                    onClick={() => handleDeleteShop(shop.id)}
+                    onClick={() => handleDeleteShop(shop.storeId)}
                   >
                     <AiOutlineDelete size={18} color="red" />
                   </button>
@@ -123,7 +119,7 @@ function AdminShops() {
             ))}
           </tbody>
         </table>
-        <p>Total Shops: {filteredShops.length}</p>
+        <p>Total Number ofShops: {filteredShops.length}</p>
       </div>
     </div>
   );

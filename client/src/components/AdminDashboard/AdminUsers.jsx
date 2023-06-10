@@ -1,39 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useGetUsersQuery } from "../../redux/Slices/apiSlice";
 
 function AdminUsers() {
   // Initial users
-  const initialUsers = [
-    {
-      id: 1,
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      birthdate: "1990-01-01",
-      gender: "Male",
-      credit: 100,
-      role: "Admin",
-    },
-    {
-      id: 2,
-      firstName: "Jane",
-      lastName: "Smith",
-      email: "jane.smith@example.com",
-      birthdate: "1992-05-15",
-      gender: "Female",
-      credit: 50,
-      role: "User",
-    },
-    // Add more user objects as needed
-  ];
 
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
+  const { data: usersData, isLoading } = useGetUsersQuery();
+
+  useEffect(() => {
+    if (usersData) {
+      setUsers(usersData);
+    }
+  }, [usersData]);
+
+  console.log(users);
+
+  // const [users, setUsers] = useState(initialUsers);
   const [searchTerm, setSearchTerm] = useState("");
 
   // Function to handle user deletion
   const handleDeleteUser = (userId) => {
-    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+    setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
   };
 
   // Filter users based on search term
@@ -66,30 +55,33 @@ function AdminUsers() {
         <table>
           <thead>
             <tr>
+              <th>Username</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Email</th>
-              <th>Birthdate</th>
+              <th>Birth Date</th>
               <th>Gender</th>
               <th>Credit</th>
-              <th>Role</th>
+              <th>Bank Account</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredUsers.map((user) => (
-              <tr key={user.id}>
+              <tr key={user.userId}>
+                <td>{user.username}</td>
                 <td>{user.firstName}</td>
                 <td>{user.lastName}</td>
                 <td>{user.email}</td>
-                <td>{user.birthdate}</td>
+                <td>{user.birthDate.slice(0, 10)}</td>
                 <td>{user.gender}</td>
                 <td>{user.credit}</td>
-                <td>{user.role}</td>
+                <td>{user.bankAccount ? user.bankAccount : "/"}</td>
+
                 <td>
                   <button
                     className="icon-button"
-                    onClick={() => handleDeleteUser(user.id)}
+                    onClick={() => handleDeleteUser(user.userId)}
                   >
                     <AiOutlineDelete size={18} color="red" />
                   </button>

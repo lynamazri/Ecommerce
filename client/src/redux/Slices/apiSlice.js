@@ -55,7 +55,7 @@ export const apiSlice = createApi({
     }),
     getProduct: builder.query({
       query: (id) => `/productss/store/${id}`,
-      providesTags: ['getProduct'],
+      providesTags: ["getProduct"],
     }),
     getStores: builder.query({
       query: () => "/store/",
@@ -74,7 +74,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: { content, stars },
       }),
-      invalidatesTags: ['getProduct'],
+      invalidatesTags: ["getProduct"],
     }),
     getStoreBanner: builder.query({
       query: (storeId) => `/store/banner/${storeId}`,
@@ -194,6 +194,26 @@ export const apiSlice = createApi({
       providesTags: ["getStores"],
     }),
 
+    getUsers: builder.query({
+      query: () => `/admin`,
+      providesTags: ["getUsers"],
+    }),
+
+    getAdmins: builder.query({
+      query: () => `/admin/admins`,
+      providesTags: ["getAdmins"],
+    }),
+
+    getAllStores: builder.query({
+      query: () => `/admin/stores`,
+      providesTags: ["getAllStores"],
+    }),
+
+    getAllProducts: builder.query({
+      query: () => `/admin/products`,
+      providesTags: ["getAllProducts"],
+    }),
+
     getStoreFromUser: builder.query({
       query: (userId) => `/store/mystore/${userId}`,
       providesTags: ["getStoreFromUser"],
@@ -297,4 +317,8 @@ export const {
   useGetUserOrdersQuery,
   useUserHasStoreQuery,
   useCreateReportMutation,
+  useGetAllStoresQuery,
+  useGetAllProductsQuery,
+  useGetUsersQuery,
+  useGetAdminsQuery,
 } = apiSlice;
