@@ -348,6 +348,36 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getCoupons"],
     }),
+
+    createCatgory: builder.mutation({
+      query: ({ name, description }) => ({
+        url: `/category`,
+        method: "POST",
+        body: { name, description },
+      }),
+      invalidatesTags: ["getCategories"],
+    }),
+
+    createSubCat: builder.mutation({
+      query: ({ name, parentCat }) => ({
+        url: `/category`,
+        method: "POST",
+        body: { name, parentCat },
+      }),
+    }),
+    deleteCatgory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getCategories"],
+    }),
+    deleteSubCat: builder.mutation({
+      query: (id) => ({
+        url: `/sub-category/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -398,4 +428,8 @@ export const {
   useUpdateAdminProfileMutation,
   useGetCouponsQuery,
   useCreateCouponMutation,
+  useCreateCatgoryMutation,
+  useCreateSubCatMutation,
+  useDeleteCatgoryMutation,
+  useDeleteSubCatMutation,
 } = apiSlice;
