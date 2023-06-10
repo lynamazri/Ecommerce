@@ -204,8 +204,8 @@ const addAdmin = async (req, res) => {
 };
 
 const updateAdminPassword = async (req, res) => {
-  const { error } = changePassValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  //const { error } = changePassValidation(req.body);
+  //if (error) return res.status(400).send(error.details[0].message);
   const { user } = req.params;
   const { curPassword, newPassword } = req.body;
 

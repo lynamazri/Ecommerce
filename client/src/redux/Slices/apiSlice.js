@@ -233,6 +233,14 @@ export const apiSlice = createApi({
       }),
     }),
 
+    updateAdminPassword: builder.mutation({
+      query: ({ curPassword, newPassword, user }) => ({
+        url: `/admin/password/${user}`,
+        method: "PATCH",
+        body: { curPassword, newPassword },
+      }),
+    }),
+
     editBanner: builder.mutation({
       query: ({ banner, store }) => ({
         url: `/store/edit/banner/${store}`,
@@ -318,16 +326,6 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: `/store/${id}`,
         method: "PATCH",
-      }),
-    }),
-    updateAdminPassword: builder.mutation({
-      query: (user, curPassword, newPassword) => ({
-        url: `/admin/password/${user}`,
-        method: "PATCH",
-        body: {
-          curPassword,
-          newPassword,
-        },
       }),
     }),
 
@@ -422,7 +420,6 @@ export const {
   useDeleteUserMutation,
   useDeleteProductMutation,
   useVerifyProductMutation,
-  useUpdateAdminPasswordMutation,
   useDeleteAdminMutation,
   useAddAdminMutation,
   useUpdateAdminProfileMutation,
@@ -432,4 +429,5 @@ export const {
   useCreateSubCatMutation,
   useDeleteCatgoryMutation,
   useDeleteSubCatMutation,
+  useUpdateAdminPasswordMutation,
 } = apiSlice;

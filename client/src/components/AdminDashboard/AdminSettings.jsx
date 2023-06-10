@@ -42,6 +42,7 @@ function AdminSettings() {
   });
   const [coupon, setCoupon] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [successPasswordMessage, setPasswordSuccessMessage] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [percentage, setPercentage] = useState("");
@@ -86,10 +87,10 @@ function AdminSettings() {
     }
 
     patchProfile({
-      user: "c9ea4509-559d-4fdb-b0ea-d56eb14ed905",
       newUsername: adminInfo.newUsername,
       firstName: adminInfo.firstName,
       lastName: adminInfo.lastName,
+      user: user.adminId,
     })
       .unwrap() // Extract the response data
       .then(() => {
@@ -111,7 +112,7 @@ function AdminSettings() {
 
   const handleSubmitPassword = (e) => {
     e.preventDefault();
-
+    setPasswordConfirmationMessage("");
     // Password validation
     if (passwordInfo.newPass !== passwordInfo.confirmNewPass) {
       setPasswordErrorMessage("Passwords do not match.");
@@ -123,7 +124,7 @@ function AdminSettings() {
     updatePassword({
       curPassword: passwordInfo.oldPass,
       newPassword: passwordInfo.newPass,
-      userId: "3b62fb41-94f6-4214-9bf9-fce1411d3fae",
+      user: user.adminId,
     })
       .unwrap() // Extract the response data
       .then(() => {
