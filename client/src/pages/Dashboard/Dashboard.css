@@ -124,6 +124,7 @@
 .dashboard-page > .dashboard-content-page > .main > .top > .right {
   width: 30%;
   height: 100%;
+  max-height: 375px;
 }
 
 .dashboard-page > .dashboard-content-page > .main > .top > .left {

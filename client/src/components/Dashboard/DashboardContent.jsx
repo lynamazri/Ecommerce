@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Line } from "react-chartjs-2";
-
+import Chart from "chart.js/auto";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import SwiperCore, { Navigation, A11y } from "swiper/core";
+import { Navigation, A11y } from "swiper/core";
 import "swiper/css/bundle";
 
 import {
@@ -14,13 +14,9 @@ import {
   FaUser,
   FaStar,
   FaQuestionCircle,
-  FaArrowUp,
-  FaArrowDown,
   FaEdit,
 } from "react-icons/fa";
 import { useGetStoreFromUserQuery } from "../../redux/Slices/apiSlice";
-
-import Chart from "chart.js/auto";
 
 function DashboardContent() {
   const [previousData, setPreviousData] = useState({});
