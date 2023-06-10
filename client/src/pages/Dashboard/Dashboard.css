@@ -331,7 +331,7 @@ canvas {
   margin: 0.8em 0 1.5em 0;
 }
 
-.product-table-add {
+.table-add {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -348,10 +348,10 @@ canvas {
   cursor: pointer;
 }
 
-.product-table-add:hover {
+.table-add:hover {
   background-color: #f5f5f5;
 }
-.product-table-add:active {
+.table-add:active {
   background-color: #d1d1d1;
 }
 

@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { useUpdateAdminPasswordMutation } from "../../redux/Slices/apiSlice";
+// import { useDispatch } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+// import { logOut } from "../../redux/Slices/authSlice";
 
 function AdminSettings() {
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   const [adminInfo, setAdminInfo] = useState({
     firstName: "",
     lastName: "",
     newUsername: "",
-    bankAccountNumber: "",
   });
   const [passwordInfo, setPasswordInfo] = useState({
     oldPass: "",
@@ -35,6 +40,10 @@ function AdminSettings() {
   const [percentage, setPercentage] = useState("");
   const [couponError, setCouponError] = useState("");
   const [percentageError, setPercentageError] = useState("");
+  const [updatePassword] = useUpdateAdminPasswordMutation();
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
 
   const handleAdminInfoChange = (e) => {
     setAdminInfo({ ...adminInfo, [e.target.name]: e.target.value });
@@ -42,6 +51,7 @@ function AdminSettings() {
 
   const handlePasswordChange = (e) => {
     setPasswordInfo({ ...passwordInfo, [e.target.name]: e.target.value });
+    console.log(passwordInfo);
   };
 
   const handleSubmitAdminInfo = (e) => {
@@ -65,13 +75,6 @@ function AdminSettings() {
       return;
     }
 
-    if (adminInfo.bankAccountNumber.length < 2) {
-      setAdminInfoErrorMessage(
-        "Bank Account Number must be at least 2 characters long."
-      );
-      return;
-    }
-
     // Handle admin info submission
     // ...
 
@@ -87,10 +90,29 @@ function AdminSettings() {
       return;
     }
 
-    // Handle password submission
-    // ...
+    console.log(passwordInfo.oldPass, passwordInfo.newPass);
 
-    setPasswordConfirmationMessage("Password updated successfully.");
+    updatePassword({
+      curPassword: passwordInfo.oldPass,
+      newPassword: passwordInfo.newPass,
+      userId: "3b62fb41-94f6-4214-9bf9-fce1411d3fae",
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setPasswordConfirmationMessage("Password updated successfully.");
+        setPasswordInfo({
+          oldPass: "",
+          newPass: "",
+          confirmNewPass: "",
+        });
+        //dispatch(logOut());
+        //navigate("/login");
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
   };
 
   const togglePasswordInputType = (name) => {
@@ -105,7 +127,7 @@ function AdminSettings() {
   };
 
   const coupons = [
-    {
+    /*  {
       code: "ABCD-123456-EFGH",
       startDate: "2023-06-01",
       endDate: "2023-06-30",
@@ -128,7 +150,7 @@ function AdminSettings() {
       startDate: "2023-07-01",
       endDate: "2023-07-31",
       percentage: 10,
-    },
+    }, */
     // Add more coupons here...
   ];
 
@@ -222,18 +244,6 @@ function AdminSettings() {
                     required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.newUsername}
-                  />
-                </div>
-                <div className="input-container">
-                  <label htmlFor="bankAccountNumber">Bank Account Number</label>
-                  <input
-                    type="text"
-                    name="bankAccountNumber"
-                    id="bankAccountNumber"
-                    placeholder="Bank Account Number"
-                    required
-                    onChange={handleAdminInfoChange}
-                    value={adminInfo.bankAccountNumber}
                   />
                 </div>
               </div>

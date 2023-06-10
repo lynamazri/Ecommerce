@@ -13,6 +13,7 @@ const {
   addAdmin,
   getAllProducts,
   getAdmins,
+  updateAdminPassword,
 } = require("../controllers/adminController");
 
 router.get("/", getUsers); //tested, works
@@ -26,5 +27,6 @@ router.patch("/complaints/:id", handleComplaint); //tested, works
 router.patch("/credit/add", addCredit); //tested, works
 router.patch("/credit/set", setCredit); //tested, works
 router.post("/", addAdmin); //tested, works
+router.patch("/password/:user", updateAdminPassword);
 
 module.exports = router;
