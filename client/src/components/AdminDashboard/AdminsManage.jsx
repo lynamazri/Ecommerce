@@ -13,6 +13,7 @@ function AdminsManage() {
     firstName: "",
     lastName: "",
     newUsername: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -112,8 +113,8 @@ function AdminsManage() {
     // ...
 
     addAdmin({
-      email,
-      username: adminInfo.username,
+      email: adminInfo.email,
+      username: adminInfo.newUsername,
       firstName: adminInfo.firstName,
       lastName: adminInfo.lastName,
       password: adminInfo.password,
@@ -121,11 +122,12 @@ function AdminsManage() {
       .unwrap() // Extract the response data
       .then(() => {
         // Handle successful update
-        setConfirmationMessage("Address added successfully");
+        setConfirmationMessage("Admin added successfully");
         setAdminInfo({
           firstName: "",
           lastName: "",
           newUsername: "",
+          email: "",
           password: "",
           confirmPassword: "",
         });
@@ -190,6 +192,18 @@ function AdminsManage() {
                     required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.newUsername}
+                  />
+                </div>
+                <div className="input-container">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Email"
+                    required
+                    onChange={handleAdminInfoChange}
+                    value={adminInfo.email}
                   />
                 </div>
                 <div className="security-inputs">
