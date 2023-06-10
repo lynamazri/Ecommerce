@@ -26,6 +26,8 @@ const getStoreOrders = async (req, res) => {
 const getUserOrders = async (req, res) => {
   const { user } = req.params;
 
+  console.log("fetching order");
+
   const orders = await prisma.Order.findMany({
     where: {
       userId: user,

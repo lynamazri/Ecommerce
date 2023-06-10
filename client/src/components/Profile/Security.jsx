@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { usePatchPasswordMutation } from "../../redux/Slices/apiSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logOut } from "../../redux/Slices/authSlice";
 
 function Security() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     oldPass: "",
     newPass: "",
@@ -89,6 +93,8 @@ function Security() {
           newPass: "",
           confirmNewPass: "",
         });
+        dispatch(logOut());
+        navigate("/login");
       })
       .catch(() => {
         // Handle error

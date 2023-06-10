@@ -1,29 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useGetUserOrdersQuery } from "../../redux/Slices/apiSlice";
 
 function OrderHistory() {
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      status: "Pending",
-      date: "2023-05-20",
-      products: [
-        { id: 1, name: "Product 1", price: 10 },
-        { id: 2, name: "Product 2", price: 15 },
-      ],
-    },
-    {
-      id: 2,
-      status: "Delivered",
-      date: "2023-05-18",
-      products: [
-        { id: 3, name: "Product 3", price: 20 },
-        { id: 4, name: "Product 4", price: 25 },
-      ],
-    },
-  ]);
-
   const [sortCriteria, setSortCriteria] = useState(null);
   const [filterStatus, setFilterStatus] = useState(null);
+
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
+  const { data: orderData, isLoading } = useGetUserOrdersQuery(user.userId);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    if (orderData) {
+      setOrders(orderData);
+    }
+  }, [orderData, isLoading]);
+  console.log(orderData);
 
   const cancelOrder = (orderId) => {
     const confirmed = window.confirm(
@@ -108,25 +102,27 @@ function OrderHistory() {
             <p>No orders match the selected criteria.</p>
           ) : (
             <div className="order-cards">
-              {sortedOrders.map((order) => (
-                <div key={order.id} className="order-card">
-                  <h3>Order #{order.id}</h3>
-                  <p>Date: {order.date}</p>
-                  <p>Status: {order.status}</p>
-                  <ul>
-                    {order.products.map((product) => (
-                      <li key={product.id}>
-                        {product.name} - {product.price}
-                      </li>
-                    ))}
-                  </ul>
-                  {order.status === "Pending" && (
-                    <button onClick={() => cancelOrder(order.id)}>
-                      Cancel Order
-                    </button>
-                  )}
-                </div>
-              ))}
+              {sortedOrders &&
+                sortedOrders.map((order) => (
+                  <div key={order.id} className="order-card">
+                    <h3>Order #{order.id}</h3>
+                    <p>Date: {order.date}</p>
+                    <p>Status: {order.status}</p>
+                    <ul>
+                      {order.products &&
+                        order.products.map((product) => (
+                          <li key={product.id}>
+                            {product.name} - {product.price}
+                          </li>
+                        ))}
+                    </ul>
+                    {order.status === "Pending" && (
+                      <button onClick={() => cancelOrder(order.id)}>
+                        Cancel Order
+                      </button>
+                    )}
+                  </div>
+                ))}
             </div>
           )}
         </div>

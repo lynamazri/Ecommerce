@@ -240,7 +240,13 @@ export const apiSlice = createApi({
       }),
     }),
     searchProduct: builder.query({
-      query: ({ fsearch, category }) => `productss/search/${fsearch}/category/${category}`,
+      query: ({ fsearch, category }) =>
+        `productss/search/${fsearch}/category/${category}`,
+    }),
+
+    getUserOrders: builder.query({
+      query: (user) => `/order/completed/${user}`,
+      providesTags: ["getStoreFromUser"],
     }),
   }),
 });
@@ -276,4 +282,5 @@ export const {
   useGetProductsFromStoreQuery,
   useUpdateProductMutation,
   useSearchProductQuery,
+  useGetUserOrdersQuery,
 } = apiSlice;

@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { usePatchProfileMutation } from "../../redux/Slices/apiSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUser } from "../../redux/Slices/authSlice";
 
 function MyProfile() {
   const [patchProfile, { isLoading, error }] = usePatchProfileMutation();
-
+  const authState = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    newUsername: "",
     bankAccountNumber: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
@@ -21,7 +24,7 @@ function MyProfile() {
     const profileData = {
       firstName: user.firstName,
       lastName: user.lastName,
-      email: user.email,
+      newUsername: user.username,
       bankAccountNumber: user.bankAccount,
     };
 
@@ -41,17 +44,20 @@ function MyProfile() {
     if (
       !formData.firstName ||
       !formData.lastName ||
-      !formData.email ||
+      !formData.newUsername ||
       !formData.bankAccountNumber
     ) {
       setErrorMessage("Please fill in all the required fields.");
       setConfirmationMessage("");
       return false;
     }
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setErrorMessage("Please enter a valid email address.");
+
+    // Validate newUsername format
+    const newUsernameRegex = /^[a-zA-Z0-9]{3,}$/;
+    if (!newUsernameRegex.test(formData.newUsername)) {
+      setErrorMessage(
+        "Please enter a valid username. It should contain at least 3 alphanumeric characters."
+      );
       setConfirmationMessage("");
       return false;
     }
@@ -75,7 +81,7 @@ function MyProfile() {
     }
     patchProfile({
       user: user.userId,
-      newUsername: "bzbouz",
+      newUsername: formData.newUsername,
       firstName: formData.firstName,
       lastName: formData.lastName,
       bankAccount: formData.bankAccountNumber,
@@ -84,18 +90,28 @@ function MyProfile() {
       .then(() => {
         // Handle successful update
         setConfirmationMessage("Changes saved successfully.");
-        console.log(confirmationMessage);
-      })
-      .catch(() => {
-        // Handle error
-        setErrorMessage("Error");
-        console.log(errorMessage);
+        dispatch(
+          updateUser({
+            user: {
+              ...user,
+              username: formData.newUsername,
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              bankAccount: formData.bankAccountNumber,
+            },
+          })
+        );
+        const updatedUser = authState.user;
       });
+    // .catch(() => {
+    //   // Handle error
+    //   setErrorMessage("Error");
+    //   console.log(errorMessage);
+    // });
 
     // Add your logic here to handle form submission
     // For now, just log the form data
   };
-
   return (
     <form className="right-container" onSubmit={handleSubmit}>
       <div className="my-profile-page">
@@ -129,15 +145,15 @@ function MyProfile() {
             />
           </div>
           <div className="input-container">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Username</label>
             <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
+              type="text"
+              name="newUsername"
+              id="newUsername"
+              placeholder="Username"
               required
               onChange={handleChange}
-              value={formData.email}
+              value={formData.newUsername}
             />
           </div>
           <div className="input-container">

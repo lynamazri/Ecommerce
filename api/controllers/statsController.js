@@ -75,6 +75,7 @@ const storesWithCount = async (req, res) => {
 //store stats
 
 const storeWithCount = async (req, res) => {
+  const { store } = req.params;
   const storeWithCount = await prisma.Store.findUnique({
     where: {
       storeId: store,
@@ -90,6 +91,25 @@ const storeWithCount = async (req, res) => {
   });
   if (!storeWithCount) res.sendStatus(400);
   else res.status(200).json(storeWithCount);
+};
+
+const storeReviews = async (req, res) => {
+  const { store } = req.params;
+
+  const storeReviews = await prisma.Product.findMany({
+    where: {
+      storeId: store,
+    },
+    include: {
+      _count: {
+        select: {
+          reviews: true,
+        },
+      },
+    },
+  });
+  if (!storeReviews) res.sendStatus(400);
+  else res.status(200).json(storeReviews);
 };
 
 //user stats
@@ -135,4 +155,5 @@ module.exports = {
   storeWithCount,
   nSalesUser,
   nSalesUserMonth,
+  storeReviews,
 };
