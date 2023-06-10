@@ -2,6 +2,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
+const {
+  changePassValidation,
+  updateProfileValidation,
+} = require("../validation");
 
 const getUsers = async (req, res) => {
   const users = await prisma.Users.findMany({
@@ -187,6 +191,38 @@ const addAdmin = async (req, res) => {
   }
 };
 
+const updateAdminPassword = async (req, res) => {
+  const { error } = changePassValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+  const { user } = req.params;
+  const { curPassword, newPassword } = req.body;
+
+  const curUser = await prisma.Admin.findUnique({
+    where: {
+      adminId: user,
+    },
+  });
+
+  const pass = await bcrypt.compare(curPassword, curUser.password);
+
+  if (!pass) return res.status(400).send("Wrong password.");
+
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(newPassword, salt);
+
+  const updateUser = await prisma.Admin.update({
+    where: {
+      adminId: user,
+    },
+    data: {
+      password: hashPassword,
+    },
+  });
+  if (updateUser) {
+    res.json({ message: "Password Changed Successfully" });
+  } else res.status(400).send("Error updating password.");
+};
+
 //get unverfied stores and products
 
 module.exports = {
@@ -201,4 +237,5 @@ module.exports = {
   addAdmin,
   getAllProducts,
   getAdmins,
+  updateAdminPassword,
 };

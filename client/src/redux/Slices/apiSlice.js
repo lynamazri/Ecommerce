@@ -301,6 +301,16 @@ export const apiSlice = createApi({
         method: "PATCH",
       }),
     }),
+    updateAdminPassword: builder.mutation({
+      query: (user, curPassword, newPassword) => ({
+        url: `/admin/password/${user}`,
+        method: "PATCH",
+        body: {
+          curPassword,
+          newPassword,
+        },
+      }),
+    }),
   }),
 });
 
@@ -345,4 +355,5 @@ export const {
   useDeleteUserMutation,
   useDeleteProductMutation,
   useVerifyProductMutation,
+  useUpdateAdminPasswordMutation,
 } = apiSlice;
