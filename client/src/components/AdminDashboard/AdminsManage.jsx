@@ -104,6 +104,8 @@ function AdminsManage() {
   };
 
   const handleSubmitAdminInfo = (event) => {
+    setAdminInfoConfirmationMessage("");
+
     event.preventDefault();
     if (adminInfo.password !== adminInfo.confirmPassword) {
       setAdminInfoErrorMessage("Passwords do not match");
@@ -122,7 +124,7 @@ function AdminsManage() {
       .unwrap() // Extract the response data
       .then(() => {
         // Handle successful update
-        setConfirmationMessage("Admin added successfully");
+
         setAdminInfo({
           firstName: "",
           lastName: "",
@@ -131,15 +133,14 @@ function AdminsManage() {
           password: "",
           confirmPassword: "",
         });
-
-        setAdminInfoErrorMessage("");
-        setAdminInfoConfirmationMessage("Admin added successfully");
       })
       .catch(() => {
         // Handle error
         console.log("Error");
         setErrorMessage("Error");
       });
+
+    setAdminInfoConfirmationMessage("Admin added successfully.");
   };
 
   return (
