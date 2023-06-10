@@ -269,7 +269,7 @@ function DashboardContent() {
           <div className="product-metrics">
             <div className="header">
               <h4>Top Products</h4>
-              <Link to={`/admin/products`}>
+              <Link to={`/dashboard/products`}>
                 All Products <MdKeyboardArrowRight />
               </Link>
             </div>
