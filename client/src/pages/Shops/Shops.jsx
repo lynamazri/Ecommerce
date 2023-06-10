@@ -33,26 +33,32 @@ function Shops() {
     if (categoriesData) {
       setCategories(categoriesData);
     }
+  }, [categoriesData, storesData, storesLoading]);
+
+  useEffect(() => {
+    // Update stores and filteredStores state when storesData changes
     if (storesData) {
       setStores(storesData);
-      setFilteredStores(stores);
+      setFilteredStores(storesData);
     }
-  }, [categoriesData, storesData]);
-
+  }, [storesData]);
   const handleCategorySelect = (selectedCategory) => {
     setShowCatName(true);
     setSelectedCategory(selectedCategory.name);
-    console.log(selectedCategory);
+
     setFilteredStores(
       stores.filter((store) => store.catId === selectedCategory.catId)
     );
-    console.log(filteredStores);
     // dispatch(updateFilteredStores(filteredStores));
   };
 
   const toggleViewMode = (mode) => {
     setViewMode(mode);
   };
+
+  if (storesLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
