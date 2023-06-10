@@ -12,6 +12,11 @@ function AdminSettings() {
     newPass: "",
     confirmNewPass: "",
   });
+  const [showPass, setShowPass] = useState({
+    oldPass: false,
+    newPass: false,
+    confirmNewPass: false,
+  });
   const [adminInfoErrorMessage, setAdminInfoErrorMessage] = useState("");
   const [passwordErrorMessage, setPasswordErrorMessage] = useState("");
   const [adminInfoConfirmationMessage, setAdminInfoConfirmationMessage] =
@@ -22,11 +27,6 @@ function AdminSettings() {
     oldPass: "password",
     newPass: "password",
     confirmNewPass: "password",
-  });
-  const [showPass, setShowPass] = useState({
-    oldPass: false,
-    newPass: false,
-    confirmNewPass: false,
   });
   const [coupon, setCoupon] = useState("");
   const [startDate, setStartDate] = useState("");

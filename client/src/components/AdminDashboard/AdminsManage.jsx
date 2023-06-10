@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete, AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { RiSearchLine } from "react-icons/ri";
 
 function AdminsManage() {
@@ -34,6 +34,19 @@ function AdminsManage() {
   ]);
   const [filteredAdmins, setFilteredAdmins] = useState(admins);
 
+  const [passwordInfo, setPasswordInfo] = useState({
+    Pass: "",
+    confirmPass: "",
+  });
+  const [passInputType, setPassInputType] = useState({
+    Pass: "password",
+    confirmPass: "password",
+  });
+  const [showPass, setShowPass] = useState({
+    Pass: false,
+    confirmPass: false,
+  });
+
   const handleDeleteAdmin = (adminId) => {
     setFilteredAdmins((prevFilteredAdmins) =>
       prevFilteredAdmins.filter((admin) => admin.adminId !== adminId)
@@ -59,6 +72,26 @@ function AdminsManage() {
     setAdminInfo((prevAdminInfo) => ({
       ...prevAdminInfo,
       [name]: value,
+    }));
+  };
+
+  const handlePasswordChange = (event) => {
+    const { name, value } = event.target;
+    setPasswordInfo((prevPasswordInfo) => ({
+      ...prevPasswordInfo,
+      [name]: value,
+    }));
+  };
+
+  const togglePasswordInputType = (inputName) => {
+    setPassInputType((prevPassInputType) => ({
+      ...prevPassInputType,
+      [inputName]:
+        prevPassInputType[inputName] === "password" ? "text" : "password",
+    }));
+    setShowPass((prevShowPass) => ({
+      ...prevShowPass,
+      [inputName]: !prevShowPass[inputName],
     }));
   };
 
@@ -134,29 +167,65 @@ function AdminsManage() {
                     value={adminInfo.newUsername}
                   />
                 </div>
-                <div className="input-container">
-                  <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="Password"
-                    required
-                    onChange={handleAdminInfoChange}
-                    value={adminInfo.password}
-                  />
-                </div>
-                <div className="input-container">
-                  <label htmlFor="confirmPassword">Confirm Password</label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    id="confirmPassword"
-                    placeholder="Confirm Password"
-                    required
-                    onChange={handleAdminInfoChange}
-                    value={adminInfo.confirmPassword}
-                  />
+                <div className="security-inputs">
+                  <div className="input-container">
+                    <label htmlFor="Pass">Password:</label>
+                    <div className="input-password">
+                      <input
+                        type={passInputType.Pass}
+                        name="Pass"
+                        id="Pass"
+                        placeholder="Enter Password"
+                        required
+                        onChange={handlePasswordChange}
+                        value={passwordInfo.Pass}
+                      />
+                      {passwordInfo.Pass && (
+                        <button
+                          className="show-password"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            togglePasswordInputType("Pass");
+                          }}
+                        >
+                          {showPass.Pass ? (
+                            <AiFillEye />
+                          ) : (
+                            <AiFillEyeInvisible />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="input-container">
+                    <label htmlFor="confirmPass">Confirm Password:</label>
+                    <div className="input-password">
+                      <input
+                        type={passInputType.confirmPass}
+                        name="confirmPass"
+                        id="confirmPass"
+                        placeholder="Confirm Password"
+                        required
+                        onChange={handlePasswordChange}
+                        value={passwordInfo.confirmPass}
+                      />
+                      {passwordInfo.confirmPass && (
+                        <button
+                          className="show-password"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            togglePasswordInputType("confirmPass");
+                          }}
+                        >
+                          {showPass.confirmPass ? (
+                            <AiFillEye />
+                          ) : (
+                            <AiFillEyeInvisible />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
 
