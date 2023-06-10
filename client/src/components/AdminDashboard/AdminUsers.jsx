@@ -45,7 +45,7 @@ function AdminUsers() {
   });
 
   return (
-    <div className="admin-users-page dashboard--page">
+    <div className="admin-users-page admin--page dashboard--page">
       <div className="header">
         <h3>Hello, Admin</h3>
         <p>View user information and manage user accounts.</p>

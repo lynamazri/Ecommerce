@@ -232,8 +232,7 @@ canvas {
   /* overflow-y: auto; */
 }
 
-.admin-users-page > .main > table,
-.admin-shops-page > .main > table,
+.admin--page > .main > table,
 .product-metrics table,
 .product-table > table {
   width: 100%;
@@ -241,8 +240,7 @@ canvas {
   border-spacing: 0;
 }
 
-.admin-users-page > .main thead,
-.admin-shops-page > .main thead,
+.admin--page > .main thead,
 .product-metrics thead,
 .product-table thead {
   height: 40px;
@@ -251,8 +249,7 @@ canvas {
   border-radius: 12px 12px 0 0;
 }
 
-.admin-users-page > .main th,
-.admin-shops-page > .main th,
+.admin--page > .main th,
 .product-metrics th,
 .product-table th {
   font-weight: 600;
@@ -261,8 +258,7 @@ canvas {
   padding: 0.4em 1em;
 }
 
-.admin-users-page > .main td,
-.admin-shops-page > .main td,
+.admin--page > .main td,
 .product-metrics td,
 .product-table td {
   padding: 0.4em 1em;

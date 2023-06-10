@@ -53,7 +53,7 @@ function AdminShops() {
   });
 
   return (
-    <div className="admin-shops-page dashboard--page">
+    <div className="admin-shops-page admin--page dashboard--page">
       <div className="header">
         <h3>Hello, Admin </h3>
         <p>View shop information and manage shop accounts.</p>
