@@ -143,7 +143,7 @@
   gap: 2em;
 }
 
-.admin-settings-page > .main > .content h3 {
+.admin-settings-page > .main > .content h4 {
   padding: 0.3em 0em;
 }
 
@@ -153,4 +153,30 @@
   font-weight: 400;
   font-size: 14px;
   color: #a9a9a9;
+}
+
+.coupon-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Display three cards per line */
+  grid-gap: 20px;
+}
+
+.coupon-card {
+  max-width: 300px; /* Fixed width for each card */
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f8fd;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.display-coupons > .coupon-cards > .coupon-card > p {
+  font-family: "poppins", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #191919;
 }
