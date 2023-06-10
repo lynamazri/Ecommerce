@@ -268,19 +268,19 @@ export default function ProductDetails() {
                     <span className="countLabel">{product.reviewsCount}</span>
                   )}
                 </button>
-                <button
+                {/* <button
                   className={`${
                     details === "questions" ? "selected-button" : ""
                   }`}
                   onClick={() => setDetails("questions")}
                 >
                   Questions <span className="countLabel">4</span>
-                </button>
+                </button> */}
               </div>
               {details === "description" && (
                 <motion.div
                   className="description-container"
-                  initial={{ x: "50vw" }}
+                  initial={{ x: "-50vw" }}
                   animate={{ x: 0 }}
                   transition={{
                     type: "spring",
@@ -389,7 +389,7 @@ export default function ProductDetails() {
                   ))}
                 </motion.div>
               )}
-              {details === "questions" && (
+              {/* {details === "questions" && (
                 <motion.div
                   className="questions-container"
                   initial={{ x: "50vw" }}
@@ -400,7 +400,7 @@ export default function ProductDetails() {
                     duration: 0.1,
                   }}
                 ></motion.div>
-              )}
+              )} */}
             </section>
           </div>
           <section className="product-container">
