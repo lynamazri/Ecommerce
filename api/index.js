@@ -18,6 +18,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const adminRoute = require("./routes/adminRoute");
 const discountRoute = require("./routes/discountRoute");
 const orderRoute = require("./routes/orderRoute");
+const statsRoute = require("./routes/statsRoute");
 
 //app
 const app = express();
@@ -41,6 +42,7 @@ app.use("/productss", productRoute);
 app.use("/admin", adminRoute);
 app.use("/discount", discountRoute);
 app.use("/order", orderRoute);
+app.use("/stats", statsRoute);
 
 //port
 const ourPort = 3001;
