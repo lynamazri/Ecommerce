@@ -28,7 +28,34 @@ const productsSlice = createSlice({
   initialState,
   reducers: {
     searchedProducts: (state, action) => {
-      state.items = action.payload
+      state.items = action.payload.map((item) => {
+        const Count = item.reviews.length;
+        let Avg = 0;
+        if (item.reviews.length > 0) {
+          for (let i = 0; i < item.reviews.length; i++) {
+            Avg += item.reviews[i].stars / item.reviews.length;
+          }
+        }
+        return {
+          ...item,
+          reviewsCount: Count,
+          reviewsAvg: Avg,
+        };
+      });
+      state.filteredItems = action.payload.map((item) => {
+        const Count = item.reviews.length;
+        let Avg = 0;
+        if (item.reviews.length > 0) {
+          for (let i = 0; i < item.reviews.length; i++) {
+            Avg += item.reviews[i].stars / item.reviews.length;
+          }
+        }
+        return {
+          ...item,
+          reviewsCount: Count,
+          reviewsAvg: Avg,
+        };
+      });
     },
     productsFetch: (state) => {
       state.status = "loading";
@@ -122,7 +149,7 @@ const productsSlice = createSlice({
   },
 });
 
-export const { productsFetchSuccess, productsFetchError, updateFilteredItems } =
+export const { productsFetchSuccess, productsFetchError, updateFilteredItems, searchedProducts } =
   productsSlice.actions;
 export const setSortingCriteria = createAction("products/setSortingCriteria");
 

@@ -24,9 +24,11 @@ function Products() {
   const [categories, setCategories] = useState([]);
   const { data, isLoading, error } = useGetCategoriesQuery();
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
+  useEffect(() => {
+    // Fetch products data when the component mounts
+    dispatch(productsFetch());
+  }, [dispatch]);
+
   useEffect(() => {
     setCategories(data);
   }, [data]);
@@ -96,7 +98,9 @@ function Products() {
     });
     dispatch(updateFilteredItems(filteredItems));
   };
-
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
   const handleResetPriceFilter = () => {
     setMinPrice("");
     setMaxPrice("");
@@ -137,11 +141,7 @@ function Products() {
     setViewMode(mode);
   };
 
-  useEffect(() => {
-    // Fetch products data when the component mounts
-    dispatch(productsFetch());
-  }, [dispatch]);
-  console.log(category);
+  console.log(items);
   return (
     <div>
       <Navbar />
@@ -185,14 +185,15 @@ function Products() {
             <div className="sub-categories-filter">
               <h3>Sub category menu</h3>
               <ul className="body">
-                {categories.slice(0, 4).map((category, index) => (
-                  <div key={`${category.name}-${index}`}>
-                    <li onClick={() => handleCategorySelect(category.name)}>
-                      {category.name}
-                    </li>
-                    <span>100</span>
-                  </div>
-                ))}
+                {categories &&
+                  categories.slice(0, 4).map((category, index) => (
+                    <div key={`${category.name}-${index}`}>
+                      <li onClick={() => handleCategorySelect(category.name)}>
+                        {category.name}
+                      </li>
+                      <span>100</span>
+                    </div>
+                  ))}
               </ul>
             </div>
             <div className="rating-filter">

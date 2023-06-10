@@ -275,7 +275,8 @@ header {
   top: 100%;
   transform: translateY(54%);
   transform: translateX(1%);
-  height: 400px;
+  height: fit-content;
+  max-height: 400px;
   overflow-y: scroll;
   width: 250px;
   height: 400px;

@@ -55,7 +55,7 @@ export const apiSlice = createApi({
     }),
     getProduct: builder.query({
       query: (id) => `/productss/store/${id}`,
-      providesTags: [],
+      providesTags: ['getProduct'],
     }),
     getStores: builder.query({
       query: () => "/store/",
@@ -74,6 +74,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: { content, stars },
       }),
+      invalidatesTags: ['getProduct'],
     }),
     getStoreBanner: builder.query({
       query: (storeId) => `/store/banner/${storeId}`,

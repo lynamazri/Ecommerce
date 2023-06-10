@@ -520,8 +520,14 @@ const searchProducts = async (req, res) => {
       },
       include: {
         store: true,
-        images: true,
         subCat: true,
+        images: true,
+        reviews: {
+          include: {
+            user: true,
+          },
+        },
+        discount: true,
       },
     });
     if (products.length == 0) res.status(400).send("No products found.");
@@ -541,6 +547,12 @@ const searchProducts = async (req, res) => {
         store: true,
         subCat: true,
         images: true,
+        reviews: {
+          include: {
+            user: true,
+          },
+        },
+        discount: true,
       },
     });
     if (products.length == 0) res.status(400).send("No products found.");

@@ -3,12 +3,17 @@ import { RiSearchLine, RiDeleteBack2Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useGetSubCategoriesQuery } from "../../redux/Slices/apiSlice";
+import { searchedProducts } from "../../redux/Slices/productsSlice";
 function Search() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
-  const [showSearchResult, setShowSearchResult] = useState(true);
+  const [showSearchResult, setShowSearchResult] = useState(false);
   const [subCatValue, setSubCatValue] = useState("All Categories");
 
   const [input, setInput] = useState("");
@@ -29,11 +34,18 @@ function Search() {
       })
       .catch((error) => {
         // Handle any errors that occurred during the request
-        console.error(error);
+        if (error.response.data === "No products found.") {
+          setProductsSearched([]);
+        }
       });
   };
   useEffect(() => {
     fetchData();
+    if (input === "") {
+      setShowSearchResult(false);
+    } else {
+      setShowSearchResult(true);
+    }
   }, [input]);
 
   const handleOptionsClick = () => {
@@ -50,6 +62,12 @@ function Search() {
   const handleOptionClick = (optionValue) => {
     setSubCatValue(optionValue);
     setShowOptions(!showOptions);
+  };
+
+  const handleClick = () => {
+    dispatch(searchedProducts(productsSearched));
+    // navigate("/products/Electronics");
+    setInput("");
   };
   return (
     <>
@@ -120,23 +138,13 @@ function Search() {
             </div>
           </div>
         </div>
-        <div className="searchIcon">
+        <div className="searchIcon" onClick={handleClick}>
           {query.length === 0 ? (
             <RiSearchLine size={18} />
           ) : (
             <RiDeleteBack2Line size={18} onClick={clearInput} />
           )}
         </div>
-      </div>
-      <div className="dataRes">
-        {data.slice(0, 7).map((value, key) => {
-          return (
-            <div>
-              <h3>{value.title}</h3>
-              <span>{value.price}</span>
-            </div>
-          );
-        })}
       </div>
     </>
   );

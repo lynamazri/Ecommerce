@@ -101,7 +101,7 @@ const subCatValidationOnUpdate = (data) => {
 
 const reviewValidation = (data) => {
   const schema = Joi.object({
-    content: Joi.string().min(4).max(35),
+    content: Joi.string().min(4).max(200),
     stars: Joi.number().min(1).max(5),
   });
   return schema.validate(data);
