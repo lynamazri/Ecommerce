@@ -13,6 +13,7 @@ const getStoreOrders = async (req, res) => {
       order: {
         include: {
           user: true,
+          address: true,
         },
       },
       product: true,

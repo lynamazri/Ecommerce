@@ -82,6 +82,7 @@ export default function ProductDetails() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setConfirmationMessage(""), setErrorMessage("");
 
     createReview({
       content: reviewComment.content,
@@ -94,7 +95,7 @@ export default function ProductDetails() {
         setConfirmationMessage("Comment posted.");
       })
       .catch(() => {
-        setErrorMessage("Error.");
+        setErrorMessage("Failed to post review. Please try again.");
       });
   }
   console.log(reviewComment);
@@ -153,7 +154,7 @@ export default function ProductDetails() {
                       <Link to={`/shop/${product?.store?.storeId}`}>
                         {product?.store?.name}
                       </Link>
-                      <li>76645</li>
+                      <li>{product.productId}</li>
                       <li>{product?.subCat?.name}</li>
                       {product.quantity > 0 ? (
                         <li>In Stock</li>
@@ -166,14 +167,14 @@ export default function ProductDetails() {
                 <div className="information">
                   <div className="detailsTitle">
                     <ul className="detailTitleList">
-                      <li>Freshness:</li>
+                      <li>Available since:</li>
                       <li>Delivery:</li>
                     </ul>
                   </div>
                   <div className="detailsValue">
                     <ul className="detailValueList">
-                      <li>1 day old</li>
-                      <li>in 2 days</li>
+                      <li>{product.dateAdded.slice(0, 10)}</li>
+                      <li>2 to 5 business days</li>
                     </ul>
                   </div>
                 </div>
@@ -280,20 +281,17 @@ export default function ProductDetails() {
                   }}
                 >
                   <div className="description">
-                    <h5>Origins</h5>
-                    <p>
-                      We work hard to ensure that the fruit and vegetables we
-                      sell are fresh and high in quality. If we don’t grow them
-                      ourselves, we source them from carefully chosen suppliers,
-                      preferring to buy locally whenever possible.
-                    </p>
+                    <h5>About This Product</h5>
+                    <p>{product?.description}</p>
                   </div>
                   <div className="features">
-                    <h5>Features</h5>
+                    <h5>Before You Buy</h5>
                     <p>
-                      Enumerate the product's key features in a bullet-point
-                      format. Focus on the most important aspects that
-                      differentiate it from other products.
+                      To insure a comfortable shopping experience, please make
+                      sure to properly check the product details above as well
+                      as the customer reviews before making a purchase. Feel
+                      free to contact us or the concerned store for more
+                      information.
                     </p>
                   </div>
                 </motion.div>
@@ -313,9 +311,9 @@ export default function ProductDetails() {
                     className="comment-form-container"
                     onSubmit={handleSubmit}
                   >
-                    <h3>Leave a comment</h3>
+                    <h3>Leave a review</h3>
                     <div className="textarea-container">
-                      <label htmlFor="comment">Comment</label>
+                      <label htmlFor="comment">New Review</label>
                       <textarea
                         id="content"
                         className="content-input"
@@ -361,7 +359,13 @@ export default function ProductDetails() {
                         );
                       })}
                     </div>
-                    <button className="comment-button">Send a comment</button>
+                    <button className="comment-button">Send a review</button>
+                    {errorMessage && (
+                      <p className="error-message">{errorMessage}</p>
+                    )}
+                    {confirmationMessage && (
+                      <p className="success-message">{confirmationMessage}</p>
+                    )}
                   </form>
 
                   {reviews.map((review, index) => (

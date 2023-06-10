@@ -113,15 +113,31 @@ function Orders() {
           {filteredAndSortedItems.map((item) => (
             <div key={item.id} className="order-item">
               <div className="order-info">
-                <p>Order ID: {item.itemId}</p>
                 <p>
-                  Customer Name: {item.order.user.firstName}{" "}
+                  <strong>Order ID:</strong> {item.itemId}
+                </p>
+                <p>
+                  <strong>Customer Name:</strong> {item.order.user.firstName}{" "}
                   {item.order.user.lastName}
                 </p>
-                <p>Order Date: {item.order.orderDate.slice(0, 10)}</p>
-                <p>state: {item.state}</p>
-                <p>Product Name: {item.product.name}</p>
-                <p>Quantity: {item.quantity}</p>
+                <p>
+                  <strong>Order Date:</strong>{" "}
+                  {item.order.orderDate.slice(0, 10)}
+                </p>
+                <p>
+                  <strong>state:</strong> {item.state}
+                </p>
+                <p>
+                  <strong>Product Name:</strong> {item.product.name}
+                </p>
+                <p>
+                  <strong>Quantity:</strong> {item.quantity}
+                </p>
+                <p>
+                  <strong>Address:</strong> {item.order.address.street}{" "}
+                  {item.order.address.city} {item.order.address.state}{" "}
+                  {item.order.address.zip}
+                </p>
 
                 <select
                   value={item.state}
