@@ -104,6 +104,34 @@ function AdminSettings() {
     }));
   };
 
+  const coupons = [
+    {
+      code: "ABCD-123456-EFGH",
+      startDate: "2023-06-01",
+      endDate: "2023-06-30",
+      percentage: 20,
+    },
+    {
+      code: "ABCD-123456-EFGH",
+      startDate: "2023-06-01",
+      endDate: "2023-06-30",
+      percentage: 20,
+    },
+    {
+      code: "ABCD-123456-EFGH",
+      startDate: "2023-06-01",
+      endDate: "2023-06-30",
+      percentage: 20,
+    },
+    {
+      code: "WXYZ-789012-IJKL",
+      startDate: "2023-07-01",
+      endDate: "2023-07-31",
+      percentage: 10,
+    },
+    // Add more coupons here...
+  ];
+
   const handleCreateCoupon = () => {
     // Clear previous error messages
     setCouponError("");
@@ -134,10 +162,10 @@ function AdminSettings() {
     }
 
     // Coupon creation logic goes here
-    console.log("Coupon code:", coupon);
-    console.log("Start date:", startDate);
-    console.log("End date:", endDate);
-    console.log("Percentage:", parsedPercentage);
+    setCoupon("");
+    setStartDate("");
+    setEndDate("");
+    setPercentage("");
   };
   return (
     <div className="admin-settings-page admin--page dashboard--page">
@@ -148,13 +176,13 @@ function AdminSettings() {
         <p>Update your personal information by changing the inputs below.</p>
       </div>
       <div className="main">
-        <h2 className="upper">Settings</h2>
+        <h3 className="upper">Settings</h3>
 
         {/* Admin Info */}
         <div className="content">
           <div className="admin-info">
             <div className="header">
-              <h3>Edit Admin Info</h3>
+              <h4>Edit Admin Info</h4>
               <p>Fill in the inputs below to update your admin information.</p>
             </div>
 
@@ -226,7 +254,7 @@ function AdminSettings() {
           </div>
           <div className="admin-password">
             <div className="header">
-              <h3>Edit Password</h3>
+              <h4>Edit Password</h4>
               <p>Fill in the inputs below to change your password.</p>
             </div>
             <form
@@ -338,7 +366,7 @@ function AdminSettings() {
             </form>
           </div>
           <div className="coupon">
-            <h3>Manage Coupon Codes</h3>
+            <h4>Manage Coupon Codes</h4>
             <div className="create-coupon">
               <div className="header">
                 <h4>Add Coupon Code</h4>
@@ -399,8 +427,24 @@ function AdminSettings() {
               </div>
             </div>
             <div className="display-coupons">
-              <h4>Coupon Codes</h4>
-            </div>
+              <h4>Existing Coupons</h4>
+              <div className="coupon-cards">
+                {coupons.map((coupon) => (
+                  <div key={coupon.code} className="coupon-card">
+                    <h5>{coupon.code}</h5>
+                    <p>
+                      <strong>Start Date:</strong> {coupon.startDate}
+                    </p>
+                    <p>
+                      <strong>End Date:</strong> {coupon.endDate}
+                    </p>
+                    <p>
+                      <strong>Percentage:</strong> {coupon.percentage}%
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>{" "}
           </div>{" "}
         </div>
       </div>

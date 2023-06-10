@@ -4,6 +4,7 @@ import { AiOutlineCheckSquare, AiOutlineDelete } from "react-icons/ai";
 import {
   useGetAllProductsQuery,
   useDeleteProductMutation,
+  useVerifyProductMutation,
 } from "../../redux/Slices/apiSlice";
 
 function AdminProducts() {
@@ -11,6 +12,7 @@ function AdminProducts() {
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [deleteProduct] = useDeleteProductMutation();
+  const [verifyProduct] = useVerifyProductMutation();
   const { data: productsData, isLoading } = useGetAllProductsQuery();
 
   useEffect(() => {
@@ -42,11 +44,21 @@ function AdminProducts() {
 
   // Function to handle product approval
   const handleApproveProduct = (productId) => {
+    setConfirmationMessage("");
+
+    console.log(productId);
+
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
-        product.id === productId ? { ...product, status: "Approved" } : product
+        product.productId === productId
+          ? { ...product, verified: "Approved" }
+          : product
       )
     );
+
+    verifyProduct(productId);
+
+    setConfirmationMessage("Product verified successfully.");
   };
 
   // Filter products based on search term and status
@@ -112,7 +124,7 @@ function AdminProducts() {
                 <td>{product.quantity}</td>
                 <td>{product.verified ? "Approved" : "Pending"}</td>
                 <td id="action">
-                  {product.status === "Pending" && (
+                  {product.verified === false && (
                     <button
                       className="icon-button"
                       onClick={() => handleApproveProduct(product.productId)}
