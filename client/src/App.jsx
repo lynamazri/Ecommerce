@@ -24,7 +24,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import MyProfile from "./components/Profile/MyProfile";
 import AddressBook from "./components/Profile/AddressBook";
-import PaymentMethod from "./components/Profile/PaymentMethod";
+import ManageCredit from "./components/Profile/ManageCredit";
 import OrderHistory from "./components/Profile/OrderHistory";
 import OpenShop from "./components/Profile/OpenShop";
 import Security from "./components/Profile/Security";
@@ -124,7 +124,7 @@ function App() {
         <Route path="/profile" element={<Profile />}>
           <Route path="/profile/my-profile" element={<MyProfile />} />
           <Route path="/profile/address-book" element={<AddressBook />} />
-          <Route path="/profile/payment-method" element={<PaymentMethod />} />
+          <Route path="/profile/manage-credit" element={<ManageCredit />} />
           <Route path="/profile/orderhistory" element={<OrderHistory />} />
           <Route path="/profile/security" element={<Security />} />
           <Route path="/profile/language" element={<Language />} />
