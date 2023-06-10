@@ -1,13 +1,24 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
+
 import "./AdminDashboard.css";
 
 function AdminDashboard() {
+  const navigate = useNavigate();
   const location = useLocation();
   const isActive = (pathname) => location.pathname === pathname;
-
+  const [sendLogout] = useSendLogoutMutation();
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : { userId: 1 };
+  useEffect(() => {
+    if (user.userId === 1) {
+      navigate("/login");
+    }
+  }, [user.username, navigate]);
   return (
     <div className="admin-dashboard-page dashboard-page">
       <div className="menu">
@@ -65,7 +76,12 @@ function AdminDashboard() {
             </Link>
           </li>
         </ul>
-        <button className="exit">
+        <button
+          className="exit"
+          onClick={() => {
+            sendLogout();
+          }}
+        >
           {" "}
           <RiLogoutBoxLine size={18} /> Log out
         </button>
