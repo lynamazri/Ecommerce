@@ -33,7 +33,11 @@ const getUserOrders = async (req, res) => {
       userId: user,
     },
     include: {
-      items: true,
+      items: {
+        include: {
+          product: true,
+        },
+      },
     },
   });
 

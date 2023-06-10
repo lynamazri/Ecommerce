@@ -104,23 +104,30 @@ function OrderHistory() {
             <div className="order-cards">
               {sortedOrders &&
                 sortedOrders.map((order) => (
-                  <div key={order.id} className="order-card">
-                    <h3>Order #{order.id}</h3>
-                    <p>Date: {order.date}</p>
-                    <p>Status: {order.status}</p>
+                  <div key={order.orderId} className="order-card">
+                    <h3>Order #{order.orderId}</h3>
+                    <p>Date: {order.orderDate.slice(0, 10)}</p>
+                    {/* <p>Status: {order.status}</p> */}
+                    <p>Order Items:</p>
+
                     <ul>
-                      {order.products &&
-                        order.products.map((product) => (
-                          <li key={product.id}>
-                            {product.name} - {product.price}
+                      {order.items &&
+                        order.items.map((item) => (
+                          <li key={item.itemId}>
+                            {item.product.name} - {item.quantity} - {item.state}
+                            {item.status === "Pending" && (
+                              <button onClick={() => cancelOrder(item.itemId)}>
+                                Cancel Order
+                              </button>
+                            )}
                           </li>
                         ))}
                     </ul>
-                    {order.status === "Pending" && (
+                    {/* {order.status === "Pending" && (
                       <button onClick={() => cancelOrder(order.id)}>
                         Cancel Order
                       </button>
-                    )}
+                    )} */}
                   </div>
                 ))}
             </div>

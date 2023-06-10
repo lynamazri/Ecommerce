@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
 import { Outlet } from "react-router-dom";
+import { useUserHasStoreQuery } from "../../redux/Slices/apiSlice";
 import "./Profile.css";
 
 function Profile() {
   const location = useLocation();
   const isActive = (pathname) => location.pathname === pathname;
-
+  const [hasStore, setHasStore] = useState(false);
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const { data, isLoading } = useUserHasStoreQuery(user.userId);
+  useEffect(() => {
+    if (data) {
+      setHasStore(data.hasStore);
+    }
+  }, [data, isLoading]);
   return (
     <>
       <Navbar />
@@ -52,16 +62,16 @@ function Profile() {
                   Order History
                 </Link>
               </li>
-              {/* {!userHasShop && ( */}
-              <li>
-                <Link
-                  to="/profile/open-shop"
-                  className={isActive("/profile/open-shop") ? "active" : ""}
-                >
-                  Open a Shop
-                </Link>
-              </li>
-              {/* )} */}
+              {!hasStore && (
+                <li>
+                  <Link
+                    to="/profile/open-shop"
+                    className={isActive("/profile/open-shop") ? "active" : ""}
+                  >
+                    Open a Shop
+                  </Link>
+                </li>
+              )}
             </ul>
 
             <li className="sidebar-item">My Settings</li>

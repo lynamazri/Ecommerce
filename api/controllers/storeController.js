@@ -113,6 +113,22 @@ const getStoreFromUser = async (req, res) => {
   else res.status(200).json(store);
 };
 
+const userHasStore = async (req, res) => {
+  const { user } = req.params;
+
+  const store = await prisma.Store.findUnique({
+    where: {
+      userId: user,
+    },
+    include: {
+      banner: true,
+      mainCat: true,
+    },
+  });
+  if (!store) res.status(200).json({ "hasStore": false })
+  if (store) res.status(200).json({ "hasStore": true })
+}
+
 const editStore = async (req, res) => {
   //const { error } = storeUpdateValidation(req.body);
   //if (error) return res.status(400).send(error.details[0].message);
@@ -277,4 +293,5 @@ module.exports = {
   editBanner,
   getStoreBanner,
   getStoreFromUser,
+  userHasStore,
 };
