@@ -37,6 +37,18 @@ const deleteUser = async (req, res) => {
   else res.status(200);
 };
 
+const deleteAdmin = async (req, res) => {
+  const { id } = req.params;
+
+  const deleteUser = await prisma.Admin.delete({
+    where: {
+      adminId: id,
+    },
+  });
+  if (!deleteUser) res.status(400).send("Unable to delete admin.");
+  else res.status(200);
+};
+
 const getUserByUsername = async (req, res) => {
   const { username } = req.body;
   console.log(username);
@@ -238,4 +250,5 @@ module.exports = {
   getAllProducts,
   getAdmins,
   updateAdminPassword,
+  deleteAdmin,
 };

@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { RiSearchLine } from "react-icons/ri";
+import {
+  useGetAdminsQuery,
+  useDeleteAdminMutation,
+  useAddAdminMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminsManage() {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -11,33 +16,34 @@ function AdminsManage() {
     password: "",
     confirmPassword: "",
   });
+
   const [adminInfoErrorMessage, setAdminInfoErrorMessage] = useState("");
   const [adminInfoConfirmationMessage, setAdminInfoConfirmationMessage] =
     useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [admins] = useState([
-    {
-      adminId: 1,
-      username: "admin1",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-    },
-    {
-      adminId: 2,
-      username: "admin2",
-      firstName: "Jane",
-      lastName: "Smith",
-      email: "jane.smith@example.com",
-    },
-    // Add more sample admins as needed
-  ]);
-  const [filteredAdmins, setFilteredAdmins] = useState(admins);
+  const [deleteAdmin] = useDeleteAdminMutation();
+  const [addAdmin] = useAddAdminMutation();
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [filteredAdmins, setFilteredAdmins] = useState([]);
+  const { data: adminsData, isLoading } = useGetAdminsQuery();
+
+  useEffect(() => {
+    if (adminsData) {
+      setFilteredAdmins(adminsData);
+    }
+  }, [adminsData]);
+
+  console.log(filteredAdmins);
 
   const handleDeleteAdmin = (adminId) => {
+    setConfirmationMessage("");
     setFilteredAdmins((prevFilteredAdmins) =>
       prevFilteredAdmins.filter((admin) => admin.adminId !== adminId)
     );
+
+    deleteAdmin(adminId);
+
+    setConfirmationMessage("Admin deleted successfully.");
   };
 
   const handleSearch = (e) => {
@@ -71,15 +77,33 @@ function AdminsManage() {
     // Perform the admin info submission logic
     // ...
 
-    setAdminInfo({
-      firstName: "",
-      lastName: "",
-      newUsername: "",
-      password: "",
-      confirmPassword: "",
-    });
-    setAdminInfoErrorMessage("");
-    setAdminInfoConfirmationMessage("Admin added successfully");
+    addAdmin({
+      email,
+      username: adminInfo.username,
+      firstName: adminInfo.firstName,
+      lastName: adminInfo.lastName,
+      password: adminInfo.password,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setConfirmationMessage("Address added successfully");
+        setAdminInfo({
+          firstName: "",
+          lastName: "",
+          newUsername: "",
+          password: "",
+          confirmPassword: "",
+        });
+
+        setAdminInfoErrorMessage("");
+        setAdminInfoConfirmationMessage("Admin added successfully");
+      })
+      .catch(() => {
+        // Handle error
+        console.log("Error");
+        setErrorMessage("Error");
+      });
   };
 
   return (
@@ -220,6 +244,9 @@ function AdminsManage() {
                 ))}
               </tbody>
             </table>
+            {confirmationMessage && (
+              <p className="confirmation-message">{confirmationMessage}</p>
+            )}
             <p>Total Number of Admins: {filteredAdmins.length}</p>
           </>
         )}

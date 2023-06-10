@@ -281,6 +281,13 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getUsers"],
     }),
+    deleteAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/admin/admins/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getAdmins"],
+    }),
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `/productss/${id}`,
@@ -310,6 +317,15 @@ export const apiSlice = createApi({
           newPassword,
         },
       }),
+    }),
+
+    addAdmin: builder.mutation({
+      query: ({ email, username, firstName, lastName, password }) => ({
+        url: `/admin`,
+        method: "POST",
+        body: { email, username, firstName, lastName, password },
+      }),
+      invalidatesTags: ["getAdmins"],
     }),
   }),
 });
@@ -356,4 +372,6 @@ export const {
   useDeleteProductMutation,
   useVerifyProductMutation,
   useUpdateAdminPasswordMutation,
+  useDeleteAdminMutation,
+  useAddAdminMutation,
 } = apiSlice;
