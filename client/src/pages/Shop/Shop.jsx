@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
@@ -8,38 +8,19 @@ import Path from "../../components/Path/Path";
 import Swiperr from "../../components/Swiper/Swiper";
 import Footer from "../../components/Footer/Footer";
 import "./Shop.css";
-import { useGetStoreBannerQuery } from "../../redux/Slices/apiSlice";
+import { useGetStoreByIdQuery } from "../../redux/Slices/apiSlice";
 import { fetchStoresData } from "../../redux/Slices/storesSlice";
-import { useGetCategoryQuery } from "../../redux/Slices/apiSlice";
 
 function Shop() {
   const dispatch = useDispatch();
   const { storeId } = useParams();
-  const stores = useSelector((state) => state.stores.stores);
-  const shop = stores.find((store) => store.storeId === storeId);
 
-  const {
-    data: storeBanner,
-    isLoading,
-    isError,
-  } = useGetStoreBannerQuery(parseInt(storeId));
+  const { data, isLoading } = useGetStoreByIdQuery(storeId);
   useEffect(() => {
     dispatch(fetchStoresData());
   }, [dispatch]);
-  if (!shop) {
+  if (isLoading) {
     return <div>Loading...</div>;
-  } else if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error occurred while fetching store banner.</div>;
-  }
-  const { data: category, isLoading: categoryIsLoading } = useGetCategoryQuery(
-    shop.catId
-  );
-
-  if (categoryIsLoading) {
-    return null;
   }
   return (
     <div>
@@ -48,11 +29,11 @@ function Shop() {
       <div className="shop-page">
         <div className="upper">
           <div className="banner">
-            {storeBanner && <img src={storeBanner?.url} alt={shop.name} />}
+            <img src={data.banner?.url} alt={data.name} />
           </div>
           <div className="info">
-            <h2>{shop.name}</h2>
-            <p>{shop.description}</p>
+            <h2>{data.name}</h2>
+            <p>{data.description}</p>
             <div className="information">
               <ul className="detail">
                 <li>Main Category:</li>
@@ -61,10 +42,10 @@ function Shop() {
                 <li>Email:</li>
               </ul>
               <ul className="detail-value">
-                <li>{category.name}</li>
-                <li>{shop.workingHours}</li>
-                <li>{shop.phone}</li>
-                <li>{shop.email}</li>
+                <li>{data.mainCat.name}</li>
+                <li>{data.workingHours}</li>
+                <li>{data.phone}</li>
+                <li>{data.email}</li>
               </ul>
             </div>
           </div>
@@ -85,8 +66,8 @@ function Shop() {
             </div>
             <Swiperr
               sectionType="stores"
-              storeCat={shop?.catId}
-              currentShopId={shop?.storeId}
+              storeCat={data?.mainCat.catId}
+              currentShopId={data?.storeId}
             />
           </section>
         </div>

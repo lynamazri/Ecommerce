@@ -44,11 +44,20 @@ function Login() {
         password: formData.pass,
       }).unwrap();
       dispatch(setCredentials({ accessToken, user }));
+      var userLS = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : null;
+
+      console.log(userLS.bankAccount);
+      if (userLS.bankAccount) {
+        navigate("/", { replace: true });
+      } else if (userLS.bankAccount === undefined) {
+        navigate("/admin/dashboard", { replace: true });
+      }
       setFormData({
         uemail: "",
         pass: "",
       });
-      navigate("/", { replace: true });
     } catch (error) {
       console.log(error);
       setErrorMessage(error.data);

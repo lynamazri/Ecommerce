@@ -68,6 +68,13 @@ export const apiSlice = createApi({
         body: { newUsername, firstName, lastName, bankAccount },
       }),
     }),
+    updateAdminProfile: builder.mutation({
+      query: ({ newUsername, firstName, lastName, user }) => ({
+        url: `/admin/admins/${user}`,
+        method: "PATCH",
+        body: { newUsername, firstName, lastName },
+      }),
+    }),
     createReview: builder.mutation({
       query: ({ content, stars, productId, userId }) => ({
         url: `/productss/${productId}/review/${userId}`,
@@ -193,6 +200,16 @@ export const apiSlice = createApi({
       providesTags: ["getUsers"],
     }),
 
+    getReports: builder.query({
+      query: () => `/admin/reports`,
+      providesTags: ["getReports"],
+    }),
+
+    getCoupons: builder.query({
+      query: () => `/discount/coupons`,
+      providesTags: ["getCoupons"],
+    }),
+
     getAdmins: builder.query({
       query: () => `/admin/admins`,
       providesTags: ["getAdmins"],
@@ -208,6 +225,11 @@ export const apiSlice = createApi({
       providesTags: ["getAllProducts"],
     }),
 
+    getStoreById: builder.query({
+      query: (storeId) => `/store/store/${storeId}`,
+      providesTags: ["getStoreById"],
+    }),
+
     getStoreFromUser: builder.query({
       query: (userId) => `/store/mystore/${userId}`,
       providesTags: ["getStoreFromUser"],
@@ -218,6 +240,14 @@ export const apiSlice = createApi({
         url: `/store/edit/${store}`,
         method: "PATCH",
         body: { name, email, description, phone, workingHours },
+      }),
+    }),
+
+    updateAdminPassword: builder.mutation({
+      query: ({ curPassword, newPassword, user }) => ({
+        url: `/admin/password/${user}`,
+        method: "PATCH",
+        body: { curPassword, newPassword },
       }),
     }),
 
@@ -281,6 +311,22 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getUsers"],
     }),
+
+    deleteReport: builder.mutation({
+      query: (id) => ({
+        url: `/admin/reports/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getReports"],
+    }),
+
+    deleteAdmin: builder.mutation({
+      query: (id) => ({
+        url: `/admin/admins/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getAdmins"],
+    }),
     deleteProduct: builder.mutation({
       query: (id) => ({
         url: `/productss/${id}`,
@@ -299,6 +345,70 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: `/store/${id}`,
         method: "PATCH",
+      }),
+    }),
+
+    addCredit: builder.mutation({
+      query: (amount, bankAccount) => ({
+        url: `/admin/credit/add`,
+        method: "PATCH",
+        body: { amount, bankAccount },
+      }),
+    }),
+
+    setCredit: builder.mutation({
+      query: (amount, bankAccount) => ({
+        url: `/admin/credit/set`,
+        method: "PATCH",
+        body: { amount, bankAccount },
+      }),
+    }),
+
+    addAdmin: builder.mutation({
+      query: ({ email, username, firstName, lastName, password }) => ({
+        url: `/admin`,
+        method: "POST",
+        body: { email, username, firstName, lastName, password },
+      }),
+      invalidatesTags: ["getAdmins"],
+    }),
+
+    createCoupon: builder.mutation({
+      query: ({ percentage, end, code }) => ({
+        url: `/discount/coupons`,
+        method: "POST",
+        body: { percentage, end, code },
+      }),
+      invalidatesTags: ["getCoupons"],
+    }),
+
+    createCatgory: builder.mutation({
+      query: ({ name, description }) => ({
+        url: `/category`,
+        method: "POST",
+        body: { name, description },
+      }),
+      invalidatesTags: ["getCategories"],
+    }),
+
+    createSubCat: builder.mutation({
+      query: ({ name, parentCat }) => ({
+        url: `/category`,
+        method: "POST",
+        body: { name, parentCat },
+      }),
+    }),
+    deleteCatgory: builder.mutation({
+      query: (id) => ({
+        url: `/category/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getCategories"],
+    }),
+    deleteSubCat: builder.mutation({
+      query: (id) => ({
+        url: `/sub-category/${id}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -329,6 +439,7 @@ export const {
   useGetStoresQuery,
   useEditStoreMutation,
   useGetStoreFromUserQuery,
+  useGetStoreByIdQuery,
   useEditBannerMutation,
   useGetStoreOrdersQuery,
   useHandleOrderMutation,
@@ -345,4 +456,18 @@ export const {
   useDeleteUserMutation,
   useDeleteProductMutation,
   useVerifyProductMutation,
+  useDeleteAdminMutation,
+  useAddAdminMutation,
+  useUpdateAdminProfileMutation,
+  useGetCouponsQuery,
+  useCreateCouponMutation,
+  useCreateCatgoryMutation,
+  useCreateSubCatMutation,
+  useDeleteCatgoryMutation,
+  useDeleteSubCatMutation,
+  useUpdateAdminPasswordMutation,
+  useGetReportsQuery,
+  useDeleteReportMutation,
+  useAddCreditMutation,
+  useSetCreditMutation,
 } = apiSlice;

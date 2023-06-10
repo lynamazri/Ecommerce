@@ -5,7 +5,7 @@ import { useGetStoreBannerQuery } from "../../redux/Slices/apiSlice";
 
 function ShopCard({ store, viewMode }) {
   const { data: storeBanner, isLoading } = useGetStoreBannerQuery(
-    parseInt(store.storeId)
+    store.storeId
   );
 
   if (isLoading) {

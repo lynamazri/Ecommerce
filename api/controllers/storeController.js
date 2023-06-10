@@ -95,6 +95,23 @@ const getStores = async (req, res) => {
   if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
 };
+const getStoreById = async (req, res) => {
+
+  const { id } = req.params;
+
+  const store = await prisma.Store.findUnique({
+    where: {
+      storeId: id,
+    },
+    include: {
+      banner: true,
+      mainCat: true,
+      user: true,
+    }
+  });
+  if (store.length === 0) res.status(400).send("No stores available.");
+  else res.status(200).json(store);
+};
 
 const getStoreFromUser = async (req, res) => {
   const { user } = req.params;
@@ -285,6 +302,7 @@ module.exports = {
   createStore,
   verifyStore,
   getStores,
+  getStoreById,
   editStore,
   deleteStore,
   getReviews,

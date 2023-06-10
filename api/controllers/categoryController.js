@@ -177,11 +177,11 @@ const getCategoryById = async (req, res) => {
     },
   });
   if (!category) {
-    res.send(400).send("Unable to find category")
+    res.send(400).send("Unable to find category");
   } else {
-    res.status(200).json(category)
+    res.status(200).json(category);
   }
-}
+};
 
 module.exports = {
   getCatgory,
