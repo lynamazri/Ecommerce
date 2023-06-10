@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 function AdminSettings() {
   const [adminInfo, setAdminInfo] = useState({
@@ -28,6 +29,12 @@ function AdminSettings() {
     newPass: false,
     confirmNewPass: false,
   });
+  const [coupon, setCoupon] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [percentage, setPercentage] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [percentageError, setPercentageError] = useState("");
 
   const handleAdminInfoChange = (e) => {
     setAdminInfo({ ...adminInfo, [e.target.name]: e.target.value });
@@ -97,172 +104,222 @@ function AdminSettings() {
     }));
   };
 
+  const handleCreateCoupon = () => {
+    // Clear previous error messages
+    setCouponError("");
+    setPercentageError("");
+
+    // Validate coupon code
+    if (coupon.trim() === "") {
+      setCouponError("Coupon code is required");
+      return;
+    }
+
+    const couponPattern = /^[A-Za-z]{4}-[A-Za-z]{4}-[A-Za-z]{4}$/;
+    if (!coupon.match(couponPattern)) {
+      setCouponError("Coupon code should be in the format XXXX-XXXX-XXXX");
+      return;
+    }
+
+    // Validate percentage
+    const parsedPercentage = parseFloat(percentage);
+    if (isNaN(parsedPercentage)) {
+      setPercentageError("Percentage must be a number");
+      return;
+    }
+
+    if (parsedPercentage < 0 || parsedPercentage > 100) {
+      setPercentageError("Percentage must be between 0 and 100");
+      return;
+    }
+
+    // Coupon creation logic goes here
+    console.log("Coupon code:", coupon);
+    console.log("Start date:", startDate);
+    console.log("End date:", endDate);
+    console.log("Percentage:", parsedPercentage);
+  };
   return (
     <div className="admin-settings-page admin--page dashboard--page">
       <div className="header">
-        <h3>
+        <h2>
           Hello, {adminInfo.firstName} {adminInfo.lastName}
-        </h3>
+        </h2>
         <p>Update your personal information by changing the inputs below.</p>
       </div>
       <div className="main">
-        <h3 className="upper">Settings</h3>
+        <h2 className="upper">Settings</h2>
 
         {/* Admin Info */}
         <div className="content">
-          <div className="header">
-            <h4>Edit Admin Info</h4>
-            <p>Fill in the inputs below to update your admin information.</p>
-          </div>
-
-          <form className="admin-info-form" onSubmit={handleSubmitAdminInfo}>
-            <div className="my-profile-inputs">
-              <div className="input-container">
-                <label htmlFor="firstName">First Name</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  id="firstName"
-                  placeholder="First Name"
-                  required
-                  onChange={handleAdminInfoChange}
-                  value={adminInfo.firstName}
-                />
-              </div>
-              <div className="input-container">
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  placeholder="Last Name"
-                  required
-                  onChange={handleAdminInfoChange}
-                  value={adminInfo.lastName}
-                />
-              </div>
-              <div className="input-container">
-                <label htmlFor="newUsername">Username</label>
-                <input
-                  type="text"
-                  name="newUsername"
-                  id="newUsername"
-                  placeholder="Username"
-                  required
-                  onChange={handleAdminInfoChange}
-                  value={adminInfo.newUsername}
-                />
-              </div>
-              <div className="input-container">
-                <label htmlFor="bankAccountNumber">Bank Account Number</label>
-                <input
-                  type="text"
-                  name="bankAccountNumber"
-                  id="bankAccountNumber"
-                  placeholder="Bank Account Number"
-                  required
-                  onChange={handleAdminInfoChange}
-                  value={adminInfo.bankAccountNumber}
-                />
-              </div>
+          <div className="admin-info">
+            <div className="header">
+              <h3>Edit Admin Info</h3>
+              <p>Fill in the inputs below to update your admin information.</p>
             </div>
 
-            {adminInfoErrorMessage && (
-              <p className="error-message">{adminInfoErrorMessage}</p>
-            )}
-            {adminInfoConfirmationMessage && (
-              <p className="confirmation-message">
-                {adminInfoConfirmationMessage}
-              </p>
-            )}
+            <form className="admin-info-form" onSubmit={handleSubmitAdminInfo}>
+              <div className="my-profile-inputs">
+                <div className="input-container">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    placeholder="First Name"
+                    required
+                    onChange={handleAdminInfoChange}
+                    value={adminInfo.firstName}
+                  />
+                </div>
+                <div className="input-container">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    placeholder="Last Name"
+                    required
+                    onChange={handleAdminInfoChange}
+                    value={adminInfo.lastName}
+                  />
+                </div>
+                <div className="input-container">
+                  <label htmlFor="newUsername">Username</label>
+                  <input
+                    type="text"
+                    name="newUsername"
+                    id="newUsername"
+                    placeholder="Username"
+                    required
+                    onChange={handleAdminInfoChange}
+                    value={adminInfo.newUsername}
+                  />
+                </div>
+                <div className="input-container">
+                  <label htmlFor="bankAccountNumber">Bank Account Number</label>
+                  <input
+                    type="text"
+                    name="bankAccountNumber"
+                    id="bankAccountNumber"
+                    placeholder="Bank Account Number"
+                    required
+                    onChange={handleAdminInfoChange}
+                    value={adminInfo.bankAccountNumber}
+                  />
+                </div>
+              </div>
 
-            <div className="input-container">
-              <button type="submit">Save Changes</button>
-            </div>
-          </form>
-        </div>
+              {adminInfoErrorMessage && (
+                <p className="error-message">{adminInfoErrorMessage}</p>
+              )}
+              {adminInfoConfirmationMessage && (
+                <p className="confirmation-message">
+                  {adminInfoConfirmationMessage}
+                </p>
+              )}
 
-        {/* Password */}
-        <div className="password">
-          <div className="header">
-            <h4>Security</h4>
-            <p>Fill in the inputs below to change your password.</p>
+              <div className="input-container">
+                <button type="submit">Save Changes</button>
+              </div>
+            </form>
           </div>
-          <div className="security-inputs">
-            <form onSubmit={handleSubmitPassword}>
-              <div className="input-container">
-                <label htmlFor="oldPass">Current Password</label>
-                <div className="input-password">
-                  <input
-                    type={passInputType.oldPass}
-                    name="oldPass"
-                    id="oldPass"
-                    placeholder="Current Password"
-                    required
-                    onChange={handlePasswordChange}
-                    value={passwordInfo.oldPass}
-                  />
-                  {passwordInfo.oldPass && (
-                    <button
-                      className="show-password"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        togglePasswordInputType("oldPass");
-                      }}
-                    >
-                      {showPass.oldPass ? "Hide" : "Show"}
-                    </button>
-                  )}
+          <div className="admin-password">
+            <div className="header">
+              <h3>Edit Password</h3>
+              <p>Fill in the inputs below to change your password.</p>
+            </div>
+            <form
+              className="admin-security-inputs"
+              onSubmit={handleSubmitPassword}
+            >
+              <div className="security-inputs">
+                <div className="input-container">
+                  <label htmlFor="oldPass">Current Password</label>
+                  <div className="input-password">
+                    <input
+                      type={passInputType.oldPass}
+                      name="oldPass"
+                      id="oldPass"
+                      placeholder="Current Password"
+                      required
+                      onChange={handlePasswordChange}
+                      value={passwordInfo.oldPass}
+                    />
+                    {passwordInfo.oldPass && (
+                      <button
+                        className="show-password"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          togglePasswordInputType("oldPass");
+                        }}
+                      >
+                        {showPass.oldPass ? (
+                          <AiFillEye />
+                        ) : (
+                          <AiFillEyeInvisible />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="input-container">
-                <label htmlFor="newPass">New Password</label>
-                <div className="input-password">
-                  <input
-                    type={passInputType.newPass}
-                    name="newPass"
-                    id="newPass"
-                    placeholder="New Password"
-                    required
-                    onChange={handlePasswordChange}
-                    value={passwordInfo.newPass}
-                  />
-                  {passwordInfo.newPass && (
-                    <button
-                      className="show-password"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        togglePasswordInputType("newPass");
-                      }}
-                    >
-                      {showPass.newPass ? "Hide" : "Show"}
-                    </button>
-                  )}
+                <div className="input-container">
+                  <label htmlFor="newPass">New Password</label>
+                  <div className="input-password">
+                    <input
+                      type={passInputType.newPass}
+                      name="newPass"
+                      id="newPass"
+                      placeholder="New Password"
+                      required
+                      onChange={handlePasswordChange}
+                      value={passwordInfo.newPass}
+                    />
+                    {passwordInfo.newPass && (
+                      <button
+                        className="show-password"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          togglePasswordInputType("newPass");
+                        }}
+                      >
+                        {showPass.newPass ? (
+                          <AiFillEye />
+                        ) : (
+                          <AiFillEyeInvisible />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="input-container">
-                <label htmlFor="confirmNewPass">Confirm New Password</label>
-                <div className="input-password">
-                  <input
-                    type={passInputType.confirmNewPass}
-                    name="confirmNewPass"
-                    id="confirmNewPass"
-                    placeholder="Confirm New Password"
-                    required
-                    onChange={handlePasswordChange}
-                    value={passwordInfo.confirmNewPass}
-                  />
-                  {passwordInfo.confirmNewPass && (
-                    <button
-                      className="show-password"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        togglePasswordInputType("confirmNewPass");
-                      }}
-                    >
-                      {showPass.confirmNewPass ? "Hide" : "Show"}
-                    </button>
-                  )}
+                <div className="input-container">
+                  <label htmlFor="confirmNewPass">Confirm New Password</label>
+                  <div className="input-password">
+                    <input
+                      type={passInputType.confirmNewPass}
+                      name="confirmNewPass"
+                      id="confirmNewPass"
+                      placeholder="Confirm New Password"
+                      required
+                      onChange={handlePasswordChange}
+                      value={passwordInfo.confirmNewPass}
+                    />
+                    {passwordInfo.confirmNewPass && (
+                      <button
+                        className="show-password"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          togglePasswordInputType("confirmNewPass");
+                        }}
+                      >
+                        {showPass.confirmNewPass ? (
+                          <AiFillEye />
+                        ) : (
+                          <AiFillEyeInvisible />
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -280,6 +337,71 @@ function AdminSettings() {
               </div>
             </form>
           </div>
+          <div className="coupon">
+            <h3>Manage Coupon Codes</h3>
+            <div className="create-coupon">
+              <div className="header">
+                <h4>Add Coupon Code</h4>
+                <p>Fill in the inputs below to create a coupon.</p>
+              </div>
+              <div className="input-container">
+                <label htmlFor="coupon">Coupon</label>
+                <input
+                  type="text"
+                  name="coupon"
+                  id="coupon"
+                  placeholder="XXXX-XXXX-XXXX"
+                  value={coupon}
+                  onChange={(event) => setCoupon(event.target.value)}
+                />
+                {couponError && (
+                  <span className="error-message">{couponError}</span>
+                )}
+              </div>
+              <div className="input-container">
+                <label htmlFor="startDate">Start Date</label>
+                <input
+                  type="date"
+                  name="startDate"
+                  id="startDate"
+                  value={startDate}
+                  onChange={(event) => setStartDate(event.target.value)}
+                />
+              </div>
+              <div className="input-container">
+                <label htmlFor="endDate">End Date</label>
+                <input
+                  type="date"
+                  name="endDate"
+                  id="endDate"
+                  value={endDate}
+                  onChange={(event) => setEndDate(event.target.value)}
+                />
+              </div>
+              <div className="input-container">
+                <label htmlFor="percentage">Percentage</label>
+                <input
+                  type="number"
+                  name="percentage"
+                  id="percentage"
+                  placeholder="Enter percentage"
+                  value={percentage}
+                  onChange={(event) => setPercentage(event.target.value)}
+                />
+                {percentageError && (
+                  <span className="error-message">{percentageError}</span>
+                )}
+              </div>
+              <div className="input-container">
+                <button type="submit" onClick={handleCreateCoupon}>
+                  Create Coupon
+                </button>
+              </div>
+            </div>
+            <div className="display-coupons">
+              <h4>Coupon Codes</h4>
+            </div>
+          </div>{" "}
         </div>
       </div>
     </div>

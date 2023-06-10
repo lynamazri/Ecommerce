@@ -14,6 +14,7 @@ const getUsers = async (req, res) => {
       gender: true,
       bankAccount: true,
       credit: true,
+      userId: true,
     },
   });
   if (!users) res.status(400).send("No users found.");
@@ -22,6 +23,7 @@ const getUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
+
   const deleteUser = await prisma.Users.delete({
     where: {
       userId: id,

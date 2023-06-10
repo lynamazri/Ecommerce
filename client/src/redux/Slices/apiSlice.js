@@ -280,6 +280,20 @@ export const apiSlice = createApi({
         body: { type, review, user },
       }),
     }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/admin/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getUsers"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/productss/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Products"],
+    }),
   }),
 });
 
@@ -321,4 +335,6 @@ export const {
   useGetAllProductsQuery,
   useGetUsersQuery,
   useGetAdminsQuery,
+  useDeleteUserMutation,
+  useDeleteProductMutation,
 } = apiSlice;

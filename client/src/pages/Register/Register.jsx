@@ -295,7 +295,7 @@ function Register() {
       </div>
       {step === 3 && (
         <div className="input-container">
-          {errorMessage && <p className="error"> {errorMessage} </p>}
+          {errorMessage && <p className="error-message"> {errorMessage} </p>}
           <button className="register-button" type="submit" value="Submit">
             Register
           </button>

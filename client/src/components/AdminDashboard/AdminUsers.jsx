@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useGetUsersQuery } from "../../redux/Slices/apiSlice";
+import {
+  useGetUsersQuery,
+  useDeleteUserMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminUsers() {
   // Initial users
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [users, setUsers] = useState([]);
+  const [deleteUser] = useDeleteUserMutation();
   const { data: usersData, isLoading } = useGetUsersQuery();
 
   useEffect(() => {
@@ -22,7 +27,13 @@ function AdminUsers() {
 
   // Function to handle user deletion
   const handleDeleteUser = (userId) => {
+    setConfirmationMessage("");
+
     setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+
+    deleteUser(userId);
+
+    setConfirmationMessage("User deleted successfully.");
   };
 
   // Filter users based on search term
@@ -90,6 +101,10 @@ function AdminUsers() {
             ))}
           </tbody>
         </table>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
         <p>Total Users: {filteredUsers.length}</p>
       </div>
     </div>

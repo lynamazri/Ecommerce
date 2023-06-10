@@ -82,7 +82,7 @@
   left: 0;
 }
 
-.info {
+.flexContainer > .info {
   overflow-x: hidden;
   width: 55%;
   display: flex;

@@ -128,7 +128,7 @@ function Login() {
             Login
           </button>
         </div>
-        {errorMessage && <p className="error"> {errorMessage} </p>}
+        {errorMessage && <p className="error-message"> {errorMessage} </p>}
       </form>
 
       <div className="sign-up">

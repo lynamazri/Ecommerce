@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineCheckSquare, AiOutlineDelete } from "react-icons/ai";
-import { useGetAllProductsQuery } from "../../redux/Slices/apiSlice";
+import {
+  useGetAllProductsQuery,
+  useDeleteProductMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [deleteProduct] = useDeleteProductMutation();
   const { data: productsData, isLoading } = useGetAllProductsQuery();
 
   useEffect(() => {
@@ -23,9 +29,15 @@ function AdminProducts() {
 
   // Function to handle product deletion
   const handleDeleteProduct = (productId) => {
+    setConfirmationMessage("");
+
     setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productId)
+      prevProducts.filter((product) => product.productId !== productId)
     );
+
+    deleteProduct(productId);
+
+    setConfirmationMessage("Product deleted successfully.");
   };
 
   // Function to handle product approval
@@ -103,14 +115,14 @@ function AdminProducts() {
                   {product.status === "Pending" && (
                     <button
                       className="icon-button"
-                      onClick={() => handleApproveProduct(product.id)}
+                      onClick={() => handleApproveProduct(product.productId)}
                     >
                       <AiOutlineCheckSquare size={18} />
                     </button>
                   )}
                   <button
                     className="icon-button"
-                    onClick={() => handleDeleteProduct(product.id)}
+                    onClick={() => handleDeleteProduct(product.productId)}
                   >
                     <AiOutlineDelete size={18} color="red" />
                   </button>
@@ -119,6 +131,10 @@ function AdminProducts() {
             ))}
           </tbody>
         </table>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
         <p>Total Number of Products: {filteredProducts.length}</p>
       </div>
     </div>

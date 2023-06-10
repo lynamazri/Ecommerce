@@ -26,7 +26,7 @@ router.patch("/edit/:store", editStore); //tested, works
 router.get("/reviews/:id", getReviews); //tested, works
 router.get("/questions/:id", getQuestions); //tested, works
 router.patch("/questions/answer/:id", answerQuestion); //tested, works
-router.delete("/:id", verification, deleteStore); //tested, works
+router.delete("/:id", deleteStore); //tested, works
 router.post("/open/:user", verification, createStore); //tested, works
 router.patch("/edit/banner/:store", editBanner); //tested, works
 
