@@ -52,9 +52,19 @@ export default function ProductDetails() {
     productData && setReviews(processedData.reviews);
   }, [productData]);
 
+  let processedProduct = {};
+  if (product.discount && product.discount.percentage !== 0) {
+    processedProduct = {
+      ...product,
+      price:
+        product.price - (product.price * product.discount.percentage) / 100,
+    };
+  } else {
+    processedProduct = { ...product };
+  }
   const dispatch = useDispatch();
   const handleAdd = () => {
-    dispatch(add(product));
+    dispatch(add(processedProduct));
   };
   const handleAddToWishList = () => {
     setWishListIcon((prevWishListIcon) => !prevWishListIcon);
