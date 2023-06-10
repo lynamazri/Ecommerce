@@ -1,40 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineCheckSquare, AiOutlineDelete } from "react-icons/ai";
+import {
+  useGetAllProductsQuery,
+  useDeleteProductMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminProducts() {
-  // Initial products
-  const initialProducts = [
-    {
-      id: 1,
-      name: "Product 1",
-      category: "Category 1",
-      storeName: "Store 1",
-      price: 10.99,
-      status: "Approved",
-      quantity: 5,
-    },
-    {
-      id: 2,
-      name: "Product 2",
-      category: "Category 2",
-      storeName: "Store 2",
-      price: 19.99,
-      status: "Pending",
-      quantity: 10,
-    },
-    // Add more product objects as needed
-  ];
+  const [products, setProducts] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+  const [deleteProduct] = useDeleteProductMutation();
+  const { data: productsData, isLoading } = useGetAllProductsQuery();
 
-  const [products, setProducts] = useState(initialProducts);
+  useEffect(() => {
+    if (productsData) {
+      setProducts(productsData);
+    }
+  }, [productsData]);
+
+  console.log(products);
+
+  // Initial products
+
+  // const [products, setProducts] = useState(initialProducts);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
   // Function to handle product deletion
   const handleDeleteProduct = (productId) => {
+    setConfirmationMessage("");
+
     setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== productId)
+      prevProducts.filter((product) => product.productId !== productId)
     );
+
+    deleteProduct(productId);
+
+    setConfirmationMessage("Product deleted successfully.");
   };
 
   // Function to handle product approval
@@ -100,26 +103,26 @@ function AdminProducts() {
           </thead>
           <tbody>
             {filteredProducts.map((product) => (
-              <tr key={product.id}>
-                <td>{product.id}</td>
+              <tr key={product.productId}>
+                <td>{product.productId}</td>
                 <td>{product.name}</td>
-                <td>{product.category}</td>
-                <td>{product.storeName}</td>
+                <td>{product.subCat.name}</td>
+                <td>{product.store.name}</td>
                 <td>{product.price}</td>
                 <td>{product.quantity}</td>
-                <td>{product.status}</td>
+                <td>{product.verified ? "Approved" : "Pending"}</td>
                 <td id="action">
                   {product.status === "Pending" && (
                     <button
                       className="icon-button"
-                      onClick={() => handleApproveProduct(product.id)}
+                      onClick={() => handleApproveProduct(product.productId)}
                     >
                       <AiOutlineCheckSquare size={18} />
                     </button>
                   )}
                   <button
                     className="icon-button"
-                    onClick={() => handleDeleteProduct(product.id)}
+                    onClick={() => handleDeleteProduct(product.productId)}
                   >
                     <AiOutlineDelete size={18} color="red" />
                   </button>
@@ -128,7 +131,11 @@ function AdminProducts() {
             ))}
           </tbody>
         </table>
-        <p>Total Products: {filteredProducts.length}</p>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
+        <p>Total Number of Products: {filteredProducts.length}</p>
       </div>
     </div>
   );

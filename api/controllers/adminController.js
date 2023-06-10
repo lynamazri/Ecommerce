@@ -14,6 +14,7 @@ const getUsers = async (req, res) => {
       gender: true,
       bankAccount: true,
       credit: true,
+      userId: true,
     },
   });
   if (!users) res.status(400).send("No users found.");
@@ -22,6 +23,7 @@ const getUsers = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
+
   const deleteUser = await prisma.Users.delete({
     where: {
       userId: id,
@@ -119,14 +121,32 @@ const handleComplaint = async (req, res) => {
   else res.status(400).send("Unable to confirm.");
 };
 
-const getPendingStores = async (req, res) => {
+const getAllStores = async (req, res) => {
   const stores = await prisma.Store.findMany({
-    where: {
-      approved: false,
+    include: {
+      mainCat: true,
+      user: true,
     },
   });
-  if (stores.length === 0) res.status(400).send("No pending stores available.");
+  if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
+};
+
+const getAllProducts = async (req, res) => {
+  const products = await prisma.Product.findMany({
+    include: {
+      store: true,
+      subCat: true,
+    },
+  });
+  if (products.length === 0) res.status(400).send("No products available.");
+  else res.status(200).json(products);
+};
+
+const getAdmins = async (req, res) => {
+  const admins = await prisma.Admin.findMany();
+  if (admins.length === 0) res.status(400).send("No admins available.");
+  else res.status(200).json(admins);
 };
 
 const addAdmin = async (req, res) => {
@@ -177,6 +197,8 @@ module.exports = {
   addCredit,
   setCredit,
   handleComplaint,
-  getPendingStores,
+  getAllStores,
   addAdmin,
+  getAllProducts,
+  getAdmins,
 };
