@@ -14,6 +14,7 @@ const {
   getAllProducts,
   getAdmins,
   updateAdminPassword,
+  deleteAdmin,
 } = require("../controllers/adminController");
 
 router.get("/", getUsers); //tested, works
@@ -21,6 +22,7 @@ router.get("/admins", getAdmins); //tested, works
 router.get("/stores", getAllStores); //tested, works
 router.get("/products", getAllProducts); //tested, works
 router.delete("/:id", deleteUser); //tested, works
+router.delete("/admins/:id", deleteAdmin); //tested, works
 router.get("/users", getUserByUsername); //tested, works
 router.get("/complaints", getComplaints); //tested, works
 router.patch("/complaints/:id", handleComplaint); //tested, works
