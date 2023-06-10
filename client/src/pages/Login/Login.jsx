@@ -54,10 +54,10 @@ function Login() {
       } else if (userLS.bankAccount === undefined) {
         navigate("/admin/dashboard", { replace: true });
       }
-      // setFormData({
-      //   uemail: "",
-      //   pass: "",
-      // });
+      setFormData({
+        uemail: "",
+        pass: "",
+      });
     } catch (error) {
       console.log(error);
       setErrorMessage(error.data);
