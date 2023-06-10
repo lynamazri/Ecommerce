@@ -19,6 +19,11 @@ function AdminDashboard() {
       navigate("/login");
     }
   }, [user.username, navigate]);
+  useEffect(() => {
+    if (user.bankAccount) {
+      navigate("/login");
+    }
+  }, [user.bankAccount, navigate]);
   return (
     <div className="admin-dashboard-page dashboard-page">
       <div className="menu">

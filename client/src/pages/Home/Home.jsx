@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
 import Swiperr from "../../components/Swiper/Swiper";
@@ -48,15 +48,24 @@ function Home() {
     },
   ];
 
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const { data, isLoading, error } = useGetCategoriesQuery();
-
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
   useEffect(() => {
     if (isLoading) {
       return; // Wait until data is loaded
     }
     setCategories(data);
   }, [data, isLoading]);
+
+  useEffect(() => {
+    if (user.bankAccount === undefined) {
+      navigate("/admin/dashboard", { replace: true });
+    }
+  }, []);
 
   // if (isLoading) {
   //   return <div>Loading ...</div>;
