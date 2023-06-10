@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { RiSearchLine, RiDeleteBack2Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 import axios from "axios";
 import { useGetSubCategoriesQuery } from "../../redux/Slices/apiSlice";
@@ -7,32 +8,33 @@ function Search() {
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
+  const [showSearchResult, setShowSearchResult] = useState(true);
   const [subCatValue, setSubCatValue] = useState("All Categories");
 
   const [input, setInput] = useState("");
-  const [productSearched, setProductSearched] = useState("");
+  const [productsSearched, setProductsSearched] = useState("");
   const { data: subCategories, isLoading } = useGetSubCategoriesQuery();
 
-  const fetchData = (value) => {
+  const fetchData = () => {
     axios
       .get(
-        `http://localhost:3001/productss/search?fsearch=${value}&category=${categoryVlue}`
+        subCatValue === "All Categories"
+          ? `http://localhost:3001/productss/search/${input}`
+          : `http://localhost:3001/productss/search/${input}/category/${subCatValue}`
       )
       // .get(`http://localhost:3001/productss/allProducts/${value}`)
       .then((response) => {
         // Handle the response data
-        console.log(response.data);
-        setProductSearched(response.data);
+        setProductsSearched(response.data);
       })
       .catch((error) => {
         // Handle any errors that occurred during the request
         console.error(error);
       });
   };
-  const handleChange = (value) => {
-    setInput(value);
-    fetchData(value);
-  };
+  useEffect(() => {
+    fetchData();
+  }, [input]);
 
   const handleOptionsClick = () => {
     setShowOptions(!showOptions);
@@ -49,7 +51,6 @@ function Search() {
     setSubCatValue(optionValue);
     setShowOptions(!showOptions);
   };
-
   return (
     <>
       <div className="searchBar">
@@ -69,6 +70,12 @@ function Search() {
           >
             {showOptions && (
               <ul className="options-list">
+                <li
+                  className="options"
+                  onClick={() => handleOptionClick("All Categories")}
+                >
+                  All Categories
+                </li>
                 {subCategoryNames
                   ? subCategoryNames?.map((subCategoryName) => {
                       return (
@@ -91,9 +98,27 @@ function Search() {
           <input
             type="search"
             placeholder="Search products, categories..."
-            value={query}
-            onChange={(e) => handleFilter(e)}
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value);
+            }}
           />
+          <div
+            className={
+              showSearchResult ? "search-result search-show" : "search-result"
+            }
+          >
+            <div className="product-list">
+              {productsSearched &&
+                productsSearched.map((productSearched) => (
+                  <Link
+                    to={`/product/${productSearched.subCat.name}/${productSearched.productId}`}
+                  >
+                    <div className="product">{productSearched.name}</div>
+                  </Link>
+                ))}
+            </div>
+          </div>
         </div>
         <div className="searchIcon">
           {query.length === 0 ? (

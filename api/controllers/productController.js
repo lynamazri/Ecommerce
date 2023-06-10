@@ -539,7 +539,7 @@ const searchProducts = async (req, res) => {
       },
       include: {
         store: true,
-
+        subCat: true,
         images: true,
       },
     });

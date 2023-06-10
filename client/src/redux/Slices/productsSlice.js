@@ -27,6 +27,9 @@ const productsSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
+    searchedProducts: (state, action) => {
+      state.items = action.payload
+    },
     productsFetch: (state) => {
       state.status = "loading";
     },
