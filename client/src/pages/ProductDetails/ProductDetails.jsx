@@ -377,7 +377,6 @@ export default function ProductDetails() {
                       date={review.posted.slice(0, 10)}
                       content={review.content}
                       reviewId={review.reviewId}
-                      productId={review.product.productId}
                     />
                   ))}
                 </motion.div>

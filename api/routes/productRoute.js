@@ -30,7 +30,7 @@ router.get("/:store", getProductsFromStore); //tested, works
 router.get("/store/:id", getProductById); //tested, works
 router.get("/allProducts/:name", getProductByName); //tested, works
 router.post("/:product/review/:user", createReview); //tested, works, could be improved (can't review twice)
-router.post("/:product/report/:review/user/:user", createReport); //tested, works, could be improved (can't report self)
+router.post("/report/user", createReport); //tested, works, could be improved (can't report self)
 router.delete("/review/:id", deleteReview); //tested, works
 router.post("/:product/question/:user", verification, createQuestion); //tested, works
 router.delete("/question/:id", verification, deleteQuestion); //tested, works

@@ -253,10 +253,10 @@ export const apiSlice = createApi({
     }),
 
     createReport: builder.mutation({
-      query: ({ product, review, user, type }) => ({
-        url: `/productss/${product}/report/${review}/user/${user}`,
+      query: ({ review, user, type }) => ({
+        url: `/productss/report/user`,
         method: "POST",
-        body: { type },
+        body: { type, review, user },
       }),
     }),
   }),

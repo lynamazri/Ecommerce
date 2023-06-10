@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import { TbMessageReport } from "react-icons/tb";
+import { useCreateReportMutation } from "../../redux/Slices/apiSlice";
 import "./ReviewCard.css";
 
 function generateRatingStars(rate) {
@@ -21,8 +22,32 @@ function generateRatingStars(rate) {
 }
 
 export default function ReviewCard(props) {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [createReport] = useCreateReportMutation();
+
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+
   function handleReport(event) {
-    console.log("reported" + props.reviewId);
+    setSuccessMessage(""), setErrorMessage("");
+
+    const rev = props.reviewId;
+    console.log("reported" + rev);
+
+    createReport({
+      type: "User Review Report",
+      review: rev,
+      user: user.userId,
+    })
+      .unwrap()
+      .then(() => {
+        setSuccessMessage("Review reported.");
+      })
+      .catch(() => {
+        setErrorMessage("Done.");
+      });
   }
 
   return (
@@ -43,6 +68,8 @@ export default function ReviewCard(props) {
         <small className="review-date">{props.date}</small>
       </div>
       <p className="review-comment">{props.content}</p>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
     </div>
   );
 }

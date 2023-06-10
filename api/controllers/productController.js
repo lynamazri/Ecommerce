@@ -463,8 +463,8 @@ const verifyProduct = async (req, res) => {
 };
 
 const createReport = async (req, res) => {
-  const { type } = req.body;
-  const { review, user } = req.params;
+  const { type, review, user } = req.body;
+
   const createReport = await prisma.Report.create({
     data: {
       type: type,
