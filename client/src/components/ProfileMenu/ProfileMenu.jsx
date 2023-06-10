@@ -19,7 +19,7 @@ function ProfileMenu({ closeMenu, userHasShop }) {
   const [hasStore, setHasStore] = useState(false);
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
-    : null;
+    : { userId: 1 };
   const { data, isLoading } = useUserHasStoreQuery(user.userId);
   const [sendLogout] = useSendLogoutMutation();
   const isActive = (pathname) => {
@@ -32,10 +32,10 @@ function ProfileMenu({ closeMenu, userHasShop }) {
   }, [data, isLoading]);
 
   useEffect(() => {
-    if (user === null) {
+    if (user.userId === 1) {
       navigate("/login");
     }
-  }, [user, navigate]);
+  }, [user.username, navigate]);
   return (
     <div className="profile-menu">
       <div className="pm-header">
