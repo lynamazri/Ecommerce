@@ -182,12 +182,6 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getStores"],
     }),
-    verifyStore: builder.mutation({
-      query: ({ id }) => ({
-        url: `/store/${id}`,
-        method: "PATCH",
-      }),
-    }),
 
     getStores: builder.query({
       query: () => `/store`,
@@ -294,6 +288,19 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["Products"],
     }),
+
+    verifyProduct: builder.mutation({
+      query: (id) => ({
+        url: `/productss/verify/${id}`,
+        method: "PATCH",
+      }),
+    }),
+    verifyStore: builder.mutation({
+      query: (id) => ({
+        url: `/store/${id}`,
+        method: "PATCH",
+      }),
+    }),
   }),
 });
 
@@ -337,4 +344,5 @@ export const {
   useGetAdminsQuery,
   useDeleteUserMutation,
   useDeleteProductMutation,
+  useVerifyProductMutation,
 } = apiSlice;

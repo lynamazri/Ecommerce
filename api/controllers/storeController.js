@@ -125,9 +125,9 @@ const userHasStore = async (req, res) => {
       mainCat: true,
     },
   });
-  if (!store) res.status(200).json({ "hasStore": false })
-  if (store) res.status(200).json({ "hasStore": true })
-}
+  if (!store) res.status(200).json({ hasStore: false });
+  if (store) res.status(200).json({ hasStore: true });
+};
 
 const editStore = async (req, res) => {
   //const { error } = storeUpdateValidation(req.body);
