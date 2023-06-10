@@ -200,6 +200,11 @@ export const apiSlice = createApi({
       providesTags: ["getUsers"],
     }),
 
+    getReports: builder.query({
+      query: () => `/admin/reports`,
+      providesTags: ["getReports"],
+    }),
+
     getCoupons: builder.query({
       query: () => `/discount/coupons`,
       providesTags: ["getCoupons"],
@@ -301,6 +306,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getUsers"],
     }),
+
+    deleteReport: builder.mutation({
+      query: (id) => ({
+        url: `/admin/reports/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["getReports"],
+    }),
+
     deleteAdmin: builder.mutation({
       query: (id) => ({
         url: `/admin/admins/${id}`,
@@ -326,6 +340,22 @@ export const apiSlice = createApi({
       query: (id) => ({
         url: `/store/${id}`,
         method: "PATCH",
+      }),
+    }),
+
+    addCredit: builder.mutation({
+      query: (amount, bankAccount) => ({
+        url: `/admin/credit/add`,
+        method: "PATCH",
+        body: { amount, bankAccount },
+      }),
+    }),
+
+    setCredit: builder.mutation({
+      query: (amount, bankAccount) => ({
+        url: `/admin/credit/set`,
+        method: "PATCH",
+        body: { amount, bankAccount },
       }),
     }),
 
@@ -430,4 +460,8 @@ export const {
   useDeleteCatgoryMutation,
   useDeleteSubCatMutation,
   useUpdateAdminPasswordMutation,
+  useGetReportsQuery,
+  useDeleteReportMutation,
+  useAddCreditMutation,
+  useSetCreditMutation,
 } = apiSlice;
