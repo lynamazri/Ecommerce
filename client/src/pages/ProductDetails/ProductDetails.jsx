@@ -32,7 +32,7 @@ export default function ProductDetails() {
   const params = useParams();
   const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
-    : null;
+    : { userId: 1 };
   const [createReview] = useCreateReviewMutation();
   const [reviewComment, setReviewComment] = useState({
     content: "",
@@ -325,66 +325,68 @@ export default function ProductDetails() {
                     duration: 0.1,
                   }}
                 >
-                  <form
-                    className="comment-form-container"
-                    onSubmit={handleSubmit}
-                  >
-                    <h3>Leave a review</h3>
-                    <div className="textarea-container">
-                      <label htmlFor="comment">New Review</label>
-                      <textarea
-                        id="content"
-                        className="content-input"
-                        value={reviewComment.content}
-                        name="content"
-                        placeholder="Space for your comment"
-                        onChange={handleChange}
-                        rows="4"
-                        cols="50"
-                      ></textarea>
-                    </div>
-                    <div className="star-rating-container">
-                      {[...Array(5)].map((star, i) => {
-                        const ratingValue = i + 1;
+                  {user.userId !== 1 && (
+                    <form
+                      className="comment-form-container"
+                      onSubmit={handleSubmit}
+                    >
+                      <h3>Leave a review</h3>
+                      <div className="textarea-container">
+                        <label htmlFor="comment">New Review</label>
+                        <textarea
+                          id="content"
+                          className="content-input"
+                          value={reviewComment.content}
+                          name="content"
+                          placeholder="Space for your comment"
+                          onChange={handleChange}
+                          rows="4"
+                          cols="50"
+                        ></textarea>
+                      </div>
+                      <div className="star-rating-container">
+                        {[...Array(5)].map((star, i) => {
+                          const ratingValue = i + 1;
 
-                        return (
-                          <label onChange={handleChange}>
-                            <input
-                              type="radio"
-                              className="starRadioInput"
-                              name="stars"
-                              value={ratingValue}
-                              onClick={() => setRating(ratingValue)}
-                            />
-                            {ratingValue <= (hover || rating) ? (
-                              <FaStar
-                                className="star"
-                                color="#fdbc15"
-                                size={20}
-                                onMouseEnter={() => setHover(ratingValue)}
-                                onMouseLeave={() => setHover(null)}
+                          return (
+                            <label onChange={handleChange}>
+                              <input
+                                type="radio"
+                                className="starRadioInput"
+                                name="stars"
+                                value={ratingValue}
+                                onClick={() => setRating(ratingValue)}
                               />
-                            ) : (
-                              <FaRegStar
-                                className="star"
-                                color="#fdbc15"
-                                size={20}
-                                onMouseEnter={() => setHover(ratingValue)}
-                                onMouseLeave={() => setHover(null)}
-                              />
-                            )}
-                          </label>
-                        );
-                      })}
-                    </div>
-                    <button className="comment-button">Send a review</button>
-                    {errorMessage && (
-                      <p className="error-message">{errorMessage}</p>
-                    )}
-                    {confirmationMessage && (
-                      <p className="success-message">{confirmationMessage}</p>
-                    )}
-                  </form>
+                              {ratingValue <= (hover || rating) ? (
+                                <FaStar
+                                  className="star"
+                                  color="#fdbc15"
+                                  size={20}
+                                  onMouseEnter={() => setHover(ratingValue)}
+                                  onMouseLeave={() => setHover(null)}
+                                />
+                              ) : (
+                                <FaRegStar
+                                  className="star"
+                                  color="#fdbc15"
+                                  size={20}
+                                  onMouseEnter={() => setHover(ratingValue)}
+                                  onMouseLeave={() => setHover(null)}
+                                />
+                              )}
+                            </label>
+                          );
+                        })}
+                      </div>
+                      <button className="comment-button">Send a review</button>
+                      {errorMessage && (
+                        <p className="error-message">{errorMessage}</p>
+                      )}
+                      {confirmationMessage && (
+                        <p className="success-message">{confirmationMessage}</p>
+                      )}
+                    </form>
+                  )}
 
                   {reviews.map((review, index) => (
                     <ReviewCard

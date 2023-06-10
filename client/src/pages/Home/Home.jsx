@@ -58,9 +58,9 @@ function Home() {
     setCategories(data);
   }, [data, isLoading]);
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading ...</div>;
+  // }
 
   return (
     <div>

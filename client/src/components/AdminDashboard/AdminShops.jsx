@@ -4,6 +4,7 @@ import { AiOutlineDelete, AiOutlineCheckSquare } from "react-icons/ai";
 import {
   useGetAllStoresQuery,
   useDeleteStoreMutation,
+  useVerifyStoreMutation,
 } from "../../redux/Slices/apiSlice";
 
 function AdminShops() {
@@ -13,6 +14,7 @@ function AdminShops() {
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const { data: storesData, isLoading } = useGetAllStoresQuery();
   const [deleteStore] = useDeleteStoreMutation();
+  const [verifyStore] = useVerifyStoreMutation();
   useEffect(() => {
     if (storesData) {
       setShops(storesData);
@@ -39,11 +41,16 @@ function AdminShops() {
 
   // Function to handle shop approval
   const handleApproveShop = (shopId) => {
+    setConfirmationMessage("");
     setShops((prevShops) =>
       prevShops.map((shop) =>
-        shop.storeId === shopId ? { ...shop, status: "Approved" } : shop
+        shop.storeId === shopId ? { ...shop, approved: "Approved" } : shop
       )
     );
+
+    verifyStore(shopId);
+
+    setConfirmationMessage("Shop verified successfully.");
   };
 
   // Filter shops based on search term and status
