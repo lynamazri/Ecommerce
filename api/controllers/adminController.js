@@ -49,6 +49,18 @@ const deleteAdmin = async (req, res) => {
   else res.status(200);
 };
 
+const deleteReport = async (req, res) => {
+  const { id } = req.params;
+
+  const deleteReport = await prisma.Admin.delete({
+    where: {
+      reportId: id,
+    },
+  });
+  if (!deleteReport) res.status(400).send("Unable to delete report.");
+  else res.status(200);
+};
+
 const getUserByUsername = async (req, res) => {
   const { username } = req.body;
   console.log(username);
@@ -64,6 +76,17 @@ const getUserByUsername = async (req, res) => {
 const getComplaints = async (req, res) => {
   const complaints = await prisma.Complaint.findMany();
   if (!complaints) res.status(400).send("No Complaints found.");
+  else res.status(200).json(complaints);
+};
+
+const getReports = async (req, res) => {
+  const complaints = await prisma.Report.findMany({
+    include: {
+      review: true,
+      user: true,
+    },
+  });
+  if (!complaints) res.status(400).send("No reports found.");
   else res.status(200).json(complaints);
 };
 
@@ -204,8 +227,8 @@ const addAdmin = async (req, res) => {
 };
 
 const updateAdminPassword = async (req, res) => {
-  const { error } = changePassValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  //const { error } = changePassValidation(req.body);
+  //if (error) return res.status(400).send(error.details[0].message);
   const { user } = req.params;
   const { curPassword, newPassword } = req.body;
 
@@ -280,4 +303,6 @@ module.exports = {
   updateAdminPassword,
   deleteAdmin,
   updateAdminProfile,
+  getReports,
+  deleteReport,
 };
