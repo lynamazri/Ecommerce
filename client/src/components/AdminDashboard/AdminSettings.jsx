@@ -1,12 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import { useUpdateAdminPasswordMutation } from "../../redux/Slices/apiSlice";
-// import { useDispatch } from "react-redux";
+import {
+  useUpdateAdminPasswordMutation,
+  useUpdateAdminProfileMutation,
+  useGetCouponsQuery,
+  useCreateCouponMutation,
+} from "../../redux/Slices/apiSlice";
+import { updateUser } from "../../redux/Slices/authSlice";
+import { useDispatch } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 // import { logOut } from "../../redux/Slices/authSlice";
 
 function AdminSettings() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const navigate = useNavigate();
   const [adminInfo, setAdminInfo] = useState({
     firstName: "",
@@ -35,18 +41,22 @@ function AdminSettings() {
     confirmNewPass: false,
   });
   const [coupon, setCoupon] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [percentage, setPercentage] = useState("");
   const [couponError, setCouponError] = useState("");
   const [percentageError, setPercentageError] = useState("");
   const [updatePassword] = useUpdateAdminPasswordMutation();
+  const [patchProfile] = useUpdateAdminProfileMutation();
+  const [createCoupon] = useCreateCouponMutation();
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
 
   const handleAdminInfoChange = (e) => {
     setAdminInfo({ ...adminInfo, [e.target.name]: e.target.value });
+    console.log(adminInfo);
   };
 
   const handlePasswordChange = (e) => {
@@ -56,29 +66,47 @@ function AdminSettings() {
 
   const handleSubmitAdminInfo = (e) => {
     e.preventDefault();
-
+    setAdminInfoConfirmationMessage("");
     // Admin info validation
-    if (adminInfo.firstName.length < 2) {
+    if (adminInfo.firstName && adminInfo.firstName.length < 2) {
       setAdminInfoErrorMessage(
         "First Name must be at least 2 characters long."
       );
       return;
     }
 
-    if (adminInfo.lastName.length < 2) {
+    if (adminInfo.lastName && adminInfo.lastName.length < 2) {
       setAdminInfoErrorMessage("Last Name must be at least 2 characters long.");
       return;
     }
 
-    if (adminInfo.newUsername.length < 2) {
+    if (adminInfo.newUsername && adminInfo.newUsername.length < 2) {
       setAdminInfoErrorMessage("Username must be at least 2 characters long.");
       return;
     }
 
-    // Handle admin info submission
-    // ...
-
-    setAdminInfoConfirmationMessage("Changes saved successfully.");
+    patchProfile({
+      user: "c9ea4509-559d-4fdb-b0ea-d56eb14ed905",
+      newUsername: adminInfo.newUsername,
+      firstName: adminInfo.firstName,
+      lastName: adminInfo.lastName,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setAdminInfoConfirmationMessage("Changes saved successfully.");
+        /*  dispatch(
+          updateUser({
+            user: {
+              ...user,
+              username: adminInfo.newUsername,
+              firstName: adminInfo.firstName,
+              lastName: adminInfo.lastName,
+            },
+          })
+        );
+        const updatedUser = authState.user; */
+      });
   };
 
   const handleSubmitPassword = (e) => {
@@ -126,38 +154,22 @@ function AdminSettings() {
     }));
   };
 
-  const coupons = [
-    /*  {
-      code: "ABCD-123456-EFGH",
-      startDate: "2023-06-01",
-      endDate: "2023-06-30",
-      percentage: 20,
-    },
-    {
-      code: "ABCD-123456-EFGH",
-      startDate: "2023-06-01",
-      endDate: "2023-06-30",
-      percentage: 20,
-    },
-    {
-      code: "ABCD-123456-EFGH",
-      startDate: "2023-06-01",
-      endDate: "2023-06-30",
-      percentage: 20,
-    },
-    {
-      code: "WXYZ-789012-IJKL",
-      startDate: "2023-07-01",
-      endDate: "2023-07-31",
-      percentage: 10,
-    }, */
-    // Add more coupons here...
-  ];
+  const [coupons, setCoupons] = useState([]);
+  const { data: couponsData, isLoading } = useGetCouponsQuery();
+
+  useEffect(() => {
+    if (couponsData) {
+      setCoupons(couponsData);
+    }
+  }, [couponsData]);
+
+  console.log(coupons);
 
   const handleCreateCoupon = () => {
     // Clear previous error messages
     setCouponError("");
     setPercentageError("");
+    setSuccessMessage("");
 
     // Validate coupon code
     if (coupon.trim() === "") {
@@ -172,7 +184,7 @@ function AdminSettings() {
     }
 
     // Validate percentage
-    const parsedPercentage = parseFloat(percentage);
+    const parsedPercentage = parseInt(percentage);
     if (isNaN(parsedPercentage)) {
       setPercentageError("Percentage must be a number");
       return;
@@ -183,18 +195,31 @@ function AdminSettings() {
       return;
     }
 
-    // Coupon creation logic goes here
-    setCoupon("");
-    setStartDate("");
-    setEndDate("");
-    setPercentage("");
+    createCoupon({
+      percentage: percentage,
+      end: endDate,
+      code: coupon,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setSuccessMessage("Coupon success!");
+        setCoupon("");
+        setStartDate("");
+        setEndDate("");
+        setPercentage("");
+      })
+      .catch((error) => {
+        // Handle error
+        //setCheckoutError("Failed to complete order. Please try again.");
+      });
+
+    //setSuccessMessage("Coupon success!");
   };
   return (
     <div className="admin-settings-page admin--page dashboard--page">
       <div className="header">
-        <h2>
-          Hello, {adminInfo.firstName} {adminInfo.lastName}
-        </h2>
+        <h2>Hello, Admin</h2>
         <p>Update your personal information by changing the inputs below.</p>
       </div>
       <div className="main">
@@ -217,7 +242,6 @@ function AdminSettings() {
                     name="firstName"
                     id="firstName"
                     placeholder="First Name"
-                    required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.firstName}
                   />
@@ -229,7 +253,6 @@ function AdminSettings() {
                     name="lastName"
                     id="lastName"
                     placeholder="Last Name"
-                    required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.lastName}
                   />
@@ -241,7 +264,6 @@ function AdminSettings() {
                     name="newUsername"
                     id="newUsername"
                     placeholder="Username"
-                    required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.newUsername}
                   />
@@ -396,16 +418,7 @@ function AdminSettings() {
                   <span className="error-message">{couponError}</span>
                 )}
               </div>
-              <div className="input-container">
-                <label htmlFor="startDate">Start Date</label>
-                <input
-                  type="date"
-                  name="startDate"
-                  id="startDate"
-                  value={startDate}
-                  onChange={(event) => setStartDate(event.target.value)}
-                />
-              </div>
+
               <div className="input-container">
                 <label htmlFor="endDate">End Date</label>
                 <input
@@ -434,6 +447,9 @@ function AdminSettings() {
                 <button type="submit" onClick={handleCreateCoupon}>
                   Create Coupon
                 </button>
+                {successMessage && (
+                  <p className="success-message">{successMessage}</p>
+                )}
               </div>
             </div>
             <div className="display-coupons">
@@ -443,10 +459,11 @@ function AdminSettings() {
                   <div key={coupon.code} className="coupon-card">
                     <h5>{coupon.code}</h5>
                     <p>
-                      <strong>Start Date:</strong> {coupon.startDate}
+                      <strong>Start Date:</strong>{" "}
+                      {coupon.dateStart.slice(0, 10)}
                     </p>
                     <p>
-                      <strong>End Date:</strong> {coupon.endDate}
+                      <strong>End Date:</strong> {coupon.dataEnd.slice(0, 10)}
                     </p>
                     <p>
                       <strong>Percentage:</strong> {coupon.percentage}%

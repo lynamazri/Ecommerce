@@ -68,6 +68,13 @@ export const apiSlice = createApi({
         body: { newUsername, firstName, lastName, bankAccount },
       }),
     }),
+    updateAdminProfile: builder.mutation({
+      query: ({ newUsername, firstName, lastName, user }) => ({
+        url: `/admin/admins/${user}`,
+        method: "PATCH",
+        body: { newUsername, firstName, lastName },
+      }),
+    }),
     createReview: builder.mutation({
       query: ({ content, stars, productId, userId }) => ({
         url: `/productss/${productId}/review/${userId}`,
@@ -191,6 +198,11 @@ export const apiSlice = createApi({
     getUsers: builder.query({
       query: () => `/admin`,
       providesTags: ["getUsers"],
+    }),
+
+    getCoupons: builder.query({
+      query: () => `/discount/coupons`,
+      providesTags: ["getCoupons"],
     }),
 
     getAdmins: builder.query({
@@ -327,6 +339,15 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: ["getAdmins"],
     }),
+
+    createCoupon: builder.mutation({
+      query: ({ percentage, end, code }) => ({
+        url: `/discount/coupons`,
+        method: "POST",
+        body: { percentage, end, code },
+      }),
+      invalidatesTags: ["getCoupons"],
+    }),
   }),
 });
 
@@ -374,4 +395,7 @@ export const {
   useUpdateAdminPasswordMutation,
   useDeleteAdminMutation,
   useAddAdminMutation,
+  useUpdateAdminProfileMutation,
+  useGetCouponsQuery,
+  useCreateCouponMutation,
 } = apiSlice;

@@ -235,6 +235,34 @@ const updateAdminPassword = async (req, res) => {
   } else res.status(400).send("Error updating password.");
 };
 
+const updateAdminProfile = async (req, res) => {
+  const { newUsername, firstName, lastName } = req.body;
+  const { user } = req.params;
+
+  const curUser = await prisma.Admin.findUnique({
+    where: { adminId: user },
+  });
+  if (!curUser) return res.status(400).send("Unable to find user.");
+  else {
+    const updateProfile = await prisma.Admin.update({
+      where: {
+        adminId: user,
+      },
+      data: {
+        firstName: firstName ? firstName : curUser.firstName,
+        lastName: lastName ? lastName : curUser.lastName,
+        username: newUsername ? newUsername : curUser.username,
+      },
+    });
+
+    if (updateProfile) {
+      res.json({ message: "success" });
+    } else {
+      res.status(400).send("Error updating profile.");
+    }
+  }
+};
+
 //get unverfied stores and products
 
 module.exports = {
@@ -251,4 +279,5 @@ module.exports = {
   getAdmins,
   updateAdminPassword,
   deleteAdmin,
+  updateAdminProfile,
 };

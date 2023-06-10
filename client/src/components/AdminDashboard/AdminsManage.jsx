@@ -23,6 +23,7 @@ function AdminsManage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [deleteAdmin] = useDeleteAdminMutation();
   const [addAdmin] = useAddAdminMutation();
+
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [filteredAdmins, setFilteredAdmins] = useState([]);
   const { data: adminsData, isLoading } = useGetAdminsQuery();

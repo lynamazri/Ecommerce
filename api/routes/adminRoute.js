@@ -15,10 +15,12 @@ const {
   getAdmins,
   updateAdminPassword,
   deleteAdmin,
+  updateAdminProfile,
 } = require("../controllers/adminController");
 
 router.get("/", getUsers); //tested, works
 router.get("/admins", getAdmins); //tested, works
+router.patch("/admins/:user", updateAdminProfile); //tested, works
 router.get("/stores", getAllStores); //tested, works
 router.get("/products", getAllProducts); //tested, works
 router.delete("/:id", deleteUser); //tested, works
