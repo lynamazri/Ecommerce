@@ -21,6 +21,10 @@ function generateRatingStars(rate) {
 }
 
 export default function ReviewCard(props) {
+  function handleReport(event) {
+    console.log("reported" + props.reviewId);
+  }
+
   return (
     <div className="review-card">
       <div className="review-header">
@@ -32,7 +36,7 @@ export default function ReviewCard(props) {
               {generateRatingStars(props.rating)}
             </div>
           </div>
-          <button className="report-button">
+          <button className="report-button" onClick={handleReport}>
             <TbMessageReport />
           </button>
         </div>

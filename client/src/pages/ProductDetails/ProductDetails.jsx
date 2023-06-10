@@ -173,7 +173,7 @@ export default function ProductDetails() {
                   </div>
                   <div className="detailsValue">
                     <ul className="detailValueList">
-                      <li>{product.dateAdded.slice(0, 10)}</li>
+                      <li>{product?.dateAdded}</li>
                       <li>2 to 5 business days</li>
                     </ul>
                   </div>
@@ -287,7 +287,7 @@ export default function ProductDetails() {
                   <div className="features">
                     <h5>Before You Buy</h5>
                     <p>
-                      To insure a comfortable shopping experience, please make
+                      To ensure a comfortable shopping experience, please make
                       sure to properly check the product details above as well
                       as the customer reviews before making a purchase. Feel
                       free to contact us or the concerned store for more
@@ -376,6 +376,8 @@ export default function ProductDetails() {
                       rating={review.stars}
                       date={review.posted.slice(0, 10)}
                       content={review.content}
+                      reviewId={review.reviewId}
+                      productId={review.product.productId}
                     />
                   ))}
                 </motion.div>

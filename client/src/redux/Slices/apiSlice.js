@@ -251,6 +251,14 @@ export const apiSlice = createApi({
     userHasStore: builder.query({
       query: (userId) => `/store/hasStore/${userId}`,
     }),
+
+    createReport: builder.mutation({
+      query: ({ product, review, user, type }) => ({
+        url: `/productss/${product}/report/${review}/user/${user}`,
+        method: "POST",
+        body: { type },
+      }),
+    }),
   }),
 });
 
@@ -287,4 +295,5 @@ export const {
   useSearchProductQuery,
   useGetUserOrdersQuery,
   useUserHasStoreQuery,
+  useCreateReportMutation,
 } = apiSlice;
