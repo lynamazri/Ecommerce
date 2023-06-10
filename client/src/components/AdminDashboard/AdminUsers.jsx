@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
+import { AiOutlineDelete } from "react-icons/ai";
 
 function AdminUsers() {
   // Initial users
@@ -86,15 +87,18 @@ function AdminUsers() {
                 <td>{user.credit}</td>
                 <td>{user.role}</td>
                 <td>
-                  <button onClick={() => handleDeleteUser(user.id)}>
-                    Delete
+                  <button
+                    className="icon-button"
+                    onClick={() => handleDeleteUser(user.id)}
+                  >
+                    <AiOutlineDelete size={18} color="red" />
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <p>Total Users : 10</p>
+        <p>Total Users: {filteredUsers.length}</p>
       </div>
     </div>
   );

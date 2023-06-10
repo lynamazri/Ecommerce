@@ -233,6 +233,7 @@ canvas {
 }
 
 .admin-users-page > .main > table,
+.admin-shops-page > .main > table,
 .product-metrics table,
 .product-table > table {
   width: 100%;
@@ -241,6 +242,7 @@ canvas {
 }
 
 .admin-users-page > .main thead,
+.admin-shops-page > .main thead,
 .product-metrics thead,
 .product-table thead {
   height: 40px;
@@ -250,6 +252,7 @@ canvas {
 }
 
 .admin-users-page > .main th,
+.admin-shops-page > .main th,
 .product-metrics th,
 .product-table th {
   font-weight: 600;
@@ -259,6 +262,7 @@ canvas {
 }
 
 .admin-users-page > .main td,
+.admin-shops-page > .main td,
 .product-metrics td,
 .product-table td {
   padding: 0.4em 1em;

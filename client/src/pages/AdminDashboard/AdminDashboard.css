@@ -91,19 +91,23 @@
   align-items: center;
 }
 
-.admin-users-page > .main > .upper {
+.admin-users-page > .main > .upper,
+.admin-shops-page > .main > .upper {
   width: 100%;
   margin: 0.8em 0 1.5em 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
-.admin-users-page > .main > .upper input {
+.admin-users-page > .main > .upper input,
+.admin-shops-page > .main > .upper input {
   border: none;
-  background-color: none;
+  background: #f9f9f9;
 }
 
-.admin-users-page > .main > .upper .search-input {
+.admin-users-page > .main > .upper .search-input,
+.admin-shops-page > .main > .upper .search-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -116,9 +120,23 @@
   border-radius: 10px;
 }
 
-.admin-users-page > .main > p {
+.admin-users-page > .main > p,
+.admin-shops-page > .main > p {
   padding: 1em 0;
   font-size: 14px;
   font-weight: 600;
   color: #191919;
+}
+
+.icon-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+#action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
