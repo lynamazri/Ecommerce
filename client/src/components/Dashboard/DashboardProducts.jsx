@@ -276,7 +276,7 @@ function DashboardProducts() {
           <>
             <div className="upper">
               <h3>Products</h3>
-              <button className="product-table-add" onClick={handleAddProduct}>
+              <button className="table-add" onClick={handleAddProduct}>
                 Add Product
               </button>
             </div>

@@ -6,7 +6,6 @@ function AdminSettings() {
     firstName: "",
     lastName: "",
     newUsername: "",
-    bankAccountNumber: "",
   });
   const [passwordInfo, setPasswordInfo] = useState({
     oldPass: "",
@@ -62,13 +61,6 @@ function AdminSettings() {
 
     if (adminInfo.newUsername.length < 2) {
       setAdminInfoErrorMessage("Username must be at least 2 characters long.");
-      return;
-    }
-
-    if (adminInfo.bankAccountNumber.length < 2) {
-      setAdminInfoErrorMessage(
-        "Bank Account Number must be at least 2 characters long."
-      );
       return;
     }
 
@@ -222,18 +214,6 @@ function AdminSettings() {
                     required
                     onChange={handleAdminInfoChange}
                     value={adminInfo.newUsername}
-                  />
-                </div>
-                <div className="input-container">
-                  <label htmlFor="bankAccountNumber">Bank Account Number</label>
-                  <input
-                    type="text"
-                    name="bankAccountNumber"
-                    id="bankAccountNumber"
-                    placeholder="Bank Account Number"
-                    required
-                    onChange={handleAdminInfoChange}
-                    value={adminInfo.bankAccountNumber}
                   />
                 </div>
               </div>
