@@ -22,32 +22,32 @@ function generateRatingStars(rate) {
 }
 
 export default function ReviewCard(props) {
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : { userId: 1 };
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [createReport] = useCreateReportMutation();
-
-  var user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user"))
-    : null;
 
   function handleReport(event) {
     setSuccessMessage(""), setErrorMessage("");
 
     const rev = props.reviewId;
     console.log("reported" + rev);
-
-    createReport({
-      type: "User Review Report",
-      review: rev,
-      user: user.userId,
-    })
-      .unwrap()
-      .then(() => {
-        setSuccessMessage("Review reported.");
+    if (user.userId !== 1) {
+      createReport({
+        type: "User Review Report",
+        review: rev,
+        user: user.userId,
       })
-      .catch(() => {
-        setErrorMessage("Done.");
-      });
+        .unwrap()
+        .then(() => {
+          setSuccessMessage("Review reported.");
+        })
+        .catch(() => {
+          setErrorMessage("Done.");
+        });
+    }
   }
 
   return (
@@ -61,9 +61,11 @@ export default function ReviewCard(props) {
               {generateRatingStars(props.rating)}
             </div>
           </div>
-          <button className="report-button" onClick={handleReport}>
-            <TbMessageReport />
-          </button>
+          {user.userId !== 1 && (
+            <button className="report-button" onClick={handleReport}>
+              <TbMessageReport />
+            </button>
+          )}
         </div>
         <small className="review-date">{props.date}</small>
       </div>

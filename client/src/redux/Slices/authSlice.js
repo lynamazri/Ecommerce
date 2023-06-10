@@ -14,6 +14,9 @@ const authSlice = createSlice({
       state.token = null;
       state.user = null;
       localStorage.removeItem("user");
+      if (localStorage.getItem("mystore")) {
+        localStorage.removeItem("mystore");
+      }
     },
     updateUser: (state, action) => {
       const { user } = action.payload;
