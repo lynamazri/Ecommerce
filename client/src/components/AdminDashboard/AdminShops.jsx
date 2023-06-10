@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete, AiOutlineCheckSquare } from "react-icons/ai";
-import { useGetAllStoresQuery } from "../../redux/Slices/apiSlice";
+import {
+  useGetAllStoresQuery,
+  useDeleteStoreMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminShops() {
   // Initial shops
   const [shops, setShops] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const { data: storesData, isLoading } = useGetAllStoresQuery();
-
+  const [deleteStore] = useDeleteStoreMutation();
   useEffect(() => {
     if (storesData) {
       setShops(storesData);
@@ -22,9 +27,14 @@ function AdminShops() {
 
   // Function to handle shop deletion
   const handleDeleteShop = (shopId) => {
+    setConfirmationMessage("");
     setShops((prevShops) =>
       prevShops.filter((shop) => shop.storeId !== shopId)
     );
+
+    deleteStore(shopId);
+
+    setConfirmationMessage("Shop deleted successfully.");
   };
 
   // Function to handle shop approval
@@ -119,6 +129,10 @@ function AdminShops() {
             ))}
           </tbody>
         </table>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
         <p>Total Number ofShops: {filteredShops.length}</p>
       </div>
     </div>
