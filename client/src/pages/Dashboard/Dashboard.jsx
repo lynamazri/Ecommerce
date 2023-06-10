@@ -42,6 +42,14 @@ function Dashboard() {
           </li>
           <li>
             <Link
+              to="/dashboard/reviews"
+              className={isActive("/dashboard/reviews") ? "active" : ""}
+            >
+              Reviews
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/dashboard/settings"
               className={isActive("/dashboard/settings") ? "active" : ""}
             >

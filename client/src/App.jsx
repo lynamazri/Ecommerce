@@ -32,6 +32,7 @@ import Language from "./components/Profile/Language";
 import DashboardContent from "./components/Dashboard/DashboardContent";
 import DashboardProducts from "./components/Dashboard/DashboardProducts";
 import Orders from "./components/Dashboard/Orders";
+import DashboardReviews from "./components/Dashboard/DashboardReviews";
 import Settings from "./components/Dashboard/Settings";
 
 import AdminDashCont from "./components/AdminDashboard/AdminDashCont";
@@ -141,6 +142,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardContent />} />
           <Route path="/dashboard/products" element={<DashboardProducts />} />
           <Route path="/dashboard/orders" element={<Orders />} />
+          <Route path="/dashboard/reviews" element={<DashboardReviews />} />
           <Route path="/dashboard/settings" element={<Settings />} />
         </Route>
         <Route path="/admin" element={<AdminDashboard />}>
