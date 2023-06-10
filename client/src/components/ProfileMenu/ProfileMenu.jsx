@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GrFormClose } from "react-icons/gr";
+import { useUserHasStoreQuery } from "../../redux/Slices/apiSlice";
 import {
   RiUserLine,
   RiShoppingBagLine,
@@ -9,18 +10,26 @@ import {
   RiSettingsLine,
   RiLogoutBoxLine,
 } from "react-icons/ri";
-import { useSelector } from "react-redux";
 import { useSendLogoutMutation } from "../../redux/Slices/authApiSlice";
 import "./ProfileMenu.css";
 
 function ProfileMenu({ closeMenu, userHasShop }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const [sendLogout, { isLoading }] = useSendLogoutMutation();
+  const [hasStore, setHasStore] = useState(false);
+  var user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null;
+  const { data, isLoading } = useUserHasStoreQuery(user.userId);
+  const [sendLogout] = useSendLogoutMutation();
   const isActive = (pathname) => {
     return location.pathname === pathname;
   };
-  const user = useSelector((state) => state.auth.user);
+  useEffect(() => {
+    if (data) {
+      setHasStore(data.hasStore);
+    }
+  }, [data, isLoading]);
 
   useEffect(() => {
     if (user === null) {
@@ -62,8 +71,11 @@ function ProfileMenu({ closeMenu, userHasShop }) {
           <RiSettingsLine size={18} /> Settings
         </Link>
         <div className="section-heading">Shop</div>
-        {userHasShop ? (
-          <Link to="/shops" className={isActive("/shops") ? "active" : ""}>
+        {hasStore ? (
+          <Link
+            to="/dashboard"
+            className={isActive("/dashboard") ? "active" : ""}
+          >
             <RiShoppingBagLine size={18} /> Manage Shop
           </Link>
         ) : (

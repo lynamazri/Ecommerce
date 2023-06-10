@@ -248,6 +248,9 @@ export const apiSlice = createApi({
       query: (user) => `/order/completed/${user}`,
       providesTags: ["getStoreFromUser"],
     }),
+    userHasStore: builder.query({
+      query: (userId) => `/store/hasStore/${userId}`,
+    }),
   }),
 });
 
@@ -283,4 +286,5 @@ export const {
   useUpdateProductMutation,
   useSearchProductQuery,
   useGetUserOrdersQuery,
+  useUserHasStoreQuery,
 } = apiSlice;

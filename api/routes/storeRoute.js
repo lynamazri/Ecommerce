@@ -14,11 +14,13 @@ const {
   editBanner,
   getStoreBanner,
   getStoreFromUser,
+  userHasStore,
 } = require("../controllers/storeController");
 
 router.patch("/:id", verifyStore); //tested, works
 router.get("/", getStores); //tested, works
 router.get("/mystore/:user", getStoreFromUser); //tested, works
+router.get("/hasStore/:user", userHasStore); //tested, works
 router.get("/banner/:store", getStoreBanner); //tested, works
 router.patch("/edit/:store", editStore); //tested, works
 router.get("/reviews/:id", getReviews); //tested, works
