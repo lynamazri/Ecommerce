@@ -89,7 +89,7 @@ function Search() {
         </div>
         <div className="searchInput">
           <input
-            type="text"
+            type="search"
             placeholder="Search products, categories..."
             value={query}
             onChange={(e) => handleFilter(e)}

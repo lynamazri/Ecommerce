@@ -52,7 +52,7 @@ function AdminDashboard() {
               to="/admin/admins"
               className={isActive("/admin/admins") ? "active" : ""}
             >
-              Orders
+              Admins
             </Link>
           </li>
           <li>

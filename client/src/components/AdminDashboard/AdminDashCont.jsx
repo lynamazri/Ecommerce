@@ -7,13 +7,10 @@ import { Navigation, A11y } from "swiper/core";
 import "swiper/css/bundle";
 
 import {
-  FaDollarSign,
   FaShoppingCart,
   FaChartLine,
   FaUser,
-  FaStar,
   FaQuestionCircle,
-  FaEdit,
 } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
@@ -250,7 +247,7 @@ function AdminDashboardContent() {
               <div className="header">
                 <h4>Top Shops</h4>
                 <Link to={`/admin/shops`}>
-                  More Shop <MdKeyboardArrowRight />
+                  All Shops <MdKeyboardArrowRight />
                 </Link>
               </div>
               {topStoresData.map((store) => (
@@ -271,7 +268,12 @@ function AdminDashboardContent() {
 
         <div className="lower">
           <div className="top-products product-metrics">
-            <h4>Top Products</h4>
+            <div className="header">
+              <h4>Top Products</h4>
+              <Link to={`/admin/products`}>
+                All Products <MdKeyboardArrowRight />
+              </Link>
+            </div>
 
             <table>
               <thead>

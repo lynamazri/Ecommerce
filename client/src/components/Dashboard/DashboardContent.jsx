@@ -18,6 +18,8 @@ import {
   FaQuestionCircle,
   FaEdit,
 } from "react-icons/fa";
+import { MdKeyboardArrowRight } from "react-icons/md";
+
 import { useGetStoreFromUserQuery } from "../../redux/Slices/apiSlice";
 
 function DashboardContent() {
@@ -265,6 +267,13 @@ function DashboardContent() {
 
         <div className="lower">
           <div className="product-metrics">
+            <div className="header">
+              <h4>Top Products</h4>
+              <Link to={`/admin/products`}>
+                All Products <MdKeyboardArrowRight />
+              </Link>
+            </div>
+
             <table>
               <thead>
                 <tr>

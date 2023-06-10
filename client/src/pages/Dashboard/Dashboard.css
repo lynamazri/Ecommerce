@@ -116,6 +116,7 @@
 
 .dashboard-page > .dashboard-content-page > .main > .top {
   width: 100%;
+  margin-bottom: 1em;
   flex: 1;
   display: flex;
   gap: 1em;
@@ -231,6 +232,7 @@ canvas {
   /* overflow-y: auto; */
 }
 
+.admin-users-page > .main > table,
 .product-metrics table,
 .product-table > table {
   width: 100%;
@@ -238,6 +240,7 @@ canvas {
   border-spacing: 0;
 }
 
+.admin-users-page > .main thead,
 .product-metrics thead,
 .product-table thead {
   height: 40px;
@@ -246,6 +249,7 @@ canvas {
   border-radius: 12px 12px 0 0;
 }
 
+.admin-users-page > .main th,
 .product-metrics th,
 .product-table th {
   font-weight: 600;
@@ -254,6 +258,7 @@ canvas {
   padding: 0.4em 1em;
 }
 
+.admin-users-page > .main td,
 .product-metrics td,
 .product-table td {
   padding: 0.4em 1em;

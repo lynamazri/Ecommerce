@@ -12,6 +12,7 @@
 
 .dashboard-page > .admin-content-page > .main > .top {
   width: 100%;
+  margin-bottom: 1em;
   flex: 1;
   display: flex;
   gap: 1em;
@@ -39,6 +40,7 @@
   padding: 1em;
 }
 
+.product-metrics > .header,
 .top-shops > .header {
   display: flex;
   justify-content: space-between;
@@ -47,6 +49,7 @@
   padding-bottom: 1em;
 }
 
+.product-metrics > .header > a,
 .top-shops > .header > a {
   font-size: 14px;
   font-weight: 600;
@@ -88,6 +91,34 @@
   align-items: center;
 }
 
-.top-products > h4 {
-  margin: 1em 0 0.5em 0;
+.admin-users-page > .main > .upper {
+  width: 100%;
+  margin: 0.8em 0 1.5em 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin-users-page > .main > .upper input {
+  border: none;
+  background-color: none;
+}
+
+.admin-users-page > .main > .upper .search-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5em 1em;
+  font-size: 11px;
+  font-weight: 500;
+  color: #151515;
+  background: #f9f9f9;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+}
+
+.admin-users-page > .main > p {
+  padding: 1em 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #191919;
 }
