@@ -12,16 +12,6 @@ import "./ProductCard.css";
 
 function ProductCard({ product, viewMode }) {
   const dispatch = useDispatch();
-  let processedProduct = {};
-  if (product.discount && product.discount.percentage !== 0) {
-    processedProduct = {
-      ...product,
-      price:
-        product.price - (product.price * product.discount.percentage) / 100,
-    };
-  } else {
-    processedProduct = { ...product };
-  }
   const handleAddToCart = () => {
     dispatch(add(processedProduct));
   };
@@ -56,6 +46,16 @@ function ProductCard({ product, viewMode }) {
         });
     }
   };
+  let processedProduct = {};
+  if (product.discount && product.discount.percentage !== 0) {
+    processedProduct = {
+      ...product,
+      price:
+        product.price - (product.price * product.discount.percentage) / 100,
+    };
+  } else {
+    processedProduct = { ...product };
+  }
 
   return (
     <div className={`product-card ${viewMode === "list" ? "list-view" : ""}`}>
