@@ -93,7 +93,7 @@ const getReports = async (req, res) => {
 const addCredit = async (req, res) => {
   const { amount, bankAccount } = req.body;
 
-  const user = await prisma.Users.findUnique({
+  const user = await prisma.Users.findFirst({
     where: {
       bankAccount: bankAccount,
     },

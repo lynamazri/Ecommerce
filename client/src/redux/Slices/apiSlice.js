@@ -349,7 +349,7 @@ export const apiSlice = createApi({
     }),
 
     addCredit: builder.mutation({
-      query: (amount, bankAccount) => ({
+      query: ({ amount, bankAccount }) => ({
         url: `/admin/credit/add`,
         method: "PATCH",
         body: { amount, bankAccount },
@@ -357,7 +357,7 @@ export const apiSlice = createApi({
     }),
 
     setCredit: builder.mutation({
-      query: (amount, bankAccount) => ({
+      query: ({ amount, bankAccount }) => ({
         url: `/admin/credit/set`,
         method: "PATCH",
         body: { amount, bankAccount },
