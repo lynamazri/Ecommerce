@@ -39,6 +39,7 @@ function AdminCat() {
   const handleCategoryInfoChange = (e) => {
     const { name, value } = e.target;
     setCategoryInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
+    console.log(categoryInfo);
   };
 
   const handleSubmitCategoryInfo = (e) => {
@@ -62,6 +63,8 @@ function AdminCat() {
       setErrorMessage("");
       setSuccessMessage("Category added successfully.");
     } */
+
+    //console.log(categoryInfo.name, categoryInfo.description);
 
     addCat({
       name: categoryInfo.name,

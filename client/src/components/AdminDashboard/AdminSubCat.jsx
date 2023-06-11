@@ -9,7 +9,7 @@ import {
 
 function AdminSubCat() {
   const [categoriesData, setCategoriesData] = useState([]);
-
+  const [addSubCat] = useCreateSubCatMutation();
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [subCategoryInfo, setSubCategoryInfo] = useState({
@@ -49,6 +49,21 @@ function AdminSubCat() {
     ) {
       setErrorMessage("Please fill in all the fields.");
     } else {
+      addSubCat({
+        name: subCategoryInfo.name,
+        parentCat: subCategoryInfo.parentCategory,
+      })
+        .unwrap()
+        .then(() => {
+          setSubCategoryInfo({ parentCategory: "", name: "" });
+          setShowAddForm(false);
+          setErrorMessage("");
+          setSuccessMessage("Subcategory added successfully.");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
       // Logic to add the subcategory to the selected parent category
       const { parentCategory, name } = subCategoryInfo;
       const newSubCategory = {
@@ -60,10 +75,6 @@ function AdminSubCat() {
         ...prevCategories,
         newSubCategory,
       ]);
-      setSubCategoryInfo({ parentCategory: "", name: "" });
-      setShowAddForm(false);
-      setErrorMessage("");
-      setSuccessMessage("Subcategory added successfully.");
     }
   };
 
