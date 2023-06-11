@@ -66,6 +66,30 @@ function AdminDashboard() {
           </li>
           <li>
             <Link
+              to="/admin/reports"
+              className={isActive("/admin/reports") ? "active" : ""}
+            >
+              Reports
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/categories"
+              className={isActive("/admin/categories") ? "active" : ""}
+            >
+              Categories
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/subcategories"
+              className={isActive("/admin/subcategories") ? "active" : ""}
+            >
+              Sub Categories
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/admin/admins"
               className={isActive("/admin/admins") ? "active" : ""}
             >

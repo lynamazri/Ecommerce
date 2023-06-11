@@ -24,7 +24,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import MyProfile from "./components/Profile/MyProfile";
 import AddressBook from "./components/Profile/AddressBook";
-import PaymentMethod from "./components/Profile/PaymentMethod";
+import ManageCredit from "./components/Profile/ManageCredit";
 import OrderHistory from "./components/Profile/OrderHistory";
 import OpenShop from "./components/Profile/OpenShop";
 import Security from "./components/Profile/Security";
@@ -32,12 +32,16 @@ import Language from "./components/Profile/Language";
 import DashboardContent from "./components/Dashboard/DashboardContent";
 import DashboardProducts from "./components/Dashboard/DashboardProducts";
 import Orders from "./components/Dashboard/Orders";
+import DashboardReviews from "./components/Dashboard/DashboardReviews";
 import Settings from "./components/Dashboard/Settings";
 
 import AdminDashCont from "./components/AdminDashboard/AdminDashCont";
 import AdminUsers from "./components/AdminDashboard/AdminUsers";
 import AdminShops from "./components/AdminDashboard/AdminShops";
 import AdminProducts from "./components/AdminDashboard/AdminProducts";
+import AdminReports from "./components/AdminDashboard/AdminReports";
+import AdminCat from "./components/AdminDashboard/AdminCat";
+import AdminSubCat from "./components/AdminDashboard/AdminSubCat";
 import AdminsManage from "./components/AdminDashboard/AdminsManage";
 import AdminSettings from "./components/AdminDashboard/AdminSettings";
 
@@ -124,7 +128,7 @@ function App() {
         <Route path="/profile" element={<Profile />}>
           <Route path="/profile/my-profile" element={<MyProfile />} />
           <Route path="/profile/address-book" element={<AddressBook />} />
-          <Route path="/profile/payment-method" element={<PaymentMethod />} />
+          <Route path="/profile/manage-credit" element={<ManageCredit />} />
           <Route path="/profile/orderhistory" element={<OrderHistory />} />
           <Route path="/profile/security" element={<Security />} />
           <Route path="/profile/language" element={<Language />} />
@@ -141,6 +145,7 @@ function App() {
           <Route path="/dashboard" element={<DashboardContent />} />
           <Route path="/dashboard/products" element={<DashboardProducts />} />
           <Route path="/dashboard/orders" element={<Orders />} />
+          <Route path="/dashboard/reviews" element={<DashboardReviews />} />
           <Route path="/dashboard/settings" element={<Settings />} />
         </Route>
         <Route path="/admin" element={<AdminDashboard />}>
@@ -148,6 +153,9 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/shops" element={<AdminShops />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/reports" element={<AdminReports />} />
+          <Route path="/admin/subcategories" element={<AdminSubCat />} />
+          <Route path="/admin/categories" element={<AdminCat />} />
           <Route path="/admin/admins" element={<AdminsManage />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>

@@ -52,12 +52,10 @@ function Profile() {
               </li>
               <li>
                 <Link
-                  to="/profile/payment-method"
-                  className={
-                    isActive("/profile/payment-method") ? "active" : ""
-                  }
+                  to="/profile/manage-credit"
+                  className={isActive("/profile/manage-credit") ? "active" : ""}
                 >
-                  Payment Method
+                  Manage Credit
                 </Link>
               </li>
               <li>

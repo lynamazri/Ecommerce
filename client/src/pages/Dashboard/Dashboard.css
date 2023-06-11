@@ -99,6 +99,8 @@
   font-weight: 600;
 }
 
+.admin-cat > .header > p,
+.admin-info > .header > p,
 .dashboard-page > .dashboard--page > .header > p {
   font-size: 16px;
   margin-top: 4px;
@@ -406,4 +408,8 @@ canvas {
 
 .content > .shop > h4 {
   margin: 1em 0 0.6em 0;
+}
+
+.admin-cat-page .table-add {
+  width: 10em;
 }

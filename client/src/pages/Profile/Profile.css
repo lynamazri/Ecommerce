@@ -156,7 +156,7 @@ input {
 
 .create-coupon > .input-container > button,
 .shop-form > .input-container > button,
-.admin-info-form > .input-container > button,
+.admin--form > .input-container > button,
 .admin-security-inputs > .input-container > button,
 .add-addresses > .input-container > button,
 .profile-page > .right-container > div > .input-container > button {
