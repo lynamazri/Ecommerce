@@ -40,6 +40,8 @@ import AdminUsers from "./components/AdminDashboard/AdminUsers";
 import AdminShops from "./components/AdminDashboard/AdminShops";
 import AdminProducts from "./components/AdminDashboard/AdminProducts";
 import AdminReports from "./components/AdminDashboard/AdminReports";
+import AdminCat from "./components/AdminDashboard/AdminCat";
+import AdminSubCat from "./components/AdminDashboard/AdminSubCat";
 import AdminsManage from "./components/AdminDashboard/AdminsManage";
 import AdminSettings from "./components/AdminDashboard/AdminSettings";
 
@@ -152,6 +154,8 @@ function App() {
           <Route path="/admin/shops" element={<AdminShops />} />
           <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="/admin/reports" element={<AdminReports />} />
+          <Route path="/admin/subcategories" element={<AdminSubCat />} />
+          <Route path="/admin/categories" element={<AdminCat />} />
           <Route path="/admin/admins" element={<AdminsManage />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>

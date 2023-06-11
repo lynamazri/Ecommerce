@@ -234,7 +234,10 @@ function AdminSettings() {
               <p>Fill in the inputs below to update your admin information.</p>
             </div>
 
-            <form className="admin-info-form" onSubmit={handleSubmitAdminInfo}>
+            <form
+              className="admin-info-form admin--form"
+              onSubmit={handleSubmitAdminInfo}
+            >
               <div className="my-profile-inputs">
                 <div className="input-container">
                   <label htmlFor="firstName">First Name</label>
