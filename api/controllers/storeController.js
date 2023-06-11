@@ -94,14 +94,13 @@ const getStores = async (req, res) => {
     include: {
       banner: true,
       mainCat: true,
-      user: true
-    }
+      user: true,
+    },
   });
   if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);
 };
 const getStoreById = async (req, res) => {
-
   const { id } = req.params;
 
   const store = await prisma.Store.findUnique({
@@ -112,7 +111,7 @@ const getStoreById = async (req, res) => {
       banner: true,
       mainCat: true,
       user: true,
-    }
+    },
   });
   if (store.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(store);
@@ -240,7 +239,12 @@ const getReviews = async (req, res) => {
       verified: true,
     },
     select: {
-      reviews: true,
+      reviews: {
+        include: {
+          user: true,
+          product: true,
+        },
+      },
     },
   });
   if (!reviewsOnStoreProducts) {
