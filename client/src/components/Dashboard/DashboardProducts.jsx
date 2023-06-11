@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   useGetProductsFromStoreQuery,
   useUpdateProductMutation,
+  useCreateProductMutation,
 } from "../../redux/Slices/apiSlice";
 
 function ProductTable({ onEditProduct }) {
@@ -66,17 +67,27 @@ function ProductTable({ onEditProduct }) {
 }
 
 function ProductForm({ product, onSubmit }) {
+  const [createProduct] = useCreateProductMutation();
   const [name, setName] = useState(product ? product.name : "");
   const [description, setDescription] = useState(
     product ? product.description : ""
   );
-  const [category, setCategory] = useState(product ? product.category : "");
+  const [subCat, setSubCat] = useState(product ? product.subCat : "");
   const [price, setPrice] = useState(product ? product.price : "");
   const [discount, setDiscount] = useState(product ? product.discount : 0);
   const [quantity, setQuantity] = useState(product ? product.quantity : "");
+  const [images, setImages] = useState(product ? product.images : {});
 
   const [errorMessage, setErrorMessage] = useState("");
-
+  const mystore = localStorage.getItem("mystore");
+  const handleFileChange = (event) => {
+    const { name, files } = event.target;
+    // Set the selected file in the form data state
+    setImages((prevImages) => ({
+      ...prevImages,
+      [name]: files[0],
+    }));
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -85,14 +96,30 @@ function ProductForm({ product, onSubmit }) {
       return;
     }
 
-    const formData = {
-      name,
-      description,
-      category,
-      price,
-      discount,
-      quantity,
-    };
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("subCat", "Laptops");
+    formData.append("price", price);
+    formData.append("discount", discount);
+    formData.append("quantity", quantity);
+    formData.append("storeId", mystore);
+
+    for (const name in images) {
+      formData.append(name, images[name]);
+    }
+
+    createProduct(formData)
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setConfirmationMessage("Changes saved successfully.");
+      })
+      .catch((e) => {
+        // Handle error
+        setErrorMessage(e.errorMessage);
+      });
     onSubmit(formData);
   };
 
@@ -110,8 +137,8 @@ function ProductForm({ product, onSubmit }) {
     }
 
     // Category validation
-    if (!category) {
-      setErrorMessage("Please select a category.");
+    if (!subCat) {
+      setErrorMessage("Please select a subCategory.");
       return false;
     }
 
@@ -128,6 +155,20 @@ function ProductForm({ product, onSubmit }) {
       setErrorMessage("Discount must be a number between 0 and 100.");
       return false;
     }
+    // Banner file validation
+    // const bannerFile = images[0];
+    // if (!bannerFile) {
+    //   setErrorMessage("Please upload a banner image.");
+    //   return false;
+    // }
+    // if (bannerFile.name !== "banner.png") {
+    //   setErrorMessage("The uploaded file must be named 'banner'.");
+    //   return false;
+    // }
+    // if (!bannerFile.type.startsWith("image/")) {
+    //   setErrorMessage("The uploaded file must be an image.");
+    //   return false;
+    // }
 
     // Quantity validation: Must be a positive integer
     const parsedQuantity = parseInt(quantity);
@@ -168,15 +209,15 @@ function ProductForm({ product, onSubmit }) {
         />
       </div>
       <div className="input-container">
-        <label htmlFor="category">Category:</label>
+        <label htmlFor="subCat">Category:</label>
         <select
           type="text"
-          id="category"
-          name="category"
+          id="subCat"
+          name="subCat"
           placeholder="Enter product category"
-          value={category}
+          value={subCat}
           required
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => setSubCat(e.target.value)}
         >
           <option value="">Choose an option</option>
           <option value="Electronics">Electronics</option>
@@ -223,6 +264,46 @@ function ProductForm({ product, onSubmit }) {
           placeholder="Enter product quantity"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
+        />
+      </div>
+      <div className="input-container">
+        <label htmlFor="image1">image1</label>
+        <input
+          type="file"
+          name="img1"
+          id="image1"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+      </div>
+      <div className="input-container">
+        <label htmlFor="image2">image2</label>
+        <input
+          type="file"
+          name="img2"
+          id="image2"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+      </div>
+      <div className="input-container">
+        <label htmlFor="image3">image3</label>
+        <input
+          type="file"
+          name="img3"
+          id="image3"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+      </div>
+      <div className="input-container">
+        <label htmlFor="image4">image4</label>
+        <input
+          type="file"
+          name="img4"
+          id="image4"
+          accept="image/*"
+          onChange={handleFileChange}
         />
       </div>
 

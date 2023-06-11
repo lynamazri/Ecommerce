@@ -53,7 +53,7 @@ function Home() {
   const { data, isLoading, error } = useGetCategoriesQuery();
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
-    : null;
+    : { bankAccount: 1 };
   useEffect(() => {
     if (isLoading) {
       return; // Wait until data is loaded
@@ -64,6 +64,12 @@ function Home() {
   useEffect(() => {
     if (user.bankAccount === undefined) {
       navigate("/admin/dashboard", { replace: true });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user.bankAccount === 1) {
+      navigate("/", { replace: true });
     }
   }, []);
 

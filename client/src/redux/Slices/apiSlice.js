@@ -411,6 +411,13 @@ export const apiSlice = createApi({
         method: "DELETE",
       }),
     }),
+    createProduct: builder.mutation({
+      query: (formData) => ({
+        url: `/productss/${formData.get("storeId")}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -470,4 +477,5 @@ export const {
   useDeleteReportMutation,
   useAddCreditMutation,
   useSetCreditMutation,
+  useCreateProductMutation,
 } = apiSlice;
