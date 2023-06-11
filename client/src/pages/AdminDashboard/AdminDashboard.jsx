@@ -90,6 +90,14 @@ function AdminDashboard() {
           </li>
           <li>
             <Link
+              to="/admin/credit"
+              className={isActive("/admin/credit") ? "active" : ""}
+            >
+              Credit
+            </Link>
+          </li>
+          <li>
+            <Link
               to="/admin/admins"
               className={isActive("/admin/admins") ? "active" : ""}
             >

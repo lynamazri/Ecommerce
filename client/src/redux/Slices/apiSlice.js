@@ -393,7 +393,7 @@ export const apiSlice = createApi({
 
     createSubCat: builder.mutation({
       query: ({ name, parentCat }) => ({
-        url: `/category`,
+        url: `/category/category`,
         method: "POST",
         body: { name, parentCat },
       }),
@@ -407,7 +407,7 @@ export const apiSlice = createApi({
     }),
     deleteSubCat: builder.mutation({
       query: (id) => ({
-        url: `/sub-category/${id}`,
+        url: `/category/sub-category/${id}`,
         method: "DELETE",
       }),
     }),

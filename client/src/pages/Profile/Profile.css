@@ -89,6 +89,7 @@
 
 .create-coupon > .input-container,
 .shop-form > .input-container,
+.add-credit > .input-container,
 .add-addresses > .input-container,
 .my-profile-inputs > .input-container,
 .security-inputs > .input-container,
@@ -107,6 +108,7 @@
 .admin-sub-cat-form > .input-container > select,
 .shop-form > .input-container > select,
 .shop-form > .input-container > input,
+.add-credit > .input-container > input,
 .add-addresses > .input-container > input,
 .my-profile-inputs > .input-container > input,
 .input-password > input,
@@ -160,6 +162,7 @@ input {
 .shop-form > .input-container > button,
 .admin--form > .input-container > button,
 .admin-security-inputs > .input-container > button,
+.add-credit > .input-container > button,
 .add-addresses > .input-container > button,
 .profile-page > .right-container > div > .input-container > button {
   display: flex;
@@ -182,6 +185,7 @@ input {
 
 .create-coupon > .input-container > button:hover,
 .shop-form > .input-container > button:hover,
+.add-credit > .input-container > button:hover,
 .add-addresses > .input-container > button:hover,
 .profile-page > .right-container > div > .input-container > button:hover {
   background-color: #15203b;
@@ -189,6 +193,7 @@ input {
 
 .create-coupon > .input-container > button:active,
 .shop-form > .input-container > button:active,
+.add-credit > .input-container > button:active,
 .add-addresses > .input-container > button:active,
 .profile-page > .right-container > div > .input-container > button:active {
   background-color: #0e1529;
@@ -406,4 +411,27 @@ input {
   border-radius: 12px;
   border: none;
   cursor: pointer;
+}
+
+.display-credit {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.display-credit > p {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  width: 200px;
+  padding: 0.3em 0.7em;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.85em;
+  background-color: #ebf1f6;
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+}
+
+.add-credit > h4 {
+  margin-bottom: 0.5em;
 }

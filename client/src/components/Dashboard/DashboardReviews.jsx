@@ -1,42 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useGetReviewsQuery } from "../../redux/Slices/apiSlice";
 
 function DashboardReviews() {
-  const [reviewsData, setReviewsData] = useState([
-    {
-      reviewId: 1,
-      username: "JohnDoe",
-      productName: "Product A",
-      content: "Great product!",
-      stars: 4,
-      date: "2023-06-05",
-    },
-    {
-      reviewId: 2,
-      username: "JaneSmith",
-      productName: "Product B",
-      content: "Amazing product!",
-      stars: 5,
-      date: "2023-06-05",
-    },
-    // Add more review objects as needed
-  ]);
+  const [reviewsData, setReviewsData] = useState([]);
+  let mystore = localStorage.getItem("mystore");
+  const { data: revsData, isLoading } = useGetReviewsQuery(mystore);
+
+  useEffect(() => {
+    if (revsData) {
+      setReviewsData(revsData);
+    }
+  }, [revsData]);
+
+  console.log(reviewsData);
 
   const [filterStars, setFilterStars] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredReviews = reviewsData.filter(
     (review) =>
-      (filterStars === 0 || review.stars === filterStars) &&
-      review.productName.toLowerCase().includes(searchTerm.toLowerCase())
+      (filterStars === 0 || review.reviews.stars === filterStars) &&
+      review.reviews.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const handleDeleteReview = (reviewId) => {
-    setReviewsData((prevReviews) =>
-      prevReviews.filter((review) => review.reviewId !== reviewId)
-    );
-  };
 
   return (
     <div className="admin-products-page admin--page dashboard--page">
@@ -79,26 +66,17 @@ function DashboardReviews() {
               <th>Content</th>
               <th>Stars</th>
               <th>Date</th>
-              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {filteredReviews.map((review) => (
-              <tr key={review.reviewId}>
-                <td>{review.reviewId}</td>
-                <td>{review.username}</td>
-                <td>{review.productName}</td>
-                <td>{review.content}</td>
-                <td>{review.stars}</td>
-                <td>{review.date}</td>
-                <td id="action">
-                  <button
-                    className="icon-button"
-                    onClick={() => handleDeleteReview(review.reviewId)}
-                  >
-                    <AiOutlineDelete size={18} color="red" />
-                  </button>
-                </td>
+              <tr key={review.reviews.reviewId}>
+                <td>{review.reviews.reviewId}</td>
+                <td>{review.reviews.user.username}</td>
+                <td>{review.reviews.product.name}</td>
+                <td>{review.reviews.content}</td>
+                <td>{review.reviews.stars}</td>
+                <td>{review.reviews.posted.slice(0, 10)}</td>
               </tr>
             ))}
           </tbody>
