@@ -132,7 +132,9 @@ function Search() {
                   <Link
                     to={`/product/${productSearched.subCat.name}/${productSearched.productId}`}
                   >
-                    <div className="product">{productSearched.name}</div>
+                    <div className="product" onClick={() => setInput("")}>
+                      {productSearched.name}
+                    </div>
                   </Link>
                 ))}
             </div>
