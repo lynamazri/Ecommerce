@@ -1,6 +1,12 @@
 import React, { useState } from "react";
+import {
+  useAddCreditMutation,
+  useSetCreditMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminCredit() {
+  const [addCredit] = useAddCreditMutation();
+  const [setCredit] = useSetCreditMutation();
   const [addCreditInfo, setAddCreditInfo] = useState({
     amount: "",
     bankAccount: "",
@@ -32,7 +38,7 @@ function AdminCredit() {
 
   const validateInputs = (creditInfo) => {
     const amountRegex = /^\d+(\.\d{1,2})?$/;
-    const bankAccountRegex = /^\d{10}$/;
+    //const bankAccountRegex = /^\d{10}$/;
 
     if (!creditInfo.amount || !creditInfo.bankAccount) {
       return false;
@@ -41,16 +47,18 @@ function AdminCredit() {
     if (!amountRegex.test(creditInfo.amount)) {
       return false;
     }
-
+    /* 
     if (!bankAccountRegex.test(creditInfo.bankAccount)) {
       return false;
-    }
+    } */
 
     return true;
   };
 
   const handleAddCreditSubmit = (e) => {
     e.preventDefault();
+    setAddCreditSuccessMessage("");
+    setAddCreditErrorMessage("");
 
     if (!validateInputs(addCreditInfo)) {
       setAddCreditErrorMessage("Please enter valid credit information.");
@@ -58,22 +66,38 @@ function AdminCredit() {
       return;
     }
 
-    // Perform the credit info submission logic for "Add Credit"
-    // ...
+    console.log(addCreditInfo.amount, addCreditInfo.bankAccount);
+
+    addCredit({
+      amount: addCreditInfo.amount,
+      bankAccount: addCreditInfo.bankAccount,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setAddCreditSuccessMessage(
+          "Credit information submitted successfully."
+        );
+        setAddCreditErrorMessage("");
+      })
+      .catch(() => {
+        // Handle error
+        console.log("Error");
+        setAddCreditErrorMessage("Error");
+      });
 
     // Clear the input fields after submission
-    setAddCreditInfo({
-      amount: "",
-      bankAccount: "",
-    });
 
     // Set success message
-    setAddCreditSuccessMessage("Credit information submitted successfully.");
-    setAddCreditErrorMessage("");
+    // setAddCreditSuccessMessage("Credit information submitted successfully.");
+    // setAddCreditErrorMessage("");
   };
 
   const handleSetCreditSubmit = (e) => {
     e.preventDefault();
+
+    setSetCreditErrorMessage("");
+    setSetCreditSuccessMessage("");
 
     if (!validateInputs(setCreditInfo)) {
       setSetCreditErrorMessage("Please enter valid credit information.");
@@ -81,18 +105,31 @@ function AdminCredit() {
       return;
     }
 
-    // Perform the credit info submission logic for "Set Credit"
-    // ...
-
-    // Clear the input fields after submission
-    setSetCreditInfo({
-      amount: "",
-      bankAccount: "",
-    });
+    setCredit({
+      amount: setCreditInfo.amount,
+      bankAccount: setCreditInfo.bankAccount,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        //setConfirmationMessage("Address added successfully");
+        setSetCreditSuccessMessage(
+          "Credit information submitted successfully."
+        );
+        setSetCreditErrorMessage("");
+        setSetCreditInfo({
+          amount: "",
+          bankAccount: "",
+        });
+      })
+      .catch(() => {
+        // Handle error
+        setSetCreditErrorMessage("Error");
+      });
 
     // Set success message
-    setSetCreditSuccessMessage("Credit information submitted successfully.");
-    setSetCreditErrorMessage("");
+    //setSetCreditSuccessMessage("Credit information submitted successfully.");
+    //setSetCreditErrorMessage("");
   };
   return (
     <div className="admin-cat-page admin--page dashboard--page">
