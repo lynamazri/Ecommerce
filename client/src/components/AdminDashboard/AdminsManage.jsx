@@ -65,7 +65,7 @@ function AdminsManage() {
     const searchTerm = e.target.value;
     setSearchTerm(searchTerm);
 
-    const filtered = admins.filter((admin) =>
+    const filtered = adminsData.filter((admin) =>
       admin.username.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredAdmins(filtered);

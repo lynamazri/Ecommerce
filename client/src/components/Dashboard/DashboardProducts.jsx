@@ -4,6 +4,7 @@ import {
   useUpdateProductMutation,
   useCreateProductMutation,
 } from "../../redux/Slices/apiSlice";
+import { AiOutlineEdit } from "react-icons/ai";
 
 function ProductTable({ onEditProduct }) {
   const [products, setProducts] = useState([]);
@@ -52,10 +53,10 @@ function ProductTable({ onEditProduct }) {
               <td>{product.verified ? "Yes" : "No"}</td>
               <td>
                 <button
-                  className="product-table-edit"
+                  className="icon-button"
                   onClick={() => onEditProduct(product)}
                 >
-                  Edit
+                  <AiOutlineEdit size={18} />
                 </button>
               </td>
             </tr>
