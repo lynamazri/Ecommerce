@@ -104,6 +104,7 @@
 
 .create-coupon > .input-container > input,
 .shop-form > .input-container > textarea,
+.admin-sub-cat-form > .input-container > select,
 .shop-form > .input-container > select,
 .shop-form > .input-container > input,
 .add-addresses > .input-container > input,
@@ -125,6 +126,7 @@
   border: 1px solid #d1d1d1;
   border-radius: 12px;
   outline: none;
+  cursor: pointer;
 }
 
 .shop-form > .input-container > textarea,
