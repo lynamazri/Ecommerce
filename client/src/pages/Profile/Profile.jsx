@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Navbar from "../../components/Navbar/Navbar";
 import Path from "../../components/Path/Path";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useUserHasStoreQuery } from "../../redux/Slices/apiSlice";
 import "./Profile.css";
 
 function Profile() {
+  const navigate = useNavigate();
   const location = useLocation();
   const isActive = (pathname) => location.pathname === pathname;
   const [hasStore, setHasStore] = useState(false);
   var user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
-    : null;
+    : { userId: 1 };
   const { data, isLoading } = useUserHasStoreQuery(user.userId);
+  useEffect(() => {
+    if (user.userId === 1) {
+      navigate("/login");
+    }
+  });
   useEffect(() => {
     if (data) {
       setHasStore(data.hasStore);

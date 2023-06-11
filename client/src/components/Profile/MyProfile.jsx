@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { usePatchProfileMutation } from "../../redux/Slices/apiSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUser } from "../../redux/Slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 function MyProfile() {
+  const navigate = useNavigate();
   const [patchProfile, { isLoading, error }] = usePatchProfileMutation();
   const authState = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -18,7 +20,11 @@ function MyProfile() {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
-
+  useEffect(() => {
+    if (user === null) {
+      navigate("/login");
+    }
+  });
   useEffect(() => {
     // Assuming you fetch the profile data from the backend and store it in the 'profileData' variable
     const profileData = {
