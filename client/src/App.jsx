@@ -39,6 +39,7 @@ import AdminDashCont from "./components/AdminDashboard/AdminDashCont";
 import AdminUsers from "./components/AdminDashboard/AdminUsers";
 import AdminShops from "./components/AdminDashboard/AdminShops";
 import AdminProducts from "./components/AdminDashboard/AdminProducts";
+import AdminReports from "./components/AdminDashboard/AdminReports";
 import AdminsManage from "./components/AdminDashboard/AdminsManage";
 import AdminSettings from "./components/AdminDashboard/AdminSettings";
 
@@ -150,6 +151,7 @@ function App() {
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/shops" element={<AdminShops />} />
           <Route path="/admin/products" element={<AdminProducts />} />
+          <Route path="/admin/reports" element={<AdminReports />} />
           <Route path="/admin/admins" element={<AdminsManage />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>
