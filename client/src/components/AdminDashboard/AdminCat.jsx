@@ -1,20 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import {
+  useGetCategoriesQuery,
+  useDeleteCatgoryMutation,
+  useCreateCatgoryMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminCat() {
-  const [categoriesData, setCategoriesData] = useState([
-    {
-      id: 1,
-      name: "Category A",
-      description: "Description A",
-    },
-    {
-      id: 2,
-      name: "Category B",
-      description: "Description B",
-    },
-    // Add more category objects as needed
-  ]);
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+
+  const [deleteCat] = useDeleteCatgoryMutation();
+  const { data: catData, isLoading } = useGetCategoriesQuery();
+  const [addCat] = useCreateCatgoryMutation();
+
+  useEffect(() => {
+    if (catData) {
+      setCategoriesData(catData);
+    }
+  }, [catData]);
+
+  console.log(categoriesData);
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [categoryInfo, setCategoryInfo] = useState({
@@ -36,15 +42,17 @@ function AdminCat() {
   };
 
   const handleSubmitCategoryInfo = (e) => {
+    setErrorMessage(""), setSuccessMessage("");
+
     e.preventDefault();
     if (
       categoryInfo.name.trim() === "" ||
       categoryInfo.description.trim() === ""
     ) {
       setErrorMessage("Please fill in all the fields.");
-    } else {
+    } /*else {
       const newCategory = {
-        id: categoriesData.length + 1,
+        catId: categoriesData.length + 1,
         name: categoryInfo.name,
         description: categoryInfo.description,
       };
@@ -53,13 +61,35 @@ function AdminCat() {
       setShowAddForm(false);
       setErrorMessage("");
       setSuccessMessage("Category added successfully.");
-    }
+    } */
+
+    addCat({
+      name: categoryInfo.name,
+      description: categoryInfo.description,
+    })
+      .unwrap() // Extract the response data
+      .then(() => {
+        // Handle successful update
+        setSuccessMessage("Category added successfully.");
+        setCategoryInfo({ name: "", description: "" });
+      })
+      .catch(() => {
+        // Handle error
+        console.log("Error");
+        setErrorMessage("Error");
+      });
   };
 
   const handleDeleteCategory = (categoryId) => {
+    setConfirmationMessage("");
+
     setCategoriesData((prevCategories) =>
-      prevCategories.filter((category) => category.id !== categoryId)
+      prevCategories.filter((category) => category.catId !== categoryId)
     );
+
+    deleteCat(categoryId);
+
+    setConfirmationMessage("Category deleted successfully.");
   };
 
   return (
@@ -136,14 +166,14 @@ function AdminCat() {
               </thead>
               <tbody>
                 {categoriesData.map((category) => (
-                  <tr key={category.id}>
-                    <td>{category.id}</td>
+                  <tr key={category.catId}>
+                    <td>{category.catId}</td>
                     <td>{category.name}</td>
                     <td>{category.description}</td>
                     <td>
                       <button
                         className="icon-button"
-                        onClick={() => handleDeleteCategory(category.id)}
+                        onClick={() => handleDeleteCategory(category.catId)}
                       >
                         <AiOutlineDelete size={18} color="red" />
                       </button>
@@ -152,6 +182,9 @@ function AdminCat() {
                 ))}
               </tbody>
             </table>
+            {confirmationMessage && (
+              <p className="confirmation-message">{confirmationMessage}</p>
+            )}
             <p>Total Number of Categories: {categoriesData.length}</p>
           </>
         )}

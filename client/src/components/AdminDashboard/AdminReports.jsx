@@ -1,34 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import { AiOutlineDelete } from "react-icons/ai";
+import {
+  useGetReportsQuery,
+  useDeleteReportMutation,
+} from "../../redux/Slices/apiSlice";
 
 function AdminReports() {
-  const [reportsData, setReportsData] = useState([
-    {
-      reportId: 1,
-      reportedReview: "Great product!",
-      reportedBy: "JohnDoe",
-      dateReported: "2023-06-05",
-    },
-    {
-      reportId: 2,
-      reportedReview: "Amazing product!",
-      reportedBy: "JaneSmith",
-      dateReported: "2023-06-05",
-    },
-    // Add more report objects as needed
-  ]);
+  const [reportsData, setReportsData] = useState([]);
+  const [confirmationMessage, setConfirmationMessage] = useState("");
+
+  const [deleteReport] = useDeleteReportMutation();
+  const { data: reportssData, isLoading } = useGetReportsQuery();
+
+  useEffect(() => {
+    if (reportssData) {
+      setReportsData(reportssData);
+    }
+  }, [reportssData]);
+
+  console.log(reportsData);
 
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredReports = reportsData.filter((report) =>
-    report.reportedBy.toLowerCase().includes(searchTerm.toLowerCase())
+    report.user.username.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDeleteReport = (reportId) => {
+    setConfirmationMessage("");
+
     setReportsData((prevReports) =>
       prevReports.filter((report) => report.reportId !== reportId)
     );
+
+    deleteReport(reportId);
+
+    setConfirmationMessage("Report deleted successfully.");
   };
 
   return (
@@ -64,9 +72,9 @@ function AdminReports() {
             {filteredReports.map((report) => (
               <tr key={report.reportId}>
                 <td>{report.reportId}</td>
-                <td>{report.reportedReview}</td>
-                <td>{report.reportedBy}</td>
-                <td>{report.dateReported}</td>
+                <td>{report.review.content}</td>
+                <td>{report.user.username}</td>
+                <td>{report.date.slice(0, 10)}</td>
                 <td id="action">
                   <button
                     className="icon-button"
@@ -79,6 +87,9 @@ function AdminReports() {
             ))}
           </tbody>
         </table>
+        {confirmationMessage && (
+          <p className="confirmation-message">{confirmationMessage}</p>
+        )}
         <p>Total Number of Reports: {filteredReports.length}</p>
       </div>
     </div>

@@ -52,9 +52,9 @@ const deleteAdmin = async (req, res) => {
 const deleteReport = async (req, res) => {
   const { id } = req.params;
 
-  const deleteReport = await prisma.Admin.delete({
+  const deleteReport = await prisma.Report.delete({
     where: {
-      reportId: id,
+      reportId: parseInt(id),
     },
   });
   if (!deleteReport) res.status(400).send("Unable to delete report.");

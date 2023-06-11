@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 
-function AdminSubCat() {
-  const [categoriesData, setCategoriesData] = useState([
-    {
-      id: 1,
-      name: "Category A",
-      description: "Description A",
-    },
-    {
-      id: 2,
-      name: "Category B",
-      description: "Description B",
-    },
-    // Add more category objects as needed
-  ]);
+import {
+  useGetSubCategoriesQuery,
+  useDeleteSubCatMutation,
+  useCreateSubCatMutation,
+} from "../../redux/Slices/apiSlice";
 
+function AdminSubCat() {
+  const [categoriesData, setCategoriesData] = useState([]);
+
+  const [confirmationMessage, setConfirmationMessage] = useState("");
   const [showAddForm, setShowAddForm] = useState(false);
   const [subCategoryInfo, setSubCategoryInfo] = useState({
     parentCategory: "",
@@ -23,6 +18,17 @@ function AdminSubCat() {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const [deleteSubCat] = useDeleteSubCatMutation();
+  const { data: subcatData, isLoading } = useGetSubCategoriesQuery();
+
+  useEffect(() => {
+    if (subcatData) {
+      setCategoriesData(subcatData);
+    }
+  }, [subcatData]);
+
+  console.log(categoriesData);
 
   const handleAddSubCategory = () => {
     setShowAddForm(true);
@@ -46,7 +52,7 @@ function AdminSubCat() {
       // Logic to add the subcategory to the selected parent category
       const { parentCategory, name } = subCategoryInfo;
       const newSubCategory = {
-        id: categoriesData.length + 1,
+        subCatId: categoriesData.length + 1,
         parentCategory,
         name,
       };
@@ -62,9 +68,15 @@ function AdminSubCat() {
   };
 
   const handleDeleteSubCategory = (subCategoryId) => {
+    setConfirmationMessage("");
+
     setCategoriesData((prevCategories) =>
-      prevCategories.filter((category) => category.id !== subCategoryId)
+      prevCategories.filter((category) => category.subCatId !== subCategoryId)
     );
+
+    deleteSubCat(subCategoryId);
+
+    setConfirmationMessage("Sub category deleted successfully.");
   };
 
   return (
@@ -96,7 +108,7 @@ function AdminSubCat() {
                 >
                   <option value="">Select Parent Category</option>
                   {categoriesData.map((category) => (
-                    <option key={category.id} value={category.name}>
+                    <option key={category.subCatId} value={category.name}>
                       {category.name}
                     </option>
                   ))}
@@ -144,14 +156,16 @@ function AdminSubCat() {
               </thead>
               <tbody>
                 {categoriesData.map((subcategory) => (
-                  <tr key={subcategory.id}>
-                    <td>{subcategory.id}</td>
-                    <td>{subcategory.parentCategory}</td>
+                  <tr key={subcategory.subCatId}>
+                    <td>{subcategory.subCatId}</td>
+                    <td>{subcategory.category.name}</td>
                     <td>{subcategory.name}</td>
                     <td>
                       <button
                         className="icon-button"
-                        onClick={() => handleDeleteSubCategory(subcategory.id)}
+                        onClick={() =>
+                          handleDeleteSubCategory(subcategory.subCatId)
+                        }
                       >
                         <AiOutlineDelete size={18} color="red" />
                       </button>
@@ -160,6 +174,9 @@ function AdminSubCat() {
                 ))}
               </tbody>
             </table>
+            {confirmationMessage && (
+              <p className="confirmation-message">{confirmationMessage}</p>
+            )}
             <p>Total Number of Subcategories: {categoriesData.length}</p>
           </>
         )}
