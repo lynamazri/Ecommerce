@@ -338,7 +338,7 @@ canvas {
   justify-content: center;
   align-items: center;
   height: 2.5em;
-  width: 9em;
+  width: fit-content;
   padding: 0.3em 0.9em;
   font-weight: 700;
   color: #1f2c4c;
@@ -408,8 +408,4 @@ canvas {
 
 .content > .shop > h4 {
   margin: 1em 0 0.6em 0;
-}
-
-.admin-cat-page .table-add {
-  width: 10em;
 }
