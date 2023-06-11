@@ -48,14 +48,14 @@ function Products() {
     if (sortingCriteria === "price") {
       sortedItems.sort((a, b) => a.price - b.price);
     } else if (sortingCriteria === "rating") {
-      sortedItems.sort((a, b) => b.rating - a.rating);
+      sortedItems.sort((a, b) => b.reviewsAvg - a.reviewsAvg);
     } else if (sortingCriteria === "date") {
       sortedItems.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
     } else if (sortingCriteria === "discount") {
-      sortedItems.sort((a, b) => b.discount - a.discount);
+      sortedItems.sort((a, b) => b.discount.percentage - a.discount.percentage);
     } else if (sortingCriteria === "availability") {
       sortedItems.sort((a, b) =>
-        a.available === b.available ? 0 : a.available ? -1 : 1
+        a.quantity === b.quantity ? 0 : a.quantity ? -1 : 1
       );
     }
 
@@ -71,6 +71,7 @@ function Products() {
     dispatch(updateFilteredItems(filteredItems));
   };
   console.log(filteredItems);
+
   const handleRatingSelect = (selectedRating) => {
     if (selectedRating === selectedRating) {
       setSelectedRating(null);
@@ -78,7 +79,9 @@ function Products() {
       setSelectedRating(selectedRating);
     }
 
-    let filteredItems = items.filter((item) => item.rating === selectedRating);
+    let filteredItems = items.filter(
+      (item) => item.reviewsAvg === selectedRating
+    );
     dispatch(updateFilteredItems(filteredItems));
   };
 
@@ -105,36 +108,6 @@ function Products() {
     setMinPrice("");
     setMaxPrice("");
     dispatch(updateFilteredItems(items));
-    // Reset the price filter and display products without price filter
-    // let updatedItems = [...items];
-    // if (selectedCategory) {
-    //   updatedItems = updatedItems.filter((item) =>
-    //     item.category.includes(selectedCategory)
-    //   );
-    // }
-    // if (selectedRating) {
-    //   updatedItems = updatedItems.filter(
-    //     (item) => item.rating === selectedRating
-    //   );
-    // }
-
-    // // Apply sorting based on the current sorting criteria
-    // if (sortingCriteria === "price") {
-    //   updatedItems.sort((a, b) => a.price - b.price);
-    // } else if (sortingCriteria === "rating") {
-    //   updatedItems.sort((a, b) => b.rating - a.rating);
-    // } else if (sortingCriteria === "date") {
-    //   updatedItems.sort(
-    //     (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
-    //   );
-    // } else if (sortingCriteria === "discount") {
-    //   updatedItems.sort((a, b) => b.discount - a.discount);
-    // } else if (sortingCriteria === "availability") {
-    //   updatedItems.sort((a, b) =>
-    //     a.available === b.available ? 0 : a.available ? -1 : 1
-    //   );
-    // }
-    // dispatch(updateFilteredItems(updatedItems));
   };
 
   const toggleViewMode = (mode) => {
