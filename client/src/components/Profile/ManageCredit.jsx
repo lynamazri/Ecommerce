@@ -100,81 +100,13 @@ function ManageCredit() {
       <div className="payment-page">
         <div className="header">
           <h3>Payment Method</h3>
-          <p>...</p>
+          <p>Consult your credit</p>
         </div>
         <div className="body">
           <div className="display-credit">
-            <h4>You have:</h4>
+            <h4>Your Credit:</h4>
             <p>100DA</p>
           </div>
-          <form className="add-credit" onSubmit={handleAddCreditSubmit}>
-            <div className="credit-input-container">
-              <label htmlFor="amount">Amount</label>
-              <input
-                type="text"
-                name="amount"
-                id="amount"
-                placeholder="Enter amount"
-                value={addCreditInfo.amount}
-                onChange={handleAddCreditInfoChange}
-              />
-            </div>
-            <div className="credit-input-container">
-              <label htmlFor="bankAccount">Bank Account</label>
-              <input
-                type="text"
-                name="bankAccount"
-                id="bankAccount"
-                placeholder="Enter bank account"
-                value={addCreditInfo.bankAccount}
-                onChange={handleAddCreditInfoChange}
-              />
-            </div>
-            {addCreditSuccessMessage && (
-              <p className="success-message">{addCreditSuccessMessage}</p>
-            )}
-            {addCreditErrorMessage && (
-              <p className="error-message">{addCreditErrorMessage}</p>
-            )}
-
-            <div className="credit-submit-container">
-              <button type="submit">Add Credit</button>
-            </div>
-          </form>
-          <form className="set-credit" onSubmit={handleSetCreditSubmit}>
-            <div className="credit-input-container">
-              <label htmlFor="setAmount">Set amount</label>
-              <input
-                type="text"
-                name="amount"
-                id="setAmount"
-                placeholder="Enter amount"
-                value={setCreditInfo.amount}
-                onChange={handleSetCreditInfoChange}
-              />
-            </div>
-            <div className="credit-input-container">
-              <label htmlFor="setBankAccount">Bank Account</label>
-              <input
-                type="text"
-                name="bankAccount"
-                id="setBankAccount"
-                placeholder="Enter bank account"
-                value={setCreditInfo.bankAccount}
-                onChange={handleSetCreditInfoChange}
-              />
-            </div>
-            {setCreditSuccessMessage && (
-              <p className="success-message">{setCreditSuccessMessage}</p>
-            )}
-            {setCreditErrorMessage && (
-              <p className="error-message">{setCreditErrorMessage}</p>
-            )}
-
-            <div className="credit-submit-container">
-              <button type="submit">Set Credit</button>
-            </div>
-          </form>
         </div>
       </div>
     </div>
