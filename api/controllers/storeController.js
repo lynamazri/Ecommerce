@@ -91,6 +91,11 @@ const getStores = async (req, res) => {
     where: {
       approved: true,
     },
+    include: {
+      banner: true,
+      mainCat: true,
+      user: true
+    }
   });
   if (stores.length === 0) res.status(400).send("No stores available.");
   else res.status(200).json(stores);

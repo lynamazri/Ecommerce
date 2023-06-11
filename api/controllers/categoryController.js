@@ -19,7 +19,11 @@ const getCatgory = async (req, res) => {
 };
 
 const getSubCatgory = async (req, res) => {
-  const categories = await prisma.SubCat.findMany();
+  const categories = await prisma.SubCat.findMany({
+    include: {
+      category: true,
+    },
+  });
   if (categories.length === 0)
     res.status(400).json({ message: "No sub-categories yet." });
   else res.status(200).json(categories);
